@@ -36,10 +36,10 @@
             </p>
           </a>
         </li>
-        <li class="nav-item  has-treeview <?php echo ($pagina == 'empresa' ||  $pagina == 'cliente' ||  $pagina == 'obra' ||  $pagina == 'personal') ? "menu-open" : ""; ?>">
+        <li class="nav-item  has-treeview <?php echo ($pagina == 'empresa' ||  $pagina == 'cliente' ||  $pagina == 'obra' ||  $pagina == 'proveedor') ? "menu-open" : ""; ?>">
 
 
-          <a href="#" class="nav-link  <?php echo ($pagina == 'empresa' || $pagina == 'cliente' ||  $pagina == 'obra' ||  $pagina == 'personal') ? "active" : ""; ?>">
+          <a href="#" class="nav-link  <?php echo ($pagina == 'empresa' || $pagina == 'cliente' ||  $pagina == 'obra' ||  $pagina == 'proveedor') ? "active" : ""; ?>">
             <i class="nav-icon fas fa-bars "></i>
             <p>
               Catalogos
@@ -68,14 +68,14 @@
                 <p>Obra</p>
               </a>
             </li>
-            <?php if ($_SESSION['s_rol'] == '2') {?>
+           
             <li class="nav-item">
-              <a href="cntaconcepto.php" class="nav-link <?php echo ($pagina == 'concepto') ? "active seleccionado" : ""; ?>  ">
-                <i class="fas fa-layer-group nav-icon"></i>
-                <p>Conceptos</p>
+              <a href="cntaproveedor.php" class="nav-link <?php echo ($pagina == 'proveedor') ? "active seleccionado" : ""; ?>  ">
+                <i class="fas fa-portrait nav-icon"></i>
+                <p>Proveedor</p>
               </a>
             </li>
-            <?php }?>
+       
 
 
 

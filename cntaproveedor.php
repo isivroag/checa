@@ -1,5 +1,5 @@
 <?php
-$pagina = "prospectos";
+$pagina = "proveedor";
 
 include_once "templates/header.php";
 include_once "templates/barra.php";
@@ -12,7 +12,7 @@ include_once 'bd/conexion.php';
 $objeto = new conn();
 $conexion = $objeto->connect();
 
-$consulta = "SELECT * FROM prospecto WHERE estado_pros=1 and id_px =0 ORDER BY id_pros";
+$consulta = "SELECT * FROM w_proveedor WHERE estado_prov=1 ORDER BY id_prov";
 $resultado = $conexion->prepare($consulta);
 $resultado->execute();
 $data = $resultado->fetchAll(PDO::FETCH_ASSOC);
@@ -37,7 +37,7 @@ $message = "";
     <!-- Default box -->
     <div class="card">
       <div class="card-header bg-gradient-green text-light">
-        <h1 class="card-title mx-auto">Contacto</h1>
+        <h1 class="card-title mx-auto">PROVEEDORES</h1>
       </div>
 
       <div class="card-body">
@@ -56,13 +56,14 @@ $message = "";
                 <table name="tablaV" id="tablaV" class="table table-sm table-striped table-bordered table-condensed text-nowrap w-auto mx-auto" style="width:100%">
                   <thead class="text-center bg-gradient-green">
                     <tr>
-                      <th>Id</th>
-                      <th>Nombre</th>
-                      <th>Télefono</th>
-                      <th>Whatsapp</th>
-                      <th>Contacto</th>
-                      <th>Tel Contacto</th>
-                      <th>Acciones</th>
+                      <th>ID</th>
+                      <th>RFC</th>
+                      <th>RAZON SOCIAL</th>
+                      <th>DIRECCION</th>
+                      <th>TEL</th>
+                      <th>CONTACTO</th>
+                      <th>TEL CONTACTO</th>
+                      <th>ACCIONES</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -70,12 +71,13 @@ $message = "";
                     foreach ($data as $dat) {
                     ?>
                       <tr>
-                        <td><?php echo $dat['id_pros'] ?></td>
-                        <td><?php echo $dat['nombre'] ?></td>
-                        <td><?php echo $dat['tel'] ?></td>
-                        <td><?php echo $dat['cel'] ?></td>
-                        <td><?php echo $dat['contacto'] ?></td>
-                        <td><?php echo $dat['tel_contacto'] ?></td>
+                        <td><?php echo $dat['id_prov'] ?></td>
+                        <td><?php echo $dat['rfc_prov'] ?></td>
+                        <td><?php echo $dat['razon_prov'] ?></td>
+                        <td><?php echo $dat['dir_prov'] ?></td>
+                        <td><?php echo $dat['tel_prov'] ?></td>
+                        <td><?php echo $dat['contacto_prov'] ?></td>
+                        <td><?php echo $dat['telcon_prov'] ?></td>
 
                         <td></td>
                       </tr>
@@ -104,45 +106,52 @@ $message = "";
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header bg-gradient-green">
-            <h5 class="modal-title" id="exampleModalLabel">NUEVO PROSPECTO</h5>
+            <h5 class="modal-title" id="exampleModalLabel">NUEVO PROVEEDOR</h5>
 
           </div>
           <div class="card card-widget" style="margin: 10px;">
             <form id="formDatos" action="" method="POST">
               <div class="modal-body row">
 
+              <div class="col-sm-6">
+                  <div class="form-group input-group-sm">
+                    <label for="rfc" class="col-form-label">RFC:</label>
+                    <input type="text" class="form-control" name="rfc" id="rfc" autocomplete="off" placeholder="RFC">
+                  </div>
+                </div>
 
                 <div class="col-sm-12">
                   <div class="form-group input-group-sm">
-                    <label for="nombre" class="col-form-label">Nombre:</label>
-                    <input type="text" class="form-control" name="nombre" id="nombre" autocomplete="off" placeholder="Nombre">
+                    <label for="razon" class="col-form-label">RAZON SOCIAL:</label>
+                    <input type="text" class="form-control" name="razon" id="razon" autocomplete="off" placeholder="RAZON SOCIAL">
+                  </div>
+                </div>
+
+                <div class="col-sm-12">
+                  <div class="form-group input-group-sm">
+                    <label for="dir" class="col-form-label">DIRECCION:</label>
+                    <textarea rows="2" type="text" class="form-control" name="dir" id="dir" autocomplete="off" placeholder="DIRECCION"></textarea>
+                  </div>
+                </div>
+
+                <div class="col-sm-4">
+                  <div class="form-group input-group-sm">
+                    <label for="tel" class="col-form-label">TELEFONO:</label>
+                    <input type="text" class="form-control" name="tel" id="tel" autocomplete="off" placeholder="Teléfono">
                   </div>
                 </div>
 
                 
 
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                   <div class="form-group input-group-sm">
-                    <label for="tel" class="col-form-label">Teléfono:</label>
-                    <input type="text" class="form-control" name="tel" id="tel" autocomplete="off" placeholder="Teléfono">
-                  </div>
-                </div>
-
-                <div class="col-sm-6">
-                  <div class="form-group input-group-sm">
-                    <label for="cel" class="col-form-label">Whatsapp:</label>
-                    <input type="text" class="form-control" name="cel" id="cel" autocomplete="off" placeholder="Whatsapp">
-                  </div>
-                </div>
-                <div class="col-sm-6">
-                  <div class="form-group input-group-sm">
-                    <label for="contacto" class="col-form-label">Contacto:</label>
+                    <label for="contacto" class="col-form-label">CONTACTO:</label>
                     <input type="text" class="form-control" name="contacto" id="contacto" autocomplete="off" placeholder="Contacto">
                   </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                   <div class="form-group input-group-sm">
-                    <label for="tel_contacto" class="col-form-label">Teléfono de Contacto:</label>
+                    <label for="tel_contacto" class="col-form-label">TELEFONO DE CONTACTO:</label>
                     <input type="text" class="form-control" name="tel_contacto" id="tel_contacto" autocomplete="off" placeholder="Teléfono deContacto">
                   </div>
                 </div>
@@ -178,7 +187,7 @@ $message = "";
 
 
 <?php include_once 'templates/footer.php'; ?>
-<script src="fjs/cntaprospecto.js"></script>
+<script src="fjs/cntaproveedor.js"></script>
 <script src="plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 <script src="plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>

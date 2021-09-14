@@ -3,10 +3,10 @@
         
         function connect(){
         
-            define('servidor','localhost');
-            define('bd_nombre','checa');
-            define('usuario','root');
-            define('password','tecniem');
+            define('servidor','tecniem.com');
+            define('bd_nombre','tecniemc_checa');
+            define('usuario','tecniemc_ivan');
+            define('password','66obispo.colima');
 
             $opciones=array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
 

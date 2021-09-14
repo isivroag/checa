@@ -10,23 +10,39 @@ include_once "templates/navegacion.php";
 include_once 'bd/conexion.php';
 $objeto = new conn();
 $conexion = $objeto->connect();
-$tokenid = md5($_SESSION['s_usuario']);
-$usuario = $_SESSION['s_nombre'];
 
 
-if (isset($_GET['folio'])) {
-} else {
-    $registro = 0;
-    $idpx = "";
-    $paciente = "";
+
+if (isset($_GET['id'])) {
+    $id_obra=$_GET['id'];
+    $consulta = "SELECT * FROM vobra WHERE id_obra='$id_obra'";
+    $resultado = $conexion->prepare($consulta);
+    $resultado->execute();
+    $data = $resultado->fetchAll(PDO::FETCH_ASSOC);
+    foreach($data as $row){
+        $id_emp = $row['id_emp'];
+        $empresa = $row['razon_emp'];
+        $id_clie = $row['id_clie'];
+        $cliente = $row['razon_clie'];
+        $fecha =$row['inicio_obra'];
+        $clave = $row['clave_obra'];
+        
+        $corto = $row['corto_obra'];
+        $largo = $row['largo_obra'];
+        $monto = $row['monto_obra'];
+
+    }
+} else{
+    $id_emp = "";
+    $empresa = "";
+    $id_clie = "";
+    $cliente = "";
     $fecha = date('Y-m-d');
-    $folio = "";
-    $idconcepto = "";
-    $concepto = "";
-    $precio = 0;
-    $subtotal = 0;
-    $descuento = 0;
-    $total = 0;
+    $clave = "";
+    $id_obra = 0;
+    $corto = "";
+    $largo = "";
+    $monto = 0;
 }
 
 $message = "";
@@ -34,14 +50,14 @@ $message = "";
 
 
 
-$consultacon = "SELECT * FROM concepto WHERE estado_concepto=1 ORDER BY id_concepto";
+$consultacon = "SELECT * FROM w_empresa WHERE estado_emp=1 ORDER BY id_emp";
 $resultadocon = $conexion->prepare($consultacon);
 $resultadocon->execute();
 $datacon = $resultadocon->fetchAll(PDO::FETCH_ASSOC);
 
 
 
-$consultadet = "SELECT * FROM paciente ORDER BY id_px";
+$consultadet = "SELECT * FROM w_cliente WHERE estado_clie=1 ORDER BY id_clie";
 $resultadodet = $conexion->prepare($consultadet);
 $resultadodet->execute();
 $datadet = $resultadodet->fetchAll(PDO::FETCH_ASSOC);
@@ -147,94 +163,87 @@ $datadet = $resultadodet->fetchAll(PDO::FETCH_ASSOC);
                         <div class="card card-widget" style="margin-bottom:0px;">
 
                             <div class="card-header bg-gradient-green " style="margin:0px;padding:8px">
-                               
 
-                                <h1 class="card-title "> Datos del Registro</h1>
+
+                                <h1 class="card-title "> DATOS DE OBRA</h1>
                             </div>
 
                             <div class="card-body" style="margin:0px;padding:1px;">
 
                                 <div class="row justify-content-sm-center">
 
-                                    <div class="col-lg-4">
-                                        <div class="input-group input-group-sm">
 
-                                            <input type="hidden" class="form-control" name="registro" id="registro" value="<?php echo $registro; ?>">
-                                            <input type="hidden" class="form-control" name="tokenid" id="tokenid" value="<?php echo $tokenid; ?>">
+                                    <div class="col-lg-1">
+                                        <div class="form-group input-group-sm">
+                                            <label for="folio" class="col-form-label">ID:</label>
 
-                                            <input type="hidden" class="form-control" name="idpx" id="idpx">
-
-
-                                            <label for="paciente" class="col-form-label">Paciente:</label>
-                                            <div class="input-group input-group-sm">
-                                                
-
-                                                <input type="text" class="form-control" name="paciente" id="paciente" disabled placeholder="Seleccionar al Paciente">
-                                                <span class="input-group-append">
-                                                    <button id="bpaciente" type="button" class="btn btn-sm btn-primary"><i class="fas fa-search"></i></button>
-                                                </span>
-                                            </div>
-
+                                            <input type="text" class="form-control" name="folio" id="folio" value="<?php echo  $id_obra; ?> " disabled>
                                         </div>
                                     </div>
 
-
-
-
                                     <div class="col-lg-2">
                                         <div class="form-group input-group-sm">
-                                            <label for="fecha" class="col-form-label">Fecha:</label>
+                                            <label for="clave" class="col-form-label">CLAVE:</label>
+                                            <input type="text" class="form-control" name="clave" id="clave" value="<?php echo  $clave; ?>" placeholder="CLAVE/#CONTRATO">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-2 offset-lg-3">
+                                        <div class="form-group input-group-sm">
+                                            <label for="fecha" class="col-form-label">FECHA INICIO:</label>
                                             <input type="date" class="form-control" name="fecha" id="fecha" value="<?php echo $fecha; ?>">
                                         </div>
                                     </div>
 
 
-                                    <div class="col-lg-1">
-                                        <div class="form-group input-group-sm">
-                                            <label for="folio" class="col-form-label">Folio:</label>
 
-                                            <input type="text" class="form-control" name="folio" id="folio" value="<?php echo  $folio; ?> " disabled>
-                                        </div>
-                                    </div>
+
+
 
                                 </div>
 
                                 <div class=" row justify-content-sm-center">
-                                    <div class="col-lg-5">
+
+                                    <div class="col-lg-4">
                                         <div class="input-group input-group-sm">
-
-                                            <input type="hidden" class="form-control" name="idconcepto" id="idconcepto">
-
-
-                                            <label for="concepto" class="col-form-label">Concepto:</label>
+                                            <label for="empresa" class="col-form-label">EMPRESA:</label>
                                             <div class="input-group input-group-sm">
-                                                <input type="text" class="form-control" name="concepto" id="concepto" disabled placeholder="Seleccionar Concepto">
+                                                <input type="hidden" class="form-control" name="id_emp" id="id_emp" value="<?php echo $id_emp;?>">
+                                                <input type="text" class="form-control" name="empresa" id="empresa" disabled placeholder="SELECCIONAR EMPRESA" value="<?php echo $empresa;?>">
                                                 <span class="input-group-append">
-                                                    <button id="bconcepto" type="button" class="btn btn-sm btn-primary"><i class="fas fa-search"></i></button>
+                                                    <button id="bempresa" type="button" class="btn btn-sm btn-primary"><i class="fas fa-search"></i></button>
                                                 </span>
                                             </div>
 
                                         </div>
                                     </div>
-
-                                    <div class="col-lg-2 ">
-
-                                        <label for="precio" class="col-form-label ">Precio:</label>
-
+                                    <div class="col-lg-4">
                                         <div class="input-group input-group-sm">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">
-                                                    <i class="fas fa-dollar-sign"></i>
+                                            <label for="cliente" class="col-form-label">CLIENTE:</label>
+                                            <div class="input-group input-group-sm">
+                                                <input type="hidden" class="form-control" name="id_clie" id="id_clie" value="<?php echo $id_clie;?>">
+                                                <input type="text" class="form-control" name="cliente" id="cliente" disabled placeholder="SELECCIONAR CLIENTE" value="<?php echo $cliente;?>">
+                                                <span class="input-group-append">
+                                                    <button id="bcliente" type="button" class="btn btn-sm btn-primary"><i class="fas fa-search"></i></button>
                                                 </span>
                                             </div>
 
-                                            <input type="text" class="form-control text-right" name="precio" id="precio" value="<?php echo $precio; ?>" disabled>
                                         </div>
                                     </div>
-                                    <div class="col-lg-7 ">
-                                       <div class="form-group input-group-sm">
-                                            <label for="obs" class="col-form-label">Observaciones:</label>
-                                            <textarea rows="2" class="form-control" name="obs" id="obs" value="<?php echo $obs; ?>" placeholder="Observaciones"></textarea>
+
+                                    <div class="col-lg-8">
+                                        <div class="form-group input-group-sm">
+                                            <label for="corto" class="col-form-label">NOMBRE CORTO:</label>
+                                            <input type="text" class="form-control" name="corto" id="corto" value="<?php echo  $corto; ?> ">
+                                        </div>
+                                    </div>
+
+                                    
+
+                                    <div class="col-lg-8">
+                                        <div class="form-group input-group-sm">
+                                            <label for="largo" class="col-form-label">DESCRIPCION / NOMBRE LARGO:</label>
+                                            <textarea rows="3" class="form-control" name="largo" id="largo" value="<?php echo $largo; ?>" placeholder="DESCRIPCION / NOMBRE LARGO"><?php echo $largo;?>"</textarea>
                                         </div>
                                     </div>
 
@@ -242,44 +251,18 @@ $datadet = $resultadodet->fetchAll(PDO::FETCH_ASSOC);
 
                                 </div>
                                 <div class="row justify-content-sm-center" style="margin-bottom: 10px;">
-
-                                    <div class="col-lg-2">
-
-                                        <label for="subtotal" class="col-form-label">Subtotal:</label>
-                                        <div class="input-group input-group-sm">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">
-                                                    <i class="fas fa-dollar-sign"></i>
-                                                </span>
-                                            </div>
-                                            <input type="text" class="form-control text-right" name="subtotal" id="subtotal" disabled>
-                                        </div>
+                                    <div class="col-lg-3">
+                                    
                                     </div>
-
-                                    <div class="col-lg-2">
-
-                                        <label for="descuento" class="col-form-label">Descuento:</label>
+                                    <div class="col-lg-2 offset-lg-3">
+                                        <label for="monto" class="col-form-label">MONTO TOTAL:</label>
                                         <div class="input-group input-group-sm">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">
                                                     <i class="fas fa-dollar-sign"></i>
                                                 </span>
                                             </div>
-                                            <input type="text" class="form-control text-right" name="descuento" id="descuento" >
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-2">
-
-                                        <label for="total" class="col-form-label">Total:</label>
-
-                                        <div class="input-group input-group-sm">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">
-                                                    <i class="fas fa-dollar-sign"></i>
-                                                </span>
-                                            </div>
-                                            <input type="text" class="form-control text-right" name="total" id="total" disabled>
+                                            <input type="text" class="form-control text-right" name="monto" id="monto" value="<?php echo number_format($monto,2);?>">
                                         </div>
                                     </div>
                                 </div>
