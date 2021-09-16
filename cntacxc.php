@@ -1,5 +1,5 @@
 <?php
-$pagina = "cntaingresos";
+$pagina = "cntacxc";
 
 include_once "templates/header.php";
 include_once "templates/barra.php";
@@ -91,7 +91,7 @@ $message = "";
                                             <th>CONCEPTO</th>
                                             <th>MONTO</th>
                                             <th>SALDO</th>
-                                            
+                                            <th>ACCIONES</th>
                                             
                                         </tr>
                                     </thead>
@@ -106,7 +106,7 @@ $message = "";
                                                 <td><?php echo $dat['desc_cxc'] ?></td>
                                                 <td class="text-right"><?php echo number_format($dat['monto_cxc'],2) ?></td>
                                                 <td class="text-right"><?php echo number_format($dat['saldo_cxc'],2) ?></td>
-                                                
+                                                <td></td>
              
                                             
                                             </tr>
@@ -114,15 +114,7 @@ $message = "";
                                         }
                                         ?>
                                     </tbody>
-                                    <tfoot>
                                    
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th class="text-right">TOTAL DE INGRESOS</th>
-                                    <th class="text-right"></th>
-                                    <th></th>
-                                    </tfoot>
                                 </table>
                             </div>
                         </div>
@@ -149,7 +141,7 @@ $message = "";
 
 
 <?php include_once 'templates/footer.php'; ?>
-<script src="fjs/cntaingresos.js"></script>
+<script src="fjs/cntacxc.js"></script>
 <script src="plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 <script src="plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>

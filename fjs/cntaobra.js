@@ -35,7 +35,7 @@ $(document).ready(function() {
 
     $("#btnNuevo").click(function() {
 
-        //window.location.href = "prospecto.php";
+        window.location.href = "obra.php";
        
     });
 
@@ -45,7 +45,7 @@ $(document).ready(function() {
     $(document).on("click", ".btnEditar", function() {
         fila = $(this).closest("tr");
         id = parseInt(fila.find('td:eq(0)').text());
-
+        window.location.href = "obra.php?id="+id;
        
 
     });

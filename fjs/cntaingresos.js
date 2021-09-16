@@ -12,7 +12,7 @@ $(document).ready(function () {
  
         $( 'input', this ).on( 'keyup change', function () {
           
-          if (i==6){
+          if (i==4){
 
            /* switch(this.value){
               case 'rechazado':
@@ -80,32 +80,23 @@ $(document).ready(function () {
         
         columnDefs: [
           
-          {
-            targets: 4,
-            render: function (data, type, full, meta) {
-              return "<div class='text-wrap width-200'>" + data + '</div>'
-              //return "<div class='text-wrap width-200'>" + data + '</div>'
-            },
-          },
-          {
-            targets: 5,
-            render: function (data, type, full, meta) {
-              return "<div class='text-wrap width-200'>" + data + '</div>'
-              //return "<div class='text-wrap width-200'>" + data + '</div>'
-            },
-
-            
-          }, { className: "text-right", "targets": [6] },
-          { className: "text-center", "targets": [7] },
+         
           {
             "render": function (data, type, row) {
                 return commaSeparateNumber(data);
             },
-            "targets": [6]
-        },
+            "targets": [4]
+        },{
+          "render": function (data, type, row) {
+              return commaSeparateNumber(data);
+          },
+          "targets": [5]
+      }, { className: "text-right", "targets": [4] },
+      { className: "text-right", "targets": [5] },
           
-         { "width": "50px", "targets": 1 },
-         { "width": "50px", "targets": 0}
+         { "width": "200px", "targets": 1 },
+         { "width": "80px", "targets": 0},
+         { "width": "80px", "targets": 2},{ "width": "200px", "targets": 3}
         ],
     
       buttons: [
@@ -117,7 +108,7 @@ $(document).ready(function () {
           className: 'btn bg-success ',
           footer: true,
           exportOptions: {
-            columns: [0, 1, 2, 3, 4, 5,6,7],
+            columns: [0, 1, 2, 3, 4, 5],
             /*format: {
               body: function (data, row, column, node) {
                 if (column === 5) {
@@ -138,7 +129,7 @@ $(document).ready(function () {
           title: 'Reporte de Presupuestos',
           footer: true,
           className: 'btn bg-danger',
-          exportOptions: { columns: [0, 1, 2, 3, 4, 5,6,7] },
+          exportOptions: { columns: [0, 1, 2, 3, 4,5] },
           format: {
               body: function (data, row, column, node) {
                 if (column === 6) {
@@ -175,6 +166,7 @@ $(document).ready(function () {
       orderCellsTop: true,
     fixedHeader: true,
     paging:false,
+    ordering:false,
       
   
       
@@ -213,7 +205,7 @@ $(document).ready(function () {
 
         // Total over all pages
         total = api
-            .column( 6 )
+            .column( 4 )
             .data()
             .reduce( function (a, b) {
                 return intVal(a) + intVal(b);
@@ -221,15 +213,15 @@ $(document).ready(function () {
 
         // Total over this page
         pageTotal = api
-            .column( 6, { page: 'current'} )
+            .column( 4, { page: 'current'} )
             .data()
             .reduce( function (a, b) {
                 return intVal(a) + intVal(b);
             }, 0 );
 
         // Update footer
-        $( api.column( 6 ).footer() ).html(
-            '$ '+ new Intl.NumberFormat('es-MX').format(Math.round((pageTotal + Number.EPSILON) * 100) / 100) 
+        $( api.column( 4 ).footer() ).html(
+            '$ '+ new Intl.NumberFormat('es-MX').format(Math.round((pageTotal + Number.EPSILON) * 100,2) / 100) 
         );
         }
     });
@@ -254,7 +246,7 @@ $(document).ready(function () {
       if (inicio != '' && final != '') {
         $.ajax({
           type: 'POST',
-          url: 'bd/buscarregistrospago.php',
+          url: 'bd/buscarcxc.php',
           dataType: 'json',
           data: { inicio: inicio, final: final },
           success: function (data) {
@@ -262,14 +254,13 @@ $(document).ready(function () {
               
               tablaVis.row
                 .add([
-                  data[i].folio_pago,
-                  data[i].folio_reg,
-                  data[i].fecha,
-                  data[i].nom,
-                  data[i].nom_concepto,
-                  data[i].concepto,
-                  data[i].monto,
-                  data[i].metodo,
+                  data[i].folio_cxc,
+                  data[i].corto_obra,
+                  data[i].fecha_cxc,
+                  data[i].desc_cxc,
+                  data[i].monto_cxc,
+                  data[i].saldo_cxc,
+                  
                   
                 ])
                 .draw()

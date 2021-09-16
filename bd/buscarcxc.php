@@ -12,7 +12,7 @@
  $final = (isset($_POST['final'])) ? $_POST['final'] : '';
  
  
- $consulta = "SELECT * FROM v_registro WHERE fecha_reg BETWEEN '$inicio' AND '$final' and estado_reg = 1 ORDER BY folio_reg";
+ $consulta = "SELECT * FROM vcxc WHERE fecha_cxc BETWEEN '$inicio' AND '$final' and estado_cxc = 1 ORDER BY id_obra,fecha_cxc,folio_cxc";
  $resultado = $conexion->prepare($consulta);
  $resultado->execute();
  $data = $resultado->fetchAll(PDO::FETCH_ASSOC);

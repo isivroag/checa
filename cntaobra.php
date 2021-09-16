@@ -79,7 +79,7 @@ $message = "";
                         <td><?php echo $dat['corto_obra'] ?></td>
                         <td><?php echo $dat['largo_obra'] ?></td>
                         <td><?php echo $dat['inicio_obra'] ?></td>
-                        <td><?php echo $dat['monto_obra'] ?></td>
+                        <td class="text-right"><?php echo number_format($dat['monto_obra'] )?></td>
                         <td><?php echo $dat['id_emp'] ?></td>
                         <td><?php echo $dat['razon_emp'] ?></td>
                         <td><?php echo $dat['id_clie'] ?></td>
