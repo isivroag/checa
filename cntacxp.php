@@ -1,5 +1,5 @@
 <?php
-$pagina = "cntacxc";
+$pagina = "cntacxp";
 
 include_once "templates/header.php";
 include_once "templates/barra.php";
@@ -12,7 +12,7 @@ include_once 'bd/conexion.php';
 $objeto = new conn();
 $conexion = $objeto->connect();
 $fecha = date('Y-m-d');
-$consulta = "SELECT * FROM vcxc WHERE estado_cxc=1 ORDER BY id_obra,fecha_cxc,folio_cxc";
+$consulta = "SELECT * FROM vcxp WHERE estado_cxp=1 ORDER BY id_obra,id_prov,fecha_cxp,folio_cxp";
 $resultado = $conexion->prepare($consulta);
 $resultado->execute();
 $data = $resultado->fetchAll(PDO::FETCH_ASSOC);
@@ -41,7 +41,7 @@ $message = "";
         <!-- Default box -->
         <div class="card">
             <div class="card-header bg-gradient-green text-light">
-                <h1 class="card-title mx-auto">Ingresos</h1>
+                <h1 class="card-title mx-auto">Egresos</h1>
             </div>
 
             <div class="card-body">
@@ -87,6 +87,7 @@ $message = "";
                                         <tr>
                                             <th>FOLIO</th>
                                             <th>OBRA</th>
+                                            <th>PROVEEDOR</th>
                                             <th>FECHA</th>
                                             <th>CONCEPTO</th>
                                             <th>MONTO</th>
@@ -100,12 +101,13 @@ $message = "";
                                         foreach ($data as $dat) {
                                         ?>
                                             <tr>
-                                                <td><?php echo $dat['folio_cxc'] ?></td>
+                                                <td><?php echo $dat['folio_cxp'] ?></td>
                                                 <td><?php echo $dat['corto_obra'] ?></td>
-                                                <td class="text-center"><?php echo $dat['fecha_cxc'] ?></td>
-                                                <td><?php echo $dat['desc_cxc'] ?></td>
-                                                <td class="text-right"><?php echo number_format($dat['monto_cxc'], 2) ?></td>
-                                                <td class="text-right"><?php echo number_format($dat['saldo_cxc'], 2) ?></td>
+                                                <td><?php echo $dat['razon_prov'] ?></td>
+                                                <td class="text-center"><?php echo $dat['fecha_cxp'] ?></td>
+                                                <td><?php echo $dat['desc_cxp'] ?></td>
+                                                <td class="text-right"><?php echo number_format($dat['monto_cxp'], 2) ?></td>
+                                                <td class="text-right"><?php echo number_format($dat['saldo_cxp'], 2) ?></td>
                                                 <td></td>
 
 
@@ -305,7 +307,7 @@ $message = "";
 
 
 <?php include_once 'templates/footer.php'; ?>
-<script src="fjs/cntacxc.js"></script>
+<script src="fjs/cntacxp.js"></script>
 <script src="plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 <script src="plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>

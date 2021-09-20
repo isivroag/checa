@@ -1,3 +1,4 @@
+
 $(document).ready(function() {
     var id, opcion;
     opcion = 4;
@@ -54,10 +55,10 @@ $(document).ready(function() {
     ],
     rowCallback: function (row, data) {
         
-        $($(row).find('td')['4']).addClass('text-right')
         $($(row).find('td')['5']).addClass('text-right')
-        $($(row).find('td')['4']).addClass('currency')
+        $($(row).find('td')['6']).addClass('text-right')
         $($(row).find('td')['5']).addClass('currency')
+        $($(row).find('td')['6']).addClass('currency')
       
       
   
@@ -89,7 +90,6 @@ $(document).ready(function() {
             
             $($(row).find('td')['3']).addClass('currency')
             
-          
           
       
            
@@ -160,10 +160,10 @@ $(document).ready(function() {
 
         folio_venta = parseInt(fila.find("td:eq(0)").text());
 
-        saldo = fila.find("td:eq(5)").text().replace("$", "");
+        saldo = fila.find("td:eq(6)").text().replace("$", "");
         saldo = saldo.replace(",", "");
         saldo = parseFloat(saldo);
-        total = fila.find("td:eq(4)").text().replace("$", "");
+        total = fila.find("td:eq(5)").text().replace("$", "");
         total = total.replace(",", "");
         total = parseFloat(total);
 
@@ -255,9 +255,7 @@ $(document).ready(function() {
     $("#btnBuscar").click(function() {
         var inicio = $("#inicio").val();
         var final = $("#final").val();
-        var opcion = 1;
-        
-        
+       
 
         tablaVis.clear();
         tablaVis.draw();
@@ -267,7 +265,7 @@ $(document).ready(function() {
         if (inicio != "" && final != "") {
             $.ajax({
                 type: "POST",
-                url: "bd/buscarcxc.php",
+                url: "bd/buscarcxp.php",
                 dataType: "json",
                 data: { inicio: inicio, final: final, opcion: opcion },
                 success: function(data) {
@@ -275,12 +273,14 @@ $(document).ready(function() {
                     for (var i = 0; i < data.length; i++) {
                         tablaVis.row
                             .add([
-                                data[i].folio_cxc,
+                                data[i].folio_cxp,
                                 data[i].corto_obra,
-                                data[i].fecha_cxc,
-                                data[i].desc_cxc,
-                                new Intl.NumberFormat('es-MX').format(Math.round((data[i].monto_cxc) * 100,2) / 100) ,
-                                new Intl.NumberFormat('es-MX').format(Math.round((data[i].saldo_cxc) * 100,2) / 100)  ,
+                                data[i].razon_prov,
+                                data[i].fecha_cxp,
+                                data[i].desc_cxp,
+                                new Intl.NumberFormat('es-MX').format(Math.round((data[i].monto_cxp) * 100,2) / 100) ,
+                                new Intl.NumberFormat('es-MX').format(Math.round((data[i].saldo_cxp) * 100,2) / 100) ,
+                                
 
                             ])
                             .draw();
@@ -318,23 +318,23 @@ $(document).ready(function() {
     function buscarpagos(folio) {
         tablaResumen.clear();
         tablaResumen.draw();
-        opcion=1;
+        opcion=2;
         $.ajax({
             type: "POST",
             url: "bd/buscarpagocxp.php",
             dataType: "json",
 
-            data: { folio: folio, opcion: opcion },
+            data: { folio: folio,opcion: opcion },
 
             success: function(res) {
                 for (var i = 0; i < res.length; i++) {
                     tablaResumen.row
                         .add([
-                            res[i].folio_pagocxc,
-                            res[i].fecha_pagocxc,
-                            res[i].referencia_pagocxc,
-                            res[i].monto_pagocxc,
-                            res[i].metodo_pagocxc,
+                            res[i].folio_pagocxp,
+                            res[i].fecha_pagocxp,
+                            res[i].referencia_pagocxp,
+                            res[i].monto_pagocxp,
+                            res[i].metodo_pagocxp,
                         ])
                         .draw();
 
@@ -348,7 +348,7 @@ $(document).ready(function() {
     $(document).on('click', '.btnPagar', function () {
         fila = $(this).closest("tr");
         folio_cxc = parseInt(fila.find("td:eq(0)").text());
-        saldo = fila.find("td:eq(5)").text();
+        saldo = fila.find("td:eq(6)").text();
         $('formPago').trigger("reset");
 
         $('#foliovp').val(folio_cxc);
@@ -364,7 +364,7 @@ $(document).ready(function() {
       })
 
       $(document).on('click', '#btnGuardarvp', function () {
-        var foliocxc = $('#foliovp').val()
+        var foliocxp = $('#foliovp').val()
         var fechavp = $('#fechavp').val()
         var referenciavp = $('#referenciavp').val()
         var observacionesvp = $('#observacionesvp').val()
@@ -374,13 +374,13 @@ $(document).ready(function() {
         montovp=montovp.replace(",", "");
         var metodovp = $('#metodovp').val()
         var usuario = $('#nameuser').val()
-        var opcion=1
+        var opcion=2
         console.log(saldovp);
         console.log(montovp);
    
     
         if (
-            foliocxc.length == 0 ||
+            foliocxp.length == 0 ||
             fechavp.length == 0 ||
             referenciavp.length == 0 ||
             montovp.length == 0 ||
@@ -401,7 +401,7 @@ $(document).ready(function() {
                     dataType: 'json',
                     async: false,
                     data: {
-                        foliocxc: foliocxc,opcion: opcion
+                        foliocxp: foliocxp, opcion: opcion
                     },
                     success: function (res) {
                     saldovp = res;
@@ -426,12 +426,12 @@ $(document).ready(function() {
             console.log('monto '+ montovp);
             opcion = 1;
             $.ajax({
-              url: 'bd/pagocxc.php',
+              url: 'bd/pagocxp.php',
               type: 'POST',
               dataType: 'json',
               async: false,
               data: {
-                foliocxc: foliocxc,
+                foliocxp: foliocxp,
                 fechavp: fechavp,
                 observacionesvp: observacionesvp,
                 referenciavp: referenciavp,

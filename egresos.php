@@ -1,6 +1,6 @@
 <!-- CODIGO PHP-->
 <?php
-$pagina = "ingresos";
+$pagina = "egresos";
 
 include_once "templates/header.php";
 include_once "templates/barra.php";
@@ -14,30 +14,34 @@ $conexion = $objeto->connect();
 
 
 if (isset($_GET['id'])) {
-    $folio_cxc=$_GET['id'];
-    $consulta = "SELECT * FROM vcxc WHERE folio_cxc='$folio_cxc'";
+    $folio_cxp=$_GET['id'];
+    $consulta = "SELECT * FROM vcxp WHERE folio_cxp='$folio_cxp'";
     $resultado = $conexion->prepare($consulta);
     $resultado->execute();
     $data = $resultado->fetchAll(PDO::FETCH_ASSOC);
     foreach($data as $row){
         $id_obra = $row['id_obra'];
         $obra = $row['corto_obra'];
-        $fecha_cxc = $row['fecha_cxc'];
-        $clave_cxc = $row['clave_cxc'];
-        $desc_cxc =$row['desc_cxc'];
-        $monto_cxc = $row['monto_cxc'];
+        $id_prov = $row['id_prov'];
+        $proveedor = $row['nom_prov'];
+        $fecha_cxp = $row['fecha_cxp'];
+        $clave_cxp = $row['clave_cxp'];
+        $desc_cxp =$row['desc_cxp'];
+        $monto_cxp = $row['monto_cxp'];
         
         
 
     }
 } else{
-    $folio_cxc=0;
+    $folio_cxp=0;
     $id_obra ="";
     $obra = "";
-    $fecha_cxc = date('Y-m-d');
-    $clave_cxc = "";
-    $desc_cxc ="";
-    $monto_cxc = 0;
+    $id_prov ="";
+    $proveedor= "";
+    $fecha_cxp = date('Y-m-d');
+    $clave_cxp = "";
+    $desc_cxp ="";
+    $monto_cxp = 0;
     
 }
 
@@ -52,6 +56,10 @@ $resultadocon->execute();
 $datacon = $resultadocon->fetchAll(PDO::FETCH_ASSOC);
 
 
+$consultaprov = "SELECT * FROM w_proveedor WHERE estado_prov=1 ORDER BY id_prov";
+$resultadoprov = $conexion->prepare($consultaprov);
+$resultadoprov->execute();
+$dataprov = $resultadoprov->fetchAll(PDO::FETCH_ASSOC);
 
 
 
@@ -129,7 +137,7 @@ $datacon = $resultadocon->fetchAll(PDO::FETCH_ASSOC);
             </div>
 
             <div class="card-header bg-gradient-green text-light">
-                <h1 class="card-title mx-auto">REGISTRO DE INGRESOS</h1>
+                <h1 class="card-title mx-auto">REGISTRO DE EGRESOS</h1>
             </div>
 
             <div class="card-body">
@@ -158,7 +166,7 @@ $datacon = $resultadocon->fetchAll(PDO::FETCH_ASSOC);
                             <div class="card-header bg-gradient-green " style="margin:0px;padding:8px">
 
 
-                                <h1 class="card-title "> DATOS DE INGRESO</h1>
+                                <h1 class="card-title "> DATOS DE EGRESOS</h1>
                             </div>
 
                             <div class="card-body" style="margin:0px;padding:1px;">
@@ -170,21 +178,21 @@ $datacon = $resultadocon->fetchAll(PDO::FETCH_ASSOC);
                                         <div class="form-group input-group-sm">
                                             <label for="folio" class="col-form-label">ID:</label>
 
-                                            <input type="text" class="form-control" name="folio" id="folio" value="<?php echo  $folio_cxc; ?> " disabled>
+                                            <input type="text" class="form-control" name="folio" id="folio" value="<?php echo  $folio_cxp; ?> " disabled>
                                         </div>
                                     </div>
 
                                     <div class="col-lg-2">
                                         <div class="form-group input-group-sm">
                                             <label for="clave" class="col-form-label">#FACTURA:</label>
-                                            <input type="text" class="form-control" name="clave" id="clave" value="<?php echo  $clave_cxc; ?>" placeholder="#FACTURA">
+                                            <input type="text" class="form-control" name="clave" id="clave" value="<?php echo  $clave_cxp; ?>" placeholder="#FACTURA">
                                         </div>
                                     </div>
 
                                     <div class="col-lg-2 offset-lg-3">
                                         <div class="form-group input-group-sm">
                                             <label for="fecha" class="col-form-label">FECHA:</label>
-                                            <input type="date" class="form-control" name="fecha" id="fecha" value="<?php echo $fecha_cxc; ?>">
+                                            <input type="date" class="form-control" name="fecha" id="fecha" value="<?php echo $fecha_cxp; ?>">
                                         </div>
                                     </div>
 
@@ -199,7 +207,7 @@ $datacon = $resultadocon->fetchAll(PDO::FETCH_ASSOC);
 
                                     <div class="col-lg-8">
                                         <div class="input-group input-group-sm">
-                                            <label for="empresa" class="col-form-label">OBRA:</label>
+                                            <label for="obra" class="col-form-label">OBRA:</label>
                                             <div class="input-group input-group-sm">
                                                 <input type="hidden" class="form-control" name="id_obra" id="id_obra" value="<?php echo $id_obra;?>">
                                                 <input type="text" class="form-control" name="obra" id="obra" disabled placeholder="SELECCIONAR OBRA" value="<?php echo $obra;?>">
@@ -211,11 +219,23 @@ $datacon = $resultadocon->fetchAll(PDO::FETCH_ASSOC);
                                         </div>
                                     </div>
                                   
+                                    <div class="col-lg-8">
+                                        <div class="input-group input-group-sm">
+                                            <label for="proveedor" class="col-form-label">PROVEEDOR:</label>
+                                            <div class="input-group input-group-sm">
+                                                <input type="hidden" class="form-control" name="id_prov" id="id_prov" value="<?php echo $id_prov;?>">
+                                                <input type="text" class="form-control" name="proveedor" id="proveedor" disabled placeholder="SELECCIONAR PROVEEDOR" value="<?php echo $proveedor;?>">
+                                                <span class="input-group-append">
+                                                    <button id="bproveedor" type="button" class="btn btn-sm btn-primary"><i class="fas fa-search"></i></button>
+                                                </span>
+                                            </div>
 
+                                        </div>
+                                    </div>
                                     <div class="col-lg-8">
                                         <div class="form-group input-group-sm">
                                             <label for="descripcion" class="col-form-label">DESCRIPCION:</label>
-                                            <input type="text" class="form-control" name="descripcion" id="descripcion" value="<?php echo  $desc_cxc;?>"  placeholder="DESCRIPCION/CONCEPTO">
+                                            <input type="text" class="form-control" name="descripcion" id="descripcion" value="<?php echo  $desc_cxp;?>"  placeholder="DESCRIPCION/CONCEPTO">
                                         </div>
                                     </div>
 
@@ -233,7 +253,7 @@ $datacon = $resultadocon->fetchAll(PDO::FETCH_ASSOC);
                                                     <i class="fas fa-dollar-sign"></i>
                                                 </span>
                                             </div>
-                                            <input type="text" class="form-control text-right" name="monto" id="monto" value="<?php echo number_format($monto_cxc,2);?>" pattern="[0-9]*">
+                                            <input type="text" class="form-control text-right" name="monto" id="monto" value="<?php echo number_format($monto_cxp,2);?>" pattern="[0-9]*">
                                         </div>
                                     </div>
                                 </div>
@@ -314,7 +334,49 @@ $datacon = $resultadocon->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </section>
 
+    <section>
+        <div class="container">
 
+            <!-- Default box -->
+            <div class="modal fade" id="modalProveedor" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-md" role="document">
+                    <div class="modal-content w-auto">
+                        <div class="modal-header bg-gradient-green">
+                            <h5 class="modal-title" id="exampleModalLabel">BUSCAR OBRA</h5>
+
+                        </div>
+                        <br>
+                        <div class="table-hover table-responsive w-auto" style="padding:15px">
+                            <table name="tablaProveedor" id="tablaProveedor" class="table table-sm text-nowrap table-striped table-bordered table-condensed" style="width:100%">
+                                <thead class="text-center bg-gradient-green">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>RFC</th>
+                                        <th>RAZON SOCIAL</th>
+                                        <th>ACCIONES</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    foreach ($dataprov as $datp) {
+                                    ?>
+                                        <tr>
+                                            <td><?php echo $datp['id_prov'] ?></td>
+                                            <td><?php echo $datp['rfc_prov'] ?></td>
+                                            <td><?php echo $datp['razon_prov'] ?></td>
+                                            <td></td>
+                                        </tr>
+                                    <?php
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
 </div>
 
@@ -329,7 +391,7 @@ $datacon = $resultadocon->fetchAll(PDO::FETCH_ASSOC);
 </script>
 
 <?php include_once 'templates/footer.php'; ?>
-<script src="fjs/ingresos.js"></script>
+<script src="fjs/egresos.js"></script>
 <script src="plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 <script src="plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>

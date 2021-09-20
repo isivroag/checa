@@ -132,10 +132,10 @@
         <!-- CIERRA MENU CATALOGOS -->
 
         <!-- ABRE MENU EGRESOS -->
-        <li class="nav-item has-treeview <?php echo ($pagina == 'cntaegresos') ? "menu-open" : ""; ?>">
+        <li class="nav-item has-treeview <?php echo ($pagina == 'cntaegresos' || $pagina == 'egresos' || $pagina == 'cntacxp') ? "menu-open" : ""; ?>">
 
 
-          <a href="#" class="nav-link <?php echo ($pagina == 'cntaegresos') ? "active" : ""; ?>">
+          <a href="#" class="nav-link <?php echo ($pagina == 'cntaegresos' || $pagina == 'egresos' || $pagina == 'cntacxp') ? "active" : ""; ?>">
 
             <span class="fa-stack">
               <i class=" fas fa-arrow-down "></i>
@@ -151,14 +151,20 @@
           <ul class="nav nav-treeview">
 
             <li class="nav-item">
-              <a href="cntaegresos.php" class="nav-link <?php echo ($pagina == 'cntaegresos') ? "active seleccionado" : ""; ?>  ">
+              <a href="egresos.php" class="nav-link <?php echo ($pagina == 'egresos') ? "active seleccionado" : ""; ?>  ">
 
-                <i class="fas fa-file-invoice nav-icon"></i>
+                <i class="fas text-purple fa-file-invoice nav-icon"></i>
                 <p>Registro de Egresos</p>
               </a>
             </li>
 
+            <li class="nav-item">
+              <a href="cntacxp.php" class="nav-link <?php echo ($pagina == 'cntacxp') ? "active seleccionado" : ""; ?>  ">
 
+                <i class="fas text-purple fa-list nav-icon"></i>
+                <p>Listado de CXP</p>
+              </a>
+            </li>
           </ul>
         </li>
         <!-- CIERRA MENU EGRESOS -->
