@@ -29,12 +29,16 @@ if ($id_usuario != '' && $pass!='') {
                 $_SESSION['s_id_usuario'] = $row['id_usuario'];
                 $_SESSION['s_nombre'] = $row['nombre'];
                 $_SESSION['s_rol'] = $row['rol_usuario'];
+                $_SESSION['id_obra']=null;
+                $_SESSION['nom_obra']=null;
             }
         } else {
             $_SESSION['s_id_usuario'] = null;
             $_SESSION['s_usuario'] = null;
             $_SESSION['s_nombre'] = null;
-            $_SESSION['s_rol'] = $row = null;
+            $_SESSION['s_rol'] =  null;
+            $_SESSION['id_obra']=null;
+            $_SESSION['nom_obra']=null;
         }
 
         $conexion = null;

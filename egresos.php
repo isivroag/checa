@@ -50,10 +50,17 @@ $message = "";
 
 
 
-$consultacon = "SELECT * FROM w_obra WHERE estado_obra=1 ORDER BY id_obra";
-$resultadocon = $conexion->prepare($consultacon);
-$resultadocon->execute();
-$datacon = $resultadocon->fetchAll(PDO::FETCH_ASSOC);
+if($_SESSION['id_obra']==null){
+    $consultacon = "SELECT * FROM w_obra WHERE estado_obra=1 ORDER BY id_obra";
+    $resultadocon = $conexion->prepare($consultacon);
+    $resultadocon->execute();
+    $datacon = $resultadocon->fetchAll(PDO::FETCH_ASSOC);
+}
+else{
+    $id_obra=$_SESSION['id_obra'];
+    $obra=$_SESSION['nom_obra'];
+}
+
 
 
 $consultaprov = "SELECT * FROM w_proveedor WHERE estado_prov=1 ORDER BY id_prov";
@@ -211,9 +218,13 @@ $dataprov = $resultadoprov->fetchAll(PDO::FETCH_ASSOC);
                                             <div class="input-group input-group-sm">
                                                 <input type="hidden" class="form-control" name="id_obra" id="id_obra" value="<?php echo $id_obra;?>">
                                                 <input type="text" class="form-control" name="obra" id="obra" disabled placeholder="SELECCIONAR OBRA" value="<?php echo $obra;?>">
+                                                <?php 
+                                                    if($id_obra==null){
+                                                ?>
                                                 <span class="input-group-append">
-                                                    <button id="bobra" type="button" class="btn btn-sm btn-primary"><i class="fas fa-search"></i></button>
+                                                    <button id="bobra" type="button" class="btn btn-sm btn-primary"><i class="fas fa-search" ></i></button>
                                                 </span>
+                                                <?php }?>
                                             </div>
 
                                         </div>

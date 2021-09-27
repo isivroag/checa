@@ -1,8 +1,13 @@
     <!-- /.content-wrapper -->
     <footer class="main-footer">
         <div class="float-right d-none d-sm-block">
-            <b>Version</b> 1.1
+        <b>OBRA:</b>
+        <input type="hidden" id="globalid_obra" value="<?php echo "".$_SESSION['id_obra']."" ; ?>">
+        <input type="hidden" id="globalnom_obra" value="<?php echo "".$_SESSION['nom_obra']."" ; ?>">
+        <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo "(".$_SESSION['nom_obra'].")" ; ?></span>
+            
         </div>
+        
         <strong>Copyright &copy; 2021 <a href="http://tecniem.com">Tecniem</a>.</strong> All rights
         reserved.
     </footer>

@@ -12,7 +12,18 @@ include_once 'bd/conexion.php';
 $objeto = new conn();
 $conexion = $objeto->connect();
 $fecha = date('Y-m-d');
-$consulta = "SELECT * FROM vcxp WHERE estado_cxp=1 ORDER BY id_obra,id_prov,fecha_cxp,folio_cxp";
+
+if($_SESSION['id_obra'] != null){
+    $id_obra=$_SESSION['id_obra'];
+    $consulta = "SELECT * FROM vcxp WHERE id_obra='$id_obra' and estado_cxp=1 ORDER BY id_obra,id_prov,fecha_cxp,folio_cxp";
+    
+}else{
+    $consulta = "SELECT * FROM vcxp WHERE estado_cxp=1 ORDER BY id_obra,id_prov,fecha_cxp,folio_cxp";
+}
+
+
+
+
 $resultado = $conexion->prepare($consulta);
 $resultado->execute();
 $data = $resultado->fetchAll(PDO::FETCH_ASSOC);

@@ -4,11 +4,18 @@ session_start();
 
 if ($_SESSION['s_usuario'] === null) {
   header("Location:index.php");
+} else {
+  if ($_SESSION['s_rol'] != 2) {
+    if ($_SESSION['id_obra'] == null) {
+      header("Location:inicioobra.php");
+    }
+  }
 }
 ?>
 
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">

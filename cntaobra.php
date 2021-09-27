@@ -1,5 +1,5 @@
 <?php
-$pagina = "proveedor";
+$pagina = "obra";
 
 include_once "templates/header.php";
 include_once "templates/barra.php";

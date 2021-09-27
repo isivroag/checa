@@ -25,6 +25,8 @@ if ($conexion != null) {
             $_SESSION['s_id_usuario'] = $row['id_usuario'];
             $_SESSION['s_nombre'] = $row['nombre'];
             $_SESSION['s_rol'] = $row['rol_usuario'];
+            $_SESSION['id_obra']=null;
+            $_SESSION['nom_obra']=null;
             
         }
         if ($recordar==1){
@@ -42,7 +44,9 @@ if ($conexion != null) {
         $_SESSION['s_id_usuario'] = null;
         $_SESSION['s_usuario'] = null;
         $_SESSION['s_nombre'] = null;
-        $_SESSION['s_rol'] = $row = null;
+        $_SESSION['s_rol'] =  null;
+        $_SESSION['id_obra']=null;
+        $_SESSION['nom_obra']=null;
         $data = 1;
     }
     print json_encode($data);

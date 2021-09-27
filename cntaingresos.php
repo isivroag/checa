@@ -12,7 +12,13 @@ include_once 'bd/conexion.php';
 $objeto = new conn();
 $conexion = $objeto->connect();
 $fecha=date('Y-m-d');
-$consulta = "SELECT * FROM vcxc WHERE estado_cxc=1 ORDER BY id_obra,fecha_cxc,folio_cxc";
+if($_SESSION['id_obra'] != null){
+    $id_obra=$_SESSION['id_obra'];
+    $consulta = "SELECT * FROM vcxc WHERE id_obra='$id_obra' and estado_cxc=1 ORDER BY id_obra,fecha_cxc,folio_cxc";
+}else{
+    $consulta = "SELECT * FROM vcxc WHERE estado_cxc=1 ORDER BY id_obra,fecha_cxc,folio_cxc";
+}
+
 $resultado = $conexion->prepare($consulta);
 $resultado->execute();
 $data = $resultado->fetchAll(PDO::FETCH_ASSOC);
