@@ -14,35 +14,33 @@ $conexion = $objeto->connect();
 
 
 if (isset($_GET['id'])) {
-    $folio_cxp=$_GET['id'];
+    $folio_cxp = $_GET['id'];
     $consulta = "SELECT * FROM vcxp WHERE folio_cxp='$folio_cxp'";
     $resultado = $conexion->prepare($consulta);
     $resultado->execute();
     $data = $resultado->fetchAll(PDO::FETCH_ASSOC);
-    foreach($data as $row){
+    foreach ($data as $row) {
         $id_obra = $row['id_obra'];
         $obra = $row['corto_obra'];
         $id_prov = $row['id_prov'];
-        $proveedor = $row['nom_prov'];
+        $proveedor = $row['razon_prov'];
         $fecha_cxp = $row['fecha_cxp'];
         $clave_cxp = $row['clave_cxp'];
-        $desc_cxp =$row['desc_cxp'];
+        $desc_cxp = $row['desc_cxp'];
         $monto_cxp = $row['monto_cxp'];
-        
-        
-
+        $tipo_cxp = $row['tipo_cxp'];
     }
-} else{
-    $folio_cxp=0;
-    $id_obra ="";
+} else {
+    $folio_cxp = 0;
+    $id_obra = "";
     $obra = "";
-    $id_prov ="";
-    $proveedor= "";
+    $id_prov = "";
+    $proveedor = "";
     $fecha_cxp = date('Y-m-d');
     $clave_cxp = "";
-    $desc_cxp ="";
+    $desc_cxp = "";
+    $tipo_cxp = "";
     $monto_cxp = 0;
-    
 }
 
 $message = "";
@@ -50,15 +48,14 @@ $message = "";
 
 
 
-if($_SESSION['id_obra']==null){
+if ($_SESSION['id_obra'] == null) {
     $consultacon = "SELECT * FROM w_obra WHERE estado_obra=1 ORDER BY id_obra";
     $resultadocon = $conexion->prepare($consultacon);
     $resultadocon->execute();
     $datacon = $resultadocon->fetchAll(PDO::FETCH_ASSOC);
-}
-else{
-    $id_obra=$_SESSION['id_obra'];
-    $obra=$_SESSION['nom_obra'];
+} else {
+    $id_obra = $_SESSION['id_obra'];
+    $obra = $_SESSION['nom_obra'];
 }
 
 
@@ -188,15 +185,27 @@ $dataprov = $resultadoprov->fetchAll(PDO::FETCH_ASSOC);
                                             <input type="text" class="form-control" name="folio" id="folio" value="<?php echo  $folio_cxp; ?> " disabled>
                                         </div>
                                     </div>
-
-                                    <div class="col-lg-2">
+                                    <div class="col-lg-3">
                                         <div class="form-group input-group-sm">
-                                            <label for="clave" class="col-form-label">#FACTURA:</label>
-                                            <input type="text" class="form-control" name="clave" id="clave" value="<?php echo  $clave_cxp; ?>" placeholder="#FACTURA">
+                                            <label for="tipo_cxp" class="col-form-label">Tipo:</label>
+                                            <select class="form-control" name="tipo_cxp" id="tipo_cxp">
+
+                                                <option id="SUBCONTRATO" value="SUBCONTRATO">SUBCONTRATO</option>
+                                                <option id="FACTURA" value="FACTURA">FACTURA</option>
+
+                                            </select>
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-2 offset-lg-3">
+
+                                    <div class="col-lg-2">
+                                        <div class="form-group input-group-sm">
+                                            <label for="clave" class="col-form-label">#FACTURA o SUBCONTRATO:</label>
+                                            <input type="text" class="form-control" name="clave" id="clave" value="<?php echo  $clave_cxp; ?>" placeholder="No. FACTURA O SUBCONTRATO">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-2 ">
                                         <div class="form-group input-group-sm">
                                             <label for="fecha" class="col-form-label">FECHA:</label>
                                             <input type="date" class="form-control" name="fecha" id="fecha" value="<?php echo $fecha_cxp; ?>">
@@ -216,26 +225,26 @@ $dataprov = $resultadoprov->fetchAll(PDO::FETCH_ASSOC);
                                         <div class="input-group input-group-sm">
                                             <label for="obra" class="col-form-label">OBRA:</label>
                                             <div class="input-group input-group-sm">
-                                                <input type="hidden" class="form-control" name="id_obra" id="id_obra" value="<?php echo $id_obra;?>">
-                                                <input type="text" class="form-control" name="obra" id="obra" disabled placeholder="SELECCIONAR OBRA" value="<?php echo $obra;?>">
-                                                <?php 
-                                                    if($id_obra==null){
+                                                <input type="hidden" class="form-control" name="id_obra" id="id_obra" value="<?php echo $id_obra; ?>">
+                                                <input type="text" class="form-control" name="obra" id="obra" disabled placeholder="SELECCIONAR OBRA" value="<?php echo $obra; ?>">
+                                                <?php
+                                                if ($id_obra == null) {
                                                 ?>
-                                                <span class="input-group-append">
-                                                    <button id="bobra" type="button" class="btn btn-sm btn-primary"><i class="fas fa-search" ></i></button>
-                                                </span>
-                                                <?php }?>
+                                                    <span class="input-group-append">
+                                                        <button id="bobra" type="button" class="btn btn-sm btn-primary"><i class="fas fa-search"></i></button>
+                                                    </span>
+                                                <?php } ?>
                                             </div>
 
                                         </div>
                                     </div>
-                                  
+
                                     <div class="col-lg-8">
                                         <div class="input-group input-group-sm">
                                             <label for="proveedor" class="col-form-label">PROVEEDOR:</label>
                                             <div class="input-group input-group-sm">
-                                                <input type="hidden" class="form-control" name="id_prov" id="id_prov" value="<?php echo $id_prov;?>">
-                                                <input type="text" class="form-control" name="proveedor" id="proveedor" disabled placeholder="SELECCIONAR PROVEEDOR" value="<?php echo $proveedor;?>">
+                                                <input type="hidden" class="form-control" name="id_prov" id="id_prov" value="<?php echo $id_prov; ?>">
+                                                <input type="text" class="form-control" name="proveedor" id="proveedor" disabled placeholder="SELECCIONAR PROVEEDOR" value="<?php echo $proveedor; ?>">
                                                 <span class="input-group-append">
                                                     <button id="bproveedor" type="button" class="btn btn-sm btn-primary"><i class="fas fa-search"></i></button>
                                                 </span>
@@ -246,7 +255,7 @@ $dataprov = $resultadoprov->fetchAll(PDO::FETCH_ASSOC);
                                     <div class="col-lg-8">
                                         <div class="form-group input-group-sm">
                                             <label for="descripcion" class="col-form-label">DESCRIPCION:</label>
-                                            <input type="text" class="form-control" name="descripcion" id="descripcion" value="<?php echo  $desc_cxp;?>"  placeholder="DESCRIPCION/CONCEPTO">
+                                            <input type="text" class="form-control" name="descripcion" id="descripcion" value="<?php echo  $desc_cxp; ?>" placeholder="DESCRIPCION/CONCEPTO">
                                         </div>
                                     </div>
 
@@ -254,7 +263,7 @@ $dataprov = $resultadoprov->fetchAll(PDO::FETCH_ASSOC);
                                 </div>
                                 <div class="row justify-content-sm-center" style="margin-bottom: 10px;">
                                     <div class="col-lg-3">
-                                    
+
                                     </div>
                                     <div class="col-lg-2 offset-lg-3">
                                         <label for="monto" class="col-form-label">MONTO TOTAL:</label>
@@ -264,7 +273,7 @@ $dataprov = $resultadoprov->fetchAll(PDO::FETCH_ASSOC);
                                                     <i class="fas fa-dollar-sign"></i>
                                                 </span>
                                             </div>
-                                            <input type="text" class="form-control text-right" name="monto" id="monto" value="<?php echo number_format($monto_cxp,2);?>" pattern="[0-9]*">
+                                            <input type="text" class="form-control text-right" name="monto" id="monto" value="<?php echo number_format($monto_cxp, 2); ?>" pattern="[0-9]*">
                                         </div>
                                     </div>
                                 </div>

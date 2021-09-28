@@ -132,10 +132,10 @@
         <!-- CIERRA MENU CATALOGOS -->
 
         <!-- ABRE MENU EGRESOS -->
-        <li class="nav-item has-treeview <?php echo ($pagina == 'cntaegresos' || $pagina == 'egresos' || $pagina == 'cntacxp') ? "menu-open" : ""; ?>">
+        <li class="nav-item has-treeview <?php echo ($pagina == 'cntaegresos' || $pagina == 'egresos' || $pagina == 'cntacxp' || $pagina == 'cntapagocxp') ? "menu-open" : ""; ?>">
 
 
-          <a href="#" class="nav-link <?php echo ($pagina == 'cntaegresos' || $pagina == 'egresos' || $pagina == 'cntacxp') ? "active" : ""; ?>">
+          <a href="#" class="nav-link <?php echo ($pagina == 'cntaegresos' || $pagina == 'egresos' || $pagina == 'cntacxp' || $pagina == 'cntapagocxp') ? "active" : ""; ?>">
 
             <span class="fa-stack">
               <i class=" fas fa-arrow-down "></i>
@@ -163,6 +163,14 @@
 
                 <i class="fas text-purple fa-list nav-icon"></i>
                 <p>Listado de CXP</p>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a href="cntapagocxp.php" class="nav-link <?php echo ($pagina == 'cntapagocxp') ? "active seleccionado" : ""; ?>  ">
+
+                <i class="fas text-purple fa-list nav-icon"></i>
+                <p>Listado de Pagos </p>
               </a>
             </li>
           </ul>

@@ -13,11 +13,10 @@ $objeto = new conn();
 $conexion = $objeto->connect();
 $fecha = date('Y-m-d');
 
-if($_SESSION['id_obra'] != null){
-    $id_obra=$_SESSION['id_obra'];
+if ($_SESSION['id_obra'] != null) {
+    $id_obra = $_SESSION['id_obra'];
     $consulta = "SELECT * FROM vcxp WHERE id_obra='$id_obra' and estado_cxp=1 ORDER BY id_obra,id_prov,fecha_cxp,folio_cxp";
-    
-}else{
+} else {
     $consulta = "SELECT * FROM vcxp WHERE estado_cxp=1 ORDER BY id_obra,id_prov,fecha_cxp,folio_cxp";
 }
 
@@ -97,6 +96,8 @@ $message = "";
                                     <thead class="text-center bg-gradient-green">
                                         <tr>
                                             <th>FOLIO</th>
+                                            <th>TIPO</th>
+                                            <th>No. REFERENCIA</th>
                                             <th>OBRA</th>
                                             <th>PROVEEDOR</th>
                                             <th>FECHA</th>
@@ -113,6 +114,8 @@ $message = "";
                                         ?>
                                             <tr>
                                                 <td><?php echo $dat['folio_cxp'] ?></td>
+                                                <td><?php echo $dat['tipo_cxp'] ?></td>
+                                                <td><?php echo $dat['clave_cxp'] ?></td>
                                                 <td><?php echo $dat['corto_obra'] ?></td>
                                                 <td><?php echo $dat['razon_prov'] ?></td>
                                                 <td class="text-center"><?php echo $dat['fecha_cxp'] ?></td>
@@ -310,7 +313,46 @@ $message = "";
         </div>
     </section>
 
-
+    <section>
+        <div class="modal fade" id="modalcan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog " role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-gradient-danger">
+                        <h5 class="modal-title" id="exampleModalLabel">CANCELAR</h5>
+                    </div>
+                    <div class="card card-widget" style="margin: 10px;">
+                        <form id="formcan" action="" method="POST">
+                            <div class="modal-body row">
+                                <div class="col-sm-12">
+                                    <div class="form-group input-group-sm">
+                                        <label for="motivo" class="col-form-label">Motivo de Cancelacioón:</label>
+                                        <textarea rows="3" class="form-control" name="motivo" id="motivo" placeholder="Motivo de Cancelación"></textarea>
+                                        <input type="hidden" id="fecha" name="fecha" value="<?php echo $fecha ?>">
+                                        <input type="hidden" id="foliocan" name="foliocan" >
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    <?php
+                    if ($message != "") {
+                    ?>
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <span class="badge "><?php echo ($message); ?></span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                        </div>
+                    <?php
+                    }
+                    ?>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fas fa-ban"></i> Cancelar</button>
+                        <button type="button" id="btnGuardarCAN" name="btnGuardarCAN" class="btn btn-success" value="btnGuardarCAN"><i class="far fa-save"></i> Guardar</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
 
 
     <!-- /.content -->
@@ -324,3 +366,9 @@ $message = "";
 <script src="plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
 <script src="plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
 <script src="plugins/sweetalert2/sweetalert2.all.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
+<script src="http://cdn.datatables.net/plug-ins/1.10.21/sorting/formatted-numbers.js"></script>

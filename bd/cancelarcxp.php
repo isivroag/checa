@@ -6,12 +6,12 @@ $conexion = $objeto->connect();
 // Recepción de los datos enviados mediante POST desde el JS   
 
 
-$folio = (isset($_POST['folio'])) ? $_POST['folio'] : '';
+$foliocan = (isset($_POST['foliocan'])) ? $_POST['foliocan'] : '';
 $motivo = (isset($_POST['motivo'])) ? $_POST['motivo'] : '';
 $usuario = (isset($_POST['usuario'])) ? $_POST['usuario'] : '';
 $fecha = (isset($_POST['fecha'])) ? $_POST['fecha'] : '';
 
-$consulta = "UPDATE registro SET estado_reg=0,fecha_can='$fecha',motivo_can='$motivo',usuario_can='$usuario' WHERE folio_reg='$folio'";
+$consulta = "UPDATE w_cxp SET estado_cxp=0,fecha_can='$fecha',motivo_can='$motivo',usuario_can='$usuario' WHERE folio_cxp='$foliocan'";
 $resultado = $conexion->prepare($consulta);
 if ($resultado->execute()) {
 

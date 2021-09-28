@@ -27,17 +27,17 @@ $(document).ready(function() {
                 extend: "excelHtml5",
                 text: "<i class='fas fa-file-excel'> Excel</i>",
                 titleAttr: "Exportar a Excel",
-                title: "Reporte de Venta",
+                title: "Listado de Egresos",
                 className: "btn bg-success ",
-                exportOptions: { columns: [0, 1, 2, 3, 4, 5] },
+                exportOptions: { columns: [0, 1, 2, 3, 4, 5,6,7,8] },
             },
             {
                 extend: "pdfHtml5",
                 text: "<i class='far fa-file-pdf'> PDF</i>",
                 titleAttr: "Exportar a PDF",
-                title: "Reporte de Venta",
+                title: "Listado de Egresos",
                 className: "btn bg-danger",
-                exportOptions: { columns: [0, 1, 2, 3, 4, 5] },
+                exportOptions: { columns: [0, 1, 2, 3, 4, 5,6,7,8] },
             },
         ],
         stateSave: true,
@@ -55,10 +55,10 @@ $(document).ready(function() {
     ],
     rowCallback: function (row, data) {
         
-        $($(row).find('td')['5']).addClass('text-right')
-        $($(row).find('td')['6']).addClass('text-right')
-        $($(row).find('td')['5']).addClass('currency')
-        $($(row).find('td')['6']).addClass('currency')
+        $($(row).find('td')['7']).addClass('text-right')
+        $($(row).find('td')['8']).addClass('text-right')
+        $($(row).find('td')['7']).addClass('currency')
+        $($(row).find('td')['8']).addClass('currency')
       
       
   
@@ -86,10 +86,12 @@ $(document).ready(function() {
         
         rowCallback: function (row, data) {
         
-            $($(row).find('td')['3']).addClass('text-right')
+            $($(row).find('td')['7']).addClass('text-right')
             
-            $($(row).find('td')['3']).addClass('currency')
+            $($(row).find('td')['7']).addClass('currency')
+            $($(row).find('td')['8']).addClass('text-right')
             
+            $($(row).find('td')['8']).addClass('currency')
           
       
            
@@ -158,12 +160,12 @@ $(document).ready(function() {
         fila = $(this).closest("tr");
 
 
-        folio_venta = parseInt(fila.find("td:eq(0)").text());
+        folio = parseInt(fila.find("td:eq(0)").text());
 
-        saldo = fila.find("td:eq(6)").text().replace("$", "");
+        saldo = fila.find("td:eq(8)").text();
         saldo = saldo.replace(",", "");
         saldo = parseFloat(saldo);
-        total = fila.find("td:eq(5)").text().replace("$", "");
+        total = fila.find("td:eq(7)").text()
         total = total.replace(",", "");
         total = parseFloat(total);
 
@@ -172,6 +174,7 @@ $(document).ready(function() {
             /*$(".modal-header").css("background-color", "#28a745");*/
             $(".modal-header").css("color", "white");
             $("#modalcan").modal("show");
+            $("#foliocan").val(folio);
         } else {
             swal.fire({
                 title: "¡No es posible cancelar la venta!",
@@ -185,7 +188,8 @@ $(document).ready(function() {
 
     });
 
-    $(document).on("click", "#btnGuardar", function() {
+    $(document).on("click", "#btnGuardarCAN", function() {
+        foliocan = $("#foliocan").val();
         motivo = $("#motivo").val();
         fecha = $("#fecha").val();
         usuario = $("#nameuser").val();
@@ -204,11 +208,11 @@ $(document).ready(function() {
         } else {
             $.ajax({
                 type: "POST",
-                url: "bd/cancelarventa.php",
+                url: "bd/cancelarcxp.php",
                 async: false,
                 dataType: "json",
                 data: {
-                    folio_venta: folio_venta,
+                    foliocan: foliocan,
                     motivo: motivo,
                     fecha: fecha,
                     usuario: usuario,
@@ -236,8 +240,8 @@ $(document).ready(function() {
     }
     function mensaje() {
         swal.fire({
-            title: "Venta Cancelada",
-            icon: "success",
+            title: "Registro Cancelado",
+            icon: "warning",
             focusConfirm: true,
             confirmButtonText: "Aceptar",
         });
@@ -245,7 +249,7 @@ $(document).ready(function() {
 
     function mensajeerror() {
         swal.fire({
-            title: "Error al Cancelar la venta",
+            title: "Error al Cancelar el Registro",
             icon: "error",
             focusConfirm: true,
             confirmButtonText: "Aceptar",
@@ -310,7 +314,7 @@ $(document).ready(function() {
         fila = $(this).closest("tr");
         id = parseInt(fila.find("td:eq(0)").text());
 
-        window.location.href = "ingresos.php?id=" + id;
+        window.location.href = "egresos.php?id=" + id;
     });
 
 
@@ -348,7 +352,7 @@ $(document).ready(function() {
     $(document).on('click', '.btnPagar', function () {
         fila = $(this).closest("tr");
         folio_cxc = parseInt(fila.find("td:eq(0)").text());
-        saldo = fila.find("td:eq(6)").text();
+        saldo = fila.find("td:eq(8)").text();
         $('formPago').trigger("reset");
 
         $('#foliovp').val(folio_cxc);

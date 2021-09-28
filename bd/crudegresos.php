@@ -12,6 +12,7 @@ $descripcion = (isset($_POST['descripcion'])) ? $_POST['descripcion'] : '';
 $clave = (isset($_POST['clave'])) ? $_POST['clave'] : '';
 $fecha = (isset($_POST['fecha'])) ? $_POST['fecha'] : '';
 $monto = (isset($_POST['monto'])) ? $_POST['monto'] : '';
+$tipo = (isset($_POST['tipo'])) ? $_POST['tipo'] : '';
 
 
 $opcion = (isset($_POST['opcion'])) ? $_POST['opcion'] : '';
@@ -21,7 +22,7 @@ $opcion = (isset($_POST['opcion'])) ? $_POST['opcion'] : '';
 $data=0;
 switch($opcion){
     case 1: //alta
-        $consulta = "INSERT INTO w_cxp (id_obra,id_prov,fecha_cxp,clave_cxp,desc_cxp,monto_cxp,saldo_cxp) VALUES('$id_obra','$id_prov','$fecha','$clave','$descripcion','$monto','$monto') ";
+        $consulta = "INSERT INTO w_cxp (id_obra,id_prov,fecha_cxp,clave_cxp,desc_cxp,monto_cxp,saldo_cxp,tipo_cxp) VALUES('$id_obra','$id_prov','$fecha','$clave','$descripcion','$monto','$monto','$tipo') ";
         $resultado = $conexion->prepare($consulta);
         if($resultado->execute()){
             $data=1;
@@ -30,7 +31,7 @@ switch($opcion){
         
         break;
     case 2: //modificación
-        $consulta = "UPDATE w_cxp SET  id_obra='$id_obra',id_prov='$id_prov',desc_cxp='$descripcion',clave_cxp='$clave' WHERE folio_cxp='$folio' ";		
+        $consulta = "UPDATE w_cxp SET  id_obra='$id_obra',id_prov='$id_prov',desc_cxp='$descripcion',clave_cxp='$clave',tipo_cxp='$tipo' WHERE folio_cxp='$folio' ";		
         $resultado = $conexion->prepare($consulta);
         if($resultado->execute()){
             $data=1;
