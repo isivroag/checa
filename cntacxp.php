@@ -99,6 +99,7 @@ $message = "";
                                             <th>TIPO</th>
                                             <th>No. REFERENCIA</th>
                                             <th>OBRA</th>
+                                            <th>ID PROV</th>
                                             <th>PROVEEDOR</th>
                                             <th>FECHA</th>
                                             <th>CONCEPTO</th>
@@ -117,6 +118,7 @@ $message = "";
                                                 <td><?php echo $dat['tipo_cxp'] ?></td>
                                                 <td><?php echo $dat['clave_cxp'] ?></td>
                                                 <td><?php echo $dat['corto_obra'] ?></td>
+                                                <td><?php echo $dat['id_prov'] ?></td>
                                                 <td><?php echo $dat['razon_prov'] ?></td>
                                                 <td class="text-center"><?php echo $dat['fecha_cxp'] ?></td>
                                                 <td><?php echo $dat['desc_cxp'] ?></td>
@@ -166,6 +168,7 @@ $message = "";
                                 <thead class="text-center bg-gradient-green">
                                     <tr>
                                         <th>FOLIO</th>
+                                        <th>FACTURA</th>
                                         <th>FECHA</th>
                                         <th>REFERENCIA</th>
                                         <th>MONTO</th>
@@ -177,6 +180,7 @@ $message = "";
                                 </tbody>
                                 <tfoot>
 
+                                    <th></th>
                                     <th></th>
                                     <th></th>
                                     <th class="text-right">TOTAL</th>
@@ -218,10 +222,16 @@ $message = "";
                                     <div class="form-group input-group-sm">
                                         <label for="foliovp" class="col-form-label">Folio Cxc:</label>
                                         <input type="text" class="form-control" name="foliovp" id="foliovp" disabled>
+                                        <input type="hidden" class="form-control" name="id_prov" id="id_prov" disabled>
                                     </div>
                                 </div>
 
-
+                                <div class="col-lg-3">
+                                        <div class="form-group input-group-sm">
+                                            <label for="clave" class="col-form-label">#FACTURA:</label>
+                                            <input type="text" class="form-control" name="clavevp" id="clavevp" value="<?php echo  $clave_cxp; ?>" placeholder="No. FACTURA">
+                                        </div>
+                                    </div>
 
 
                                 <div class="col-sm-3 my-auto">

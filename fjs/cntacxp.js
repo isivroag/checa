@@ -29,7 +29,7 @@ $(document).ready(function() {
                 titleAttr: "Exportar a Excel",
                 title: "Listado de Egresos",
                 className: "btn bg-success ",
-                exportOptions: { columns: [0, 1, 2, 3, 4, 5,6,7,8] },
+                exportOptions: { columns: [0, 1, 2, 3, 4, 5,6,7,8,9] },
             },
             {
                 extend: "pdfHtml5",
@@ -37,7 +37,7 @@ $(document).ready(function() {
                 titleAttr: "Exportar a PDF",
                 title: "Listado de Egresos",
                 className: "btn bg-danger",
-                exportOptions: { columns: [0, 1, 2, 3, 4, 5,6,7,8] },
+                exportOptions: { columns: [0, 1, 2, 3, 4, 5,6,7,8,9] },
             },
         ],
         stateSave: true,
@@ -49,16 +49,16 @@ $(document).ready(function() {
             <button class='btn btn-sm bg-success btnPagar'><i class='fas fa-dollar-sign'></i></button>\
             <button class='btn btn-sm bg-info btnResumen'><i class='fas fa-bars'></i></button>\
             <button class='btn btn-sm bg-danger btnCancelar'><i class='fas fa-ban'></i></button></div></div>",
-        },
+        },  { className: "hide_column", "targets": [4] },
        
     
     ],
     rowCallback: function (row, data) {
         
-        $($(row).find('td')['7']).addClass('text-right')
         $($(row).find('td')['8']).addClass('text-right')
-        $($(row).find('td')['7']).addClass('currency')
+        $($(row).find('td')['9']).addClass('text-right')
         $($(row).find('td')['8']).addClass('currency')
+        $($(row).find('td')['9']).addClass('currency')
       
       
   
@@ -86,19 +86,17 @@ $(document).ready(function() {
         
         rowCallback: function (row, data) {
         
-            $($(row).find('td')['7']).addClass('text-right')
+            $($(row).find('td')['4']).addClass('text-right')
             
-            $($(row).find('td')['7']).addClass('currency')
-            $($(row).find('td')['8']).addClass('text-right')
+            $($(row).find('td')['4']).addClass('currency')
             
-            $($(row).find('td')['8']).addClass('currency')
           
       
            
           },columnDefs: [
            
             {
-              targets: 3,
+              targets: 4,
               render: function (data, type, full, meta) {
                 
                 return   new Intl.NumberFormat('es-MX').format(Math.round((data) * 100,2) / 100) 
@@ -134,7 +132,7 @@ $(document).ready(function() {
     
             // Total over all pages
             total = api
-                .column( 3 )
+                .column( 4 )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
@@ -142,14 +140,14 @@ $(document).ready(function() {
     
             // Total over this page
             pageTotal = api
-                .column( 3, { page: 'current'} )
+                .column( 4, { page: 'current'} )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
                 }, 0 );
     
             // Update footer
-            $( api.column( 3 ).footer() ).html(
+            $( api.column( 4 ).footer() ).html(
                 '$ '+ new Intl.NumberFormat('es-MX').format(Math.round((pageTotal + Number.EPSILON) * 100,2) / 100) 
             );
             }
@@ -162,10 +160,10 @@ $(document).ready(function() {
 
         folio = parseInt(fila.find("td:eq(0)").text());
 
-        saldo = fila.find("td:eq(8)").text();
+        saldo = fila.find("td:eq(9)").text();
         saldo = saldo.replace(",", "");
         saldo = parseFloat(saldo);
-        total = fila.find("td:eq(7)").text()
+        total = fila.find("td:eq(8)").text()
         total = total.replace(",", "");
         total = parseFloat(total);
 
@@ -278,7 +276,10 @@ $(document).ready(function() {
                         tablaVis.row
                             .add([
                                 data[i].folio_cxp,
+                                data[i].tipo_cxp,
+                                data[i].clave_cxp,
                                 data[i].corto_obra,
+                                data[i].id_prov,
                                 data[i].razon_prov,
                                 data[i].fecha_cxp,
                                 data[i].desc_cxp,
@@ -335,6 +336,7 @@ $(document).ready(function() {
                     tablaResumen.row
                         .add([
                             res[i].folio_pagocxp,
+                            res[i].fact_pagocxp,
                             res[i].fecha_pagocxp,
                             res[i].referencia_pagocxp,
                             res[i].monto_pagocxp,
@@ -352,24 +354,38 @@ $(document).ready(function() {
     $(document).on('click', '.btnPagar', function () {
         fila = $(this).closest("tr");
         folio_cxc = parseInt(fila.find("td:eq(0)").text());
-        saldo = fila.find("td:eq(8)").text();
+        tipo = fila.find("td:eq(1)").text();
+        factura = fila.find("td:eq(2)").text();
+        id_prov = fila.find("td:eq(4)").text();
+        saldo = fila.find("td:eq(9)").text();
+        
         $('formPago').trigger("reset");
 
+        if (tipo=="FACTURA"){
+            $('#clavevp').val(factura);    
+        }else{
+            $('#clavevp').val('');    
+        }
         $('#foliovp').val(folio_cxc);
         $('#conceptovp').val('');
         $('#obsvp').val('');
         $('#saldovp').val(saldo);
         $('#montpagovp').val('');
         $('#metodovp').val('');
+        $('#id_prov').val(id_prov);
     
         $('.modal-header').css('background-color', '#007bff');
         $('.modal-header').css('color', 'white');
         $('#modalPago').modal('show');
       })
 
+
+
       $(document).on('click', '#btnGuardarvp', function () {
         var foliocxp = $('#foliovp').val()
         var fechavp = $('#fechavp').val()
+        var factura = $('#clavevp').val()
+        var id_prov = $('#id_prov').val()
         var referenciavp = $('#referenciavp').val()
         var observacionesvp = $('#observacionesvp').val()
         var saldovp = ($('#saldovp').val())
@@ -386,6 +402,7 @@ $(document).ready(function() {
         if (
             foliocxp.length == 0 ||
             fechavp.length == 0 ||
+            factura.length == 0 ||
             referenciavp.length == 0 ||
             montovp.length == 0 ||
             metodovp.length == 0 ||
@@ -439,7 +456,9 @@ $(document).ready(function() {
                 fechavp: fechavp,
                 observacionesvp: observacionesvp,
                 referenciavp: referenciavp,
+                factura: factura,
                 saldovp: saldovp,
+                id_prov: id_prov,
                 montovp: montovp,
                 saldofin: saldofin,
                 metodovp: metodovp,
@@ -447,12 +466,27 @@ $(document).ready(function() {
                 opcion: opcion,
               },
               success: function (res) {
-
                 console.log(res);
-                fpago=res;
-                operacionexitosa();
-                $('#modalPago').modal('hide')
-                window.location.reload();
+                if(res==0){
+                    Swal.fire({
+                        title:
+                          'El Folio de la factura ya fue registrada para este proveedor',
+                        icon: 'error',
+                      })
+                }else if(res==1){
+                    fpago=res;
+                    operacionexitosa();
+                    $('#modalPago').modal('hide')
+                    window.location.reload();
+                }else{
+                    Swal.fire({
+                        title:
+                          'La operación no pudo ser registrada',
+                        icon: 'error',
+                      })
+                }
+                
+                
             
               },
             })
