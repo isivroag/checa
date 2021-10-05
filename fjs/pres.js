@@ -1,6 +1,104 @@
 $(document).ready(function () {
     const MAXIMO_TAMANIO_BYTES = 12000000;
 
+    jQuery.ajaxSetup({
+      beforeSend: function() {
+          $("#div_carga").show();
+      },
+      complete: function() {
+          $("#div_carga").hide();
+      },
+      success: function() {},
+  });
+
+
+
+  tablaObra = $('#tablaObra').DataTable({
+    columnDefs: [
+      {
+        targets: -1,
+        data: null,
+        defaultContent:
+          "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-success btnSelObra'><i class='fas fa-hand-pointer'></i></button></div></div>",
+      },
+     
+
+
+    ],
+
+    //Para cambiar el lenguaje a español
+    language: {
+      lengthMenu: 'Mostrar _MENU_ registros',
+      zeroRecords: 'No se encontraron resultados',
+      info:
+        'Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros',
+      infoEmpty: 'Mostrando registros del 0 al 0 de un total de 0 registros',
+      infoFiltered: '(filtrado de un total de _MAX_ registros)',
+      sSearch: 'Buscar:',
+      oPaginate: {
+        sFirst: 'Primero',
+        sLast: 'Último',
+        sNext: 'Siguiente',
+        sPrevious: 'Anterior',
+      },
+      sProcessing: 'Procesando...',
+    },
+  })
+
+  tabla = $('#tabla').DataTable({
+
+    "paging": false,
+    "ordening":false,
+    "order": [[ 1, "asc" ]],
+    columnDefs: [
+      
+      { className: "hide_column", "targets": [4] },
+      { className: "hide_column", "targets": [5] },
+      { "sWidth": "70%", "aTargets": [ 2 ] }
+      
+      
+
+    ],
+
+    //Para cambiar el lenguaje a español
+    language: {
+      lengthMenu: 'Mostrar _MENU_ registros',
+      zeroRecords: 'No se encontraron resultados',
+      info:
+        'Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros',
+      infoEmpty: 'Mostrando registros del 0 al 0 de un total de 0 registros',
+      infoFiltered: '(filtrado de un total de _MAX_ registros)',
+      sSearch: 'Buscar:',
+      oPaginate: {
+        sFirst: 'Primero',
+        sLast: 'Último',
+        sNext: 'Siguiente',
+        sPrevious: 'Anterior',
+      },
+      sProcessing: 'Procesando...',
+    },
+    rowCallback: function (row, data) {
+
+           
+
+      $($(row).find('td')[3]).addClass("text-right")
+      if (data[4] == "A") {
+        $('td', row).css('background-color', '#D1D1D1');
+        $('td', row).css('font-weight', 'bold');
+        //$($(row).find('td')).addClass('bg-gradient-secondary')  
+      }else{
+        
+        $('td', row).css('background-color', '#A4C9E7');
+      }
+      
+
+      
+
+  },
+
+  })
+
+
 
   $('#archivo').on('change', function () {
     var ext = $(this).val().split('.').pop()
@@ -47,13 +145,93 @@ $(document).ready(function () {
         contentType: false,
         processData: false,
         success: function (response) {
-            $("#tabla").html(response)        },
+           if (response==1){
+           
+              buscarpresupuesto(id_obra);
+            
+          }       
+          else{
+           mensajeerror();
+          }
+
+                },
       })
     }
 
     return false
   })
+
+  function mensajeerror() {
+    swal.fire({
+        title: "Error al Subir Presupuesto",
+        icon: "error",
+        focusConfirm: true,
+        confirmButtonText: "Aceptar",
+    });
+}
+
+  
+  $(document).on('click', '#bobra', function () {
+    $('#modalObra').modal('show')
+  })
+
+
+  $('#id_obra').on('change', function (){
+  
+   id_obra=$('#id_obra').val();
+   alert(id_obra);
+    buscarpresupuesto(id_obra);
+  })
+
+  //botón BORRAR
+  $(document).on('click', '.btnSelObra', function () {
+      fila = $(this);
+      id_obra = parseInt($(this).closest('tr').find('td:eq(0)').text());
+      obra = $(this).closest('tr').find('td:eq(2)').text();
+      
+      $('#id_obra').val(id_obra);
+      $('#obra').val(obra);
+      $('#modalObra').modal('hide');
+      buscarpresupuesto(id_obra);
+  })
+
+
 })
+
+function buscarpresupuesto(obra){
+  tabla.clear();
+  tabla.draw();
+
+
+
+
+      $.ajax({
+          type: "POST",
+          url: "bd/buscarpres.php",
+          dataType: "json",
+          data: { obra: obra },
+          success: function(data) {
+
+              for (var i = 0; i < data.length; i++) {
+                  tabla.row
+                      .add([
+                          data[i].id_renglon,
+                          data[i].clave_renglon,
+                          data[i].concepto_renglon,
+                          Intl.NumberFormat('es-MX',{ minimumFractionDigits: 2 }).format(parseFloat(data[i].monto_renglon).toFixed(2)),
+                          //new Intl.NumberFormat('es-MX').format(Math.round((data[i].monto_renglon) * 100,2) / 100) ,
+                          data[i].tipo_renglon,
+                          data[i].padre_renglon,
+                         
+
+                      ])
+                      .draw();
+
+                  //tabla += '<tr><td>' + res[i].id_objetivo + '</td><td>' + res[i].desc_objetivo + '</td><td class="text-center">' + icono + '</td><td class="text-center"></td></tr>';
+              }
+          },
+      });
+}
 /*
   if (response != 0) {
             Swal.fire({

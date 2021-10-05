@@ -23,6 +23,8 @@ if ($_SESSION['id_obra'] == null) {
     $resultadocon = $conexion->prepare($consultacon);
     $resultadocon->execute();
     $datacon = $resultadocon->fetchAll(PDO::FETCH_ASSOC);
+    $id_obra = "";
+    $obra = "";
 } else {
     $id_obra = $_SESSION['id_obra'];
     $obra = $_SESSION['nom_obra'];
@@ -179,16 +181,26 @@ if ($_SESSION['id_obra'] == null) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-12">
-                                            <div class="" id="tabla">
+                                    </div>
+                                    <div class="col-sm-10">
+                                            <div class="table-hover table-responsive w-auto" style="padding:15px">
+                                                <table name="tabla" id="tabla" class="table table-sm  table-striped table-bordered table-condensed" style="width:100%">
+                                                    <thead class="text-center bg-gradient-green">
+                                                        <tr>
+                                                            <th>ID</th>
+                                                            <th>CLAVE</th>
+                                                            <th>CONCEPTO</th>
+                                                            <th>MONTO</th>
+                                                            <th>TIPO</th>
+                                                            <th>PADRE</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
 
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
-
-
-
-
-                                    </div>
 
 
                                 </div>
@@ -224,6 +236,49 @@ if ($_SESSION['id_obra'] == null) {
 
 
 
+    <section>
+        <div class="container">
+
+            <!-- Default box -->
+            <div class="modal fade" id="modalObra" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-md" role="document">
+                    <div class="modal-content w-auto">
+                        <div class="modal-header bg-gradient-green">
+                            <h5 class="modal-title" id="exampleModalLabel">BUSCAR OBRA</h5>
+
+                        </div>
+                        <br>
+                        <div class="table-hover table-responsive w-auto" style="padding:15px">
+                            <table name="tablaObra" id="tablaObra" class="table table-sm text-nowrap table-striped table-bordered table-condensed" style="width:100%">
+                                <thead class="text-center bg-gradient-green">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>CLAVE</th>
+                                        <th>NOMBRE CORTO</th>
+                                        <th>ACCIONES</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    foreach ($datacon as $datc) {
+                                    ?>
+                                        <tr>
+                                            <td><?php echo $datc['id_obra'] ?></td>
+                                            <td><?php echo $datc['clave_obra'] ?></td>
+                                            <td><?php echo $datc['corto_obra'] ?></td>
+                                            <td></td>
+                                        </tr>
+                                    <?php
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
 
 
