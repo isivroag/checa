@@ -12,11 +12,15 @@ include_once 'bd/conexion.php';
 $objeto = new conn();
 $conexion = $objeto->connect();
 $fecha = date('Y-m-d');
+$id_prov = "";
+$proveedor = "";
 
 if ($_SESSION['id_obra'] != null) {
     $id_obra = $_SESSION['id_obra'];
     $consulta = "SELECT * FROM vcxp WHERE id_obra='$id_obra' and estado_cxp=1 ORDER BY id_obra,id_prov,fecha_cxp,folio_cxp";
 } else {
+    $id_obra = null;
+    $obra = null;
     $consulta = "SELECT * FROM vcxp WHERE estado_cxp=1 ORDER BY id_obra,id_prov,fecha_cxp,folio_cxp";
 }
 
@@ -28,6 +32,22 @@ $resultado->execute();
 $data = $resultado->fetchAll(PDO::FETCH_ASSOC);
 
 
+if ($_SESSION['id_obra'] == null) {
+    $consultacon = "SELECT * FROM w_obra WHERE estado_obra=1 ORDER BY id_obra";
+    $resultadocon = $conexion->prepare($consultacon);
+    $resultadocon->execute();
+    $datacon = $resultadocon->fetchAll(PDO::FETCH_ASSOC);
+} else {
+    $id_obra = $_SESSION['id_obra'];
+    $obra = $_SESSION['nom_obra'];
+}
+
+
+
+$consultaprov = "SELECT * FROM w_proveedor WHERE estado_prov=1 ORDER BY id_prov";
+$resultadoprov = $conexion->prepare($consultaprov);
+$resultadoprov->execute();
+$dataprov = $resultadoprov->fetchAll(PDO::FETCH_ASSOC);
 
 
 
@@ -56,7 +76,17 @@ $message = "";
 
             <div class="card-body">
 
+                <div class="row">
+                    <div class="col-lg-12">
+                        <button id="btnNuevo" type="button" class="btn bg-gradient-green btn-ms" data-toggle="modal"><i class="fas fa-plus-square text-light"></i><span class="text-light"> Nuevo</span></button>
+                    </div>
+                </div>
+                <br>
+
                 <div class="card">
+
+
+
                     <div class="card-header bg-gradient-green">
                         Filtro por rango de Fecha
                     </div>
@@ -89,6 +119,7 @@ $message = "";
 
                 <div class="container-fluid">
 
+
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="table-responsive">
@@ -96,8 +127,9 @@ $message = "";
                                     <thead class="text-center bg-gradient-green">
                                         <tr>
                                             <th>FOLIO</th>
-                                            <th>TIPO</th>
-                                            <th>No. REFERENCIA</th>
+
+                                            <th>FACTURA</th>
+                                            <th>ID OBRA</th>
                                             <th>OBRA</th>
                                             <th>ID PROV</th>
                                             <th>PROVEEDOR</th>
@@ -115,8 +147,9 @@ $message = "";
                                         ?>
                                             <tr>
                                                 <td><?php echo $dat['folio_cxp'] ?></td>
-                                                <td><?php echo $dat['tipo_cxp'] ?></td>
-                                                <td><?php echo $dat['clave_cxp'] ?></td>
+
+                                                <td><?php echo $dat['factura_cxp'] ?></td>
+                                                <td><?php echo $dat['id_obra'] ?></td>
                                                 <td><?php echo $dat['corto_obra'] ?></td>
                                                 <td><?php echo $dat['id_prov'] ?></td>
                                                 <td><?php echo $dat['razon_prov'] ?></td>
@@ -148,8 +181,243 @@ $message = "";
 
     </section>
 
+    <!-- INICIA ALTA DE FACTURAS -->
+    <section>
+        <div class="modal fade" id="modalReq" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content w-auto">
+                    <div class="modal-header bg-gradient-green">
+                        <h5 class="modal-title" id="exampleModalLabel">ALTA DE FACTURAS</h5>
+
+                    </div>
+                    <form id="formReq" action="" method="POST" autocomplete="off">
+                        <div class="card card-widget" style="margin: 10px;">
+
+                            <div class="modal-body">
+                                <div class="row justify-content-sm-center">
+
+                                    <div class="col-sm-2">
+                                        <div class="form-group input-group-sm">
+                                            <label for="folioreq" class="col-form-label">FOLIO:</label>
+                                            <input type="text" class="form-control" name="folioreq" id="folioreq" disabled>
+                                            <input type="hidden" class="form-control" name="foliosubcontrato" id="foliosubcontrato" disabled>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-3">
+                                        <div class="form-group input-group-sm">
+                                            <label for="facturareq" class="col-form-label">FACTURA:</label>
+                                            <input type="text" class="form-control" name="facturareq" id="facturareq" placeholder="FACTURA">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                    </div>
+
+                                    <div class="col-sm-3 ">
+                                        <div class="form-group input-group-sm">
+                                            <label for="fechareq" class="col-form-label">FECHA:</label>
+                                            <input type="date" class="form-control" name="fechareq" id="fechareq" value="<?php echo $fecha; ?>">
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class=" row justify-content-sm-center">
+
+                                    <div class="col-sm-12">
+                                        <div class="input-group input-group-sm">
+                                            <label for="obra" class="col-form-label">OBRA:</label>
+                                            <div class="input-group input-group-sm">
+                                                <input type="hidden" class="form-control" name="id_obra" id="id_obra" value="<?php echo $id_obra; ?>">
+                                                <input type="text" class="form-control" name="obra" id="obra" disabled placeholder="SELECCIONAR OBRA" value="<?php echo $obra; ?>">
+                                                <?php
+                                                if ($id_obra == null) {
+                                                ?>
+                                                    <span class="input-group-append">
+                                                        <button id="bobra" type="button" class="btn btn-sm btn-primary"><i class="fas fa-search"></i></button>
+                                                    </span>
+                                                <?php } ?>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12">
+                                        <div class="input-group input-group-sm">
+                                            <label for="proveedor" class="col-form-label">PROVEEDOR:</label>
+                                            <div class="input-group input-group-sm">
+                                                <input type="hidden" class="form-control" name="id_prov" id="id_prov" value="<?php echo $id_prov; ?>">
+                                                <input type="text" class="form-control" name="proveedor" id="proveedor" disabled placeholder="SELECCIONAR PROVEEDOR" value="<?php echo $proveedor; ?>">
+                                                <span class="input-group-append">
+                                                    <button id="bproveedor" type="button" class="btn btn-sm btn-primary"><i class="fas fa-search"></i></button>
+                                                </span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                               
 
 
+                                </div>
+
+                                <div class=" row justify-content-sm-center">
+
+                                    <div class="col-sm-12">
+                                        <div class="form-group input-group-sm">
+                                            <label for="descripcionreq" class="col-form-label">CONCEPTO:</label>
+                                            <textarea row="2" type="text" class="form-control" name="descripcionreq" id="descripcionreq" placeholder="CONCEPTO"></textarea>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row justify-content-sm-center" style="margin-bottom: 10px;">
+
+                                    <div class="col-sm-4 ">
+                                        <label for="subtotalreq" class="col-form-label">SUBTOTAL:</label>
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-dollar-sign"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control text-right" name="subtotalreq" id="subtotalreq" onkeypress="return filterFloat(event,this);">
+                                        </div>
+                                    </div>
+                                    <div class=" col-sm-4 ">
+                                        <label for=" ivareq" class="col-form-label">IVA:</label>
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-dollar-sign"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control text-right" name="ivareq" id="ivareq" onkeypress="return filterFloat(event,this);">
+                                        </div>
+                                    </div>
+                                    <div class=" col-sm-4 ">
+                                        <label for=" montoreq" class="col-form-label">TOTAL:</label>
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-dollar-sign"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control text-right" name="montoreq" id="montoreq" onkeypress="return filterFloat(event,this);">
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class=" modal-footer">
+                                <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fas fa-ban"></i> Cancelar</button>
+                                <button type="button" id="btnGuardarreq" name="btnGuardarreq" class="btn btn-success" value="btnGuardarreq"><i class="far fa-save"></i> Guardar</button>
+                            </div>
+
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- TERMINA ALTA DE FACTURAS -->
+
+      <!-- INICIA OBRA -->
+      <section>
+        <div class="container">
+
+            <!-- Default box -->
+            <div class="modal fade" id="modalObra" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-md" role="document">
+                    <div class="modal-content w-auto">
+                        <div class="modal-header bg-gradient-green">
+                            <h5 class="modal-title" id="exampleModalLabel">BUSCAR OBRA</h5>
+
+                        </div>
+                        <br>
+                        <div class="table-hover table-responsive w-auto" style="padding:15px">
+                            <table name="tablaObra" id="tablaObra" class="table table-sm text-nowrap table-striped table-bordered table-condensed" style="width:100%">
+                                <thead class="text-center bg-gradient-green">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>CLAVE</th>
+                                        <th>NOMBRE CORTO</th>
+                                        <th>ACCIONES</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    foreach ($datacon as $datc) {
+                                    ?>
+                                        <tr>
+                                            <td><?php echo $datc['id_obra'] ?></td>
+                                            <td><?php echo $datc['clave_obra'] ?></td>
+                                            <td><?php echo $datc['corto_obra'] ?></td>
+                                            <td></td>
+                                        </tr>
+                                    <?php
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- TERMINA OBRA -->
+
+    <!-- INICIA PROVEEDOR -->
+    <section>
+        <div class="container">
+
+            <!-- Default box -->
+            <div class="modal fade" id="modalProveedor" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-md" role="document">
+                    <div class="modal-content w-auto">
+                        <div class="modal-header bg-gradient-green">
+                            <h5 class="modal-title" id="exampleModalLabel">BUSCAR OBRA</h5>
+
+                        </div>
+                        <br>
+                        <div class="table-hover table-responsive w-auto" style="padding:15px">
+                            <table name="tablaProveedor" id="tablaProveedor" class="table table-sm text-nowrap table-striped table-bordered table-condensed" style="width:100%">
+                                <thead class="text-center bg-gradient-green">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>RFC</th>
+                                        <th>RAZON SOCIAL</th>
+                                        <th>ACCIONES</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    foreach ($dataprov as $datp) {
+                                    ?>
+                                        <tr>
+                                            <td><?php echo $datp['id_prov'] ?></td>
+                                            <td><?php echo $datp['rfc_prov'] ?></td>
+                                            <td><?php echo $datp['razon_prov'] ?></td>
+                                            <td></td>
+                                        </tr>
+                                    <?php
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- TERMINA PROVEEDOR -->
+
+  <!-- INICIA RESUMEN DE PAGOS -->
     <section>
         <div class="container">
 
@@ -168,7 +436,6 @@ $message = "";
                                 <thead class="text-center bg-gradient-green">
                                     <tr>
                                         <th>FOLIO</th>
-                                        <th>FACTURA</th>
                                         <th>FECHA</th>
                                         <th>REFERENCIA</th>
                                         <th>MONTO</th>
@@ -180,7 +447,6 @@ $message = "";
                                 </tbody>
                                 <tfoot>
 
-                                    <th></th>
                                     <th></th>
                                     <th></th>
                                     <th class="text-right">TOTAL</th>
@@ -202,7 +468,9 @@ $message = "";
 
         </div>
     </section>
+ <!-- TERMINA RESUMEN DE PAGOS -->
 
+ <!-- INICIA PAGAR -->
     <section>
         <div class="modal fade" id="modalPago" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
@@ -220,18 +488,13 @@ $message = "";
 
                                 <div class="col-sm-3 my-auto">
                                     <div class="form-group input-group-sm">
-                                        <label for="foliovp" class="col-form-label">Folio Cxc:</label>
+                                        <label for="foliovp" class="col-form-label">Folio CxP:</label>
                                         <input type="text" class="form-control" name="foliovp" id="foliovp" disabled>
                                         <input type="hidden" class="form-control" name="id_prov" id="id_prov" disabled>
                                     </div>
                                 </div>
 
-                                <div class="col-lg-3">
-                                        <div class="form-group input-group-sm">
-                                            <label for="clave" class="col-form-label">#FACTURA:</label>
-                                            <input type="text" class="form-control" name="clavevp" id="clavevp" value="<?php echo  $clave_cxp; ?>" placeholder="No. FACTURA">
-                                        </div>
-                                    </div>
+                               
 
 
                                 <div class="col-sm-3 my-auto">
@@ -322,7 +585,9 @@ $message = "";
             </div>
         </div>
     </section>
+<!-- TERMINA PAGAR -->
 
+<!-- INICIA CANCELAR -->
     <section>
         <div class="modal fade" id="modalcan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog " role="document">
@@ -338,7 +603,7 @@ $message = "";
                                         <label for="motivo" class="col-form-label">Motivo de Cancelacioón:</label>
                                         <textarea rows="3" class="form-control" name="motivo" id="motivo" placeholder="Motivo de Cancelación"></textarea>
                                         <input type="hidden" id="fecha" name="fecha" value="<?php echo $fecha ?>">
-                                        <input type="hidden" id="foliocan" name="foliocan" >
+                                        <input type="hidden" id="foliocan" name="foliocan">
                                     </div>
                                 </div>
                             </div>
@@ -363,7 +628,7 @@ $message = "";
             </div>
         </div>
     </section>
-
+<!-- TERMINA CANCELAR -->
 
     <!-- /.content -->
 </div>

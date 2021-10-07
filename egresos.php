@@ -211,12 +211,6 @@ $dataprov = $resultadoprov->fetchAll(PDO::FETCH_ASSOC);
                                             <input type="date" class="form-control" name="fecha" id="fecha" value="<?php echo $fecha_cxp; ?>">
                                         </div>
                                     </div>
-
-
-
-
-
-
                                 </div>
 
                                 <div class=" row justify-content-sm-center">

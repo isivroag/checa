@@ -73,7 +73,8 @@ $(document).ready(function () {
                     "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-primary btnEditar'  data-toggle='tooltip' data-placement='top' title='Editar'><i class='fas fa-edit'></i></button>\
             <button class='btn btn-sm bg-purple btnRequisicion' data-toggle='tooltip' data-placement='top' title='Registrar Requisición'><i class='fas fa-hand-holding-usd'></i></button>\
             <button class='btn btn-sm bg-info btnResumen'><i class='fas fa-bars' data-toggle='tooltip' data-placement='top' title='Resumen Requisiciones'></i></button>\
-            <button class='btn btn-sm bg-danger btnCancelar' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button></div></div>",
+            </div></div>",
+            /*<button class='btn btn-sm bg-danger btnCancelar' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button> */
             },
             { className: 'hide_column', targets: [3] },
         ],
@@ -905,23 +906,8 @@ $(document).ready(function () {
         return i
     }
 
-    function filterFloat(evt, input) {
-        // Backspace = 8, Enter = 13, ‘0′ = 48, ‘9′ = 57, ‘.’ = 46, ‘-’ = 43
-        var key = window.Event ? evt.which : evt.keyCode
-        var chark = String.fromCharCode(key)
-        var tempValue = input.value + chark
-        var isNumber = key >= 48 && key <= 57
-        var isSpecial = key == 8 || key == 13 || key == 0 || key == 46
-        if (isNumber || isSpecial) {
-            return filter(tempValue)
-        }
-
-        return false
-    }
-    function filter(__val__) {
-        var preg = /^([0-9]+\.?[0-9]{0,2})$/
-        return preg.test(__val__) === true
-    }
+ 
+  
 })
 
 function filterFloat(evt, input) {

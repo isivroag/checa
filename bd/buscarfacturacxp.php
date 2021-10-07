@@ -9,10 +9,10 @@
  
  
  $id_prov = (isset($_POST['id_prov'])) ? $_POST['id_prov'] : '';
- $clave = (isset($_POST['clave'])) ? $_POST['clave'] : '';
+ $factura = (isset($_POST['factura'])) ? $_POST['factura'] : '';
  
  
- $consulta = "SELECT * FROM vcxp where estado_cxp = 1 and id_prov='$id_prov' and clave_cxp='$clave'";
+ $consulta = "SELECT * FROM vcxp where estado_cxp = 1 and id_prov='$id_prov' and factura_cxp='$factura'";
  $resultado = $conexion->prepare($consulta);
  $resultado->execute();
  if($resultado->rowCount() >= 1){
