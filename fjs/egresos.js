@@ -4,11 +4,12 @@ $(document).ready(function () {
 
   //FUNCION FORMATO MONEDA
   document.getElementById('monto').onblur = function () {
+    Intl.NumberFormat('es-MX',{ minimumFractionDigits: 2 }).format(parseFloat(data[i].monto_renglon).toFixed(2)),
     //number-format the user input
-    this.value = parseFloat(this.value.replace(/,/g, ''))
+    this.value =  Intl.NumberFormat('es-MX',{ minimumFractionDigits: 2 }).format(parseFloat(this.value.replace(/,/g, ''))
       .toFixed(2)
       .toString()
-      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ','));
 
     //set the numeric value to a number input
     //        document.getElementById("monto").value = this.value.replace(/,/g, "")
