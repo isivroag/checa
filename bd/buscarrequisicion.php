@@ -12,19 +12,13 @@ $opcion = (isset($_POST['opcion'])) ? $_POST['opcion'] : '';
 
 switch($opcion){
     case 1:
-        $consulta = "SELECT * FROM w_pagocxc WHERE folio_cxc='$folio' and estado_pagocxc=1 ORDER BY folio_pagocxc,fecha_pagocxc";
+        $consulta = "";
         $resultado = $conexion->prepare($consulta);
         $resultado->execute();
         $data = $resultado->fetchAll(PDO::FETCH_ASSOC);
     break;
     case 2:
-        $consulta = "SELECT * FROM w_pagocxp WHERE folio_cxp='$folio' and estado_pagocxp=1 ORDER BY folio_pagocxp,fecha_pagocxp";
-        $resultado = $conexion->prepare($consulta);
-        $resultado->execute();
-        $data = $resultado->fetchAll(PDO::FETCH_ASSOC);
-    break;
-    case 3:
-        $consulta = "SELECT * FROM w_pagors WHERE id_req='$folio' and estado_pagors=1 ORDER BY folio_pagors,fecha_pagors";
+        $consulta = "SELECT * FROM vrequisicion WHERE id_sub='$folio' and estado_req=1 ORDER BY id_req";
         $resultado = $conexion->prepare($consulta);
         $resultado->execute();
         $data = $resultado->fetchAll(PDO::FETCH_ASSOC);

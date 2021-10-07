@@ -88,7 +88,7 @@ $message = "";
 
       </div>
       <!-- /.card-body -->
-     
+
       <!-- /.card-footer-->
     </div>
     <!-- /.card -->
@@ -104,11 +104,12 @@ $message = "";
             <h5 class="modal-title" id="exampleModalLabel">NUEVO CLIENTE</h5>
 
           </div>
-          <div class="card card-widget" style="margin: 10px;">
-            <form id="formDatos" action="" method="POST">
+
+          <form id="formDatos" action="" method="POST">
+            <div class="card card-widget" style="margin: 10px;">
               <div class="modal-body row">
 
-              <div class="col-sm-3">
+                <div class="col-sm-3">
                   <div class="form-group input-group-sm">
                     <label for="rfc" class="col-form-label">RFC:</label>
                     <input type="text" class="form-control" name="rfc" id="rfc" autocomplete="off" placeholder="RFC">
@@ -122,9 +123,9 @@ $message = "";
                   </div>
                 </div>
 
-              
-           
-                
+
+
+
 
                 <div class="col-sm-12">
                   <div class="form-group input-group-sm">
@@ -137,35 +138,37 @@ $message = "";
                   <div class="form-group input-group-sm">
                     <label for="tel" class="col-form-label">TELEFONO:</label>
                     <input type="text" class="form-control" name="tel" id="tel" autocomplete="off" placeholder="TELEFONO DE CONTACTO">
-               
+
                   </div>
                 </div>
 
-                
+
 
 
               </div>
-          </div>
-
-
-          <?php
-          if ($message != "") {
-          ?>
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-              <span class="badge "><?php echo ($message); ?></span>
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-
             </div>
 
-          <?php
-          }
-          ?>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fas fa-ban"></i> Cancelar</button>
-            <button type="submit" id="btnGuardar" name="btnGuardar" class="btn btn-success" value="btnGuardar"><i class="far fa-save"></i> Guardar</button>
-          </div>
+
+            <?php
+            if ($message != "") {
+            ?>
+              <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <span class="badge "><?php echo ($message); ?></span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+
+              </div>
+
+            <?php
+            }
+            ?>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fas fa-ban"></i> Cancelar</button>
+              <button type="submit" id="btnGuardar" name="btnGuardar" class="btn btn-success" value="btnGuardar"><i class="far fa-save"></i> Guardar</button>
+            </div>
+
           </form>
+
         </div>
       </div>
     </div>

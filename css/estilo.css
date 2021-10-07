@@ -215,5 +215,6 @@
 
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
 
-    background-color: #5d885f;
+    color: white;
+    background-color: #384ded;
   }

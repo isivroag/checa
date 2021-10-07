@@ -9,6 +9,7 @@ $conexion = $objeto->connect();
 
 $foliocxc = (isset($_POST['foliocxc'])) ? $_POST['foliocxc'] : '';
 $foliocxp = (isset($_POST['foliocxp'])) ? $_POST['foliocxp'] : '';
+$folioreq = (isset($_POST['folioreq'])) ? $_POST['folioreq'] : '';
 $opcion = (isset($_POST['opcion'])) ? $_POST['opcion'] : '';
 
 $saldo = 0;
@@ -35,6 +36,18 @@ switch ($opcion) {
             }
         }
         break;
+
+        case 3:
+            $consulta = "SELECT saldo_req FROM w_reqsub WHERE id_req ='$folioreq' ORDER BY id_req";
+            $resultado = $conexion->prepare($consulta);
+            if ($resultado->execute()) {
+                $data = $resultado->fetchAll(PDO::FETCH_ASSOC);
+    
+                foreach ($data as $reg) {
+                    $saldo = $reg['saldo_req'];
+                }
+            }
+            break;
 }
 
 print json_encode($saldo, JSON_UNESCAPED_UNICODE);
