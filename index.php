@@ -78,17 +78,19 @@ if (isset($_SESSION["s_usuario"])) {
               </div>
             </div>
           </div>
+          
           <div class="row">
-            <div class="col-8">
+         
+          <div class="col-8">
               <div class="icheck-primary">
-                <input class="form-check-input" type="checkbox" id="recordar" name="recordar">
+                <input class="form-check-input" type="checkbox" id="recordar" name="recordar" disabled>
                 <label for="recordar">
                   Recordarme
                 </label>
               </div>
             </div>
-            <!-- /.col -->
-            <div class="col-4">
+           
+            <div class="col-12">
               <button type="submit" class="btn btn-primary btn-block">Entrar</button>
             </div>
             <!-- /.col -->
