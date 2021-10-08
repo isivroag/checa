@@ -14,10 +14,10 @@ $conexion = $objeto->connect();
 $fecha = date('Y-m-d');
 
 if ($_SESSION['id_obra'] != null) {
-    $id_obra = $_SESSION['id_obra'];
-    $consulta = "SELECT * FROM vpagocxp WHERE id_obra='$id_obra' and estado_cxp=1 and estado_pagocxp=1 ORDER BY id_obra,folio_cxp,folio_pagocxp";
-} else {
-    $consulta = "SELECT * FROM vpagocxp WHERE estado_cxp=1 and estado_pagocxp=1 ORDER BY id_obra,folio_cxp,folio_pagocxp";
+    $id_obra = $_SESSION['id_obra'];;
+    $consulta = "SELECT * FROM voperacioneseg WHERE id_obra='$id_obra'  ORDER BY id_obra,fechaop";
+} else {;
+    $consulta = "SELECT * FROM voperacioneseg ORDER BY id_obra,fechaop";
 }
 
 
@@ -95,15 +95,17 @@ $message = "";
                                 <table name="tablaV" id="tablaV" class="table table-sm table-striped table-bordered table-condensed text-nowrap w-auto mx-auto" style="width:100%">
                                     <thead class="text-center bg-gradient-green">
                                         <tr>
-                                            <th>FOLIO PAGO</th>
+                                            <th>ORIGEN</th>
+                                            <th>FACTURA</th>
                                             <th>FOLIO</th>
-                                            <th>TIPO</th>
-                                            <th>No. REFERENCIA</th>
+                                            <th>ID OBRA</th>
                                             <th>OBRA</th>
+                                            <th>ID PRV</th>
                                             <th>PROVEEDOR</th>
                                             <th>FECHA</th>
                                             <th>CONCEPTO</th>
                                             <th>MONTO</th>
+                                            <th>SALDO</th>
                                             
                                             <th>ACCIONES</th>
 
@@ -114,15 +116,17 @@ $message = "";
                                         foreach ($data as $dat) {
                                         ?>
                                             <tr>
-                                                <td><?php echo $dat['folio_pagocxp'] ?></td>
-                                                <td><?php echo $dat['folio_cxp'] ?></td>
-                                                <td><?php echo $dat['tipo_cxp'] ?></td>
-                                                <td><?php echo $dat['clave_cxp'] ?></td>
+                                                <td><?php echo $dat['tipoop'] ?></td>
+                                                <td><?php echo $dat['facturaop'] ?></td>
+                                                <td><?php echo $dat['folioop'] ?></td>
+                                                <td><?php echo $dat['id_obra'] ?></td>
                                                 <td><?php echo $dat['corto_obra'] ?></td>
+                                                <td><?php echo $dat['id_prov'] ?></td>
                                                 <td><?php echo $dat['razon_prov'] ?></td>
-                                                <td class="text-center"><?php echo $dat['fecha_cxp'] ?></td>
-                                                <td><?php echo $dat['desc_cxp'] ?></td>
-                                                <td class="text-right"><?php echo number_format($dat['monto_pagocxp'], 2) ?></td>
+                                                <td class="text-center"><?php echo $dat['fechaop'] ?></td>
+                                                <td><?php echo $dat['conceptoop'] ?></td>
+                                                <td class="text-right"><?php echo number_format($dat['montoop'], 2) ?></td>
+                                                <td class="text-right"><?php echo number_format($dat['saldoop'], 2) ?></td>
                                                 
                                                 <td></td>
 
@@ -149,47 +153,6 @@ $message = "";
     </section>
 
 
-
-    <section>
-        <div class="modal fade" id="modalcan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog " role="document">
-                <div class="modal-content">
-                    <div class="modal-header bg-gradient-danger">
-                        <h5 class="modal-title" id="exampleModalLabel">CANCELAR</h5>
-                    </div>
-                    <div class="card card-widget" style="margin: 10px;">
-                        <form id="formcan" action="" method="POST">
-                            <div class="modal-body row">
-                                <div class="col-sm-12">
-                                    <div class="form-group input-group-sm">
-                                        <label for="motivo" class="col-form-label">Motivo de Cancelacioón:</label>
-                                        <textarea rows="3" class="form-control" name="motivo" id="motivo" placeholder="Motivo de Cancelación"></textarea>
-                                        <input type="hidden" id="fecha" name="fecha" value="<?php echo $fecha ?>">
-                                        <input type="hidden" id="foliocan" name="foliocan" >
-                                    </div>
-                                </div>
-                            </div>
-                    </div>
-                    <?php
-                    if ($message != "") {
-                    ?>
-                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                            <span class="badge "><?php echo ($message); ?></span>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                        </div>
-                    <?php
-                    }
-                    ?>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fas fa-ban"></i> Cancelar</button>
-                        <button type="button" id="btnGuardarCAN" name="btnGuardarCAN" class="btn btn-success" value="btnGuardarCAN"><i class="far fa-save"></i> Guardar</button>
-                    </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
 
 
     <!-- /.content -->

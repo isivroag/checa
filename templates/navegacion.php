@@ -46,8 +46,9 @@
             </p>
           </a>
 
-
+       
           <ul class="nav nav-treeview">
+          <?php if ($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2') { ?>
             <li class="nav-item">
               <a href="cntaempresa.php" class="nav-link <?php echo ($pagina == 'empresa') ? "active seleccionado" : ""; ?>  ">
                 <i class="fas fa-city nav-icon"></i>
@@ -56,17 +57,22 @@
             </li>
 
             <li class="nav-item">
-              <a href="cntacliente.php" class="nav-link <?php echo ($pagina == 'cliente') ? "active seleccionado" : ""; ?>  ">
-                <i class="fas fa-user-tie nav-icon"></i>
-                <p>Cliente</p>
-              </a>
-            </li>
-            <li class="nav-item">
               <a href="cntaobra.php" class="nav-link <?php echo ($pagina == 'obra') ? "active seleccionado" : ""; ?>  ">
                 <i class="fas fa-road nav-icon"></i>
                 <p>Obra</p>
               </a>
             </li>
+
+
+            <?php } ?>
+
+            <li class="nav-item">
+              <a href="cntacliente.php" class="nav-link <?php echo ($pagina == 'cliente') ? "active seleccionado" : ""; ?>  ">
+                <i class="fas fa-user-tie nav-icon"></i>
+                <p>Cliente</p>
+              </a>
+            </li>
+           
 
             <li class="nav-item">
               <a href="cntaproveedor.php" class="nav-link <?php echo ($pagina == 'proveedor') ? "active seleccionado" : ""; ?>  ">
@@ -103,7 +109,7 @@
             </p>
           </a>
           <ul class="nav nav-treeview">
-
+            <!--
             <li class="nav-item">
               <a href="ingresos.php" class="nav-link <?php echo ($pagina == 'ingresos') ? "active seleccionado" : ""; ?>  ">
 
@@ -111,11 +117,13 @@
                 <p>Registro de Facturas</p>
               </a>
             </li>
+          -->
+
             <li class="nav-item">
               <a href="cntacxc.php" class="nav-link <?php echo ($pagina == 'cntacxc') ? "active seleccionado" : ""; ?>  ">
 
                 <i class="fas text-green fa-list nav-icon"></i>
-                <p>Listado de CXC</p>
+                <p>Cuentas x Cobrar</p>
               </a>
             </li>
             <li class="nav-item">
@@ -157,7 +165,7 @@
                 <p>Subcontratos</p>
               </a>
             </li>
-
+<!--
             <li class="nav-item">
               <a href="egresos.php" class="nav-link <?php echo ($pagina == 'egresos') ? "active seleccionado" : ""; ?>  ">
 
@@ -165,12 +173,13 @@
                 <p>Registro de Egresos</p>
               </a>
             </li>
+          -->
 
             <li class="nav-item">
               <a href="cntacxp.php" class="nav-link <?php echo ($pagina == 'cntacxp') ? "active seleccionado" : ""; ?>  ">
 
                 <i class="fas text-purple fa-list nav-icon"></i>
-                <p>Listado de CXP</p>
+                <p>Cuentas x Pagar</p>
               </a>
             </li>
 
@@ -188,7 +197,7 @@
 
 
 
-        <?php if ($_SESSION['s_rol'] == '2') { ?>
+        <?php if ($_SESSION['s_rol'] == '3') { ?>
           <hr class="sidebar-divider">
           <li class="nav-item">
             <a href="cntausuarios.php" class="nav-link <?php echo ($pagina == 'usuarios') ? "active" : ""; ?> ">

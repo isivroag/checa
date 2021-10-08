@@ -13,6 +13,8 @@ $descripcionreq = (isset($_POST['descripcionreq'])) ? $_POST['descripcionreq'] :
 $clavereq = (isset($_POST['clavereq'])) ? $_POST['clavereq'] : '';
 $fechareq = (isset($_POST['fechareq'])) ? $_POST['fechareq'] : '';
 $montoreq = (isset($_POST['montoreq'])) ? $_POST['montoreq'] : '';
+$subtotalreq = (isset($_POST['subtotalreq'])) ? $_POST['subtotalreq'] : '';
+$ivareq = (isset($_POST['ivareq'])) ? $_POST['ivareq'] : '';
 
 
 
@@ -23,7 +25,7 @@ $opcionreq = (isset($_POST['opcionreq'])) ? $_POST['opcionreq'] : '';
 $data=0;
 switch($opcionreq){
     case 1: //alta
-        $consulta = "INSERT INTO w_reqsub (id_sub,fecha_req,factura_req,concepto_req,monto_req,saldo_req) VALUES('$subcontrato','$fechareq','$clavereq','$descripcionreq','$montoreq','$montoreq') ";
+        $consulta = "INSERT INTO w_reqsub (id_sub,fecha_req,factura_req,concepto_req,monto_req,saldo_req,subtotal_req,iva_req) VALUES('$subcontrato','$fechareq','$clavereq','$descripcionreq','$montoreq','$montoreq','$subtotalreq','$ivareq') ";
         $resultado = $conexion->prepare($consulta);
         if($resultado->execute()){
             $data=1;
@@ -32,7 +34,7 @@ switch($opcionreq){
         
         break;
     case 2: //modificación
-        $consulta = "UPDATE w_reqsub SET  id_sub='$id_sub',fecha_reg='$fechareq',concepto_req='$descripcionreq',factura_req='$clavereq',monto_req='$montoreq',saldo_req='$montoreq' WHERE folio_req='$folioreq' ";		
+        $consulta = "UPDATE w_reqsub SET  id_sub='$id_sub',fecha_reg='$fechareq',concepto_req='$descripcionreq',factura_req='$clavereq',monto_req='$montoreq',saldo_req='$montoreq',subtotal_req='$subtotalreq',iva_req='$ivareq' WHERE folio_req='$folioreq' ";		
         $resultado = $conexion->prepare($consulta);
         if($resultado->execute()){
             $data=1;

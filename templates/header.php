@@ -5,7 +5,7 @@ session_start();
 if ($_SESSION['s_usuario'] === null) {
   header("Location:index.php");
 } else {
-  if ($_SESSION['s_rol'] != 2) {
+  if ($_SESSION['s_rol'] != 2 && $_SESSION['s_rol'] != 3) {
     if ($_SESSION['id_obra'] == null) {
       header("Location:inicioobra.php");
     }

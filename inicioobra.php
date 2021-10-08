@@ -13,7 +13,7 @@ if ($_SESSION['s_usuario'] === null) {
 } else {
     $id_usuario = $_SESSION["s_id_usuario"];
     $nom_usuario = $_SESSION['s_nombre'];
-    if ($_SESSION['s_rol'] != 2) {
+    if ($_SESSION['s_rol'] != 2 && $_SESSION['s_rol'] != 3) {
         if ($_SESSION['id_obra'] != null) {
             header("Location:inicio.php");
         }

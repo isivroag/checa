@@ -12,6 +12,8 @@ $descripcion = (isset($_POST['descripcion'])) ? $_POST['descripcion'] : '';
 $clave = (isset($_POST['clave'])) ? $_POST['clave'] : '';
 $fecha = (isset($_POST['fecha'])) ? $_POST['fecha'] : '';
 $monto = (isset($_POST['monto'])) ? $_POST['monto'] : '';
+$subtotal = (isset($_POST['subtotal'])) ? $_POST['subtotal'] : '';
+$iva = (isset($_POST['iva'])) ? $_POST['iva'] : '';
 $tipo = (isset($_POST['tipo'])) ? $_POST['tipo'] : '';
 
 
@@ -22,7 +24,7 @@ $opcion = (isset($_POST['opcion'])) ? $_POST['opcion'] : '';
 $data=0;
 switch($opcion){
     case 1: //alta
-        $consulta = "INSERT INTO w_subcontrato (id_obra,id_prov,fecha_sub,clave_sub,desc_sub,monto_sub,saldo_sub,tipo_sub) VALUES('$id_obra','$id_prov','$fecha','$clave','$descripcion','$monto','$monto','$tipo') ";
+        $consulta = "INSERT INTO w_subcontrato (id_obra,id_prov,fecha_sub,clave_sub,desc_sub,monto_sub,saldo_sub,tipo_sub,subtotal_sub,iva_sub) VALUES('$id_obra','$id_prov','$fecha','$clave','$descripcion','$monto','$monto','$tipo','$subtotal','$iva') ";
         $resultado = $conexion->prepare($consulta);
         if($resultado->execute()){
             $data=1;
@@ -31,7 +33,7 @@ switch($opcion){
         
         break;
     case 2: //modificación
-        $consulta = "UPDATE w_subcontrato SET  id_obra='$id_obra',id_prov='$id_prov',desc_sub='$descripcion',clave_sub='$clave',tipo_sub='$tipo' WHERE folio_sub='$folio' ";		
+        $consulta = "UPDATE w_subcontrato SET  id_obra='$id_obra',id_prov='$id_prov',desc_sub='$descripcion',clave_sub='$clave',tipo_sub='$tipo',monto_sub='$monto',subtotal_sub='$subtotal',iva_sub='$iva' WHERE folio_sub='$folio' ";		
         $resultado = $conexion->prepare($consulta);
         if($resultado->execute()){
             $data=1;

@@ -15,17 +15,17 @@ $(document).ready(function() {
                 extend: "excelHtml5",
                 text: "<i class='fas fa-file-excel'> Excel</i>",
                 titleAttr: "Exportar a Excel",
-                title: "Listado de Egresos",
+                title: "Reporte de Cuentas x Pagar",
                 className: "btn bg-success ",
-                exportOptions: { columns: [0, 1, 2, 3, 4, 5,6,7,8] },
+                exportOptions: { columns: [0, 1, 4,6,7,8,9,10] },
             },
             {
                 extend: "pdfHtml5",
                 text: "<i class='far fa-file-pdf'> PDF</i>",
-                titleAttr: "Exportar a PDF",
+                titleAttr: "Reporte de Cuentas x Pagar",
                 title: "Listado de Egresos",
                 className: "btn bg-danger",
-                exportOptions: { columns: [0, 1, 2, 3, 4, 5,6,7,8] },
+                exportOptions: { columns: [0, 1, 4, 6,7,8,9,10] },
             },
         ],
         stateSave: true,
@@ -35,15 +35,20 @@ $(document).ready(function() {
             data: null,
             defaultContent: "<div class='text-center'>\
             <button class='btn btn-sm bg-danger btnCancelar'><i class='fas fa-ban'></i></button></div></div>",
-        },  { className: "hide_column", targets: [0] },
+        },  { className: "hide_column", targets: [2] },
+        { className: "hide_column", targets: [3] },
+        { className: "hide_column", targets: [5] },
        
     
     ],
     rowCallback: function (row, data) {
         
-        $($(row).find('td')['8']).addClass('text-right')
+        $($(row).find('td')['9']).addClass('text-right')
    
-        $($(row).find('td')['8']).addClass('currency')
+        $($(row).find('td')['9']).addClass('currency')
+        $($(row).find('td')['10']).addClass('text-right')
+   
+        $($(row).find('td')['10']).addClass('currency')
   
       
       

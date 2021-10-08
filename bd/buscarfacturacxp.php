@@ -16,14 +16,22 @@
  $resultado = $conexion->prepare($consulta);
  $resultado->execute();
  if($resultado->rowCount() >= 1){
-    $data=1;
+   $data=1;
  }
  else{
-     $data=0;
+    $consulta = "SELECT * FROM vrequisicion where estado_req = 1 and id_prov='$id_prov' and factura_req='$factura'";
+    $resultado = $conexion->prepare($consulta);
+    $resultado->execute();
+    if($resultado->rowCount() >= 1){
+       $data=1;
+    }
+    else{
+        $data=0;
+    }
  }
+ 
  
  
  
  print json_encode($data, JSON_UNESCAPED_UNICODE);
- $conexion = NULL;  
- ?>
+ $conexion = NULL;

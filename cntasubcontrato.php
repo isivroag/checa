@@ -299,7 +299,7 @@ $message = "";
     </section>
     <!-- TERMINA ALTA DE SUBCONTRATOS -->
 
-    <!-- INICIA ALTA DE SUBCONTRATOS -->
+    <!-- INICIA ALTA DE REQUISICION -->
     <section>
         <div class="modal fade" id="modalReq" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
@@ -319,6 +319,7 @@ $message = "";
                                             <label for="folioreq" class="col-form-label">FOLIO REQ:</label>
                                             <input type="text" class="form-control" name="folioreq" id="folioreq" disabled>
                                             <input type="hidden" class="form-control" name="foliosubcontrato" id="foliosubcontrato" disabled>
+                                            <input type="hidden" class="form-control" name="idprovreq" id="idprovreq" disabled>
                                         </div>
                                     </div>
 
@@ -401,7 +402,7 @@ $message = "";
             </div>
         </div>
     </section>
-    <!-- TERMINA ALTA DE SUBCONTRATOS -->
+    <!-- TERMINA ALTA DE REQUISICION -->
 
 
 

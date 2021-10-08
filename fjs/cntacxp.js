@@ -5,6 +5,11 @@ $(document).ready(function () {
     // TOOLTIP DATATABLE
     $('[data-toggle="tooltip"]').tooltip()
 
+        //FUNCION REDONDEAR
+        function round(value, decimals) {
+            return Number(Math.round(value + "e" + decimals) + "e-" + decimals);
+        }  
+
     //FUNCION FORMATO MONEDA 
     document.getElementById("montopagovp").onblur = function () {
 
@@ -17,8 +22,36 @@ $(document).ready(function () {
 
     }
 
+       //CALCULO TOTAL REQ
+function calculototalreq(valor) {
+        
+    subtotal =valor;
+    
+    total=round(subtotal*1.16,2);
+    iva=total-subtotal;
+    
+    $("#ivareq").val( Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(iva).toFixed(2)));
+    $("#montoreq").val( Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(total).toFixed(2)));
+
+}
+//CALCULO SUBTOTAL REQ
+function calculosubtotalreq(valor) {
+ 
+        total=valor;
+    
+        subtotal = round(total / 1.16, 2);
+    
+        iva = round(total - subtotal, 2);
+    
+        $("#ivareq").val(Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(iva).toFixed(2)));
+        $("#subtotalreq").val(Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(subtotal).toFixed(2)));
+        
+
+}
+
     // SOLO NUMEROS SUBTOTAL FACTURA
     document.getElementById('subtotalreq').onblur = function () {
+        calculototalreq(this.value.replace(/,/g, ''))
         this.value = parseFloat(this.value.replace(/,/g, ''))
             .toFixed(2)
             .toString()
@@ -33,6 +66,7 @@ $(document).ready(function () {
     }
     // SOLO NUMEROS MONTO FACTURA
     document.getElementById('montoreq').onblur = function () {
+        calculosubtotalreq(this.value.replace(/,/g, ''))
         this.value = parseFloat(this.value.replace(/,/g, ''))
             .toFixed(2)
             .toString()
@@ -41,7 +75,7 @@ $(document).ready(function () {
 
 
     // SOLO NUMEROS MONTO
-    document.getElementById('montoreq').onblur = function () {
+    document.getElementById('montopagovp').onblur = function () {
         this.value = parseFloat(this.value.replace(/,/g, ''))
             .toFixed(2)
             .toString()
@@ -85,9 +119,9 @@ $(document).ready(function () {
         columnDefs: [{
             targets: -1,
             data: null,
-            defaultContent: "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-primary btnEditar'><i class='fas fa-search'></i></button>\
-            <button class='btn btn-sm bg-success btnPagar'><i class='fas fa-dollar-sign'></i></button>\
-            <button class='btn btn-sm bg-info btnResumen'><i class='fas fa-bars'></i></button>\
+            defaultContent: "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-primary btnEditar'  data-toggle='tooltip' data-placement='top' title='Editar'><i class='fas fa-edit'></i></button>\
+            <button class='btn btn-sm bg-success btnPagar'><i class='fas fa-dollar-sign'  data-toggle='tooltip' data-placement='top' title='Pagar'></i></button>\
+            <button class='btn btn-sm bg-info btnResumen'><i class='fas fa-bars'  data-toggle='tooltip' data-placement='top' title='Resumen de Pagos'></i></button>\
             </div></div>",
             /*<button class='btn btn-sm bg-danger btnCancelar'><i class='fas fa-ban'></i></button> */
         }, { className: "hide_column", "targets": [4] },
@@ -400,7 +434,7 @@ $(document).ready(function () {
     function buscarpagos(folio) {
         tablaResumen.clear();
         tablaResumen.draw();
-        opcion = 2;
+        opcion = 2; // 2 para cuentas pagar
         $.ajax({
             type: "POST",
             url: "bd/buscarpagocxp.php",
@@ -459,10 +493,10 @@ $(document).ready(function () {
         var id_prov = $('#id_prov').val()
         var referenciavp = $('#referenciavp').val()
         var observacionesvp = $('#observacionesvp').val()
-        var saldovp = ($('#saldovp').val())
-        saldovp = saldovp.replace(",", "");
+        var saldovp = $('#saldovp').val()
+        saldovp = saldovp.replace(/,/g, '')
         var montovp = $('#montopagovp').val()
-        montovp = montovp.replace(",", "");
+        montovp = montovp.replace(/,/g, '')
         var metodovp = $('#metodovp').val()
         var usuario = $('#nameuser').val()
         var opcion = 2
@@ -534,7 +568,7 @@ $(document).ready(function () {
                     success: function (res) {
                         console.log(res);
                       if (res == 1) {
-                           
+                         
                             operacionexitosa();
                             $('#modalPago').modal('hide')
                             window.location.reload();

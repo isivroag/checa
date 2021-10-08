@@ -547,7 +547,7 @@ $message = "";
                                             </span>
 
                                         </div>
-                                        <input type="text" id="montopagovp" name="montopagovp" class="form-control text-right" autocomplete="off" placeholder="MONTO DEL PAGO">
+                                        <input type="text" id="montopagovp" name="montopagovp" class="form-control text-right" autocomplete="off" placeholder="MONTO DEL PAGO" onkeypress="return filterFloat(event,this);">
                                     </div>
                                 </div>
 
