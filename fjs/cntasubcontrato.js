@@ -191,6 +191,12 @@ $(document).ready(function () {
         /*<button class='btn btn-sm bg-danger btnCancelar' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button> */
       },
       { className: 'hide_column', targets: [3] },
+      { "width": "30%", "targets": 6 },
+      { "width": "10%", "targets": 1 },
+      { "width": "10%", "targets": 2 },
+      { "width": "8%", "targets": 5 }
+
+
     ],
     rowCallback: function (row, data) {
       // FORMATO DE CELDAS

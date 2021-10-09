@@ -108,7 +108,7 @@ $message = "";
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="table-responsive">
-                                <table name="tablaV" id="tablaV" class="table table-sm table-striped table-bordered table-condensed text-nowrap w-auto mx-auto" style="width:100%">
+                                <table name="tablaV" id="tablaV" class="table table-sm table-striped table-bordered table-condensed text-nowrap w-auto mx-auto" style="width:100%; font-size:15px">
                                     <thead class="text-center bg-gradient-green">
                                         <tr>
                                             <th>FOLIO</th>
