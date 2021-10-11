@@ -1,6 +1,7 @@
     <!-- /.content-wrapper -->
     <footer class="main-footer">
         <div class="float-right d-none d-sm-block">
+           <div style="display: none"> BD:<?php echo bd_nombre;?></div>
         <b>OBRA:</b>
         <input type="hidden" id="globalid_obra" value="<?php echo "".$_SESSION['id_obra']."" ; ?>">
         <input type="hidden" id="globalnom_obra" value="<?php echo "".$_SESSION['nom_obra']."" ; ?>">

@@ -33,7 +33,7 @@ switch($opcion){
         
         break;
     case 2: //modificación
-        $consulta = "UPDATE w_subcontrato SET  id_obra='$id_obra',id_prov='$id_prov',desc_sub='$descripcion',clave_sub='$clave',tipo_sub='$tipo',monto_sub='$monto',subtotal_sub='$subtotal',iva_sub='$iva' WHERE folio_sub='$folio' ";		
+        $consulta = "UPDATE w_subcontrato SET  id_obra='$id_obra',id_prov='$id_prov',fecha_sub='$fecha',desc_sub='$descripcion',clave_sub='$clave',tipo_sub='$tipo',monto_sub='$monto',saldo_sub='$monto',subtotal_sub='$subtotal',iva_sub='$iva' WHERE folio_sub='$folio' ";		
         $resultado = $conexion->prepare($consulta);
         if($resultado->execute()){
             $data=1;

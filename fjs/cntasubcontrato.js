@@ -176,7 +176,7 @@ $(document).ready(function () {
       },
     ],
 
-    /* <button class='btn btn-sm bg-success btnPagar' data-toggle='tooltip' data-placement='top' title='Pagar'><i class='fas fa-dollar-sign'></i></button>\ */
+    /* */
 
     //COLUMNAS
     columnDefs: [
@@ -187,8 +187,9 @@ $(document).ready(function () {
           "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-primary btnEditar'  data-toggle='tooltip' data-placement='top' title='Editar'><i class='fas fa-edit'></i></button>\
             <button class='btn btn-sm bg-purple btnRequisicion' data-toggle='tooltip' data-placement='top' title='Registrar Requisición'><i class='fas fa-hand-holding-usd'></i></button>\
             <button class='btn btn-sm bg-info btnResumen'><i class='fas fa-bars' data-toggle='tooltip' data-placement='top' title='Resumen Requisiciones'></i></button>\
+            <button class='btn btn-sm bg-danger btnCancelar' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
             </div></div>",
-        /*<button class='btn btn-sm bg-danger btnCancelar' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button> */
+        /**/
       },
       { className: 'hide_column', targets: [3] },
       { "width": "30%", "targets": 6 },
@@ -294,6 +295,7 @@ $(document).ready(function () {
         defaultContent:
           "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-primary btnVerpagos' data-toggle='tooltip' data-placement='top' title='Ver Pagos' ><i class='fas fa-search-dollar'></i></button>\
                     <button class='btn btn-sm btn-success btnPagar' data-toggle='tooltip' data-placement='top' title='Pagar Requisicion' ><i class='fas fa-dollar-sign'></i></button>\
+                    <button class='btn btn-sm bg-danger btnCancelarreq' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
                     </div></div>",
       },
     ],
@@ -360,6 +362,13 @@ $(document).ready(function () {
       $($(row).find('td')['3']).addClass('currency')
     },
     columnDefs: [
+      {
+        targets: -1,
+        data: null,
+        defaultContent:
+          "<div class='text-center'><button class='btn btn-sm bg-danger btnCancelarpago' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
+                    </div></div>",
+      },
       {
         targets: 3,
         render: function (data, type, full, meta) {
@@ -510,13 +519,62 @@ $(document).ready(function () {
   //BOTON EDITAR
   $(document).on('click', '.btnEditar', function () {
     fila = $(this).closest('tr')
-    id = parseInt(fila.find('td:eq(0)').text())
+    folio = parseInt(fila.find('td:eq(0)').text())
 
     saldo = fila.find('td:eq(8)').text().replace(/,/g, '')
     monto = fila.find('td:eq(7)').text().replace(/,/g, '')
 
     if (parseFloat(monto) == parseFloat(saldo)) {
       opcion = 2
+      $.ajax({
+        url: 'bd/buscarsubcontrato.php',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+          folio: folio,
+          opcion: opcion,
+        },
+        success: function (data) {
+          if (data != null) {
+            clave=data[0].clave_sub;
+            fecha=data[0].fecha_sub;
+            id_obra=data[0].id_obra;
+            obra=data[0].corto_obra;
+            id_prov=data[0].id_prov;
+            proveedor=data[0].razon_prov;
+            descripcion=data[0].desc_sub;
+            subtotal= Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+              parseFloat(data[0].subtotal_sub).toFixed(2),
+            );
+            iva= Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+              parseFloat(data[0].iva_sub).toFixed(2),
+            );
+            monto= Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+              parseFloat(data[0].monto_sub).toFixed(2),
+            );
+
+           $('#folio').val(folio);
+            $('#fecha').val(fecha);
+            $('#clave').val(clave);
+             $('#id_obra').val(id_obra);
+             $('#obra').val(obra);
+            $('#id_prov').val(id_prov);
+            $('#proveedor').val(proveedor);
+             $('#descripcion').val(descripcion);
+             $('#monto').val(monto)
+             $('#iva').val(iva);
+             $('#subtotal').val(subtotal);
+
+            } else {
+            Swal.fire({
+              title: 'Subcontrato no encontrado',
+              icon: 'warning',
+            })
+          }
+        },
+      })
+
+
       $('#modalAlta').modal('show')
     } else {
       swal.fire({
@@ -866,42 +924,81 @@ $(document).ready(function () {
       }
     }
   })
+
+  //BOTON CANCELAR SUBCONTRATO
   $(document).on('click', '.btnCancelar', function () {
     fila = $(this).closest('tr')
-
     folio = parseInt(fila.find('td:eq(0)').text())
 
-    saldo = fila.find('td:eq(9)').text()
-    saldo = saldo.replace(',', '')
-    saldo = parseFloat(saldo)
-    total = fila.find('td:eq(8)').text()
-    total = total.replace(',', '')
-    total = parseFloat(total)
+    saldo = fila.find('td:eq(8)').text().replace(/,/g, '')
+    monto = fila.find('td:eq(7)').text().replace(/,/g, '')
 
-    if (total == saldo) {
+    if (parseFloat(monto) == parseFloat(saldo)) {
       $('#formcan').trigger('reset')
-      /*$(".modal-header").css("background-color", "#28a745");*/
-      $('.modal-header').css('color', 'white')
       $('#modalcan').modal('show')
       $('#foliocan').val(folio)
+      $('#tipodoc').val(1) // 1 PARA SUBCONTRATOS
     } else {
       swal.fire({
-        title: '¡No es posible cancelar la venta!',
-        text:
-          'La venta tiene pagos, es necesario cancelar los pagos antes de cancelar la Venta',
-        icon: 'error',
+        title: 'No es posible Cancelar el Subcontrato',
+        text: 'El documento ya tiene operaciones posteriores',
+        icon: 'warning',
         focusConfirm: true,
         confirmButtonText: 'Aceptar',
       })
     }
   })
 
+
+    //BOTON CANCELAR REQUISICION
+    $(document).on('click', '.btnCancelarreq', function () {
+      fila = $(this).closest('tr')
+      folio = parseInt(fila.find('td:eq(0)').text())
+  
+      saldo = fila.find('td:eq(4)').text().replace(/,/g, '')
+      monto = fila.find('td:eq(5)').text().replace(/,/g, '')
+  
+      if (parseFloat(monto) == parseFloat(saldo)) {
+        $('#formcan').trigger('reset')
+        $('#modalcan').modal('show')
+        $('#foliocan').val(folio)
+        $('#tipodoc').val(2) // 1 PARA REQUISICIONES
+      } else {
+        swal.fire({
+          title: 'No es posible Cancelar la Requisición',
+          text: 'El documento ya tiene operaciones posteriores',
+          icon: 'warning',
+          focusConfirm: true,
+          confirmButtonText: 'Aceptar',
+        })
+      }
+    })
+  
+
+        //BOTON CANCELAR PAGO
+        $(document).on('click', '.btnCancelarpago', function () {
+          fila = $(this).closest('tr')
+          folio = parseInt(fila.find('td:eq(0)').text())
+      
+          saldo = fila.find('td:eq(4)').text().replace(/,/g, '')
+          monto = fila.find('td:eq(5)').text().replace(/,/g, '')
+      
+        
+            $('#formcan').trigger('reset')
+            $('#modalcan').modal('show')
+            $('#foliocan').val(folio)
+            $('#tipodoc').val(3) // 3 PARA PAGOS DE REQUISICIONES
+         
+        })
+
+        // GUARDAR CANCELAR
   $(document).on('click', '#btnGuardarCAN', function () {
     foliocan = $('#foliocan').val()
     motivo = $('#motivo').val()
     fecha = $('#fecha').val()
     usuario = $('#nameuser').val()
-    $('#modalcan').modal('hide')
+    tipodoc = $('#tipodoc').val()
+   
 
     if (motivo === '') {
       swal.fire({
@@ -914,21 +1011,23 @@ $(document).ready(function () {
     } else {
       $.ajax({
         type: 'POST',
-        url: 'bd/cancelarcxp.php',
+        url: 'bd/cancelaregresos.php',
         async: false,
         dataType: 'json',
         data: {
           foliocan: foliocan,
           motivo: motivo,
           fecha: fecha,
+          tipodoc: tipodoc,
           usuario: usuario,
         },
         success: function (res) {
           if (res == 1) {
-            subcontratoguardado()
+            mensaje()
+            $('#modalcan').modal('hide')
             location.reload()
           } else {
-            subcontratoerror()
+            mensajeerror()
           }
         },
       })

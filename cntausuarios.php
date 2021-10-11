@@ -71,7 +71,7 @@ $message = "";
                                             <th>Password</th>
                                             <th>Edo</th>
                                             <th>rol_usuario</th>
-                                            <th>id rol</th>
+                                  
                                             <th>rol</th>
                                             <th>Acciones</th>
                                         </tr>
@@ -88,7 +88,7 @@ $message = "";
                                                 <td><?php echo $dat['password'] ?></td>
                                                 <td><?php echo $dat['edo_usuario'] ?></td>
                                                 <td><?php echo $dat['rol_usuario'] ?></td>
-                                                <td><?php echo $dat['id'] ?></td>
+                                       
                                                 <td><?php echo $dat['rol'] ?></td>
 
 

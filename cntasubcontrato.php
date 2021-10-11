@@ -579,6 +579,7 @@ $message = "";
                                         <th>REFERENCIA</th>
                                         <th>MONTO</th>
                                         <th>METODO</th>
+                                        <th>ACCIONES</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -590,6 +591,7 @@ $message = "";
                                     <th></th>
                                     <th class="text-right text-bold">TOTAL</th>
                                     <th class="text-right text-bold"></th>
+                                    <th></th>
                                     <th></th>
                                 </tfoot>
                             </table>
@@ -731,7 +733,7 @@ $message = "";
             <div class="modal-dialog " role="document">
                 <div class="modal-content">
                     <div class="modal-header bg-gradient-danger">
-                        <h5 class="modal-title" id="exampleModalLabel">CANCELAR</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">CANCELAR REGISTRO</h5>
                     </div>
                     <div class="card card-widget" style="margin: 10px;">
                         <form id="formcan" action="" method="POST">
@@ -742,6 +744,7 @@ $message = "";
                                         <textarea rows="3" class="form-control" name="motivo" id="motivo" placeholder="Motivo de Cancelación"></textarea>
                                         <input type="hidden" id="fecha" name="fecha" value="<?php echo $fecha ?>">
                                         <input type="hidden" id="foliocan" name="foliocan">
+                                        <input type="hidden" id="tipodoc" name="tipodoc">
                                     </div>
                                 </div>
                             </div>

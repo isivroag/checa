@@ -15,7 +15,7 @@ $fecha = date('Y-m-d');
 
 if ($_SESSION['id_obra'] != null) {
     $id_obra = $_SESSION['id_obra'];;
-    $consulta = "SELECT * FROM voperacioneseg WHERE id_obra='$id_obra'  ORDER BY id_obra,fechaop";
+    $consulta = "SELECT * FROM voperacioneseg WHERE id_obra='$id_obra' and estadoop=1 ORDER BY id_obra,fechaop";
 } else {;
     $consulta = "SELECT * FROM voperacioneseg ORDER BY id_obra,fechaop";
 }
@@ -51,7 +51,7 @@ $message = "";
         <!-- Default box -->
         <div class="card">
             <div class="card-header bg-gradient-green text-light">
-                <h1 class="card-title mx-auto">PAGOS A PROVEEDOR</h1>
+                <h1 class="card-title mx-auto">CONSULTA DE EGRESOS</h1>
             </div>
 
             <div class="card-body">
@@ -92,23 +92,21 @@ $message = "";
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="table-responsive">
-                                <table name="tablaV" id="tablaV" class="table table-sm table-striped table-bordered table-condensed text-nowrap w-auto mx-auto" style="width:100%">
+                                <table name="tablaV" id="tablaV" class="table table-sm table-striped table-bordered table-condensed w-auto mx-auto" style="width:100%">
                                     <thead class="text-center bg-gradient-green">
                                         <tr>
                                             <th>ORIGEN</th>
                                             <th>FACTURA</th>
-                                            <th>FOLIO</th>
-                                            <th>ID OBRA</th>
+                                           
                                             <th>OBRA</th>
-                                            <th>ID PRV</th>
+                                           
                                             <th>PROVEEDOR</th>
                                             <th>FECHA</th>
                                             <th>CONCEPTO</th>
                                             <th>MONTO</th>
                                             <th>SALDO</th>
                                             
-                                            <th>ACCIONES</th>
-
+                                          
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -118,17 +116,14 @@ $message = "";
                                             <tr>
                                                 <td><?php echo $dat['tipoop'] ?></td>
                                                 <td><?php echo $dat['facturaop'] ?></td>
-                                                <td><?php echo $dat['folioop'] ?></td>
-                                                <td><?php echo $dat['id_obra'] ?></td>
                                                 <td><?php echo $dat['corto_obra'] ?></td>
-                                                <td><?php echo $dat['id_prov'] ?></td>
                                                 <td><?php echo $dat['razon_prov'] ?></td>
                                                 <td class="text-center"><?php echo $dat['fechaop'] ?></td>
                                                 <td><?php echo $dat['conceptoop'] ?></td>
                                                 <td class="text-right"><?php echo number_format($dat['montoop'], 2) ?></td>
                                                 <td class="text-right"><?php echo number_format($dat['saldoop'], 2) ?></td>
                                                 
-                                                <td></td>
+                                           
 
 
                                             </tr>
@@ -136,7 +131,17 @@ $message = "";
                                         }
                                         ?>
                                     </tbody>
-
+                                    <tfoot>
+                                   
+                                   <th></th>
+                                   <th></th>
+                                   <th></th>
+                                   <th></th>
+                                   <th></th>
+                                   <th class="text-right text-bold">TOTALES:</th>
+                                   <th class="text-right text-bold"></th>
+                                   <th class="text-right text-bold"></th>
+                                   </tfoot>
                                 </table>
                             </div>
                         </div>
@@ -160,7 +165,7 @@ $message = "";
 
 
 <?php include_once 'templates/footer.php'; ?>
-<script src="fjs/cntapagocxp.js"></script>
+<script src="fjs/cntaegresos.js"></script>
 <script src="plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 <script src="plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>

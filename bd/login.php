@@ -13,7 +13,7 @@ if ($conexion != null) {
     $recordar = (isset($_POST['recordar'])) ? $_POST['recordar'] : '';
 
     $pass = md5($password);
-    $consulta = "SELECT * FROM w_usuario WHERE username='$usuario' AND password='$pass'";
+    $consulta = "SELECT * FROM w_usuario WHERE username='$usuario' AND password='$pass' and edo_usuario=1";
     $resultado = $conexion->prepare($consulta);
     $resultado->execute();
 

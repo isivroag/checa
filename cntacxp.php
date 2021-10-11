@@ -440,6 +440,7 @@ $message = "";
                                         <th>REFERENCIA</th>
                                         <th>MONTO</th>
                                         <th>METODO</th>
+                                        <th>ACCIONES</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -451,6 +452,7 @@ $message = "";
                                     <th></th>
                                     <th class="text-right">TOTAL</th>
                                     <th class="text-right"></th>
+                                    <th></th>
                                     <th></th>
                                 </tfoot>
                             </table>
@@ -604,6 +606,7 @@ $message = "";
                                         <textarea rows="3" class="form-control" name="motivo" id="motivo" placeholder="Motivo de Cancelación"></textarea>
                                         <input type="hidden" id="fecha" name="fecha" value="<?php echo $fecha ?>">
                                         <input type="hidden" id="foliocan" name="foliocan">
+                                        <input type="hidden" id="tipodoc" name="tipodoc">
                                     </div>
                                 </div>
                             </div>

@@ -3,6 +3,34 @@ $(document).ready(function() {
     var id, opcion;
     opcion = 4;
 
+    $('#tablaV thead tr').clone(true).appendTo( '#tablaV thead' );
+    $('#tablaV thead tr:eq(1) th').each( function (i) {
+
+      
+      
+        var title = $(this).text();
+        $(this).html( '<input class="form-control form-control-sm" type="text" placeholder="'+title+'" />' );
+ 
+        $( 'input', this ).on( 'keyup change', function () {
+          
+          if (i==4){
+
+           valbuscar=this.value;
+          }else{
+            valbuscar=this.value;
+
+          }
+          
+            if ( tablaVis.column(i).search() !== valbuscar ) {
+                tablaVis
+                    .column(i)
+                    .search( valbuscar,true,true )
+                    .draw();
+            }
+        } );
+
+
+    } );
      //FUNCION FORMATO MONEDA 
 
 
@@ -30,25 +58,31 @@ $(document).ready(function() {
         ],
         stateSave: true,
 
-        columnDefs: [{
+        columnDefs: [
+            /*
+            {
             targets: -1,
             data: null,
             defaultContent: "<div class='text-center'>\
-            <button class='btn btn-sm bg-danger btnCancelar'><i class='fas fa-ban'></i></button></div></div>",
-        },  { className: "hide_column", targets: [2] },
-        { className: "hide_column", targets: [3] },
-        { className: "hide_column", targets: [5] },
+            </div></div>",
+            //<button class='btn btn-sm bg-danger btnCancelar'><i class='fas fa-ban'></i></button>
+        },*/
+       
+        { "width": "20%", "targets": 2 },
+        { "width": "20%", "targets": 3 },
+        { "width": "30%", "targets": 5 },
+        { "width": "8%", "targets": 4 }
        
     
     ],
     rowCallback: function (row, data) {
         
-        $($(row).find('td')['9']).addClass('text-right')
+        $($(row).find('td')['6']).addClass('text-right')
    
-        $($(row).find('td')['9']).addClass('currency')
-        $($(row).find('td')['10']).addClass('text-right')
+        $($(row).find('td')['6']).addClass('currency')
+        $($(row).find('td')['7']).addClass('text-right')
    
-        $($(row).find('td')['10']).addClass('currency')
+        $($(row).find('td')['7']).addClass('currency')
   
       
       
@@ -71,69 +105,51 @@ $(document).ready(function() {
             },
             sProcessing: "Procesando...",
         },
+
+        "footerCallback": function ( row, data, start, end, display ) {
+            var api = this.api(), data;
+    
+           
+            var intVal = function ( i ) {
+                return typeof i === 'string' ?
+                    i.replace(/[\$,]/g, '')*1 :
+                    typeof i === 'number' ?
+                        i : 0;
+            };
+    
+            saldototal = api
+                .column( 7, { page: 'current'} )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+    
+            // Total over this page
+            montototal = api
+                .column( 6, { page: 'current'} )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+    
+            // Update footer
+            $(api.column(6).footer()).html(
+              Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+                parseFloat(montototal).toFixed(2),
+              ),
+            )
+            $(api.column(7).footer()).html(
+              Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+                parseFloat(saldototal).toFixed(2),
+              ),
+            )
+            }
     });
 
  
 
 
-    $(document).on("click", ".btnCancelar", function() {
-        fila = $(this).closest("tr");
-
-
-        folio = parseInt(fila.find("td:eq(0)").text());
-
-
-            $("#formcan").trigger("reset");
-            /*$(".modal-header").css("background-color", "#28a745");*/
-            $(".modal-header").css("color", "white");
-            $("#modalcan").modal("show");
-            $("#foliocan").val(folio);
-        
-
-
-    });
-
-    $(document).on("click", "#btnGuardarCAN", function() {
-        foliocan = $("#foliocan").val();
-        motivo = $("#motivo").val();
-        fecha = $("#fecha").val();
-        usuario = $("#nameuser").val();
-        $("#modalcan").modal("hide");
-
-
-
-        if (motivo === "") {
-            swal.fire({
-                title: "Datos Incompletos",
-                text: "Verifique sus datos",
-                icon: "warning",
-                focusConfirm: true,
-                confirmButtonText: "Aceptar",
-            });
-        } else {
-            $.ajax({
-                type: "POST",
-                url: "bd/cancelarpagocxp.php",
-                async: false,
-                dataType: "json",
-                data: {
-                    foliocan: foliocan,
-                    motivo: motivo,
-                    fecha: fecha,
-                    usuario: usuario,
-                },
-                success: function(res) {
-                    if (res == 1) {
-                        mensaje();
-                        location.reload();
-                    } else {
-                        mensajeerror();
-                    }
-                },
-            });
-        }
-    });
-
+ 
 
     function operacionexitosa() {
         swal.fire({

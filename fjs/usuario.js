@@ -11,21 +11,10 @@ $(document).ready(function() {
                 "data": null,
                 "defaultContent": "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-primary  btnEditar'><i class='fas fa-edit'></i></button><button class='btn btn-sm btn-danger btnBorrar'><i class='fas fa-trash-alt'></i></button></div></div>"
             },
-            {
-                "targets": [4],
-                "visible": false,
-                "searchable": false
-            },
-            {
-                "targets": [6],
-                "visible": false,
-                "searchable": false
-            },
-            {
-                "targets": [7],
-                "visible": false,
-                "searchable": false
-            },
+            { className: "hide_column", targets: [4] },
+            { className: "hide_column", targets: [5] },
+            { className: "hide_column", targets: [6] },
+         
 
         ],
 
@@ -71,9 +60,9 @@ $(document).ready(function() {
         email = fila.find('td:eq(2)').text();
         username = fila.find('td:eq(3)').text();
         password = "";
-        rol_usuario = fila.find('td:eq(4)').text();
-        rol = fila.find('td:eq(8)').text();
-
+        rol_usuario = fila.find('td:eq(6)').text();
+        rol = fila.find('td:eq(7)').text();
+       
         $("#nombre").val(nombre);
         $("#username").val(username);
         $("#email").val(email);

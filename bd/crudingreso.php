@@ -32,7 +32,7 @@ switch($opcion){
         
         break;
     case 2: //modificación
-        $consulta = "UPDATE w_cxc SET  id_obra='$id_obra',desc_cxc='$descripcion',factura_cxc='$factura',fecha_cxc='$fecha',monto_cxc='$monto',saldo_cxc='$monto',subtotal_cxc='$subtotal',iva_cxc='$iva' WHERE folio_cxc='$folio' ";		
+        $consulta = "UPDATE w_cxc SET id_obra='$id_obra',desc_cxc='$descripcion',factura_cxc='$factura',fecha_cxc='$fecha',monto_cxc='$monto',saldo_cxc='$monto',subtotal_cxc='$subtotal',iva_cxc='$iva' WHERE folio_cxc='$folio' ";		
         $resultado = $conexion->prepare($consulta);
         if($resultado->execute()){
             $data=1;

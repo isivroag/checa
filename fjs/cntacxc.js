@@ -110,10 +110,11 @@ function calculosubtotalreq(valor) {
         columnDefs: [{
             targets: -1,
             data: null,
-            defaultContent: "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-primary btnEditar'><i class='fas fa-search'></i></button>\
-            <button class='btn btn-sm bg-success btnPagar'><i class='fas fa-dollar-sign'></i></button>\
-            <button class='btn btn-sm bg-info btnResumen'><i class='fas fa-bars'></i></button>\
-            <button class='btn btn-sm bg-danger btnCancelar'><i class='fas fa-ban'></i></button></div></div>",
+            defaultContent:  "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-primary btnEditar'  data-toggle='tooltip' data-placement='top' title='Editar'><i class='fas fa-edit'></i></button>\
+            <button class='btn btn-sm bg-success btnPagar'><i class='fas fa-dollar-sign'  data-toggle='tooltip' data-placement='top' title='Pagar'></i></button>\
+            <button class='btn btn-sm bg-info btnResumen'><i class='fas fa-bars'  data-toggle='tooltip' data-placement='top' title='Resumen de Pagos'></i></button>\
+            <button class='btn btn-sm bg-danger btnCancelar'  data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
+            </div></div>",
         },
        
     
@@ -129,7 +130,7 @@ function calculosubtotalreq(valor) {
   
        
       },
-        //Para cambiar el lenguaje a español
+      
         language: {
             lengthMenu: "Mostrar _MENU_ registros",
             zeroRecords: "No se encontraron resultados",
@@ -185,6 +186,13 @@ function calculosubtotalreq(valor) {
             $($(row).find('td')['3']).addClass('currency')
 
         }, columnDefs: [
+            {
+                targets: -1,
+                data: null,
+                defaultContent:
+                  "<div class='text-center'><button class='btn btn-sm bg-danger btnCancelarpago' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
+                            </div></div>",
+              },
 
             {
                 targets: 3,
@@ -256,6 +264,74 @@ function calculosubtotalreq(valor) {
         id = null
         opcion = 1
     })
+
+      //BOTON EDITAR
+  $(document).on('click', '.btnEditar', function () {
+    fila = $(this).closest('tr')
+    folio = parseInt(fila.find('td:eq(0)').text())
+
+    saldo = fila.find('td:eq(5)').text().replace(/,/g, '')
+    monto = fila.find('td:eq(6)').text().replace(/,/g, '')
+
+    if (monto == saldo) {
+      opcion = 2
+
+      $.ajax({
+        url: 'bd/buscarfactura.php',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+          folio: folio,
+          opcion: opcion,
+        },
+        success: function (data) {
+          if (data != null) {
+            factura=data[0].factura_cxc;
+            fecha=data[0].fecha_cxc;
+            id_obra=data[0].id_obra;
+            obra=data[0].corto_obra;
+            
+            descripcion=data[0].desc_cxc;
+            subtotal= Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+              parseFloat(data[0].subtotal_cxc).toFixed(2),
+            );
+            iva= Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+              parseFloat(data[0].iva_cxc).toFixed(2),
+            );
+            monto= Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+              parseFloat(data[0].monto_cxc).toFixed(2),
+            );
+
+           $('#folioreq').val(folio);
+            $('#fechareq').val(fecha);
+            $('#facturareq').val(factura);
+             $('#id_obra').val(id_obra);
+             $('#obra').val(obra);
+          
+             $('#descripcionreq').val(descripcion);
+             $('#montoreq').val(monto)
+             $('#ivareq').val(iva);
+             $('#subtotalreq').val(subtotal);
+
+            } else {
+            Swal.fire({
+              title: 'Subcontrato no encontrado',
+              icon: 'warning',
+            })
+          }
+        },
+      })
+      $('#modalReq').modal('show')
+    } else {
+      swal.fire({
+        title: 'No es posible editar la Factura',
+        text: 'El documento ya tiene operaciones posteriores',
+        icon: 'warning',
+        focusConfirm: true,
+        confirmButtonText: 'Aceptar',
+      })
+    }
+  })
     
 //BOTON BUSCAR OBRA
 $(document).on('click', '#bobra', function () {
@@ -476,29 +552,27 @@ $(document).on('click', '.btnSelObra', function () {
           }
         }
       })
+      //BOTON CANCELAR CXC
 
     $(document).on("click", ".btnCancelar", function() {
         fila = $(this).closest("tr");
 
+        folio = parseInt(fila.find('td:eq(0)').text())
 
-        folio_venta = parseInt(fila.find("td:eq(0)").text());
-
-        saldo = fila.find("td:eq(5)").text().replace("$", "");
-        saldo = saldo.replace(",", "");
-        saldo = parseFloat(saldo);
-        total = fila.find("td:eq(4)").text().replace("$", "");
-        total = total.replace(",", "");
-        total = parseFloat(total);
-
-        if (total == saldo) {
+            saldo = fila.find('td:eq(6)').text().replace(/,/g, '')
+            monto = fila.find('td:eq(5)').text().replace(/,/g, '')
+        console.log(saldo)
+        console.log(monto)
+            if (monto == saldo) {
             $("#formcan").trigger("reset");
-            /*$(".modal-header").css("background-color", "#28a745");*/
-            $(".modal-header").css("color", "white");
+          
             $("#modalcan").modal("show");
+            $('#foliocan').val(folio)
+            $('#tipodoc').val(1)// 1 CUENTA POR COBRAR
         } else {
             swal.fire({
-                title: "¡No es posible cancelar la venta!",
-                text: "La venta tiene pagos, es necesario cancelar los pagos antes de cancelar la Venta",
+                title: "¡No es posible cancelar la Factura!",
+                text: "El documento ya tiene operaciones posteriores",
                 icon: "error",
                 focusConfirm: true,
                 confirmButtonText: "Aceptar",
@@ -508,46 +582,62 @@ $(document).on('click', '.btnSelObra', function () {
 
     });
 
- 
-    $(document).on("click", "#btnGuardar", function() {
-        motivo = $("#motivo").val();
-        fecha = $("#fecha").val();
-        usuario = $("#nameuser").val();
-        $("#modalcan").modal("hide");
+    $(document).on('click', '.btnCancelarpago', function () {
+        fila = $(this).closest('tr')
+        folio = parseInt(fila.find('td:eq(0)').text())
+    
+    
+      
+          $('#formcan').trigger('reset')
+          $('#modalcan').modal('show')
+          $('#foliocan').val(folio)
+          $('#tipodoc').val(2) // 2 PARA PAGOS DE CXC
+       
+      })
 
+  //GUARDAR CANCELAR
+  $(document).on('click', '#btnGuardarCAN', function () {
+    foliocan = $('#foliocan').val()
+    motivo = $('#motivo').val()
+    fecha = $('#fecha').val()
+    usuario = $('#nameuser').val()
+    tipodoc = $('#tipodoc').val()
+  
 
+    if (motivo === '') {
+      swal.fire({
+        title: 'Datos Incompletos',
+        text: 'Verifique sus datos',
+        icon: 'warning',
+        focusConfirm: true,
+        confirmButtonText: 'Aceptar',
+      })
+    } else {
+      $.ajax({
+        type: 'POST',
+        url: 'bd/cancelaringresos.php',
+        async: false,
+        dataType: 'json',
+        data: {
+          foliocan: foliocan,
+          motivo: motivo,
+          fecha: fecha,
+          usuario: usuario,
+          tipodoc: tipodoc
+        },
+        success: function (res) {
+          if (res == 1) {
+            $('#modalcan').modal('hide')
+            mensaje()
 
-        if (motivo === "") {
-            swal.fire({
-                title: "Datos Incompletos",
-                text: "Verifique sus datos",
-                icon: "warning",
-                focusConfirm: true,
-                confirmButtonText: "Aceptar",
-            });
-        } else {
-            $.ajax({
-                type: "POST",
-                url: "bd/cancelarventa.php",
-                async: false,
-                dataType: "json",
-                data: {
-                    folio_venta: folio_venta,
-                    motivo: motivo,
-                    fecha: fecha,
-                    usuario: usuario,
-                },
-                success: function(res) {
-                    if (res == 1) {
-                        mensaje();
-                        location.reload();
-                    } else {
-                        mensajeerror();
-                    }
-                },
-            });
-        }
-    });
+            location.reload()
+          } else {
+            mensajeerror()
+          }
+        },
+      })
+    }
+  })
 
     function facturaexitosa() {
         swal.fire({
@@ -577,7 +667,7 @@ $(document).on('click', '.btnSelObra', function () {
     }
     function mensaje() {
         swal.fire({
-            title: "Venta Cancelada",
+            title: "Registro Cancelado",
             icon: "success",
             focusConfirm: true,
             confirmButtonText: "Aceptar",
@@ -586,7 +676,7 @@ $(document).on('click', '.btnSelObra', function () {
 
     function mensajeerror() {
         swal.fire({
-            title: "Error al Cancelar la venta",
+            title: "Error al Cancelar el Registro",
             icon: "error",
             focusConfirm: true,
             confirmButtonText: "Aceptar",
@@ -642,14 +732,7 @@ $(document).on('click', '.btnSelObra', function () {
    
     var fila; //capturar la fila para editar o borrar el registro
 
-    //botón EDITAR
-    $(document).on("click", ".btnEditar", function() {
-        fila = $(this).closest("tr");
-        id = parseInt(fila.find("td:eq(0)").text());
-
-        window.location.href = "ingresos.php?id=" + id;
-    });
-
+   
 
   
 

@@ -14,47 +14,7 @@ $(document).ready(function () {
           
           if (i==4){
 
-           /* switch(this.value){
-              case 'rechazado':
-              case 'Rechazado':
-              case 'RECHAZADO':
-                valbuscar="0";
-              break;
-              case 'pendiente':
-              case 'Pendiente':
-              case 'PENDIENTE':
-                valbuscar="1";
-              break;
-              case 'enviado':
-              case 'Enviado':
-              case 'ENVIADO':
-                  valbuscar="2";
-                break;
-              case 'aceptado':
-              case 'Aceptado':
-              case 'ACEPTADO':
-                  valbuscar="3";
-                break;
-              case 'en espera':
-              case 'En espera':
-              case 'en Espera':
-              case 'En Espera':
-              case 'EN ESPERA':
-              case 'Espera':
-              case 'espera':
-              case 'ESPERA':
-                  valbuscar="4";
-                break;
-              case 'editado':
-              case 'Editado':
-              case 'EDITADO':
-                valbuscar="5";
-                break; 
-              default:
-                valbuscar="";
-            }*/
-            
-            valbuscar=this.value;
+           valbuscar=this.value;
           }else{
             valbuscar=this.value;
 
@@ -81,17 +41,7 @@ $(document).ready(function () {
         columnDefs: [
           
          
-          {
-            "render": function (data, type, row) {
-                return commaSeparateNumber(data);
-            },
-            "targets": [4]
-        },{
-          "render": function (data, type, row) {
-              return commaSeparateNumber(data);
-          },
-          "targets": [5]
-      }, { className: "text-right", "targets": [4] },
+         { className: "text-right", "targets": [4] },
       { className: "text-right", "targets": [5] },
           
          { "width": "200px", "targets": 1 },
@@ -104,7 +54,7 @@ $(document).ready(function () {
           extend: 'excelHtml5',
           text: "<i class='fas fa-file-excel'> Excel</i>",
           titleAttr: 'Exportar a Excel',
-          title: 'Reporte de Presupuestos',
+          title: 'CONSULTA DE INGRESOS',
           className: 'btn bg-success ',
           footer: true,
           exportOptions: {
@@ -126,7 +76,7 @@ $(document).ready(function () {
           extend: 'pdfHtml5',
           text: "<i class='far fa-file-pdf'> PDF</i>",
           titleAttr: 'Exportar a PDF',
-          title: 'Reporte de Presupuestos',
+          title: 'CONSULTA DE INGRESOS',
           footer: true,
           className: 'btn bg-danger',
           exportOptions: { columns: [0, 1, 2, 3, 4,5] },
@@ -195,7 +145,7 @@ $(document).ready(function () {
       "footerCallback": function ( row, data, start, end, display ) {
         var api = this.api(), data;
 
-        // Remove the formatting to get integer data for summation
+       
         var intVal = function ( i ) {
             return typeof i === 'string' ?
                 i.replace(/[\$,]/g, '')*1 :
@@ -203,16 +153,15 @@ $(document).ready(function () {
                     i : 0;
         };
 
-        // Total over all pages
-        total = api
-            .column( 4 )
+        saldototal = api
+            .column( 5, { page: 'current'} )
             .data()
             .reduce( function (a, b) {
                 return intVal(a) + intVal(b);
             }, 0 );
 
         // Total over this page
-        pageTotal = api
+        montototal = api
             .column( 4, { page: 'current'} )
             .data()
             .reduce( function (a, b) {
@@ -220,9 +169,16 @@ $(document).ready(function () {
             }, 0 );
 
         // Update footer
-        $( api.column( 4 ).footer() ).html(
-            '$ '+ new Intl.NumberFormat('es-MX').format(Math.round((pageTotal + Number.EPSILON) * 100,2) / 100) 
-        );
+        $(api.column(4).footer()).html(
+          Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+            parseFloat(montototal).toFixed(2),
+          ),
+        )
+        $(api.column(5).footer()).html(
+          Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+            parseFloat(saldototal).toFixed(2),
+          ),
+        )
         }
     });
   
