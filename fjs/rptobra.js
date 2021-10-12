@@ -4,13 +4,13 @@ $(document).ready(function() {
 
     // TOOLTIP DATATABLE
     $('[data-toggle="tooltip"]').tooltip()
-
+    grafica();
    
  
     // TABLA PRINCIPAL
 
     tablaVis = $("#tablaV").DataTable({
-        fixedHeader: true,
+        //fixedHeader: true,
         paging: false,
         searching: false, 
          info: false,
@@ -26,6 +26,13 @@ $(document).ready(function() {
   
        
       },
+      columnDefs: [
+       
+        
+        { "width": "40%", "targets": 3 },
+        { "width": "12%", "targets": 4 },
+        { "width": "12%", "targets": 5 }
+    ],
       
         language: {
             lengthMenu: "Mostrar _MENU_ registros",
@@ -84,8 +91,9 @@ $(document).ready(function() {
  
     });
 
+    //TABLA SUBCONTRATOS
     tablaEg = $("#tablaEg").DataTable({
-        fixedHeader: true,
+        //fixedHeader: true,
         paging: false,
         searching: false, 
          info: false,
@@ -101,6 +109,16 @@ $(document).ready(function() {
   
        
       },
+      columnDefs: [
+        { "width": "12%", "targets": 1 },
+        { "width": "18%", "targets": 2 },
+        { "width": "10%", "targets": 3 },
+        { "width": "30%", "targets": 4 } ,
+        { "width": "12%", "targets": 6 },
+        { "width": "12%", "targets": 5 }
+ 
+       
+    ],
       
         language: {
             lengthMenu: "Mostrar _MENU_ registros",
@@ -159,6 +177,92 @@ $(document).ready(function() {
  
     });
 
+
+       //TABLA CXP
+       tablacxp = $("#tablacxp").DataTable({
+        //fixedHeader: true,
+        paging: false,
+        searching: false, 
+         info: false,
+   
+    rowCallback: function (row, data) {
+        
+        $($(row).find('td')['6']).addClass('text-right')
+        $($(row).find('td')['6']).addClass('text-right')
+        $($(row).find('td')['7']).addClass('currency')
+        $($(row).find('td')['7']).addClass('currency')
+      
+      
+  
+       
+      },
+      columnDefs: [
+        { "width": "12%", "targets": 1 },
+        { "width": "18%", "targets": 2 },
+        { "width": "10%", "targets": 3 },
+        { "width": "30%", "targets": 4 } ,
+        { "width": "12%", "targets": 6 },
+        { "width": "12%", "targets": 5 }
+ 
+       
+    ],
+      
+        language: {
+            lengthMenu: "Mostrar _MENU_ registros",
+            zeroRecords: "No se encontraron resultados",
+            info: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+            infoFiltered: "(filtrado de un total de _MAX_ registros)",
+            sSearch: "Buscar:",
+            oPaginate: {
+                sFirst: "Primero",
+                sLast: "Último",
+                sNext: "Siguiente",
+                sPrevious: "Anterior",
+            },
+            sProcessing: "Procesando...",
+        },
+
+        "footerCallback": function ( row, data, start, end, display ) {
+            var api = this.api(), data;
+    
+           
+            var intVal = function ( i ) {
+                return typeof i === 'string' ?
+                    i.replace(/[\$,]/g, '')*1 :
+                    typeof i === 'number' ?
+                        i : 0;
+            };
+    
+            saldototal = api
+                .column( 6, { page: 'current'} )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+    
+            // Total over this page
+            montototal = api
+                .column( 5, { page: 'current'} )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+    
+            // Update footer
+            $(api.column(5).footer()).html(
+              Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+                parseFloat(montototal).toFixed(2),
+              ),
+            )
+            $(api.column(6).footer()).html(
+              Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+                parseFloat(saldototal).toFixed(2),
+              ),
+            )
+            }
+ 
+    });
         // TABLA BUSCAR OBRA
 
         tablaobra = $('#tablaObra').DataTable({
@@ -272,4 +376,12 @@ $(".modal-header").on("mousedown", function (mousedownEvt) {
     $draggable.closest(".modal").one("bs.modal.hide", function () {
         $("body").off("mousemove.draggable");
     });
+
+//GRAFICA
+
+
+
+
+
+
 });
