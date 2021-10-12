@@ -4,7 +4,10 @@ $(document).ready(function() {
 
     // TOOLTIP DATATABLE
     $('[data-toggle="tooltip"]').tooltip()
-    grafica();
+    if($("#id_obra").val()!=""    ){
+        grafica();
+    }
+    
    
  
     // TABLA PRINCIPAL

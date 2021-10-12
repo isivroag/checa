@@ -12,6 +12,12 @@ include_once 'bd/conexion.php';
 $objeto = new conn();
 $conexion = $objeto->connect();
 
+$montocxp = 0;
+$montoobra = 0;
+$montosub = 0;
+
+$resultado = 0;
+
 if ($_SESSION['id_obra'] == null) {
     $id_obra = null;
     $obra = null;
@@ -81,8 +87,8 @@ if ($_SESSION['id_obra'] == null) {
             $montocxp += $rowcxp['monto_cxp'];
         }
         $pagadocxp = $montocxp - $saldocxp;
-        $resultado=0;
-        $resultado=$montoobra-($montosub+$montocxp);
+        $resultado = 0;
+        $resultado = $montoobra - ($montosub + $montocxp);
 
 
         // BUSCAR EGRESOS
@@ -90,6 +96,7 @@ if ($_SESSION['id_obra'] == null) {
         $resultadoeg = $conexion->prepare($consultaeg);
         $resultadoeg->execute();
         $dataeg = $resultadoeg->fetchAll(PDO::FETCH_ASSOC);
+
     }
 } else {
 
@@ -106,17 +113,16 @@ if ($_SESSION['id_obra'] == null) {
         $montoobra = $rowobra['monto_obra'];
     }
 
-
     // BUSCAR INGRESOS
     $consultain = "SELECT * FROM vcxc WHERE id_obra='$id_obra' and estado_cxc=1 ORDER BY id_obra,fecha_cxc,folio_cxc";
     $resultadoin = $conexion->prepare($consultain);
     $resultadoin->execute();
-    $datain = $resultado->fetchAll(PDO::FETCH_ASSOC);
-
+    $datain = $resultadoin->fetchAll(PDO::FETCH_ASSOC);
     $ingresos = 0;
     $emitido = 0;
     $saldoin = 0;
     $pendiente = 0;
+
     if ($id_obra != null) {
         foreach ($datain as $dat) {
             $emitido += $dat['monto_cxc'];
@@ -125,14 +131,47 @@ if ($_SESSION['id_obra'] == null) {
     }
     $ingresos = $emitido - $saldoin;
     $pendiente = $montoobra - $emitido;
-    $resultado=0;
-    $resultado=$montoobra-($montosub+$montocxp);
+
+
+    // BUSCAR SUBCONTRATOS
+    $consultasub = "SELECT * FROM vsubcontrato WHERE id_obra='$id_obra' and estado_sub=1 ORDER BY folio_sub";
+    $resultadosub = $conexion->prepare($consultasub);
+    $resultadosub->execute();
+    $datasub = $resultadosub->fetchAll(PDO::FETCH_ASSOC);
+    $montosub = 0;
+    $saldosub = 0;
+    $pagadosub = 0;
+    foreach ($datasub as $rowsub) {
+        $saldosub += $rowsub['saldo_sub'];
+        $montosub += $rowsub['monto_sub'];
+    }
+    $pagadosub = $montosub - $saldosub;
+
+
+    // BUSCAR CXP
+    $consultacxp = "SELECT * FROM vcxp WHERE id_obra='$id_obra' and estado_cxp=1 ORDER BY folio_cxp";
+    $resultadocxp = $conexion->prepare($consultacxp);
+    $resultadocxp->execute();
+    $datacxp = $resultadocxp->fetchAll(PDO::FETCH_ASSOC);
+    $montocxp = 0;
+    $saldocxp = 0;
+    $pagadocxp = 0;
+    foreach ($datacxp as $rowcxp) {
+        $saldocxp += $rowcxp['saldo_cxp'];
+        $montocxp += $rowcxp['monto_cxp'];
+    }
+    $pagadocxp = $montocxp - $saldocxp;
+    $resultado = 0;
+    $resultado = $montoobra - ($montosub + $montocxp);
+
 
     // BUSCAR EGRESOS
-    $consultaeg = "SELECT * FROM voperacioneseg WHERE id_obra='$id_obra' and estado_op=1 ORDER BY id_obra,fechaop";
+    $consultaeg = "SELECT * FROM voperacioneseg WHERE id_obra='$id_obra' and estadoop=1 ORDER BY id_obra,fechaop";
     $resultadoeg = $conexion->prepare($consultaeg);
     $resultadoeg->execute();
     $dataeg = $resultadoeg->fetchAll(PDO::FETCH_ASSOC);
+
+  
 }
 
 
@@ -176,9 +215,7 @@ $message = "";
                                             <div class="input-group input-group-sm">
                                                 <input type="hidden" class="form-control" name="id_obra" id="id_obra" value="<?php echo $id_obra; ?>">
                                                 <input type="text" class="form-control" name="obra" id="obra" disabled placeholder="SELECCIONAR OBRA" value="<?php echo $obra; ?>">
-                                                <?php
-                                                if ($id_obra == null) {
-                                                ?>
+                                                <?php if ($id_obra == null) { ?>
                                                     <span class="input-group-append">
                                                         <button id="bobra" type="button" class="btn btn-sm btn-primary"><i class="fas fa-search"></i></button>
                                                     </span>
@@ -188,9 +225,14 @@ $message = "";
                                         </div>
                                     </div>
                                 </div>
-                                <?php if ($id_obra != null) { ?>
 
-                                    <div class="row justify-content-center ">
+
+
+                                <?php 
+                                 
+                                if ($id_obra != null) { ?>
+
+                                    <div class="row justify-content-center">
                                         <div class="col-lg-12">
                                             <div class="card ">
                                                 <div class="card-header bg-gradient-primary">
@@ -206,6 +248,7 @@ $message = "";
                                                         </button>
                                                     </div>
                                                 </div>
+
                                                 <div class=" card-body" id="cuerpoG">
 
                                                     <div class=" row justify-content-center">
@@ -218,53 +261,53 @@ $message = "";
                                                                         <canvas class="chart " id="resumenobra" name="resumenobra" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
 
                                                                     </div>
+
                                                                     <div class="col-lg-6">
                                                                         <canvas class="chart " id="resumenobrapie" name="resumenobrapie" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
 
                                                                     </div>
 
-                                                                    <div class="row justify-content-center mt-3">
-                                                                    <div class="col-sm-12">
-                                                                    <div class="table-responsive">
-                                                                        <table class="table table-responsive table-bordered table-hover table-sm">
-                                                                            <thead class="text-center bg-gradient-primary">
-                                                                                <tr>
-                                                                                    <th>CONCEPTO</th>
-                                                                                    <th>MONTO</th>
-                                                                                    <th>%</th>
-                                                                                </tr>
-                                                                            </thead>
-                                                                            <tbody>
-                                                                              
-                                                                                    <tr>
-                                                                                        <td>MONTO CONTRATADO</td>
-                                                                                        <td class="text-right"><?php echo number_format($montoobra,2) ?></td>
-                                                                                        <td class="text-right"><?php echo number_format(($montoobra/$montoobra)*100,2).'%' ?></td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td>TOTAL SUBCONTRATOS</td>
-                                                                                        <td class="text-right"><?php echo number_format($montosub,2) ?></td>
-                                                                                        <td class="text-right"><?php echo number_format(($montosub/$montoobra)*100,2).'%' ?></td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td>TOTAL FACTURAS DE PROVEEDORES </td>
-                                                                                        <td class="text-right"><?php echo number_format($montocxp,2) ?></td>
-                                                                                        <td class="text-right"><?php echo number_format(($montocxp/$montoobra)*100,2) ?></td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td class="text-bold">RESULTADO </td>
-                                                                                        <td class="text-right text-bold"><?php echo number_format($resultado,2) ?></td>
-                                                                                        <td class="text-right text-bold"><?php echo number_format(($resultado/$montoobra)*100,2).'%'?></td>
-                                                                                    </tr>
+                                                                    <div class="row justify-content-center">
+                                                                        <div class="col-lg-12">
+                                                                            <div class="table-responsive">
+                                                                                <table class="table table-responsive table-bordered table-hover table-sm">
+                                                                                    <thead class="text-center bg-gradient-primary">
+                                                                                        <tr>
+                                                                                            <th>CONCEPTO</th>
+                                                                                            <th>MONTO</th>
+                                                                                            <th>%</th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td>MONTO CONTRATADO</td>
+                                                                                            <td class="text-right"><?php echo number_format($montoobra, 2) ?></td>
+                                                                                            <td class="text-right"><?php echo number_format(($montoobra / $montoobra) * 100, 2) . '%' ?></td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>TOTAL SUBCONTRATOS</td>
+                                                                                            <td class="text-right"><?php echo number_format($montosub, 2) ?></td>
+                                                                                            <td class="text-right"><?php echo number_format(($montosub / $montoobra) * 100, 2) . '%' ?></td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>TOTAL FACTURAS DE PROVEEDORES </td>
+                                                                                            <td class="text-right"><?php echo number_format($montocxp, 2) ?></td>
+                                                                                            <td class="text-right"><?php echo number_format(($montocxp / $montoobra) * 100, 2) ?></td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td class="text-bold">RESULTADO </td>
+                                                                                            <td class="text-right text-bold"><?php echo number_format($resultado, 2) ?></td>
+                                                                                            <td class="text-right text-bold"><?php echo number_format(($resultado / $montoobra) * 100, 2) . '%' ?></td>
+                                                                                        </tr>
 
-                                                                            </tbody>
+                                                                                    </tbody>
 
-                                                                        </table>
-                                                                    </div>
+                                                                                </table>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                                </div>
-                                                                
+
                                                             </div>
                                                         </div>
 
@@ -275,681 +318,691 @@ $message = "";
                                             </div>
                                         </div>
                                     </div>
-                            </div>
 
 
 
-                            <div class="row justify-content-center">
-                                <div class="col-sm-12">
-                                    <div class="card ">
-                                        <div class="card-header bg-gradient-green">
-                                            <h3 class="card-title">
-                                                <i class="fas fa-file-invoice mr-1"></i>
-                                                RESUMEN DE OBRA
-                                            </h3>
 
-                                        </div>
-                                        <br>
+                                    <div class="row justify-content-center">
+                                        <div class="col-sm-12">
+                                            <div class="card ">
+                                                <div class="card-header bg-gradient-green">
+                                                    <h3 class="card-title">
+                                                        <i class="fas fa-file-invoice mr-1"></i>
+                                                        RESUMEN DE OBRA
+                                                    </h3>
 
-                                        <div class="card-body">
-
-
-                                            <div>
-                                                <div class="row justify-content-center text-bold h2">
-                                                    <span>INGRESOS</span>
                                                 </div>
-                                                <div class="row justify-content-center form-group">
+                                                <br>
 
-                                                    <div class="col-sm-5">
-                                                        <label for="montoobra" class="col-form-label">MONTO DE OBRA:</label>
-                                                    </div>
-                                                    <div class="col-sm-3">
+                                                <div class="card-body">
 
-                                                        <div class="input-group input-group-sm">
-                                                            <div class="input-group-prepend">
-                                                                <span class="input-group-text">
-                                                                    <i class="fas fa-dollar-sign"></i>
-                                                                </span>
-                                                            </div>
-                                                            <input type="text" class="form-control text-right text-bold" style="font-size:20px" name="montoobra" id="montoobra" value="<?php echo number_format($montoobra, 2); ?>">
+
+                                                    <div>
+                                                        <div class="row justify-content-center text-bold h2">
+                                                            <span>INGRESOS</span>
                                                         </div>
-                                                    </div>
 
-                                                </div>
+                                                        <div class="row justify-content-center form-group">
 
-                                                <div class="row justify-content-center form-group">
-                                                    <div class="col-sm-5">
-
-                                                        <label for="temitidas" class="col-form-label">FACTURAS EMITIDAS:</label>
-
-
-                                                    </div>
-
-                                                    <div class="col-sm-3">
-
-                                                        <div class="input-group input-group-sm">
-                                                            <div class="input-group-prepend">
-                                                                <span class="input-group-text">
-                                                                    <i class="fas fa-dollar-sign"></i>
-                                                                </span>
+                                                            <div class="col-sm-5">
+                                                                <label for="montoobra" class="col-form-label">MONTO DE OBRA:</label>
                                                             </div>
-                                                            <input type="text" class="form-control text-right text-bold" style="font-size:20px" name="temitidas" id="temitidas" value="<?php echo number_format($emitido, 2); ?>">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row justify-content-center form-group">
-                                                    <div class="col-sm-5">
+                                                            <div class="col-sm-3">
 
-                                                        <label for="tingresos" class="col-form-label">FACTURAS COBRADAS:</label>
-
-
-                                                    </div>
-
-                                                    <div class="col-sm-3">
-
-                                                        <div class="input-group input-group-sm">
-                                                            <div class="input-group-prepend">
-                                                                <span class="input-group-text">
-                                                                    <i class="fas fa-dollar-sign"></i>
-                                                                </span>
+                                                                <div class="input-group input-group-sm">
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text">
+                                                                            <i class="fas fa-dollar-sign"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                    <input type="text" class="form-control text-right text-bold" style="font-size:20px" name="montoobra" id="montoobra" value="<?php echo number_format($montoobra, 2); ?>">
+                                                                </div>
                                                             </div>
-                                                            <input type="text" class="form-control text-right text-bold" style="font-size:20px" name="tingresos" id="tingresos" value="<?php echo number_format($ingresos, 2); ?>">
+
                                                         </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row justify-content-center form-group ">
-                                                    <div class="col-sm-5 ">
-                                                        <label for="tsaldoin" class="col-form-label">SALDO DE FACTURAS PENDIENTE DE COBRAR :</label>
+
+                                                        <div class="row justify-content-center form-group">
+                                                            <div class="col-sm-5">
+
+                                                                <label for="temitidas" class="col-form-label">FACTURAS EMITIDAS:</label>
 
 
-                                                    </div>
-
-                                                    <div class="col-sm-3">
-
-                                                        <div class="input-group input-group-sm">
-                                                            <div class="input-group-prepend">
-                                                                <span class="input-group-text">
-                                                                    <i class="fas fa-dollar-sign"></i>
-                                                                </span>
                                                             </div>
-                                                            <input type="text" class="form-control text-right text-bold" style="font-size:20px" name="tsaldoin" id="tsaldoin" value="<?php echo number_format($saldoin, 2); ?>">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row justify-content-center form-group ">
-                                                    <div class="col-sm-5">
-                                                        <label for="tpendiente" class="col-form-label">MONTO PENDIENTE POR FACTURAR:</label>
 
-
-                                                    </div>
-
-                                                    <div class="col-sm-3">
-
-                                                        <div class="input-group input-group-sm">
-                                                            <div class="input-group-prepend">
-                                                                <span class="input-group-text">
-                                                                    <i class="fas fa-dollar-sign"></i>
-                                                                </span>
-                                                            </div>
-                                                            <input type="text" class="form-control text-right text-bold" style="font-size:20px" name="tpendiente" id="tpendiente" value="<?php echo number_format($pendiente, 2); ?>">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div>
-                                                <div class="row justify-content-center text-bold h2">
-                                                    <span>SUBCONTRATOS</span>
-                                                </div>
-
-                                                <div class="row justify-content-center form-group">
-                                                    <div class="col-sm-5">
-
-                                                        <label for="tsubcontrato" class="col-form-label">SUBCONTRATOS:</label>
-
-
-                                                    </div>
-
-                                                    <div class="col-sm-3">
-
-                                                        <div class="input-group input-group-sm">
-                                                            <div class="input-group-prepend">
-                                                                <span class="input-group-text">
-                                                                    <i class="fas fa-dollar-sign"></i>
-                                                                </span>
-                                                            </div>
-                                                            <input type="text" class="form-control text-right text-bold" style="font-size:20px" name="tsubcontrato" id="tsubcontrato" value="<?php echo number_format($montosub, 2); ?>">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row justify-content-center form-group">
-                                                    <div class="col-sm-5">
-
-                                                        <label for="tpagadosub" class="col-form-label">MONTO PAGADO DE SUBCONTRATOS:</label>
-
-
-                                                    </div>
-
-                                                    <div class="col-sm-3">
-
-                                                        <div class="input-group input-group-sm">
-                                                            <div class="input-group-prepend">
-                                                                <span class="input-group-text">
-                                                                    <i class="fas fa-dollar-sign"></i>
-                                                                </span>
-                                                            </div>
-                                                            <input type="text" class="form-control text-right text-bold" style="font-size:20px" name="tpagadosub" id="tpagadosub" value="<?php echo number_format($pagadosub, 2); ?>">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row justify-content-center form-group ">
-                                                    <div class="col-sm-5 ">
-                                                        <label for="tsaldosub" class="col-form-label">MONTO POR SUBCONTRATO PENDIENTE:</label>
-
-
-                                                    </div>
-
-                                                    <div class="col-sm-3">
-
-                                                        <div class="input-group input-group-sm">
-                                                            <div class="input-group-prepend">
-                                                                <span class="input-group-text">
-                                                                    <i class="fas fa-dollar-sign"></i>
-                                                                </span>
-                                                            </div>
-                                                            <input type="text" class="form-control text-right text-bold" style="font-size:20px" name="tsaldosub" id="tsaldosub" value="<?php echo number_format($saldosub, 2); ?>">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div>
-                                                <div class="row justify-content-center text-bold h2">
-                                                    <span>OTROS EGRESOS</span>
-                                                </div>
-
-                                                <div class="row justify-content-center form-group">
-                                                    <div class="col-sm-5">
-
-                                                        <label for="tcxp" class="col-form-label">FACTURAS DE PROVEEDORES:</label>
-
-
-                                                    </div>
-
-                                                    <div class="col-sm-3">
-
-                                                        <div class="input-group input-group-sm">
-                                                            <div class="input-group-prepend">
-                                                                <span class="input-group-text">
-                                                                    <i class="fas fa-dollar-sign"></i>
-                                                                </span>
-                                                            </div>
-                                                            <input type="text" class="form-control text-right text-bold" style="font-size:20px" name="tcxp" id="tcxp" value="<?php echo number_format($montocxp, 2); ?>">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row justify-content-center form-group">
-                                                    <div class="col-sm-5">
-
-                                                        <label for="tpagadocxp" class="col-form-label">MONTO PAGADO DE FACTURAS:</label>
-
-
-                                                    </div>
-
-                                                    <div class="col-sm-3">
-
-                                                        <div class="input-group input-group-sm">
-                                                            <div class="input-group-prepend">
-                                                                <span class="input-group-text">
-                                                                    <i class="fas fa-dollar-sign"></i>
-                                                                </span>
-                                                            </div>
-                                                            <input type="text" class="form-control text-right text-bold" style="font-size:20px" name="tpagadocxp" id="tpagadocxp" value="<?php echo number_format($pagadocxp, 2); ?>">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row justify-content-center form-group ">
-                                                    <div class="col-sm-5 ">
-                                                        <label for="tsaldocxp" class="col-form-label">SALDO POR PAGAR:</label>
-
-
-                                                    </div>
-
-                                                    <div class="col-sm-3">
-
-                                                        <div class="input-group input-group-sm">
-                                                            <div class="input-group-prepend">
-                                                                <span class="input-group-text">
-                                                                    <i class="fas fa-dollar-sign"></i>
-                                                                </span>
-                                                            </div>
-                                                            <input type="text" class="form-control text-right text-bold" style="font-size:20px" name="tsaldocxp" id="tsaldocxp" value="<?php echo number_format($saldocxp, 2); ?>">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div>
-
-                                                <div class="row justify-content-center text-bold h2">
-                                                    <span>RESULTADO</span>
-                                                </div>
-
-                                                <div class="row justify-content-center form-group">
-
-                                                    <div class="col-sm-5">
-                                                        <label for="montoobra" class="col-form-label">MONTO DE OBRA:</label>
-                                                    </div>
-                                                    <div class="col-sm-3">
-
-                                                        <div class="input-group input-group-sm">
-                                                            <div class="input-group-prepend">
-                                                                <span class="input-group-text">
-                                                                    <i class="fas fa-dollar-sign"></i>
-                                                                </span>
-                                                            </div>
-                                                            <input type="text" class="form-control text-right text-bold" style="font-size:20px" name="montoobra" id="montoobra" value="<?php echo number_format($montoobra, 2); ?>">
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-
-
-                                                <div class="row justify-content-center form-group">
-                                                    <div class="col-sm-5">
-
-                                                        <label for="tsubcontrato" class="col-form-label">SUBCONTRATOS:</label>
-
-
-                                                    </div>
-
-                                                    <div class="col-sm-3">
-
-                                                        <div class="input-group input-group-sm">
-                                                            <div class="input-group-prepend">
-                                                                <span class="input-group-text">
-                                                                    <i class="fas fa-dollar-sign"></i>
-                                                                </span>
-                                                            </div>
-                                                            <input type="text" class="form-control text-right text-bold" style="font-size:20px" name="tsubcontrato" id="tsubcontrato" value="<?php echo number_format($montosub, 2); ?>">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row justify-content-center form-group">
-                                                    <div class="col-sm-5">
-
-                                                        <label for="tcxp" class="col-form-label">FACTURAS DE PROVEEDORES:</label>
-
-
-                                                    </div>
-
-                                                    <div class="col-sm-3">
-
-                                                        <div class="input-group input-group-sm">
-                                                            <div class="input-group-prepend">
-                                                                <span class="input-group-text">
-                                                                    <i class="fas fa-dollar-sign"></i>
-                                                                </span>
-                                                            </div>
-                                                            <input type="text" class="form-control text-right text-bold" style="font-size:20px" name="tcxp" id="tcxp" value="<?php echo number_format($montocxp, 2); ?>">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row justify-content-center form-group">
-                                                    <div class="col-sm-5">
-
-                                                        <label for="tresultado" class="col-form-label">RESULTADO DE OBRA:</label>
-
-
-                                                    </div>
-
-                                                    <div class="col-sm-3">
-
-                                                        <div class="input-group input-group-sm">
-                                                            <div class="input-group-prepend">
-                                                                <span class="input-group-text">
-                                                                    <i class="fas fa-dollar-sign"></i>
-                                                                </span>
-                                                            </div>
-                                                            <input type="text" class="form-control text-right text-bold" style="font-size:20px" name="tresultado" id="tresultado" value="<?php echo number_format($montoobra - ($montosub + $montocxp), 2); ?>">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-
-
-                                    </div>
-                                </div>
-                            </div>
-                        <?php } ?>
-                        <?php if ($id_obra != null) { ?>
-                            <div class="row justify-content-center">
-                                <div class="col-lg-12">
-                                    <div class="card ">
-                                        <div class="card-header bg-gradient-green">
-                                            <h3 class="card-title">
-                                                <i class="fas fa-search-dollar mr-1"></i>
-                                                DETALLE DE INGRESOS
-                                            </h3>
-
-                                            <div class="card-tools" style="margin:0px;padding:0px;">
-
-                                                <button type="button" class="btn bg-gradient-green btn-sm " href="#cuerpo" data-card-widget="collapse" aria-expanded="false" title="Collapsed">
-                                                    <i class="fas fa-minus"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div class=" card-body" id="cuerpo">
-
-                                            <div class=" row justify-content-center">
-
-                                                <div class="col-sm-12">
-                                                    <div class="container-fluid">
-
-                                                        <div class="row justify-content-center">
-                                                            <div class="col-lg-12">
-                                                                <div class="table-responsive">
-                                                                    <table name="tablaV" id="tablaV" class="table table-sm table-striped table-bordered table-condensed   mx-auto" style="width:100%">
-                                                                        <thead class="text-center bg-gradient-green">
-                                                                            <tr>
-                                                                                <th>FOLIO</th>
-                                                                                <th>FACTURA</th>
-                                                                                <th>FECHA</th>
-                                                                                <th>CONCEPTO</th>
-                                                                                <th>MONTO</th>
-                                                                                <th>SALDO</th>
-
-
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            <?php
-                                                                            if ($id_obra != null) {
-                                                                                foreach ($datain as $dat) {
-                                                                            ?>
-                                                                                    <tr>
-                                                                                        <td><?php echo $dat['folio_cxc'] ?></td>
-                                                                                        <td><?php echo $dat['factura_cxc'] ?></td>
-                                                                                        <td class="text-center"><?php echo $dat['fecha_cxc'] ?></td>
-                                                                                        <td><?php echo $dat['desc_cxc'] ?></td>
-                                                                                        <td class="text-right"><?php echo number_format($dat['monto_cxc'], 2) ?></td>
-                                                                                        <td class="text-right"><?php echo number_format($dat['saldo_cxc'], 2) ?></td>
-
-
-
-                                                                                    </tr>
-                                                                            <?php
-                                                                                }
-                                                                            }
-                                                                            ?>
-                                                                        </tbody>
-                                                                        <tfoot>
-
-                                                                            <th></th>
-                                                                            <th></th>
-                                                                            <th></th>
-                                                                            <th class="text-right text-bold">TOTALES:</th>
-                                                                            <th class="text-right text-bold"></th>
-                                                                            <th class="text-right text-bold"></th>
-                                                                        </tfoot>
-                                                                    </table>
+                                                            <div class="col-sm-3">
+
+                                                                <div class="input-group input-group-sm">
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text">
+                                                                            <i class="fas fa-dollar-sign"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                    <input type="text" class="form-control text-right text-bold" style="font-size:20px" name="temitidas" id="temitidas" value="<?php echo number_format($emitido, 2); ?>">
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
 
-                                                </div>
+                                                        <div class="row justify-content-center form-group">
+                                                            <div class="col-sm-5">
 
-                                            </div>
-                                            <!-- TERMINA TABLA INGRESOS-->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row justify-content-center">
-                                <!--TABLA EGRESOS -->
-                                <div class="col-lg-12">
-                                    <div class="card ">
-                                        <div class="card-header bg-gradient-info">
-                                            <h3 class="card-title">
-                                                <i class="fas fa-search-dollar mr-1"></i>
-                                                DETALLE DE SUBCONTRATOS
-                                            </h3>
-
-                                            <div class="card-tools" style="margin:0px;padding:0px;">
-
-                                                <button type="button" class="btn bg-gradient-info btn-sm " href="#cuerpoeg" data-card-widget="collapse" aria-expanded="false" title="Collapsed">
-                                                    <i class="fas fa-minus"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div class="card-body" id="cuerpoeg">
-                                            <div class="row justify-content-center">
-
-                                                <div class="col-sm-12">
-                                                    <div class="container-fluid">
-                                                        <div class="row justify-content-center">
-                                                            <div class="col-lg-12">
-                                                                <div class="table-responsive">
-                                                                    <table name="tablaEg" id="tablaEg" class="table table-sm table-striped table-bordered table-condensed  mx-auto" style="width:100%">
-                                                                        <thead class="text-center bg-gradient-info">
-                                                                            <tr>
-                                                                                <th>FOLIO</th>
-                                                                                <th>CLAVE</th>
-                                                                                <th>PROVEEDOR</th>
-                                                                                <th>FECHA</th>
-                                                                                <th>CONCEPTO</th>
-                                                                                <th>MONTO</th>
-                                                                                <th>SALDO</th>
+                                                                <label for="tingresos" class="col-form-label">FACTURAS COBRADAS:</label>
 
 
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            <?php
-                                                                            if ($id_obra != null) {
-                                                                                foreach ($datasub as $dat) {
-                                                                            ?>
-                                                                                    <tr>
-                                                                                        <td><?php echo $dat['folio_sub'] ?></td>
-                                                                                        <td><?php echo $dat['clave_sub'] ?></td>
+                                                            </div>
 
-                                                                                        <td><?php echo $dat['razon_prov'] ?></td>
-                                                                                        <td class="text-center"><?php echo $dat['fecha_sub'] ?></td>
-                                                                                        <td><?php echo $dat['desc_sub'] ?></td>
-                                                                                        <td class="text-right"><?php echo number_format($dat['monto_sub'], 2) ?></td>
-                                                                                        <td class="text-right"><?php echo number_format($dat['saldo_sub'], 2) ?></td>
+                                                            <div class="col-sm-3">
 
-
-
-
-                                                                                    </tr>
-                                                                            <?php
-                                                                                }
-                                                                            }
-                                                                            ?>
-                                                                        </tbody>
-                                                                        <tfoot>
-
-                                                                            <th></th>
-                                                                            <th></th>
-
-                                                                            <th></th>
-                                                                            <th></th>
-                                                                            <th class="text-right text-bold">TOTALES:</th>
-                                                                            <th class="text-right text-bold"></th>
-                                                                            <th class="text-right text-bold"></th>
-                                                                        </tfoot>
-                                                                    </table>
+                                                                <div class="input-group input-group-sm">
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text">
+                                                                            <i class="fas fa-dollar-sign"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                    <input type="text" class="form-control text-right text-bold" style="font-size:20px" name="tingresos" id="tingresos" value="<?php echo number_format($ingresos, 2); ?>">
                                                                 </div>
                                                             </div>
                                                         </div>
+
+                                                        <div class="row justify-content-center form-group ">
+                                                            <div class="col-sm-5 ">
+                                                                <label for="tsaldoin" class="col-form-label">SALDO DE FACTURAS PENDIENTE DE COBRAR :</label>
+
+
+                                                            </div>
+
+                                                            <div class="col-sm-3">
+
+                                                                <div class="input-group input-group-sm">
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text">
+                                                                            <i class="fas fa-dollar-sign"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                    <input type="text" class="form-control text-right text-bold" style="font-size:20px" name="tsaldoin" id="tsaldoin" value="<?php echo number_format($saldoin, 2); ?>">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row justify-content-center form-group ">
+                                                            <div class="col-sm-5">
+                                                                <label for="tpendiente" class="col-form-label">MONTO PENDIENTE POR FACTURAR:</label>
+
+
+                                                            </div>
+
+                                                            <div class="col-sm-3">
+
+                                                                <div class="input-group input-group-sm">
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text">
+                                                                            <i class="fas fa-dollar-sign"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                    <input type="text" class="form-control text-right text-bold" style="font-size:20px" name="tpendiente" id="tpendiente" value="<?php echo number_format($pendiente, 2); ?>">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
                                                     </div>
+
+                                                    <div>
+                                                        <div class="row justify-content-center text-bold h2">
+                                                            <span>SUBCONTRATOS</span>
+                                                        </div>
+
+                                                        <div class="row justify-content-center form-group">
+                                                            <div class="col-sm-5">
+
+                                                                <label for="tsubcontrato" class="col-form-label">SUBCONTRATOS:</label>
+
+
+                                                            </div>
+
+                                                            <div class="col-sm-3">
+
+                                                                <div class="input-group input-group-sm">
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text">
+                                                                            <i class="fas fa-dollar-sign"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                    <input type="text" class="form-control text-right text-bold" style="font-size:20px" name="tsubcontrato" id="tsubcontrato" value="<?php echo number_format($montosub, 2); ?>">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row justify-content-center form-group">
+                                                            <div class="col-sm-5">
+
+                                                                <label for="tpagadosub" class="col-form-label">MONTO PAGADO DE SUBCONTRATOS:</label>
+
+
+                                                            </div>
+
+                                                            <div class="col-sm-3">
+
+                                                                <div class="input-group input-group-sm">
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text">
+                                                                            <i class="fas fa-dollar-sign"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                    <input type="text" class="form-control text-right text-bold" style="font-size:20px" name="tpagadosub" id="tpagadosub" value="<?php echo number_format($pagadosub, 2); ?>">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row justify-content-center form-group ">
+                                                            <div class="col-sm-5 ">
+                                                                <label for="tsaldosub" class="col-form-label">MONTO POR SUBCONTRATO PENDIENTE:</label>
+
+
+                                                            </div>
+
+                                                            <div class="col-sm-3">
+
+                                                                <div class="input-group input-group-sm">
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text">
+                                                                            <i class="fas fa-dollar-sign"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                    <input type="text" class="form-control text-right text-bold" style="font-size:20px" name="tsaldosub" id="tsaldosub" value="<?php echo number_format($saldosub, 2); ?>">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div>
+                                                        <div class="row justify-content-center text-bold h2">
+                                                            <span>OTROS EGRESOS</span>
+                                                        </div>
+
+                                                        <div class="row justify-content-center form-group">
+                                                            <div class="col-sm-5">
+
+                                                                <label for="tcxp" class="col-form-label">FACTURAS DE PROVEEDORES:</label>
+
+
+                                                            </div>
+
+                                                            <div class="col-sm-3">
+
+                                                                <div class="input-group input-group-sm">
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text">
+                                                                            <i class="fas fa-dollar-sign"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                    <input type="text" class="form-control text-right text-bold" style="font-size:20px" name="tcxp" id="tcxp" value="<?php echo number_format($montocxp, 2); ?>">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row justify-content-center form-group">
+                                                            <div class="col-sm-5">
+
+                                                                <label for="tpagadocxp" class="col-form-label">MONTO PAGADO DE FACTURAS:</label>
+
+
+                                                            </div>
+
+                                                            <div class="col-sm-3">
+
+                                                                <div class="input-group input-group-sm">
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text">
+                                                                            <i class="fas fa-dollar-sign"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                    <input type="text" class="form-control text-right text-bold" style="font-size:20px" name="tpagadocxp" id="tpagadocxp" value="<?php echo number_format($pagadocxp, 2); ?>">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row justify-content-center form-group ">
+                                                            <div class="col-sm-5 ">
+                                                                <label for="tsaldocxp" class="col-form-label">SALDO POR PAGAR:</label>
+
+
+                                                            </div>
+
+                                                            <div class="col-sm-3">
+
+                                                                <div class="input-group input-group-sm">
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text">
+                                                                            <i class="fas fa-dollar-sign"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                    <input type="text" class="form-control text-right text-bold" style="font-size:20px" name="tsaldocxp" id="tsaldocxp" value="<?php echo number_format($saldocxp, 2); ?>">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div>
+
+                                                        <div class="row justify-content-center text-bold h2">
+                                                            <span>RESULTADO</span>
+                                                        </div>
+
+                                                        <div class="row justify-content-center form-group">
+
+                                                            <div class="col-sm-5">
+                                                                <label for="montoobra" class="col-form-label">MONTO DE OBRA:</label>
+                                                            </div>
+                                                            <div class="col-sm-3">
+
+                                                                <div class="input-group input-group-sm">
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text">
+                                                                            <i class="fas fa-dollar-sign"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                    <input type="text" class="form-control text-right text-bold" style="font-size:20px" name="montoobra" id="montoobra" value="<?php echo number_format($montoobra, 2); ?>">
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+
+                                                        <div class="row justify-content-center form-group">
+                                                            <div class="col-sm-5">
+
+                                                                <label for="tsubcontrato" class="col-form-label">SUBCONTRATOS:</label>
+
+
+                                                            </div>
+
+                                                            <div class="col-sm-3">
+
+                                                                <div class="input-group input-group-sm">
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text">
+                                                                            <i class="fas fa-dollar-sign"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                    <input type="text" class="form-control text-right text-bold" style="font-size:20px" name="tsubcontrato" id="tsubcontrato" value="<?php echo number_format($montosub, 2); ?>">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row justify-content-center form-group">
+                                                            <div class="col-sm-5">
+
+                                                                <label for="tcxp" class="col-form-label">FACTURAS DE PROVEEDORES:</label>
+
+
+                                                            </div>
+
+                                                            <div class="col-sm-3">
+
+                                                                <div class="input-group input-group-sm">
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text">
+                                                                            <i class="fas fa-dollar-sign"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                    <input type="text" class="form-control text-right text-bold" style="font-size:20px" name="tcxp" id="tcxp" value="<?php echo number_format($montocxp, 2); ?>">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row justify-content-center form-group">
+                                                            <div class="col-sm-5">
+
+                                                                <label for="tresultado" class="col-form-label">RESULTADO DE OBRA:</label>
+
+
+                                                            </div>
+
+                                                            <div class="col-sm-3">
+
+                                                                <div class="input-group input-group-sm">
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text">
+                                                                            <i class="fas fa-dollar-sign"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                    <input type="text" class="form-control text-right text-bold" style="font-size:20px" name="tresultado" id="tresultado" value="<?php echo number_format($montoobra - ($montosub + $montocxp), 2); ?>">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                <?php } ?>
+                                <?php if ($id_obra != null) { ?>
+                                    <div class="row justify-content-center">
+                                        <div class="col-lg-12">
+                                            <div class="card ">
+                                                <div class="card-header bg-gradient-green">
+                                                    <h3 class="card-title">
+                                                        <i class="fas fa-search-dollar mr-1"></i>
+                                                        DETALLE DE INGRESOS
+                                                    </h3>
+
+                                                    <div class="card-tools" style="margin:0px;padding:0px;">
+
+                                                        <button type="button" class="btn bg-gradient-green btn-sm " href="#cuerpo" data-card-widget="collapse" aria-expanded="false" title="Collapsed">
+                                                            <i class="fas fa-minus"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class=" card-body" id="cuerpo">
+
+                                                    <div class=" row justify-content-center">
+
+                                                        <div class="col-sm-12">
+                                                            <div class="container-fluid">
+
+                                                                <div class="row justify-content-center">
+                                                                    <div class="col-lg-12">
+                                                                        <div class="table-responsive">
+                                                                            <table name="tablaV" id="tablaV" class="table table-sm table-striped table-bordered table-condensed   mx-auto" style="width:100%">
+                                                                                <thead class="text-center bg-gradient-green">
+                                                                                    <tr>
+                                                                                        <th>FOLIO</th>
+                                                                                        <th>FACTURA</th>
+                                                                                        <th>FECHA</th>
+                                                                                        <th>CONCEPTO</th>
+                                                                                        <th>MONTO</th>
+                                                                                        <th>SALDO</th>
+
+
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    <?php
+                                                                                    if ($id_obra != null) {
+                                                                                        foreach ($datain as $dat) {
+                                                                                    ?>
+                                                                                            <tr>
+                                                                                                <td><?php echo $dat['folio_cxc'] ?></td>
+                                                                                                <td><?php echo $dat['factura_cxc'] ?></td>
+                                                                                                <td class="text-center"><?php echo $dat['fecha_cxc'] ?></td>
+                                                                                                <td><?php echo $dat['desc_cxc'] ?></td>
+                                                                                                <td class="text-right"><?php echo number_format($dat['monto_cxc'], 2) ?></td>
+                                                                                                <td class="text-right"><?php echo number_format($dat['saldo_cxc'], 2) ?></td>
+
+
+
+                                                                                            </tr>
+                                                                                    <?php
+                                                                                        }
+                                                                                    }
+                                                                                    ?>
+                                                                                </tbody>
+                                                                                <tfoot>
+
+                                                                                    <th></th>
+                                                                                    <th></th>
+                                                                                    <th></th>
+                                                                                    <th class="text-right text-bold">TOTALES:</th>
+                                                                                    <th class="text-right text-bold"></th>
+                                                                                    <th class="text-right text-bold"></th>
+                                                                                </tfoot>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                    <!-- TERMINA TABLA INGRESOS-->
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                </div>
-                                <!--FIN EGRESOS -->
+                                    <div class="row justify-content-center">
+                                        <!--TABLA EGRESOS -->
+                                        <div class="col-lg-12">
+                                            <div class="card ">
+                                                <div class="card-header bg-gradient-info">
+                                                    <h3 class="card-title">
+                                                        <i class="fas fa-search-dollar mr-1"></i>
+                                                        DETALLE DE SUBCONTRATOS
+                                                    </h3>
 
-                            </div>
+                                                    <div class="card-tools" style="margin:0px;padding:0px;">
 
-                            <div class="row justify-content-center">
-                                <!--TABLA EGRESOS -->
-                                <div class="col-lg-12">
-                                    <div class="card ">
-                                        <div class="card-header bg-gradient-purple">
-                                            <h3 class="card-title">
-                                                <i class="fas fa-search-dollar mr-1"></i>
-                                                DETALLE DE FACTURAS DE PROVEEDORES
-                                            </h3>
+                                                        <button type="button" class="btn bg-gradient-info btn-sm " href="#cuerpoeg" data-card-widget="collapse" aria-expanded="false" title="Collapsed">
+                                                            <i class="fas fa-minus"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body" id="cuerpoeg">
+                                                    <div class="row justify-content-center">
 
-                                            <div class="card-tools" style="margin:0px;padding:0px;">
-
-                                                <button type="button" class="btn bg-gradient-purple btn-sm " href="#cuerpocxp" data-card-widget="collapse" aria-expanded="false" title="Collapsed">
-                                                    <i class="fas fa-minus"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div class="card-body" id="cuerpocxp">
-                                            <div class="row justify-content-center">
-
-                                                <div class="col-sm-12">
-                                                    <div class="container-fluid">
-                                                        <div class="row justify-content-center">
-                                                            <div class="col-lg-12">
-                                                                <div class="table-responsive">
-                                                                    <table name="tablacxp" id="tablacxp" class="table table-sm table-striped table-bordered table-condensed  mx-auto" style="width:100%">
-                                                                        <thead class="text-center bg-gradient-purple">
-                                                                            <tr>
-                                                                                <th>FOLIO</th>
-                                                                                <th>CLAVE</th>
-                                                                                <th>PROVEEDOR</th>
-                                                                                <th>FECHA</th>
-                                                                                <th>CONCEPTO</th>
-                                                                                <th>MONTO</th>
-                                                                                <th>SALDO</th>
-
-
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            <?php
-                                                                            if ($id_obra != null) {
-                                                                                foreach ($datacxp as $dat) {
-                                                                            ?>
+                                                        <div class="col-sm-12">
+                                                            <div class="container-fluid">
+                                                                <div class="row justify-content-center">
+                                                                    <div class="col-lg-12">
+                                                                        <div class="table-responsive">
+                                                                            <table name="tablaEg" id="tablaEg" class="table table-sm table-striped table-bordered table-condensed  mx-auto" style="width:100%">
+                                                                                <thead class="text-center bg-gradient-info">
                                                                                     <tr>
-                                                                                        <td><?php echo $dat['folio_cxp'] ?></td>
-                                                                                        <td><?php echo $dat['factura_cxp'] ?></td>
-
-                                                                                        <td><?php echo $dat['razon_prov'] ?></td>
-                                                                                        <td class="text-center"><?php echo $dat['fecha_cxp'] ?></td>
-                                                                                        <td><?php echo $dat['desc_cxp'] ?></td>
-                                                                                        <td class="text-right"><?php echo number_format($dat['monto_cxp'], 2) ?></td>
-                                                                                        <td class="text-right"><?php echo number_format($dat['saldo_cxp'], 2) ?></td>
-
-
+                                                                                        <th>FOLIO</th>
+                                                                                        <th>CLAVE</th>
+                                                                                        <th>PROVEEDOR</th>
+                                                                                        <th>FECHA</th>
+                                                                                        <th>CONCEPTO</th>
+                                                                                        <th>MONTO</th>
+                                                                                        <th>SALDO</th>
 
 
                                                                                     </tr>
-                                                                            <?php
-                                                                                }
-                                                                            }
-                                                                            ?>
-                                                                        </tbody>
-                                                                        <tfoot>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    <?php
+                                                                                    if ($id_obra != null) {
+                                                                                        foreach ($datasub as $dat) {
+                                                                                    ?>
+                                                                                            <tr>
+                                                                                                <td><?php echo $dat['folio_sub'] ?></td>
+                                                                                                <td><?php echo $dat['clave_sub'] ?></td>
 
-                                                                            <th></th>
-                                                                            <th></th>
+                                                                                                <td><?php echo $dat['razon_prov'] ?></td>
+                                                                                                <td class="text-center"><?php echo $dat['fecha_sub'] ?></td>
+                                                                                                <td><?php echo $dat['desc_sub'] ?></td>
+                                                                                                <td class="text-right"><?php echo number_format($dat['monto_sub'], 2) ?></td>
+                                                                                                <td class="text-right"><?php echo number_format($dat['saldo_sub'], 2) ?></td>
 
-                                                                            <th></th>
-                                                                            <th></th>
-                                                                            <th class="text-right text-bold">TOTALES:</th>
-                                                                            <th class="text-right text-bold"></th>
-                                                                            <th class="text-right text-bold"></th>
-                                                                        </tfoot>
-                                                                    </table>
+
+
+
+                                                                                            </tr>
+                                                                                    <?php
+                                                                                        }
+                                                                                    }
+                                                                                    ?>
+                                                                                </tbody>
+                                                                                <tfoot>
+
+                                                                                    <th></th>
+                                                                                    <th></th>
+
+                                                                                    <th></th>
+                                                                                    <th></th>
+                                                                                    <th class="text-right text-bold">TOTALES:</th>
+                                                                                    <th class="text-right text-bold"></th>
+                                                                                    <th class="text-right text-bold"></th>
+                                                                                </tfoot>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+
                                         </div>
+                                        <!--FIN EGRESOS -->
+
                                     </div>
 
-                                </div>
-                                <!--FIN EGRESOS -->
+                                    <div class="row justify-content-center">
+                                        <!--TABLA EGRESOS -->
+                                        <div class="col-lg-12">
+                                            <div class="card ">
+                                                <div class="card-header bg-gradient-purple">
+                                                    <h3 class="card-title">
+                                                        <i class="fas fa-search-dollar mr-1"></i>
+                                                        DETALLE DE FACTURAS DE PROVEEDORES
+                                                    </h3>
 
+                                                    <div class="card-tools" style="margin:0px;padding:0px;">
+
+                                                        <button type="button" class="btn bg-gradient-purple btn-sm " href="#cuerpocxp" data-card-widget="collapse" aria-expanded="false" title="Collapsed">
+                                                            <i class="fas fa-minus"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body" id="cuerpocxp">
+                                                    <div class="row justify-content-center">
+
+                                                        <div class="col-sm-12">
+                                                            <div class="container-fluid">
+                                                                <div class="row justify-content-center">
+                                                                    <div class="col-lg-12">
+                                                                        <div class="table-responsive">
+                                                                            <table name="tablacxp" id="tablacxp" class="table table-sm table-striped table-bordered table-condensed  mx-auto" style="width:100%">
+                                                                                <thead class="text-center bg-gradient-purple">
+                                                                                    <tr>
+                                                                                        <th>FOLIO</th>
+                                                                                        <th>CLAVE</th>
+                                                                                        <th>PROVEEDOR</th>
+                                                                                        <th>FECHA</th>
+                                                                                        <th>CONCEPTO</th>
+                                                                                        <th>MONTO</th>
+                                                                                        <th>SALDO</th>
+
+
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    <?php
+                                                                                    if ($id_obra != null) {
+                                                                                        foreach ($datacxp as $dat) {
+                                                                                    ?>
+                                                                                            <tr>
+                                                                                                <td><?php echo $dat['folio_cxp'] ?></td>
+                                                                                                <td><?php echo $dat['factura_cxp'] ?></td>
+
+                                                                                                <td><?php echo $dat['razon_prov'] ?></td>
+                                                                                                <td class="text-center"><?php echo $dat['fecha_cxp'] ?></td>
+                                                                                                <td><?php echo $dat['desc_cxp'] ?></td>
+                                                                                                <td class="text-right"><?php echo number_format($dat['monto_cxp'], 2) ?></td>
+                                                                                                <td class="text-right"><?php echo number_format($dat['saldo_cxp'], 2) ?></td>
+
+
+
+
+                                                                                            </tr>
+                                                                                    <?php
+                                                                                        }
+                                                                                    }
+                                                                                    ?>
+                                                                                </tbody>
+                                                                                <tfoot>
+
+                                                                                    <th></th>
+                                                                                    <th></th>
+
+                                                                                    <th></th>
+                                                                                    <th></th>
+                                                                                    <th class="text-right text-bold">TOTALES:</th>
+                                                                                    <th class="text-right text-bold"></th>
+                                                                                    <th class="text-right text-bold"></th>
+                                                                                </tfoot>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <!--FIN EGRESOS -->
+
+                                    </div>
+
+                                <?php } ?>
                             </div>
-                        <?php } ?>
                         </div>
-
-
-
                     </div>
                 </div>
+
             </div>
-
         </div>
-</div>
 
 
 
 
-</section>
+    </section>
 
-<!-- INICIA OBRA -->
-<section>
-    <div class="container-fluid">
+    <!-- INICIA OBRA -->
+    <section>
+        <div class="container-fluid">
 
-        <!-- Default box -->
-        <div class="modal fade" id="modalObra" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-md" role="document">
-                <div class="modal-content w-auto">
-                    <div class="modal-header bg-gradient-green">
-                        <h5 class="modal-title" id="exampleModalLabel">BUSCAR OBRA</h5>
+            <!-- Default box -->
+            <div class="modal fade" id="modalObra" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-md" role="document">
+                    <div class="modal-content w-auto">
+                        <div class="modal-header bg-gradient-green">
+                            <h5 class="modal-title" id="exampleModalLabel">BUSCAR OBRA</h5>
 
-                    </div>
-                    <br>
-                    <div class="table-hover table-responsive w-auto" style="padding:15px">
-                        <table name="tablaObra" id="tablaObra" class="table table-sm  table-striped table-bordered table-condensed" style="width:100%">
-                            <thead class="text-center bg-gradient-green">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>CLAVE</th>
-                                    <th>NOMBRE CORTO</th>
-                                    <th>ACCIONES</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                foreach ($datacon as $datc) {
-                                ?>
+                        </div>
+                        <br>
+                        <div class="table-hover table-responsive w-auto" style="padding:15px">
+                            <table name="tablaObra" id="tablaObra" class="table table-sm  table-striped table-bordered table-condensed" style="width:100%">
+                                <thead class="text-center bg-gradient-green">
                                     <tr>
-                                        <td><?php echo $datc['id_obra'] ?></td>
-                                        <td><?php echo $datc['clave_obra'] ?></td>
-                                        <td><?php echo $datc['corto_obra'] ?></td>
-                                        <td></td>
+                                        <th>ID</th>
+                                        <th>CLAVE</th>
+                                        <th>NOMBRE CORTO</th>
+                                        <th>ACCIONES</th>
                                     </tr>
-                                <?php
-                                }
-                                ?>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    foreach ($datacon as $datc) {
+                                    ?>
+                                        <tr>
+                                            <td><?php echo $datc['id_obra'] ?></td>
+                                            <td><?php echo $datc['clave_obra'] ?></td>
+                                            <td><?php echo $datc['corto_obra'] ?></td>
+                                            <td></td>
+                                        </tr>
+                                    <?php
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-<!-- TERMINA OBRA -->
+    </section>
+    <!-- TERMINA OBRA -->
 
 </div>
 
