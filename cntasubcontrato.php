@@ -506,7 +506,7 @@ $message = "";
 
             <!-- Default box -->
             <div class="modal fade" id="modalResumen" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-md" role="document">
+                <div class="modal-dialog modal-xl modal-md" role="document">
                     <div class="modal-content w-auto">
                         <div class="modal-header bg-gradient-green">
                             <h5 class="modal-title" id="exampleModalLabel">RESUMEN DE REQUISICIONES</h5>
@@ -563,7 +563,7 @@ $message = "";
 
             <!-- Default box -->
             <div class="modal fade myModal" id="modalResumenp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-md" role="document">
+                <div class="modal-dialog modal-xl modal-md" role="document">
                     <div class="modal-content w-auto">
                         <div class="modal-header bg-gradient-primary">
                             <h5 class="modal-title" id="exampleModalLabel">Resumen de Pagos</h5>
