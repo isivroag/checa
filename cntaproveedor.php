@@ -93,14 +93,14 @@ $message = "";
 
       </div>
       <!-- /.card-body -->
-     
+
       <!-- /.card-footer-->
     </div>
     <!-- /.card -->
 
   </section>
 
-
+  <!-- PROVEEDOR -->
   <section>
     <div class="modal fade" id="modalCRUD" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">
@@ -113,7 +113,7 @@ $message = "";
             <form id="formDatos" action="" method="POST">
               <div class="modal-body row">
 
-              <div class="col-sm-6">
+                <div class="col-sm-6">
                   <div class="form-group input-group-sm">
                     <label for="rfc" class="col-form-label">RFC:</label>
                     <input type="text" class="form-control" name="rfc" id="rfc" autocomplete="off" placeholder="RFC">
@@ -141,7 +141,7 @@ $message = "";
                   </div>
                 </div>
 
-                
+
 
                 <div class="col-sm-4">
                   <div class="form-group input-group-sm">
@@ -182,8 +182,140 @@ $message = "";
       </div>
     </div>
   </section>
+  <!-- CUENTA DE PROVEEDOR -->
+
+  <section>
+    <div class="modal fade" id="modalcuentaprov" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header bg-gradient-green">
+            <h5 class="modal-title" id="exampleModalLabel">CUENTAS DE PROVEEDORES</h5>
+
+          </div>
+          <div class="card card-widget" style="margin: 10px;">
+            <form id="formcuentaprov" action="" method="POST">
+              <div class="modal-body row">
+
+                <div class="col-sm-3">
+                  <div class="form-group input-group-sm">
+                    <label for="idcuentaprov" class="col-form-label">ID:</label>
+                    <input type="hidden" class="form-control" name="idprovcuenta" id="idprovcuenta" autocomplete="off" placeholder="ID">
+                    <input type="text" class="form-control" name="idcuentaprov" id="idcuentaprov" autocomplete="off" placeholder="ID">
+                  </div>
+                </div>
+
+                <div class="col-sm-9">
+                  <div class="form-group input-group-sm">
+                    <label for="bancoprov" class="col-form-label">BANCO:</label>
+                    <input type="text" class="form-control" name="bancoprov" id="bancoprov" autocomplete="off" placeholder="BANCO">
+                  </div>
+                </div>
+
+                <div class="col-sm-4">
+                  <div class="form-group input-group-sm">
+                    <label for="cuenta" class="col-form-label">No. CUENTA:</label>
+                    <input type="text" class="form-control" name="cuenta" id="cuenta" autocomplete="off" placeholder="No. CUENTA">
+                  </div>
+                </div>
+
+                <div class="col-sm-4">
+                  <div class="form-group input-group-sm">
+                    <label for="clabe" class="col-form-label">CLABE:</label>
+                    <input type="text" class="form-control" name="clabe" id="clabe" autocomplete="off" placeholder="CLABE">
+                  </div>
+                </div>
+
+
+
+                <div class="col-sm-4">
+                  <div class="form-group input-group-sm">
+                    <label for="tarjeta" class="col-form-label">No. TARJETA:</label>
+                    <input type="text" class="form-control" name="tarjeta" id="tarjeta" autocomplete="off" placeholder="No. TARJETA">
+                  </div>
+                </div>
+
+
+              </div>
+          </div>
+
+
+          <?php
+          if ($message != "") {
+          ?>
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+              <span class="badge "><?php echo ($message); ?></span>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+
+            </div>
+
+          <?php
+          }
+          ?>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fas fa-ban"></i> Cancelar</button>
+            <button type="submit" id="btnGuardarcuentaprov" name="btnGuardarcuentaprov" class="btn btn-success" value="btnGuardarcuentaprov"><i class="far fa-save"></i> Guardar</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- TABLA CUENTAS -->
+<section>
+        <div class="container">
+
+
+            <!-- Default box -->
+            <div class="modal fade" id="modalCuentas" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-md" role="document">
+                    <div class="modal-content w-auto">
+                        <div class="modal-header bg-gradient-green">
+                            <h5 class="modal-title" id="exampleModalLabel">Resumen de Pagos</h5>
+
+                        </div>
+                        <br>
+                        <div class="table-hover responsive w-auto " style="padding:10px">
+                            <table name="tablaCuentas" id="tablaCuentas" class="table table-sm table-striped table-bordered table-condensed display compact" style="width:100%">
+                                <thead class="text-center bg-gradient-green">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>ID PROV</th>
+                                        <th>BANCO</th>
+                                        <th>CUENTA</th>
+                                        <th>CLABE</th>
+                                        <th>TARJETA</th>
+                                        <th>ACCIONES</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                           
+                            </table>
+                        </div>
+
+
+                    </div>
+
+                </div>
+                <!-- /.card-body -->
+
+                <!-- /.card-footer-->
+            </div>
+            <!-- /.card -->
+
+        </div>
+    </section>
+
+
   <!-- /.content -->
 </div>
+
+
+
+
 
 
 <?php include_once 'templates/footer.php'; ?>
