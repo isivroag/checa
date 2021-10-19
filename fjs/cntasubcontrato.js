@@ -185,6 +185,8 @@ $(document).ready(function () {
         data: null,
         defaultContent:
           "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-primary btnEditar'  data-toggle='tooltip' data-placement='top' title='Editar'><i class='fas fa-edit'></i></button>\
+          <button class='btn btn-sm bg-secondary btnProvision'><i class='fas fa-funnel-dollar'  data-toggle='tooltip' data-placement='top' title='Provisiones'></i></button>\
+          <button class='btn btn-sm bg-orange btnVerprovision'><i class='fas fa-bars'  data-toggle='tooltip' data-placement='top' title='Ver Provisiones'></i></button>\
             <button class='btn btn-sm bg-purple btnRequisicion' data-toggle='tooltip' data-placement='top' title='Registrar Requisición'><i class='fas fa-hand-holding-usd'></i></button>\
             <button class='btn btn-sm bg-info btnResumen'><i class='fas fa-bars' data-toggle='tooltip' data-placement='top' title='Resumen Requisiciones'></i></button>\
             <button class='btn btn-sm bg-danger btnCancelar' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
@@ -356,6 +358,98 @@ $(document).ready(function () {
     },
   })
 
+    //TABLA RESUMEN DE PROVISIONES
+    tablaVerprov = $('#tablaVerprov').DataTable({
+      rowCallback: function (row, data) {
+        $($(row).find('td')['3']).addClass('text-right')
+        $($(row).find('td')['3']).addClass('currency')
+        $($(row).find('td')['4']).addClass('text-right')
+        $($(row).find('td')['4']).addClass('currency')
+      },
+      columnDefs: [
+        {
+          targets: 3,
+          render: function (data, type, full, meta) {
+            return new Intl.NumberFormat('es-MX', {
+              minimumFractionDigits: 2,
+            }).format(parseFloat(data).toFixed(2))
+          },
+        },
+        {
+          targets: 4,
+          render: function (data, type, full, meta) {
+            return new Intl.NumberFormat('es-MX', {
+              minimumFractionDigits: 2,
+            }).format(parseFloat(data).toFixed(2))
+          },
+        },
+        {
+          targets: -1,
+          data: null,
+          defaultContent:
+            "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-primary btnVerpagos' data-toggle='tooltip' data-placement='top' title='Ver Pagos' ><i class='fas fa-search-dollar'></i></button>\
+                      <button class='btn btn-sm btn-success btnPagar' data-toggle='tooltip' data-placement='top' title='Pagar Requisicion' ><i class='fas fa-dollar-sign'></i></button>\
+                      <button class='btn btn-sm bg-danger btnCancelarreq' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
+                      </div></div>",
+        },
+      ],
+  
+      language: {
+        lengthMenu: 'Mostrar _MENU_ registros',
+        zeroRecords: 'No se encontraron resultados',
+        info:
+          'Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros',
+        infoEmpty: 'Mostrando registros del 0 al 0 de un total de 0 registros',
+        infoFiltered: '(filtrado de un total de _MAX_ registros)',
+        sSearch: 'Buscar:',
+        oPaginate: {
+          sFirst: 'Primero',
+          sLast: 'Último',
+          sNext: 'Siguiente',
+          sPrevious: 'Anterior',
+        },
+        sProcessing: 'Procesando...',
+      },
+      footerCallback: function (row, data, start, end, display) {
+        var api = this.api(),
+          data
+  
+        var intVal = function (i) {
+          return typeof i === 'string'
+            ? i.replace(/[\$,]/g, '') * 1
+            : typeof i === 'number'
+            ? i
+            : 0
+        }
+  
+        totalr = api
+          .column(3)
+          .data()
+          .reduce(function (a, b) {
+            return intVal(a) + intVal(b)
+          }, 0)
+  
+        saldor = api
+          .column(4)
+          .data()
+          .reduce(function (a, b) {
+            return intVal(a) + intVal(b)
+          }, 0)
+  
+        $(api.column(3).footer()).html(
+          Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+            parseFloat(totalr).toFixed(2),
+          ),
+        )
+  
+        $(api.column(4).footer()).html(
+          Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+            parseFloat(saldor).toFixed(2),
+          ),
+        )
+      },
+    })
+ //TABLA RESUMEN DE RESUMEN PAGOS
   tablaResumenp = $('#tablaResumenp').DataTable({
     rowCallback: function (row, data) {
       $($(row).find('td')['3']).addClass('text-right')
@@ -659,6 +753,18 @@ $(document).ready(function () {
     $('#idprovreq').val(proveedor)
   })
 
+
+    // BOTON NUEVA PROVISION
+    $(document).on('click', '.btnProvision', function () {
+      fila = $(this).closest('tr')
+      id = parseInt(fila.find('td:eq(0)').text())
+      proveedor = parseInt(fila.find('td:eq(3)').text())
+      $('#formProv').trigger('reset')
+      $('#modalProv').modal('show')
+      $('#foliosubcontratop').val(id)
+      $('#idprovp').val(proveedor)
+    })
+
   //BOTON GUARDAR REQUISICION
   $(document).on('click', '#btnGuardarreq', function () {
     folioreq = $('#folioreq').val()
@@ -739,6 +845,64 @@ $(document).ready(function () {
     }
   })
 
+
+    //BOTON GUARDAR PROVISION
+    $(document).on('click', '#btnGuardarprov', function () {
+      folioreq = $('#folioprov').val()
+      subcontrato = $('#foliosubcontratop').val()
+      id_prov= $('#idprovp').val()
+      fechareq = $('#fechaprov').val()
+   
+      opcionreq = 1
+      descripcionreq = $('#descripcionprov').val()
+      montoreq = $('#montoprov').val().replace(/,/g, '')
+      ivareq = $('#ivaprov').val().replace(/,/g, '')
+      subtotalreq = $('#subtotalprov').val().replace(/,/g, '')
+  
+      if (
+        fechareq.length == 0 ||
+        descripcionreq.length == 0 ||
+        montoreq.length == 0
+      ) {
+        Swal.fire({
+          title: 'Datos Faltantes',
+          text: 'Debe ingresar todos los datos Requeridos',
+          icon: 'warning',
+        })
+        return false
+      } else {
+        $.ajax({
+          url: 'bd/crudprovisionsub.php',
+          type: 'POST',
+          dataType: 'json',
+          data: {
+            folioreq: folioreq,
+            fechareq: fechareq,
+            subcontrato: subcontrato,
+            descripcionreq: descripcionreq,
+            montoreq: montoreq,
+            subtotalreq: subtotalreq,
+            ivareq: ivareq,
+            opcionreq: opcionreq,
+          },
+          success: function (data) {
+            if (data == 1) {
+              Swal.fire({
+                title: 'Provisión Guardada',
+                icon: 'success',
+              })
+              window.location.reload()
+            } else {
+              Swal.fire({
+                title: 'Operacion No Exitosa',
+                icon: 'warning',
+              })
+            }
+          },
+        })
+      }
+    })
+
   // BOTON RESUMEN REQUISICIONES
   $(document).on('click', '.btnResumen', function () {
     fila = $(this).closest('tr')
@@ -746,6 +910,16 @@ $(document).ready(function () {
     buscarrequisicion(id)
     $('#modalResumen').modal('show')
   })
+
+
+    // BOTON RESUMEN PROVISIONES
+    $(document).on('click', '.btnVerprovision', function () {
+      fila = $(this).closest('tr')
+      id = parseInt(fila.find('td:eq(0)').text())
+      buscarprovision(id)
+      $('#modalVerprov').modal('show')
+    })
+
   //BOTON VER PAGOS
   $(document).on('click', '.btnVerpagos', function () {
     fila = $(this).closest('tr')
@@ -783,6 +957,36 @@ $(document).ready(function () {
       },
     })
   }
+
+
+    //FUNCION BUSCAR PROVISIONES
+
+    function buscarprovision(folio) {
+      tablaVerprov.clear()
+      tablaVerprov.draw()
+      opcion = 2
+      $.ajax({
+        type: 'POST',
+        url: 'bd/buscarprovision.php',
+        dataType: 'json',
+  
+        data: { folio: folio, opcion: opcion },
+  
+        success: function (res) {
+          for (var i = 0; i < res.length; i++) {
+            tablaVerprov.row
+              .add([
+                res[i].id_provs,
+                res[i].fecha_prov,
+                res[i].concepto_prov,
+                res[i].monto_prov,
+                res[i].saldo_prov,
+              ])
+              .draw()
+          }
+        },
+      })
+    }
 
   // FUNCION BUSCAR PAGOS
   function buscarpagos(folio) {

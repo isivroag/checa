@@ -36,19 +36,21 @@
             </p>
           </a>
         </li>
-        <!-- ABRE MENU CATALOGOS -->
-        <li class="nav-item  has-treeview <?php echo ($pagina == 'empresa' ||  $pagina == 'cliente' ||  $pagina == 'obra' ||  $pagina == 'proveedor') ? "menu-open" : ""; ?>">
-          <a href="#" class="nav-link  <?php echo ($pagina == 'empresa' || $pagina == 'cliente' ||  $pagina == 'obra' ||  $pagina == 'proveedor') ? "active" : ""; ?>">
-            <i class="nav-icon fas fa-bars "></i>
-            <p>
-              Catalogos
-              <i class="right fas fa-angle-left"></i>
-            </p>
-          </a>
+
+        <?php if ($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2') { ?>
+          <!-- ABRE MENU CATALOGOS -->
+          <li class="nav-item  has-treeview <?php echo ($pagina == 'empresa' ||  $pagina == 'cliente' ||  $pagina == 'obra' ||  $pagina == 'proveedor') ? "menu-open" : ""; ?>">
+            <a href="#" class="nav-link  <?php echo ($pagina == 'empresa' || $pagina == 'cliente' ||  $pagina == 'obra' ||  $pagina == 'proveedor') ? "active" : ""; ?>">
+              <i class="nav-icon fas fa-bars "></i>
+              <p>
+                Catalogos
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
 
 
-          <ul class="nav nav-treeview">
-            <?php if ($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2') { ?>
+            <ul class="nav nav-treeview">
+
               <li class="nav-item">
                 <a href="cntaempresa.php" class="nav-link <?php echo ($pagina == 'empresa') ? "active seleccionado" : ""; ?>  ">
                   <i class="fas fa-city nav-icon"></i>
@@ -64,30 +66,31 @@
               </li>
 
 
-            <?php } ?>
-
-            <li class="nav-item">
-              <a href="cntacliente.php" class="nav-link <?php echo ($pagina == 'cliente') ? "active seleccionado" : ""; ?>  ">
-                <i class="fas fa-user-tie nav-icon"></i>
-                <p>Cliente</p>
-              </a>
-            </li>
 
 
-            <li class="nav-item">
-              <a href="cntaproveedor.php" class="nav-link <?php echo ($pagina == 'proveedor') ? "active seleccionado" : ""; ?>  ">
-                <i class="fas fa-portrait nav-icon"></i>
-                <p>Proveedor</p>
-              </a>
-            </li>
+              <li class="nav-item">
+                <a href="cntacliente.php" class="nav-link <?php echo ($pagina == 'cliente') ? "active seleccionado" : ""; ?>  ">
+                  <i class="fas fa-user-tie nav-icon"></i>
+                  <p>Cliente</p>
+                </a>
+              </li>
 
 
+              <li class="nav-item">
+                <a href="cntaproveedor.php" class="nav-link <?php echo ($pagina == 'proveedor') ? "active seleccionado" : ""; ?>  ">
+                  <i class="fas fa-portrait nav-icon"></i>
+                  <p>Proveedor</p>
+                </a>
+              </li>
 
 
 
-          </ul>
 
-        </li>
+
+            </ul>
+
+          </li>
+        <?php } ?>
         <!-- CIERRA MENU CATALOGOS -->
 
 
@@ -186,17 +189,17 @@
         <!-- CIERRA MENU EGRESOS -->
 
         <!-- ABRE MENU REPORTES -->
-        <li class="nav-item has-treeview <?php echo ($pagina == 'rptobra' ) ? "menu-open" : ""; ?>">
+        <li class="nav-item has-treeview <?php echo ($pagina == 'rptobra') ? "menu-open" : ""; ?>">
 
 
-          <a href="#" class="nav-link <?php echo ($pagina == 'rptobra' ) ? "active" : ""; ?>">
+          <a href="#" class="nav-link <?php echo ($pagina == 'rptobra') ? "active" : ""; ?>">
 
             <span class="fa-stack">
               <i class="nav-icon fas fa-file-contract "></i>
             </span>
             <p>
               Reportes
-             <i class="right fas fa-angle-left"></i>
+              <i class="right fas fa-angle-left"></i>
             </p>
           </a>
           <ul class="nav nav-treeview">
@@ -209,9 +212,9 @@
               </a>
             </li>
 
-          
 
-         
+
+
           </ul>
         </li>
         <!-- CIERRA MENU EGRESOS -->

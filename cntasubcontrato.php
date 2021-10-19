@@ -57,9 +57,9 @@ $message = "";
 
 
 <style>
-.modal {
-    overflow: hidden;
-}
+    .modal {
+        overflow: hidden;
+    }
 </style>
 
 
@@ -163,7 +163,7 @@ $message = "";
 
     <!-- INICIA ALTA DE SUBCONTRATOS -->
     <section>
-        <div class="modal fade" id="modalAlta" tabindex="-1" >
+        <div class="modal fade" id="modalAlta" tabindex="-1">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content w-auto">
                     <div class="modal-header bg-gradient-green">
@@ -405,6 +405,107 @@ $message = "";
     <!-- TERMINA ALTA DE REQUISICION -->
 
 
+    <!-- INICIA ALTA DE PROVISION -->
+    <section>
+        <div class="modal fade" id="modalProv" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content w-auto">
+                    <div class="modal-header bg-gradient-green">
+                        <h5 class="modal-title" id="exampleModalLabel">ALTA DE PROVISIÓN</h5>
+
+                    </div>
+                    <form id="formProv" action="" method="POST" autocomplete="off">
+                        <div class="card card-widget" style="margin: 10px;">
+
+                            <div class="modal-body">
+                                <div class="row justify-content-sm-center">
+
+                                    <div class="col-sm-3">
+                                        <div class="form-group input-group-sm">
+                                            <label for="folioprov" class="col-form-label">FOLIO PROVISIÓN:</label>
+                                            <input type="text" class="form-control" name="folioprov" id="folioprov" disabled>
+                                            <input type="hidden" class="form-control" name="foliosubcontratop" id="foliosubcontratop" disabled>
+                                            <input type="hidden" class="form-control" name="idprovp" id="idprovp" disabled>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-2">
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                    </div>
+
+                                    <div class="col-sm-3 ">
+                                        <div class="form-group input-group-sm">
+                                            <label for="fechaprov" class="col-form-label">FECHA:</label>
+                                            <input type="date" class="form-control" name="fechaprov" id="fechaprov" value="<?php echo $fecha; ?>">
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class=" row justify-content-sm-center">
+
+                                    <div class="col-sm-12">
+                                        <div class="form-group input-group-sm">
+                                            <label for="descripcionprov" class="col-form-label">CONCEPTO:</label>
+                                            <textarea row="2" type="text" class="form-control" name="descripcionprov" id="descripcionprov" placeholder="CONCEPTO"></textarea>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row justify-content-sm-center" style="margin-bottom: 10px;">
+
+                                    <div class="col-sm-4 ">
+                                        <label for="subtotalprov" class="col-form-label">SUBTOTAL:</label>
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-dollar-sign"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control text-right" name="subtotalprov" id="subtotalprov" onkeypress="return filterFloat(event,this);">
+                                        </div>
+                                    </div>
+                                    <div class=" col-sm-4 ">
+                                        <label for=" ivaprov" class="col-form-label">IVA:</label>
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-dollar-sign"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control text-right" name="ivaprov" id="ivaprov" onkeypress="return filterFloat(event,this);">
+                                        </div>
+                                    </div>
+                                    <div class=" col-sm-4 ">
+                                        <label for="montoprov" class="col-form-label">TOTAL:</label>
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-dollar-sign"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control text-right" name="montoprov" id="montoprov" onkeypress="return filterFloat(event,this);">
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class=" modal-footer">
+                                <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fas fa-ban"></i> Cancelar</button>
+                                <button type="button" id="btnGuardarprov" name="btnGuardarprov" class="btn btn-success" value="btnGuardarprov"><i class="far fa-save"></i> Guardar</button>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- TERMINA ALTA DE PROVISION -->
+
 
     <!-- INICIA OBRA -->
     <section>
@@ -504,7 +605,7 @@ $message = "";
         <div class="container">
 
 
-            <!-- Default box -->
+
             <div class="modal fade" id="modalResumen" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-xl modal-md" role="document">
                     <div class="modal-content w-auto">
@@ -546,22 +647,74 @@ $message = "";
                     </div>
 
                 </div>
-                <!-- /.card-body -->
 
-                <!-- /.card-footer-->
             </div>
-            <!-- /.card -->
+
 
         </div>
     </section>
     <!-- TERMINA VER REQUISICIONES -->
 
- <!-- INICIA VER PAGOS -->
+
+      <!-- INICIA VER PROVISIONES -->
+      <section>
+        <div class="container">
+
+
+
+            <div class="modal fade" id="modalVerprov" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl modal-md" role="document">
+                    <div class="modal-content w-auto">
+                        <div class="modal-header bg-gradient-green">
+                            <h5 class="modal-title" id="exampleModalLabel">RESUMEN DE PROVISIONES</h5>
+
+                        </div>
+                        <br>
+                        <div class="table-hover responsive w-auto " style="padding:10px">
+                            <table name="tablaVerprov" id="tablaVerprov" class="table table-sm table-striped table-bordered table-condensed display compact" style="width:100%">
+                                <thead class="text-center bg-gradient-green">
+                                    <tr>
+                                        <th>FOLIO</th>
+                                        <th>FECHA</th>
+                                        <th>CONCEPTO</th>
+                                        <th>MONTO</th>
+                                        <th>SALDO</th>
+                                        <th>ACCIONES</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                                <tfoot>
+
+                                    <th></th>
+                                    <th class="text-right text-bold">TOTALES</th>
+                                    <th class="text-right text-bold"></th>
+                                    <th class="text-right text-bold"></th>
+                                    <th></th>
+                                </tfoot>
+                            </table>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+    </section>
+    <!-- TERMINA VER PROVISIONES -->
+
+
+    <!-- INICIA VER PAGOS -->
     <section>
         <div class="container">
 
 
-            <!-- Default box -->
+
             <div class="modal fade myModal" id="modalResumenp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-xl modal-md" role="document">
                     <div class="modal-content w-auto">
@@ -610,6 +763,7 @@ $message = "";
         </div>
     </section>
     <!-- TERMINA VER PAGOS-->
+
     <!-- INICIA PAGAR-->
     <section>
         <div class="modal fade" id="modalPago" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -634,7 +788,7 @@ $message = "";
                                     </div>
                                 </div>
 
-                               
+
 
 
                                 <div class="col-sm-3 my-auto">

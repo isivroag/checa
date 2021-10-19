@@ -82,7 +82,7 @@ $message = "";
                                 <div class="form-group input-group-sm">
                                     <label for="fecha" class="col-form-label">Desde:</label>
                                     <input type="date" class="form-control" name="inicio" id="inicio">
-                                    <input type="hidden" class="form-control" name="tipo_proy" id="tipo_proy" value=1>
+                                    
 
                                 </div>
                             </div>

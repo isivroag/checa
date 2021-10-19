@@ -683,26 +683,25 @@ $(document).on('click', '.btnSelObra', function () {
         });
     }
 
-    $("#btnBuscar").click(function() {
+
+    $(document).on('click', '#btnBuscar', function () {
         var inicio = $("#inicio").val();
         var final = $("#final").val();
         var opcion = 1;
-        
-        
 
         tablaVis.clear();
         tablaVis.draw();
 
-        console.log(opcion);
+  
 
         if (inicio != "" && final != "") {
             $.ajax({
                 type: "POST",
-                url: "bd/buscarcxc.php",
+                url: "bd/buscarcxc.php",                
                 dataType: "json",
                 data: { inicio: inicio, final: final, opcion: opcion },
                 success: function(data) {
-
+                    
                     for (var i = 0; i < data.length; i++) {
                         tablaVis.row
                             .add([
@@ -718,7 +717,7 @@ $(document).on('click', '.btnSelObra', function () {
                             ])
                             .draw();
 
-                        //tabla += '<tr><td>' + res[i].id_objetivo + '</td><td>' + res[i].desc_objetivo + '</td><td class="text-center">' + icono + '</td><td class="text-center"></td></tr>';
+                    
                     }
                 },
             });
