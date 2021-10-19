@@ -17,6 +17,7 @@
       <div class="info">
         <a href="#" class="d-block"><?php echo $_SESSION['s_nombre']; ?></a>
         <input type="hidden" id="nameuser" name="nameuser" value="<?php echo $_SESSION['s_nombre']; ?>">
+        <input type="hidden" id="tipousuario" name="tipousuario" value="<?php echo $_SESSION['s_rol']; ?>">
         <input type="hidden" id="fechasys" name="fechasys" value="<?php echo date('Y-m-d') ?>">
       </div>
     </div>

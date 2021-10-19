@@ -2,6 +2,34 @@ $(document).ready(function () {
   var id, opcion
   opcion = 4
 
+  
+  var textcolumnas=permisos();
+
+
+
+  function permisos(){
+    var tipousuario =  $('#tipousuario').val();
+    var columnas="";
+    console.log(tipousuario);
+    if (tipousuario==1){
+      columnas= "<div class='text-center'><div class='btn-group'>\
+      <button class='btn btn-sm bg-secondary btnProvision'><i class='fas fa-funnel-dollar'  data-toggle='tooltip' data-placement='top' title='Provisiones'></i></button>\
+      <button class='btn btn-sm bg-orange btnVerprovision'><i class='fas fa-bars'  data-toggle='tooltip' data-placement='top' title='Ver Provisiones'></i></button>\
+        <button class='btn btn-sm bg-purple btnRequisicion' data-toggle='tooltip' data-placement='top' title='Registrar Requisición'><i class='fas fa-hand-holding-usd'></i></button>\
+        <button class='btn btn-sm bg-info btnResumen'><i class='fas fa-bars' data-toggle='tooltip' data-placement='top' title='Resumen Requisiciones'></i></button>\
+        </div></div>";
+    }else{
+      columnas= "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-primary btnEditar'  data-toggle='tooltip' data-placement='top' title='Editar'><i class='fas fa-edit'></i></button>\
+      <button class='btn btn-sm bg-secondary btnProvision'><i class='fas fa-funnel-dollar'  data-toggle='tooltip' data-placement='top' title='Provisiones'></i></button>\
+      <button class='btn btn-sm bg-orange btnVerprovision'><i class='fas fa-bars'  data-toggle='tooltip' data-placement='top' title='Ver Provisiones'></i></button>\
+        <button class='btn btn-sm bg-purple btnRequisicion' data-toggle='tooltip' data-placement='top' title='Registrar Requisición'><i class='fas fa-hand-holding-usd'></i></button>\
+        <button class='btn btn-sm bg-info btnResumen'><i class='fas fa-bars' data-toggle='tooltip' data-placement='top' title='Resumen Requisiciones'></i></button>\
+        <button class='btn btn-sm bg-danger btnCancelar' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
+        </div></div>";
+    }
+    return columnas;
+  }
+
   //FUNCION REDONDEAR
   function round(value, decimals) {
     return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals)
@@ -179,18 +207,23 @@ $(document).ready(function () {
     /* */
 
     //COLUMNAS
+
+
+    
+
     columnDefs: [
       {
         targets: -1,
         data: null,
-        defaultContent:
+        /*defaultContent:
           "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-primary btnEditar'  data-toggle='tooltip' data-placement='top' title='Editar'><i class='fas fa-edit'></i></button>\
           <button class='btn btn-sm bg-secondary btnProvision'><i class='fas fa-funnel-dollar'  data-toggle='tooltip' data-placement='top' title='Provisiones'></i></button>\
           <button class='btn btn-sm bg-orange btnVerprovision'><i class='fas fa-bars'  data-toggle='tooltip' data-placement='top' title='Ver Provisiones'></i></button>\
             <button class='btn btn-sm bg-purple btnRequisicion' data-toggle='tooltip' data-placement='top' title='Registrar Requisición'><i class='fas fa-hand-holding-usd'></i></button>\
             <button class='btn btn-sm bg-info btnResumen'><i class='fas fa-bars' data-toggle='tooltip' data-placement='top' title='Resumen Requisiciones'></i></button>\
             <button class='btn btn-sm bg-danger btnCancelar' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
-            </div></div>",
+            </div></div>",*/
+            defaultContent:textcolumnas,
         /**/
       },
       { className: 'hide_column', targets: [3] },
