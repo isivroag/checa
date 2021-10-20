@@ -318,8 +318,9 @@ $message = "";
                                         <div class="form-group input-group-sm">
                                             <label for="folioreq" class="col-form-label">FOLIO REQ:</label>
                                             <input type="text" class="form-control" name="folioreq" id="folioreq" disabled>
-                                            <input type="hidden" class="form-control" name="foliosubcontrato" id="foliosubcontrato" disabled>
+                                            <input type="text" class="form-control" name="foliosubcontrato" id="foliosubcontrato" disabled>
                                             <input type="hidden" class="form-control" name="idprovreq" id="idprovreq" disabled>
+                                            <input type="hidden" class="form-control" name="idprovision" id="idprovision" disabled>
                                         </div>
                                     </div>
 
@@ -426,6 +427,7 @@ $message = "";
                                             <input type="text" class="form-control" name="folioprov" id="folioprov" disabled>
                                             <input type="hidden" class="form-control" name="foliosubcontratop" id="foliosubcontratop" disabled>
                                             <input type="hidden" class="form-control" name="idprovp" id="idprovp" disabled>
+  
                                         </div>
                                     </div>
 
@@ -675,8 +677,11 @@ $message = "";
                                 <thead class="text-center bg-gradient-green">
                                     <tr>
                                         <th>FOLIO</th>
+                                        <th>SUBCONTRATO</th>
                                         <th>FECHA</th>
                                         <th>CONCEPTO</th>
+                                        <th>SUBTOTAL</th>
+                                        <th>IVA</th>
                                         <th>MONTO</th>
                                         <th>SALDO</th>
                                         <th>ACCIONES</th>
@@ -688,10 +693,15 @@ $message = "";
                                 <tfoot>
 
                                     <th></th>
+                                    <th></th>
                                     <th class="text-right text-bold">TOTALES</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th ></th>
                                     <th class="text-right text-bold"></th>
                                     <th class="text-right text-bold"></th>
                                     <th></th>
+                                    
                                 </tfoot>
                             </table>
                         </div>

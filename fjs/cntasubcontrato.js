@@ -1,6 +1,7 @@
 $(document).ready(function () {
-  var id, opcion
+  var id, opcion,idprovglobal
   opcion = 4
+  
 
   
   var textcolumnas=permisos();
@@ -26,6 +27,69 @@ $(document).ready(function () {
         <button class='btn btn-sm bg-info btnResumen'><i class='fas fa-bars' data-toggle='tooltip' data-placement='top' title='Resumen Requisiciones'></i></button>\
         <button class='btn btn-sm bg-danger btnCancelar' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
         </div></div>";
+    }
+    return columnas;
+  }
+
+
+  var textcolumnas2=permisos2();
+
+
+
+  function permisos2(){
+    var tipousuario =  $('#tipousuario').val();
+    var columnas="";
+    console.log(tipousuario);
+    if (tipousuario==1){
+      columnas="<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-primary btnVerpagos' data-toggle='tooltip' data-placement='top' title='Ver Pagos' ><i class='fas fa-search-dollar'></i></button>\
+      <button class='btn btn-sm btn-success btnPagar' data-toggle='tooltip' data-placement='top' title='Pagar Requisicion' ><i class='fas fa-dollar-sign'></i></button>\
+      </div></div>";
+    }else{
+      columnas= "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-primary btnVerpagos' data-toggle='tooltip' data-placement='top' title='Ver Pagos' ><i class='fas fa-search-dollar'></i></button>\
+      <button class='btn btn-sm btn-success btnPagar' data-toggle='tooltip' data-placement='top' title='Pagar Requisicion' ><i class='fas fa-dollar-sign'></i></button>\
+      <button class='btn btn-sm bg-danger btnCancelarreq' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
+      </div></div>";
+    }
+    return columnas;
+  }
+
+  
+  var textcolumnas3=permisos3();
+
+
+
+  function permisos3(){
+    var tipousuario =  $('#tipousuario').val();
+    var columnas="";
+    console.log(tipousuario);
+    if (tipousuario==1){
+      columnas= "<div class='text-center'><div class='btn-group'>\
+      </div></div>";
+    }else{
+      columnas=  "<div class='text-center'><div class='btn-group'><button class='btn btn-sm bg-danger btnCancelarpago' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
+      </div></div>";
+    }
+    return columnas;
+  }
+
+  var textcolumnas4=permisos4();
+
+
+
+  function permisos4(){
+    var tipousuario =  $('#tipousuario').val();
+    var columnas="";
+    console.log(tipousuario);
+    if (tipousuario==1){
+      columnas=   "<div class='text-center'><div class='btn-group'><button class='btn btn-sm bg-success btntrasladarprov' data-toggle='tooltip' data-placement='top' title='Trasladar a Requisición'><i class='fas fa-share'></i></button>\
+      <button class='btn btn-sm btn-primary btnVerreq' data-toggle='tooltip' data-placement='top' title='Ver Requisiciones' ><i class='fas fa-search-dollar'></i></button>\
+      <button class='btn btn-sm bg-danger btnCancelarprov' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
+      </div></div>";
+    }else{
+      columnas=   "<div class='text-center'><div class='btn-group'><button class='btn btn-sm bg-success btntrasladarprov' data-toggle='tooltip' data-placement='top' title='Trasladar a Requisición'><i class='fas fa-share'></i></button>\
+      <button class='btn btn-sm btn-primary btnVerreq' data-toggle='tooltip' data-placement='top' title='Ver Requisiciones' ><i class='fas fa-search-dollar'></i></button>\
+      <button class='btn btn-sm bg-danger btnCancelarprov' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
+      </div></div>";
     }
     return columnas;
   }
@@ -327,11 +391,11 @@ $(document).ready(function () {
       {
         targets: -1,
         data: null,
-        defaultContent:
-          "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-primary btnVerpagos' data-toggle='tooltip' data-placement='top' title='Ver Pagos' ><i class='fas fa-search-dollar'></i></button>\
+        defaultContent:textcolumnas2
+         /* "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-primary btnVerpagos' data-toggle='tooltip' data-placement='top' title='Ver Pagos' ><i class='fas fa-search-dollar'></i></button>\
                     <button class='btn btn-sm btn-success btnPagar' data-toggle='tooltip' data-placement='top' title='Pagar Requisicion' ><i class='fas fa-dollar-sign'></i></button>\
                     <button class='btn btn-sm bg-danger btnCancelarreq' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
-                    </div></div>",
+                    </div></div>"*/,
       },
     ],
 
@@ -394,14 +458,17 @@ $(document).ready(function () {
     //TABLA RESUMEN DE PROVISIONES
     tablaVerprov = $('#tablaVerprov').DataTable({
       rowCallback: function (row, data) {
-        $($(row).find('td')['3']).addClass('text-right')
-        $($(row).find('td')['3']).addClass('currency')
-        $($(row).find('td')['4']).addClass('text-right')
-        $($(row).find('td')['4']).addClass('currency')
+        $($(row).find('td')['6']).addClass('text-right')
+        $($(row).find('td')['6']).addClass('currency')
+        $($(row).find('td')['7']).addClass('text-right')
+        $($(row).find('td')['7']).addClass('currency')
       },
       columnDefs: [
+       { className: 'hide_column', targets: [1] },
+        { className: 'hide_column', targets: [4] },
+        { className: 'hide_column', targets: [5] },
         {
-          targets: 3,
+          targets: 6,
           render: function (data, type, full, meta) {
             return new Intl.NumberFormat('es-MX', {
               minimumFractionDigits: 2,
@@ -409,7 +476,7 @@ $(document).ready(function () {
           },
         },
         {
-          targets: 4,
+          targets: 7,
           render: function (data, type, full, meta) {
             return new Intl.NumberFormat('es-MX', {
               minimumFractionDigits: 2,
@@ -419,11 +486,11 @@ $(document).ready(function () {
         {
           targets: -1,
           data: null,
-          defaultContent:
-            "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-primary btnVerpagos' data-toggle='tooltip' data-placement='top' title='Ver Pagos' ><i class='fas fa-search-dollar'></i></button>\
+          defaultContent:textcolumnas4
+           /* "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-primary btnVerpagos' data-toggle='tooltip' data-placement='top' title='Ver Pagos' ><i class='fas fa-search-dollar'></i></button>\
                       <button class='btn btn-sm btn-success btnPagar' data-toggle='tooltip' data-placement='top' title='Pagar Requisicion' ><i class='fas fa-dollar-sign'></i></button>\
                       <button class='btn btn-sm bg-danger btnCancelarreq' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
-                      </div></div>",
+                      </div></div>"*/,
         },
       ],
   
@@ -456,26 +523,26 @@ $(document).ready(function () {
         }
   
         totalr = api
-          .column(3)
+          .column(6)
           .data()
           .reduce(function (a, b) {
             return intVal(a) + intVal(b)
           }, 0)
   
         saldor = api
-          .column(4)
+          .column(7)
           .data()
           .reduce(function (a, b) {
             return intVal(a) + intVal(b)
           }, 0)
   
-        $(api.column(3).footer()).html(
+        $(api.column(6).footer()).html(
           Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
             parseFloat(totalr).toFixed(2),
           ),
         )
   
-        $(api.column(4).footer()).html(
+        $(api.column(7).footer()).html(
           Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
             parseFloat(saldor).toFixed(2),
           ),
@@ -492,9 +559,9 @@ $(document).ready(function () {
       {
         targets: -1,
         data: null,
-        defaultContent:
-          "<div class='text-center'><button class='btn btn-sm bg-danger btnCancelarpago' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
-                    </div></div>",
+        defaultContent:textcolumnas3
+       /*   "<div class='text-center'><button class='btn btn-sm bg-danger btnCancelarpago' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
+                    </div></div>"*/,
       },
       {
         targets: 3,
@@ -714,6 +781,8 @@ $(document).ready(function () {
     }
   })
 
+ 
+
   //BOTON GUARDAR SUBCONTRATO
   $(document).on('click', '#btnGuardar', function () {
     folio = $('#folio').val()
@@ -786,6 +855,32 @@ $(document).ready(function () {
     $('#idprovreq').val(proveedor)
   })
 
+   //BOTON TRASLADAR
+  
+   $(document).on('click', '.btntrasladarprov', function () {
+    fila = $(this).closest('tr')
+    id = parseInt(fila.find('td:eq(0)').text())
+    subcontrato = parseInt(fila.find('td:eq(1)').text())
+    concepto = fila.find('td:eq(3)').text()
+    subtotal = fila.find('td:eq(4)').text()
+    iva = fila.find('td:eq(5)').text()
+    total = fila.find('td:eq(6)').text()
+
+    $('#modalVerprov').modal('hide')
+    $('#formReq').trigger('reset')
+    $('#modalReq').modal('show')
+    $('#idprovision').val(id)
+    $('#foliosubcontrato').val(subcontrato)
+    $('#idprovreq').val(idprovglobal)
+    
+    $('#descripcionreq').val(concepto)
+    $('#subtotalreq').val(subtotal)
+    $('#ivareq').val(iva)
+    $('#montoreq').val(total)
+
+
+  })
+
 
     // BOTON NUEVA PROVISION
     $(document).on('click', '.btnProvision', function () {
@@ -806,6 +901,8 @@ $(document).ready(function () {
     fechareq = $('#fechareq').val()
     clavereq = $('#clavereq').val()
     factura = $('#clavereq').val()
+    idprovision = $('#idprovision').val()
+
     opcionreq = 1
     descripcionreq = $('#descripcionreq').val()
     montoreq = $('#montoreq').val().replace(/,/g, '')
@@ -840,6 +937,7 @@ $(document).ready(function () {
               url: 'bd/crudrequisicion.php',
               type: 'POST',
               dataType: 'json',
+              async:false,
               data: {
                 folioreq: folioreq,
                 fechareq: fechareq,
@@ -849,6 +947,7 @@ $(document).ready(function () {
                 montoreq: montoreq,
                 subtotalreq: subtotalreq,
                 ivareq: ivareq,
+                idprovision: idprovision,
                 opcionreq: opcionreq,
               },
               success: function (data) {
@@ -948,6 +1047,7 @@ $(document).ready(function () {
     // BOTON RESUMEN PROVISIONES
     $(document).on('click', '.btnVerprovision', function () {
       fila = $(this).closest('tr')
+      idprovglobal=parseInt(fila.find('td:eq(3)').text())
       id = parseInt(fila.find('td:eq(0)').text())
       buscarprovision(id)
       $('#modalVerprov').modal('show')
@@ -1010,8 +1110,11 @@ $(document).ready(function () {
             tablaVerprov.row
               .add([
                 res[i].id_provs,
+                res[i].id_sub,
                 res[i].fecha_prov,
                 res[i].concepto_prov,
+                res[i].subtotal_prov,
+                res[i].iva_prov,
                 res[i].monto_prov,
                 res[i].saldo_prov,
               ])

@@ -15,42 +15,64 @@ $fechareq = (isset($_POST['fechareq'])) ? $_POST['fechareq'] : '';
 $montoreq = (isset($_POST['montoreq'])) ? $_POST['montoreq'] : '';
 $subtotalreq = (isset($_POST['subtotalreq'])) ? $_POST['subtotalreq'] : '';
 $ivareq = (isset($_POST['ivareq'])) ? $_POST['ivareq'] : '';
-
+$idprovision = (isset($_POST['idprovision'])) ? $_POST['idprovision'] : '';
 
 
 $opcionreq = (isset($_POST['opcionreq'])) ? $_POST['opcionreq'] : '';
 
 
 
-$data=0;
-switch($opcionreq){
+$data = 0;
+switch ($opcionreq) {
     case 1: //alta
-        $consulta = "INSERT INTO w_reqsub (id_sub,fecha_req,factura_req,concepto_req,monto_req,saldo_req,subtotal_req,iva_req) VALUES('$subcontrato','$fechareq','$clavereq','$descripcionreq','$montoreq','$montoreq','$subtotalreq','$ivareq') ";
+        $consulta = "INSERT INTO w_reqsub (id_sub,fecha_req,factura_req,concepto_req,monto_req,saldo_req,subtotal_req,iva_req,id_provs) VALUES('$subcontrato','$fechareq','$clavereq','$descripcionreq','$montoreq','$montoreq','$subtotalreq','$ivareq','$idprovision') ";
         $resultado = $conexion->prepare($consulta);
-        if($resultado->execute()){
-            $data=1;
-        } 
+        if ($resultado->execute()) {
+            $data = 1;
 
-        
+            if ($idprovision != "") {
+                $consulta = "UPDATE w_provsub SET saldo_prov=saldo_prov-'$montoreq' WHERE id_provs='$idprovision'";
+                $resultado = $conexion->prepare($consulta);
+                $resultado->execute();
+
+                $consulta = "SELECT saldo_prov FROM w_provsub WHERE id_provs='$idprovision'";
+                $resultado = $conexion->prepare($consulta);
+                $resultado->execute();
+                $datos = $resultado->fetchAll(PDO::FETCH_ASSOC);;
+                $saldoprov = 1;
+
+                foreach ($datos as $row) {
+                    $saldoprov = $row['saldo_prov'];
+                }
+
+                if ($saldoprov == 0) {
+                    $consulta = "UPDATE w_provsub SET estado=2 WHERE id_provs='$idprovision'";
+                    $resultado = $conexion->prepare($consulta);
+                    $resultado->execute();
+                }
+            }
+        }
+
+
+
         break;
     case 2: //modificación
-        $consulta = "UPDATE w_reqsub SET  id_sub='$id_sub',fecha_reg='$fechareq',concepto_req='$descripcionreq',factura_req='$clavereq',monto_req='$montoreq',saldo_req='$montoreq',subtotal_req='$subtotalreq',iva_req='$ivareq' WHERE folio_req='$folioreq' ";		
+        $consulta = "UPDATE w_reqsub SET  id_sub='$id_sub',fecha_reg='$fechareq',concepto_req='$descripcionreq',factura_req='$clavereq',monto_req='$montoreq',saldo_req='$montoreq',subtotal_req='$subtotalreq',iva_req='$ivareq' WHERE folio_req='$folioreq' ";
         $resultado = $conexion->prepare($consulta);
-        if($resultado->execute()){
-            $data=1;
+        if ($resultado->execute()) {
+            $data = 1;
         }
-        
-        
-        break;        
-    case 3://baja
+
+
+        break;
+    case 3: //baja
         $consulta = "UPDATE w_reqsub SET estado_req=0 WHERE folio_req='$folioreq'";
         $resultado = $conexion->prepare($consulta);
-        if ($resultado->execute()){
-            $data=1;                          
+        if ($resultado->execute()) {
+            $data = 1;
         }
-        
-        break;   
-  
+
+        break;
 }
 
 print json_encode($data, JSON_UNESCAPED_UNICODE); //enviar el array final en formato json a JS
