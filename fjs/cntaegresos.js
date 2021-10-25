@@ -83,6 +83,9 @@ $(document).ready(function() {
         $($(row).find('td')['7']).addClass('text-right')
    
         $($(row).find('td')['7']).addClass('currency')
+        $($(row).find('td')['8']).addClass('text-right')
+   
+        $($(row).find('td')['8']).addClass('currency')
   
       
       
@@ -117,12 +120,19 @@ $(document).ready(function() {
                         i : 0;
             };
     
-            saldototal = api
+            pagos = api
                 .column( 7, { page: 'current'} )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
                 }, 0 );
+                
+            saldototal = api
+            .column( 8, { page: 'current'} )
+            .data()
+            .reduce( function (a, b) {
+                return intVal(a) + intVal(b);
+            }, 0 );
     
             // Total over this page
             montototal = api
@@ -139,6 +149,12 @@ $(document).ready(function() {
               ),
             )
             $(api.column(7).footer()).html(
+                Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+                  parseFloat(pagos).toFixed(2),
+                ),
+              )
+
+            $(api.column(8).footer()).html(
               Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
                 parseFloat(saldototal).toFixed(2),
               ),

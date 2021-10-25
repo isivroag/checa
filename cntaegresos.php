@@ -15,9 +15,9 @@ $fecha = date('Y-m-d');
 
 if ($_SESSION['id_obra'] != null) {
     $id_obra = $_SESSION['id_obra'];;
-    $consulta = "SELECT * FROM voperacioneseg WHERE id_obra='$id_obra' and estadoop=1 ORDER BY id_obra,fechaop";
+    $consulta = "SELECT * FROM voperacionesegresos WHERE id_obra='$id_obra' and estadoop=1 ORDER BY id_obra,fechaop";
 } else {;
-    $consulta = "SELECT * FROM voperacioneseg ORDER BY id_obra,fechaop";
+    $consulta = "SELECT * FROM voperacionesegresos ORDER BY id_obra,fechaop";
 }
 
 
@@ -104,6 +104,7 @@ $message = "";
                                             <th>FECHA</th>
                                             <th>CONCEPTO</th>
                                             <th>MONTO</th>
+                                            <th>PAGOS</th>
                                             <th>SALDO</th>
                                             
                                           
@@ -121,6 +122,7 @@ $message = "";
                                                 <td class="text-center"><?php echo $dat['fechaop'] ?></td>
                                                 <td><?php echo $dat['conceptoop'] ?></td>
                                                 <td class="text-right"><?php echo number_format($dat['montoop'], 2) ?></td>
+                                                <td class="text-right"><?php echo number_format($dat['pago'], 2) ?></td>
                                                 <td class="text-right"><?php echo number_format($dat['saldoop'], 2) ?></td>
                                                 
                                            
@@ -139,6 +141,7 @@ $message = "";
                                    <th></th>
                                    <th></th>
                                    <th class="text-right text-bold">TOTALES:</th>
+                                   <th class="text-right text-bold"></th>
                                    <th class="text-right text-bold"></th>
                                    <th class="text-right text-bold"></th>
                                    </tfoot>

@@ -63,6 +63,7 @@ $(document).ready(function () {
         tel = fila.find('td:eq(4)').text()
         contacto = fila.find('td:eq(5)').text()
         tel_contacto = fila.find('td:eq(6)').text()
+        especialidad=fila.find('td:eq(7)').text()
 
         $('#rfc').val(rfc)
         $('#razon').val(razon)
@@ -70,6 +71,7 @@ $(document).ready(function () {
         $('#tel').val(tel)
         $('#contacto').val(contacto)
         $('#tel_contacto').val(tel_contacto)
+        $('#especialidad').val(especialidad)
         opcion = 2 //editar
 
         $('.modal-header').css('background-color', '#007bff')
@@ -118,12 +120,13 @@ $(document).ready(function () {
     $('#formDatos').submit(function (e) {
         e.preventDefault()
 
-        var razon = $.trim($('#razon').val())
-        var dir = $.trim($('#dir').val())
-        var tel = $.trim($('#tel').val())
-        var rfc = $.trim($('#rfc').val())
-        var contacto = $.trim($('#contacto').val())
-        var tel_contacto = $.trim($('#tel_contacto').val())
+        var razon = $('#razon').val();
+        var dir = $('#dir').val();
+        var tel = $('#tel').val();
+        var rfc = $('#rfc').val();
+        var contacto = $('#contacto').val();
+        var tel_contacto = $('#tel_contacto').val();
+        var especialidad= $('#especialidad').val();
 
         if (razon.length == 0 || rfc.length == 0) {
             Swal.fire({
@@ -144,6 +147,7 @@ $(document).ready(function () {
                     dir: dir,
                     id: id,
                     contacto: contacto,
+                    especialidad: especialidad,
                     tel_contacto: tel_contacto,
                     opcion: opcion,
                 },
@@ -157,12 +161,12 @@ $(document).ready(function () {
                     tel_contacto = data[0].telcon_prov
                     if (opcion == 1) {
                         tablaVis.row
-                            .add([id, rfc, razon, dir, tel, contacto, tel_contacto])
+                            .add([id, rfc, razon, dir, tel, contacto, tel_contacto,especialidad,])
                             .draw()
                     } else {
                         tablaVis
                             .row(fila)
-                            .data([id, rfc, razon, dir, tel, contacto, tel_contacto])
+                            .data([id, rfc, razon, dir, tel, contacto, tel_contacto,especialidad,])
                             .draw()
                     }
                 },
@@ -189,13 +193,13 @@ $(document).ready(function () {
 
     $('#formcuentaprov').submit(function (e) {
         e.preventDefault()
-        var id = $.trim($('#idcuentaprov').val())
+        var id = $('#idcuentaprov').val();
 
-        var banco = $.trim($('#bancoprov').val())
-        var cuenta = $.trim($('#cuenta').val())
-        var clabe = $.trim($('#clabe').val())
-        var tarjeta = $.trim($('#tarjeta').val())
-        var idprovcuenta = $.trim($('#idprovcuenta').val())
+        var banco = $('#bancoprov').val();
+        var cuenta = $('#cuenta').val();
+        var clabe = $('#clabe').val();
+        var tarjeta = $('#tarjeta').val();
+        var idprovcuenta = $('#idprovcuenta').val()
 
         if (banco.length == 0 || cuenta.length == 0) {
             Swal.fire({

@@ -8,6 +8,7 @@ $(document).ready(function () {
 
 
 
+
   function permisos(){
     var tipousuario =  $('#tipousuario').val();
     var columnas="";
@@ -363,6 +364,37 @@ $(document).ready(function () {
     },
   })
 
+  //FILTROS
+  $('#tablaV thead tr').clone(true).appendTo( '#tablaV thead' );
+  $('#tablaV thead tr:eq(1) th').each( function (i) {
+
+    
+    
+      var title = $(this).text();
+      $(this).html( '<input class="form-control form-control-sm" type="text" placeholder="'+title+'" />' );
+
+      $( 'input', this ).on( 'keyup change', function () {
+        
+        if (i==4){
+
+         valbuscar=this.value;
+        }else{
+          valbuscar=this.value;
+
+        }
+        
+          if ( tablaVis.column(i).search() !== valbuscar ) {
+              tablaVis
+                  .column(i)
+                  .search( valbuscar,true,true )
+                  .draw();
+          }
+      } );
+
+
+  } );
+
+
   //TABLA RESUMEN DE REQUISICIONES
   tablaResumen = $('#tablaResumen').DataTable({
     rowCallback: function (row, data) {
@@ -433,6 +465,9 @@ $(document).ready(function () {
         .reduce(function (a, b) {
           return intVal(a) + intVal(b)
         }, 0)
+
+
+        
 
       saldor = api
         .column(5)
@@ -1043,6 +1078,16 @@ $(document).ready(function () {
     $('#modalResumen').modal('show')
   })
 
+    // BOTON RESUMEN REQUISICIONES POR PROVISION
+    $(document).on('click', '.btnVerreq', function () {
+      fila = $(this).closest('tr')
+      id = parseInt(fila.find('td:eq(0)').text())
+      buscarrequisicionprov(id)
+      $('#modalVerprov').modal('hide')
+      $('#modalResumen').modal('show')
+    })
+  
+
 
     // BOTON RESUMEN PROVISIONES
     $(document).on('click', '.btnVerprovision', function () {
@@ -1058,6 +1103,8 @@ $(document).ready(function () {
     fila = $(this).closest('tr')
     id = parseInt(fila.find('td:eq(0)').text())
     buscarpagos(id)
+  
+
     $('#modalResumenp').modal('show')
   })
 
@@ -1091,6 +1138,36 @@ $(document).ready(function () {
     })
   }
 
+  
+  //FUNCION BUSCAR REQUISICIONES POR PROVISION
+
+  function buscarrequisicionprov(folio) {
+    tablaResumen.clear()
+    tablaResumen.draw()
+    opcion = 3
+    $.ajax({
+      type: 'POST',
+      url: 'bd/buscarrequisicion.php',
+      dataType: 'json',
+
+      data: { folio: folio, opcion: opcion },
+
+      success: function (res) {
+        for (var i = 0; i < res.length; i++) {
+          tablaResumen.row
+            .add([
+              res[i].id_req,
+              res[i].factura_req,
+              res[i].fecha_req,
+              res[i].concepto_req,
+              res[i].monto_req,
+              res[i].saldo_req,
+            ])
+            .draw()
+        }
+      },
+    })
+  }
 
     //FUNCION BUSCAR PROVISIONES
 

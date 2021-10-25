@@ -23,6 +23,12 @@ switch($opcion){
         $resultado->execute();
         $data = $resultado->fetchAll(PDO::FETCH_ASSOC);
     break;
+    case 3:
+        $consulta = "SELECT * FROM vrequisicion WHERE id_provs='$folio' and estado_req=1 ORDER BY id_req";
+        $resultado = $conexion->prepare($consulta);
+        $resultado->execute();
+        $data = $resultado->fetchAll(PDO::FETCH_ASSOC);
+    break;
     
 }
 

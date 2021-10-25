@@ -40,8 +40,8 @@
 
         <?php if ($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2') { ?>
           <!-- ABRE MENU CATALOGOS -->
-          <li class="nav-item  has-treeview <?php echo ($pagina == 'empresa' ||  $pagina == 'cliente' ||  $pagina == 'obra' ||  $pagina == 'proveedor') ? "menu-open" : ""; ?>">
-            <a href="#" class="nav-link  <?php echo ($pagina == 'empresa' || $pagina == 'cliente' ||  $pagina == 'obra' ||  $pagina == 'proveedor') ? "active" : ""; ?>">
+          <li class="nav-item  has-treeview <?php echo ($pagina == 'empresa' ||  $pagina == 'cliente' ||  $pagina == 'obra'  ||  $pagina == 'especialidad' ||  $pagina == 'proveedor') ? "menu-open" : ""; ?>">
+            <a href="#" class="nav-link  <?php echo ($pagina == 'empresa' || $pagina == 'cliente' ||  $pagina == 'obra'  ||  $pagina == 'especialidad' ||  $pagina == 'proveedor') ? "active" : ""; ?>">
               <i class="nav-icon fas fa-bars "></i>
               <p>
                 Catalogos
@@ -84,7 +84,12 @@
                 </a>
               </li>
 
-
+              <li class="nav-item">
+                <a href="cntaespecialidad.php" class="nav-link <?php echo ($pagina == 'especialidad') ? "active seleccionado" : ""; ?>  ">
+                  <i class="fas fa-portrait nav-icon"></i>
+                  <p>Especialidad</p>
+                </a>
+              </li>
 
 
 

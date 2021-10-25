@@ -17,6 +17,11 @@ $resultado = $conexion->prepare($consulta);
 $resultado->execute();
 $data = $resultado->fetchAll(PDO::FETCH_ASSOC);
 
+$consultaesp = "SELECT * FROM especialidad WHERE estado_especialidad=1 ORDER BY id_especialidad";
+$resultadoesp = $conexion->prepare($consultaesp);
+$resultadoesp->execute();
+$dataesp = $resultadoesp->fetchAll(PDO::FETCH_ASSOC);
+
 $message = "";
 
 
@@ -63,6 +68,7 @@ $message = "";
                       <th>TEL</th>
                       <th>CONTACTO</th>
                       <th>TEL CONTACTO</th>
+                      <th>ESPECIALIDAD</th>
                       <th>ACCIONES</th>
                     </tr>
                   </thead>
@@ -78,6 +84,7 @@ $message = "";
                         <td><?php echo $dat['tel_prov'] ?></td>
                         <td><?php echo $dat['contacto_prov'] ?></td>
                         <td><?php echo $dat['telcon_prov'] ?></td>
+                        <td><?php echo $dat['especialidad'] ?></td>
 
                         <td></td>
                       </tr>
@@ -119,6 +126,24 @@ $message = "";
                     <input type="text" class="form-control" name="rfc" id="rfc" autocomplete="off" placeholder="RFC">
                   </div>
                 </div>
+
+
+                <div class="col-sm-6">
+                  <div class="form-group input-group-sm auto">
+                    <label for="especialidad" class="col-form-label">ESPECIALIDAD:</label>
+                    <select class="form-control" name="especialidad" id="especialidad">
+                      <?php
+                      foreach ($dataesp as $dtt) {
+                      ?>
+                        <option id="<?php echo $dtt['id_especialidad'] ?>" value="<?php echo $dtt['nom_especialidad'] ?>"> <?php echo $dtt['nom_especialidad'] ?></option>
+
+                      <?php
+                      }
+                      ?>
+                    </select>
+                  </div>
+                </div>
+
 
                 <div class="col-sm-12">
                   <div class="form-group input-group-sm">
@@ -262,52 +287,52 @@ $message = "";
     </div>
   </section>
 
-<!-- TABLA CUENTAS -->
-<section>
-        <div class="container">
+  <!-- TABLA CUENTAS -->
+  <section>
+    <div class="container">
 
 
-            <!-- Default box -->
-            <div class="modal fade" id="modalCuentas" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-md" role="document">
-                    <div class="modal-content w-auto">
-                        <div class="modal-header bg-gradient-green">
-                            <h5 class="modal-title" id="exampleModalLabel">Resumen de Pagos</h5>
+      <!-- Default box -->
+      <div class="modal fade" id="modalCuentas" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-md" role="document">
+          <div class="modal-content w-auto">
+            <div class="modal-header bg-gradient-green">
+              <h5 class="modal-title" id="exampleModalLabel">Resumen de Pagos</h5>
 
-                        </div>
-                        <br>
-                        <div class="table-hover responsive w-auto " style="padding:10px">
-                            <table name="tablaCuentas" id="tablaCuentas" class="table table-sm table-striped table-bordered table-condensed display compact" style="width:100%">
-                                <thead class="text-center bg-gradient-green">
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>ID PROV</th>
-                                        <th>BANCO</th>
-                                        <th>CUENTA</th>
-                                        <th>CLABE</th>
-                                        <th>TARJETA</th>
-                                        <th>ACCIONES</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                </tbody>
-                           
-                            </table>
-                        </div>
-
-
-                    </div>
-
-                </div>
-                <!-- /.card-body -->
-
-                <!-- /.card-footer-->
             </div>
-            <!-- /.card -->
+            <br>
+            <div class="table-hover responsive w-auto " style="padding:10px">
+              <table name="tablaCuentas" id="tablaCuentas" class="table table-sm table-striped table-bordered table-condensed display compact" style="width:100%">
+                <thead class="text-center bg-gradient-green">
+                  <tr>
+                    <th>ID</th>
+                    <th>ID PROV</th>
+                    <th>BANCO</th>
+                    <th>CUENTA</th>
+                    <th>CLABE</th>
+                    <th>TARJETA</th>
+                    <th>ACCIONES</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+
+              </table>
+            </div>
+
+
+          </div>
 
         </div>
-    </section>
+        <!-- /.card-body -->
+
+        <!-- /.card-footer-->
+      </div>
+      <!-- /.card -->
+
+    </div>
+  </section>
 
 
   <!-- /.content -->
