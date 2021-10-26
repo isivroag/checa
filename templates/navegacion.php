@@ -149,10 +149,10 @@
         <!-- CIERRA MENU CATALOGOS -->
 
         <!-- ABRE MENU EGRESOS -->
-        <li class="nav-item has-treeview <?php echo ($pagina == 'subcontrato' || $pagina == 'cntaegresos' || $pagina == 'egresos' || $pagina == 'cntacxp' || $pagina == 'cntapagocxp') ? "menu-open" : ""; ?>">
+        <li class="nav-item has-treeview <?php echo ($pagina == 'subcontrato' || $pagina == 'cntaegresos' || $pagina == 'egresos' || $pagina == 'cntacxp' || $pagina == 'cntapagocxp' || $pagina == 'pagoscxp') ? "menu-open" : ""; ?>">
 
 
-          <a href="#" class="nav-link <?php echo ($pagina == 'subcontrato' || $pagina == 'cntaegresos' || $pagina == 'egresos' || $pagina == 'cntacxp' || $pagina == 'cntapagocxp') ? "active" : ""; ?>">
+          <a href="#" class="nav-link <?php echo ($pagina == 'subcontrato' || $pagina == 'cntaegresos' || $pagina == 'egresos' || $pagina == 'cntacxp' || $pagina == 'cntapagocxp' || $pagina == 'pagoscxp') ? "active" : ""; ?>">
 
             <span class="fa-stack">
               <i class=" fas fa-arrow-down "></i>
@@ -190,6 +190,15 @@
                 <p>Consulta Egresos </p>
               </a>
             </li>
+
+            <li class="nav-item">
+              <a href="cntapagocxp.php" class="nav-link <?php echo ($pagina == 'pagoscxp') ? "active seleccionado" : ""; ?>  ">
+
+                <i class="fas text-purple fa-file-invoice-dollar nav-icon"></i>
+                <p>Rpt Pago a Proveedores </p>
+              </a>
+            </li>
+
           </ul>
         </li>
         <!-- CIERRA MENU EGRESOS -->
