@@ -60,6 +60,47 @@ $message = "";
     .modal {
         overflow: hidden;
     }
+
+    .modal.modal-fullscreen .modal-dialog {
+
+        width: 90vw;
+
+        height: 90vh;
+
+        margin: auto;
+
+        padding: 0;
+
+        max-width: none;
+
+    }
+
+
+
+    .modal.modal-fullscreen .modal-content {
+
+        height: auto;
+
+        height: 100vh;
+
+        border-radius: 0;
+
+        border: none;
+
+    }
+
+    .modal.modal-fullscreen .modal-body {
+
+        overflow-y: auto;
+
+    }
+
+    .w10{
+        width: 8% !important;
+    }
+    .w40{
+        width: 45% !important;
+    }
 </style>
 
 
@@ -84,7 +125,7 @@ $message = "";
 
                 <div class="row">
                     <div class="col-lg-12">
-                        <button id="btnNuevo" type="button" class="btn bg-gradient-green btn-ms" data-toggle="modal"  <?php echo $_SESSION['s_rol']==1 ? 'disabled' :''  ?>><i class="fas fa-plus-square text-light"></i><span class="text-light" > Nuevo</span></button>
+                        <button id="btnNuevo" type="button" class="btn bg-gradient-green btn-ms" data-toggle="modal" <?php echo $_SESSION['s_rol'] == 1 ? 'disabled' : ''  ?>><i class="fas fa-plus-square text-light"></i><span class="text-light"> Nuevo</span></button>
                     </div>
                 </div>
                 <br>
@@ -427,7 +468,7 @@ $message = "";
                                             <input type="text" class="form-control" name="folioprov" id="folioprov" disabled>
                                             <input type="hidden" class="form-control" name="foliosubcontratop" id="foliosubcontratop" disabled>
                                             <input type="hidden" class="form-control" name="idprovp" id="idprovp" disabled>
-  
+
                                         </div>
                                     </div>
 
@@ -608,25 +649,25 @@ $message = "";
 
 
 
-            <div class="modal fade" id="modalResumen" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl modal-md" role="document">
+            <div class="modal fade " id="modalResumen" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl " role="document">
                     <div class="modal-content w-auto">
                         <div class="modal-header bg-gradient-green">
                             <h5 class="modal-title" id="exampleModalLabel">RESUMEN DE REQUISICIONES</h5>
 
                         </div>
                         <br>
-                        <div class="table-hover responsive w-auto " style="padding:10px">
-                            <table name="tablaResumen" id="tablaResumen" class="table table-sm table-striped table-bordered table-condensed display compact" style="width:100%">
+                        <div class="table-hover table-responsive " style="padding:10px; font-size:15px">
+                            <table name="tablaResumen" id="tablaResumen" class="table table-sm table-striped table-bordered table-condensed " style="width:100%">
                                 <thead class="text-center bg-gradient-green">
                                     <tr>
-                                        <th>FOLIO</th>
-                                        <th>FACTURA</th>
-                                        <th>FECHA</th>
-                                        <th>CONCEPTO</th>
-                                        <th>MONTO</th>
-                                        <th>SALDO</th>
-                                        <th>ACCIONES</th>
+                                        <th class="w10" >FOLIO</th>
+                                        <th class="w10">FACTURA</th>
+                                        <th class="w10" >FECHA</th>
+                                        <th class="w40">CONCEPTO</th>
+                                        <th class="w10">MONTO</th>
+                                        <th class="w10">SALDO</th>
+                                        <th class="w10" >ACCIONES</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -658,8 +699,8 @@ $message = "";
     <!-- TERMINA VER REQUISICIONES -->
 
 
-      <!-- INICIA VER PROVISIONES -->
-      <section>
+    <!-- INICIA VER PROVISIONES -->
+    <section>
         <div class="container">
 
 
@@ -697,11 +738,11 @@ $message = "";
                                     <th class="text-right text-bold">TOTALES</th>
                                     <th></th>
                                     <th></th>
-                                    <th ></th>
+                                    <th></th>
                                     <th class="text-right text-bold"></th>
                                     <th class="text-right text-bold"></th>
                                     <th></th>
-                                    
+
                                 </tfoot>
                             </table>
                         </div>
@@ -944,7 +985,7 @@ $message = "";
 
 
 <?php include_once 'templates/footer.php'; ?>
-<script src="fjs/cntasubcontrato.js?v=<?php echo(rand()); ?>"></script>
+<script src="fjs/cntasubcontrato.js?v=<?php echo (rand()); ?>"></script>
 <script src="plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 <script src="plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
