@@ -140,7 +140,7 @@ if ($_SESSION['s_usuario'] === null) {
 
     <script src="js/adminlte.min.js"></script>
     <script src="plugins/sweetalert2/sweetalert2.all.min.js"></script>
-    <script src="fjs/codigoobra.js"></script>
+    <script src="fjs/codigoobra.js?v=<?php echo(rand()); ?>"></script>
 
 
 </body>

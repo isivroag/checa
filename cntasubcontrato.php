@@ -84,7 +84,7 @@ $message = "";
 
                 <div class="row">
                     <div class="col-lg-12">
-                        <button id="btnNuevo" type="button" class="btn bg-gradient-green btn-ms" data-toggle="modal"><i class="fas fa-plus-square text-light"></i><span class="text-light"> Nuevo</span></button>
+                        <button id="btnNuevo" type="button" class="btn bg-gradient-green btn-ms" data-toggle="modal"  <?php echo $_SESSION['s_rol']==1 ? 'disabled' :''  ?>><i class="fas fa-plus-square text-light"></i><span class="text-light" > Nuevo</span></button>
                     </div>
                 </div>
                 <br>
@@ -318,7 +318,7 @@ $message = "";
                                         <div class="form-group input-group-sm">
                                             <label for="folioreq" class="col-form-label">FOLIO REQ:</label>
                                             <input type="text" class="form-control" name="folioreq" id="folioreq" disabled>
-                                            <input type="text" class="form-control" name="foliosubcontrato" id="foliosubcontrato" disabled>
+                                            <input type="hidden" class="form-control" name="foliosubcontrato" id="foliosubcontrato" disabled>
                                             <input type="hidden" class="form-control" name="idprovreq" id="idprovreq" disabled>
                                             <input type="hidden" class="form-control" name="idprovision" id="idprovision" disabled>
                                         </div>
@@ -944,7 +944,7 @@ $message = "";
 
 
 <?php include_once 'templates/footer.php'; ?>
-<script src="fjs/cntasubcontrato.js"></script>
+<script src="fjs/cntasubcontrato.js?v=<?php echo(rand()); ?>"></script>
 <script src="plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 <script src="plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>

@@ -172,6 +172,12 @@ $(document).ready(function () {
       },
       { className: 'hide_column', targets: [4] },
       { className: 'hide_column', targets: [2] },
+      { "width": "30%", "targets": 7 },
+      { "width": "20%", "targets": 3 },
+      { "width": "20%", "targets": 5 },
+      { "width": "8%", "targets": 6 },
+      { "width": "8%", "targets": 8 },
+      { "width": "8%", "targets": 9 }
     ],
 
     language: {
@@ -362,7 +368,7 @@ $(document).ready(function () {
   //BOTON GUARDAR FACTURA
   $(document).on('click', '#btnGuardarreq', function () {
     folio = $('#folioreq').val()
-    fecha = $('#fecha').val()
+    fecha = $('#fechareq').val()
     factura = $('#facturareq').val()
     id_obra = $('#id_obra').val()
     id_prov = $('#id_prov').val()

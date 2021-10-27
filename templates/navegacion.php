@@ -86,7 +86,7 @@
 
               <li class="nav-item">
                 <a href="cntaespecialidad.php" class="nav-link <?php echo ($pagina == 'especialidad') ? "active seleccionado" : ""; ?>  ">
-                  <i class="fas fa-portrait nav-icon"></i>
+                  <i class="fas fa-screwdriver nav-icon"></i>
                   <p>Especialidad</p>
                 </a>
               </li>

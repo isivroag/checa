@@ -26,7 +26,33 @@ switch ($tipodoc) {
         $resultado = $conexion->prepare($consulta);
         if ($resultado->execute()) {
             $res = 1;
+
+             //IDENTIFICAR LA PROVISION Y EL MONTO DE LA REQUISICION
+             $consulta = "SELECT id_provs,monto_req FROM w_reqsub WHERE id_req='$foliocan'";
+             $resultado = $conexion->prepare($consulta);
+             if ($resultado->execute()) {
+                 $data = $resultado->fetchAll(PDO::FETCH_ASSOC);
+                 $provision = 0;
+                 $montoreq = 0;
+                 foreach ($data as $dat) {
+ 
+                     $provision = $dat['id_provs'];
+                     $montoreq = $dat['monto_req'];
+                 }
+ 
+                 if($provision!='' && $provision!=0){
+                    $consulta = "UPDATE w_provsub SET saldo_prov=saldo_prov+'$montoreq' WHERE id_provs='$provision'";
+                    $resultado = $conexion->prepare($consulta);
+                    $resultado->execute();
+
+                 }
+                 //ACTUALIZAR SALDO REQUISICION 
+                 
+                }
+            
         }
+
+
 
         break;
     case 3: // CANCELAR PAGO REQUISICION
@@ -122,6 +148,15 @@ switch ($tipodoc) {
         } 
 
         break;
+
+        case 6:
+
+            $consulta = "UPDATE w_provsub SET estado_prov='0',fecha_can='$fecha',motivo_can='$motivo',usuario_can='$usuario' WHERE id_provs='$foliocan'";
+            $resultado = $conexion->prepare($consulta);
+            if ($resultado->execute()) {
+                $res = 1;
+            }
+            break;
 }
 
 

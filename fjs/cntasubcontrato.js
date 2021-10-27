@@ -1,98 +1,94 @@
 $(document).ready(function () {
-  var id, opcion,idprovglobal
+  var id, opcion, idprovglobal
   opcion = 4
-  
 
-  
-  var textcolumnas=permisos();
+  var textcolumnas = permisos()
 
-
-
-
-  function permisos(){
-    var tipousuario =  $('#tipousuario').val();
-    var columnas="";
-    console.log(tipousuario);
-    if (tipousuario==1){
-      columnas= "<div class='text-center'><div class='btn-group'>\
+  function permisos() {
+    var tipousuario = $('#tipousuario').val()
+    var columnas = ''
+    console.log(tipousuario)
+    if (tipousuario == 1) {
+      columnas =
+        "<div class='text-center'><div class='btn-group'>\
       <button class='btn btn-sm bg-secondary btnProvision'><i class='fas fa-funnel-dollar'  data-toggle='tooltip' data-placement='top' title='Provisiones'></i></button>\
       <button class='btn btn-sm bg-orange btnVerprovision'><i class='fas fa-bars'  data-toggle='tooltip' data-placement='top' title='Ver Provisiones'></i></button>\
         <button class='btn btn-sm bg-purple btnRequisicion' data-toggle='tooltip' data-placement='top' title='Registrar Requisición'><i class='fas fa-hand-holding-usd'></i></button>\
         <button class='btn btn-sm bg-info btnResumen'><i class='fas fa-bars' data-toggle='tooltip' data-placement='top' title='Resumen Requisiciones'></i></button>\
-        </div></div>";
-    }else{
-      columnas= "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-primary btnEditar'  data-toggle='tooltip' data-placement='top' title='Editar'><i class='fas fa-edit'></i></button>\
+        </div></div>"
+    } else {
+      columnas =
+        "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-primary btnEditar'  data-toggle='tooltip' data-placement='top' title='Editar'><i class='fas fa-edit'></i></button>\
       <button class='btn btn-sm bg-secondary btnProvision'><i class='fas fa-funnel-dollar'  data-toggle='tooltip' data-placement='top' title='Provisiones'></i></button>\
       <button class='btn btn-sm bg-orange btnVerprovision'><i class='fas fa-bars'  data-toggle='tooltip' data-placement='top' title='Ver Provisiones'></i></button>\
         <button class='btn btn-sm bg-purple btnRequisicion' data-toggle='tooltip' data-placement='top' title='Registrar Requisición'><i class='fas fa-hand-holding-usd'></i></button>\
         <button class='btn btn-sm bg-info btnResumen'><i class='fas fa-bars' data-toggle='tooltip' data-placement='top' title='Resumen Requisiciones'></i></button>\
         <button class='btn btn-sm bg-danger btnCancelar' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
-        </div></div>";
+        </div></div>"
     }
-    return columnas;
+    return columnas
   }
 
+  var textcolumnas2 = permisos2()
 
-  var textcolumnas2=permisos2();
-
-
-
-  function permisos2(){
-    var tipousuario =  $('#tipousuario').val();
-    var columnas="";
-    console.log(tipousuario);
-    if (tipousuario==1){
-      columnas="<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-primary btnVerpagos' data-toggle='tooltip' data-placement='top' title='Ver Pagos' ><i class='fas fa-search-dollar'></i></button>\
-      <button class='btn btn-sm btn-success btnPagar' data-toggle='tooltip' data-placement='top' title='Pagar Requisicion' ><i class='fas fa-dollar-sign'></i></button>\
-      </div></div>";
-    }else{
-      columnas= "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-primary btnVerpagos' data-toggle='tooltip' data-placement='top' title='Ver Pagos' ><i class='fas fa-search-dollar'></i></button>\
+  function permisos2() {
+    var tipousuario = $('#tipousuario').val()
+    var columnas = ''
+    console.log(tipousuario)
+    if (tipousuario == 1) {
+      columnas =
+        "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-primary btnVerpagos' data-toggle='tooltip' data-placement='top' title='Ver Pagos' ><i class='fas fa-search-dollar'></i></button>\
       <button class='btn btn-sm btn-success btnPagar' data-toggle='tooltip' data-placement='top' title='Pagar Requisicion' ><i class='fas fa-dollar-sign'></i></button>\
       <button class='btn btn-sm bg-danger btnCancelarreq' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
-      </div></div>";
+      </div></div>"
+    } else {
+      columnas =
+        "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-primary btnVerpagos' data-toggle='tooltip' data-placement='top' title='Ver Pagos' ><i class='fas fa-search-dollar'></i></button>\
+      <button class='btn btn-sm btn-success btnPagar' data-toggle='tooltip' data-placement='top' title='Pagar Requisicion' ><i class='fas fa-dollar-sign'></i></button>\
+      <button class='btn btn-sm bg-danger btnCancelarreq' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
+      </div></div>"
     }
-    return columnas;
+    return columnas
   }
 
-  
-  var textcolumnas3=permisos3();
+  var textcolumnas3 = permisos3()
 
-
-
-  function permisos3(){
-    var tipousuario =  $('#tipousuario').val();
-    var columnas="";
-    console.log(tipousuario);
-    if (tipousuario==1){
-      columnas= "<div class='text-center'><div class='btn-group'>\
-      </div></div>";
-    }else{
-      columnas=  "<div class='text-center'><div class='btn-group'><button class='btn btn-sm bg-danger btnCancelarpago' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
-      </div></div>";
+  function permisos3() {
+    var tipousuario = $('#tipousuario').val()
+    var columnas = ''
+    console.log(tipousuario)
+    if (tipousuario == 1) {
+      columnas =
+        "<div class='text-center'><div class='btn-group'><button class='btn btn-sm bg-danger btnCancelarpago' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
+      </div></div>"
+    } else {
+      columnas =
+        "<div class='text-center'><div class='btn-group'><button class='btn btn-sm bg-danger btnCancelarpago' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
+      </div></div>"
     }
-    return columnas;
+    return columnas
   }
 
-  var textcolumnas4=permisos4();
+  var textcolumnas4 = permisos4()
 
-
-
-  function permisos4(){
-    var tipousuario =  $('#tipousuario').val();
-    var columnas="";
-    console.log(tipousuario);
-    if (tipousuario==1){
-      columnas=   "<div class='text-center'><div class='btn-group'><button class='btn btn-sm bg-success btntrasladarprov' data-toggle='tooltip' data-placement='top' title='Trasladar a Requisición'><i class='fas fa-share'></i></button>\
+  function permisos4() {
+    var tipousuario = $('#tipousuario').val()
+    var columnas = ''
+    console.log(tipousuario)
+    if (tipousuario == 1) {
+      columnas =
+        "<div class='text-center'><div class='btn-group'><button class='btn btn-sm bg-success btntrasladarprov' data-toggle='tooltip' data-placement='top' title='Trasladar a Requisición'><i class='fas fa-share'></i></button>\
       <button class='btn btn-sm btn-primary btnVerreq' data-toggle='tooltip' data-placement='top' title='Ver Requisiciones' ><i class='fas fa-search-dollar'></i></button>\
       <button class='btn btn-sm bg-danger btnCancelarprov' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
-      </div></div>";
-    }else{
-      columnas=   "<div class='text-center'><div class='btn-group'><button class='btn btn-sm bg-success btntrasladarprov' data-toggle='tooltip' data-placement='top' title='Trasladar a Requisición'><i class='fas fa-share'></i></button>\
+      </div></div>"
+    } else {
+      columnas =
+        "<div class='text-center'><div class='btn-group'><button class='btn btn-sm bg-success btntrasladarprov' data-toggle='tooltip' data-placement='top' title='Trasladar a Requisición'><i class='fas fa-share'></i></button>\
       <button class='btn btn-sm btn-primary btnVerreq' data-toggle='tooltip' data-placement='top' title='Ver Requisiciones' ><i class='fas fa-search-dollar'></i></button>\
       <button class='btn btn-sm bg-danger btnCancelarprov' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
-      </div></div>";
+      </div></div>"
     }
-    return columnas;
+    return columnas
   }
 
   //FUNCION REDONDEAR
@@ -174,6 +170,72 @@ $(document).ready(function () {
       ),
     )
   }
+
+  //CALCULO TOTAL PROV
+  function calculototalprov(valor) {
+    subtotal = valor
+
+    total = round(subtotal * 1.16, 2)
+    iva = total - subtotal
+
+    $('#ivaprov').val(
+      Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+        parseFloat(iva).toFixed(2),
+      ),
+    )
+    $('#montoprov').val(
+      Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+        parseFloat(total).toFixed(2),
+      ),
+    )
+  }
+  //CALCULO SUBTOTAL PROV
+  function calculosubtotalprov(valor) {
+    total = valor
+
+    subtotal = round(total / 1.16, 2)
+
+    iva = round(total - subtotal, 2)
+
+    $('#ivaprov').val(
+      Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+        parseFloat(iva).toFixed(2),
+      ),
+    )
+    $('#subtotalprov').val(
+      Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+        parseFloat(subtotal).toFixed(2),
+      ),
+    )
+  }
+
+  // SOLO NUMEROS SUBTOTAL PROV
+  document.getElementById('subtotalprov').onblur = function () {
+    calculototalprov(this.value.replace(/,/g, ''))
+    this.value = parseFloat(this.value.replace(/,/g, ''))
+      .toFixed(2)
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  }
+
+  // SOLO NUMEROS IVA PROV
+  document.getElementById('ivaprov').onblur = function () {
+    this.value = parseFloat(this.value.replace(/,/g, ''))
+      .toFixed(2)
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  }
+
+  // SOLO NUMEROS MONTO PROV
+  document.getElementById('montoprov').onblur = function () {
+    calculosubtotalprov(this.value.replace(/,/g, ''))
+
+    this.value = parseFloat(this.value.replace(/,/g, ''))
+      .toFixed(2)
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  }
+
   // SOLO NUMEROS SUBTOTAL
   document.getElementById('subtotal').onblur = function () {
     calculototal(this.value.replace(/,/g, ''))
@@ -200,7 +262,7 @@ $(document).ready(function () {
       .toString()
       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   }
-
+  // SOLO NUMEROS SUBTOTAL REQ
   document.getElementById('subtotalreq').onblur = function () {
     calculototalreq(this.value.replace(/,/g, ''))
     this.value = parseFloat(this.value.replace(/,/g, ''))
@@ -209,7 +271,7 @@ $(document).ready(function () {
       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   }
 
-  // SOLO NUMEROS IVA
+  // SOLO NUMEROS IVA REQ
   document.getElementById('ivareq').onblur = function () {
     this.value = parseFloat(this.value.replace(/,/g, ''))
       .toFixed(2)
@@ -217,7 +279,7 @@ $(document).ready(function () {
       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   }
 
-  // SOLO NUMEROS MONTO
+  // SOLO NUMEROS MONTO REQ
   document.getElementById('montoreq').onblur = function () {
     calculosubtotalreq(this.value.replace(/,/g, ''))
     this.value = parseFloat(this.value.replace(/,/g, ''))
@@ -273,9 +335,6 @@ $(document).ready(function () {
 
     //COLUMNAS
 
-
-    
-
     columnDefs: [
       {
         targets: -1,
@@ -288,16 +347,14 @@ $(document).ready(function () {
             <button class='btn btn-sm bg-info btnResumen'><i class='fas fa-bars' data-toggle='tooltip' data-placement='top' title='Resumen Requisiciones'></i></button>\
             <button class='btn btn-sm bg-danger btnCancelar' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
             </div></div>",*/
-            defaultContent:textcolumnas,
+        defaultContent: textcolumnas,
         /**/
       },
       { className: 'hide_column', targets: [3] },
-      { "width": "30%", "targets": 6 },
-      { "width": "10%", "targets": 1 },
-      { "width": "10%", "targets": 2 },
-      { "width": "8%", "targets": 5 }
-
-
+      { width: '30%', targets: 6 },
+      { width: '10%', targets: 1 },
+      { width: '10%', targets: 2 },
+      { width: '8%', targets: 5 },
     ],
     rowCallback: function (row, data) {
       // FORMATO DE CELDAS
@@ -365,35 +422,27 @@ $(document).ready(function () {
   })
 
   //FILTROS
-  $('#tablaV thead tr').clone(true).appendTo( '#tablaV thead' );
-  $('#tablaV thead tr:eq(1) th').each( function (i) {
+  $('#tablaV thead tr').clone(true).appendTo('#tablaV thead')
+  $('#tablaV thead tr:eq(1) th').each(function (i) {
+    var title = $(this).text()
+    $(this).html(
+      '<input class="form-control form-control-sm" type="text" placeholder="' +
+        title +
+        '" />',
+    )
 
-    
-    
-      var title = $(this).text();
-      $(this).html( '<input class="form-control form-control-sm" type="text" placeholder="'+title+'" />' );
+    $('input', this).on('keyup change', function () {
+      if (i == 4) {
+        valbuscar = this.value
+      } else {
+        valbuscar = this.value
+      }
 
-      $( 'input', this ).on( 'keyup change', function () {
-        
-        if (i==4){
-
-         valbuscar=this.value;
-        }else{
-          valbuscar=this.value;
-
-        }
-        
-          if ( tablaVis.column(i).search() !== valbuscar ) {
-              tablaVis
-                  .column(i)
-                  .search( valbuscar,true,true )
-                  .draw();
-          }
-      } );
-
-
-  } );
-
+      if (tablaVis.column(i).search() !== valbuscar) {
+        tablaVis.column(i).search(valbuscar, true, true).draw()
+      }
+    })
+  })
 
   //TABLA RESUMEN DE REQUISICIONES
   tablaResumen = $('#tablaResumen').DataTable({
@@ -423,11 +472,11 @@ $(document).ready(function () {
       {
         targets: -1,
         data: null,
-        defaultContent:textcolumnas2
-         /* "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-primary btnVerpagos' data-toggle='tooltip' data-placement='top' title='Ver Pagos' ><i class='fas fa-search-dollar'></i></button>\
+        defaultContent: textcolumnas2,
+        /* "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-primary btnVerpagos' data-toggle='tooltip' data-placement='top' title='Ver Pagos' ><i class='fas fa-search-dollar'></i></button>\
                     <button class='btn btn-sm btn-success btnPagar' data-toggle='tooltip' data-placement='top' title='Pagar Requisicion' ><i class='fas fa-dollar-sign'></i></button>\
                     <button class='btn btn-sm bg-danger btnCancelarreq' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
-                    </div></div>"*/,
+                    </div></div>"*/
       },
     ],
 
@@ -466,9 +515,6 @@ $(document).ready(function () {
           return intVal(a) + intVal(b)
         }, 0)
 
-
-        
-
       saldor = api
         .column(5)
         .data()
@@ -490,101 +536,101 @@ $(document).ready(function () {
     },
   })
 
-    //TABLA RESUMEN DE PROVISIONES
-    tablaVerprov = $('#tablaVerprov').DataTable({
-      rowCallback: function (row, data) {
-        $($(row).find('td')['6']).addClass('text-right')
-        $($(row).find('td')['6']).addClass('currency')
-        $($(row).find('td')['7']).addClass('text-right')
-        $($(row).find('td')['7']).addClass('currency')
+  //TABLA RESUMEN DE PROVISIONES
+  tablaVerprov = $('#tablaVerprov').DataTable({
+    rowCallback: function (row, data) {
+      $($(row).find('td')['6']).addClass('text-right')
+      $($(row).find('td')['6']).addClass('currency')
+      $($(row).find('td')['7']).addClass('text-right')
+      $($(row).find('td')['7']).addClass('currency')
+    },
+    columnDefs: [
+      { className: 'hide_column', targets: [1] },
+      { className: 'hide_column', targets: [4] },
+      { className: 'hide_column', targets: [5] },
+      {
+        targets: 6,
+        render: function (data, type, full, meta) {
+          return new Intl.NumberFormat('es-MX', {
+            minimumFractionDigits: 2,
+          }).format(parseFloat(data).toFixed(2))
+        },
       },
-      columnDefs: [
-       { className: 'hide_column', targets: [1] },
-        { className: 'hide_column', targets: [4] },
-        { className: 'hide_column', targets: [5] },
-        {
-          targets: 6,
-          render: function (data, type, full, meta) {
-            return new Intl.NumberFormat('es-MX', {
-              minimumFractionDigits: 2,
-            }).format(parseFloat(data).toFixed(2))
-          },
+      {
+        targets: 7,
+        render: function (data, type, full, meta) {
+          return new Intl.NumberFormat('es-MX', {
+            minimumFractionDigits: 2,
+          }).format(parseFloat(data).toFixed(2))
         },
-        {
-          targets: 7,
-          render: function (data, type, full, meta) {
-            return new Intl.NumberFormat('es-MX', {
-              minimumFractionDigits: 2,
-            }).format(parseFloat(data).toFixed(2))
-          },
-        },
-        {
-          targets: -1,
-          data: null,
-          defaultContent:textcolumnas4
-           /* "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-primary btnVerpagos' data-toggle='tooltip' data-placement='top' title='Ver Pagos' ><i class='fas fa-search-dollar'></i></button>\
+      },
+      {
+        targets: -1,
+        data: null,
+        defaultContent: textcolumnas4,
+        /* "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-primary btnVerpagos' data-toggle='tooltip' data-placement='top' title='Ver Pagos' ><i class='fas fa-search-dollar'></i></button>\
                       <button class='btn btn-sm btn-success btnPagar' data-toggle='tooltip' data-placement='top' title='Pagar Requisicion' ><i class='fas fa-dollar-sign'></i></button>\
                       <button class='btn btn-sm bg-danger btnCancelarreq' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
-                      </div></div>"*/,
-        },
-      ],
-  
-      language: {
-        lengthMenu: 'Mostrar _MENU_ registros',
-        zeroRecords: 'No se encontraron resultados',
-        info:
-          'Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros',
-        infoEmpty: 'Mostrando registros del 0 al 0 de un total de 0 registros',
-        infoFiltered: '(filtrado de un total de _MAX_ registros)',
-        sSearch: 'Buscar:',
-        oPaginate: {
-          sFirst: 'Primero',
-          sLast: 'Último',
-          sNext: 'Siguiente',
-          sPrevious: 'Anterior',
-        },
-        sProcessing: 'Procesando...',
+                      </div></div>"*/
       },
-      footerCallback: function (row, data, start, end, display) {
-        var api = this.api(),
-          data
-  
-        var intVal = function (i) {
-          return typeof i === 'string'
-            ? i.replace(/[\$,]/g, '') * 1
-            : typeof i === 'number'
-            ? i
-            : 0
-        }
-  
-        totalr = api
-          .column(6)
-          .data()
-          .reduce(function (a, b) {
-            return intVal(a) + intVal(b)
-          }, 0)
-  
-        saldor = api
-          .column(7)
-          .data()
-          .reduce(function (a, b) {
-            return intVal(a) + intVal(b)
-          }, 0)
-  
-        $(api.column(6).footer()).html(
-          Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
-            parseFloat(totalr).toFixed(2),
-          ),
-        )
-  
-        $(api.column(7).footer()).html(
-          Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
-            parseFloat(saldor).toFixed(2),
-          ),
-        )
+    ],
+
+    language: {
+      lengthMenu: 'Mostrar _MENU_ registros',
+      zeroRecords: 'No se encontraron resultados',
+      info:
+        'Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros',
+      infoEmpty: 'Mostrando registros del 0 al 0 de un total de 0 registros',
+      infoFiltered: '(filtrado de un total de _MAX_ registros)',
+      sSearch: 'Buscar:',
+      oPaginate: {
+        sFirst: 'Primero',
+        sLast: 'Último',
+        sNext: 'Siguiente',
+        sPrevious: 'Anterior',
       },
-    })
- //TABLA RESUMEN DE RESUMEN PAGOS
+      sProcessing: 'Procesando...',
+    },
+    footerCallback: function (row, data, start, end, display) {
+      var api = this.api(),
+        data
+
+      var intVal = function (i) {
+        return typeof i === 'string'
+          ? i.replace(/[\$,]/g, '') * 1
+          : typeof i === 'number'
+          ? i
+          : 0
+      }
+
+      totalr = api
+        .column(6)
+        .data()
+        .reduce(function (a, b) {
+          return intVal(a) + intVal(b)
+        }, 0)
+
+      saldor = api
+        .column(7)
+        .data()
+        .reduce(function (a, b) {
+          return intVal(a) + intVal(b)
+        }, 0)
+
+      $(api.column(6).footer()).html(
+        Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+          parseFloat(totalr).toFixed(2),
+        ),
+      )
+
+      $(api.column(7).footer()).html(
+        Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+          parseFloat(saldor).toFixed(2),
+        ),
+      )
+    },
+  })
+  //TABLA RESUMEN DE RESUMEN PAGOS
   tablaResumenp = $('#tablaResumenp').DataTable({
     rowCallback: function (row, data) {
       $($(row).find('td')['3']).addClass('text-right')
@@ -594,9 +640,9 @@ $(document).ready(function () {
       {
         targets: -1,
         data: null,
-        defaultContent:textcolumnas3
-       /*   "<div class='text-center'><button class='btn btn-sm bg-danger btnCancelarpago' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
-                    </div></div>"*/,
+        defaultContent: textcolumnas3,
+        /*   "<div class='text-center'><button class='btn btn-sm bg-danger btnCancelarpago' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
+                    </div></div>"*/
       },
       {
         targets: 3,
@@ -765,36 +811,35 @@ $(document).ready(function () {
         },
         success: function (data) {
           if (data != null) {
-            clave=data[0].clave_sub;
-            fecha=data[0].fecha_sub;
-            id_obra=data[0].id_obra;
-            obra=data[0].corto_obra;
-            id_prov=data[0].id_prov;
-            proveedor=data[0].razon_prov;
-            descripcion=data[0].desc_sub;
-            subtotal= Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
-              parseFloat(data[0].subtotal_sub).toFixed(2),
-            );
-            iva= Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
-              parseFloat(data[0].iva_sub).toFixed(2),
-            );
-            monto= Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
-              parseFloat(data[0].monto_sub).toFixed(2),
-            );
+            clave = data[0].clave_sub
+            fecha = data[0].fecha_sub
+            id_obra = data[0].id_obra
+            obra = data[0].corto_obra
+            id_prov = data[0].id_prov
+            proveedor = data[0].razon_prov
+            descripcion = data[0].desc_sub
+            subtotal = Intl.NumberFormat('es-MX', {
+              minimumFractionDigits: 2,
+            }).format(parseFloat(data[0].subtotal_sub).toFixed(2))
+            iva = Intl.NumberFormat('es-MX', {
+              minimumFractionDigits: 2,
+            }).format(parseFloat(data[0].iva_sub).toFixed(2))
+            monto = Intl.NumberFormat('es-MX', {
+              minimumFractionDigits: 2,
+            }).format(parseFloat(data[0].monto_sub).toFixed(2))
 
-           $('#folio').val(folio);
-            $('#fecha').val(fecha);
-            $('#clave').val(clave);
-             $('#id_obra').val(id_obra);
-             $('#obra').val(obra);
-            $('#id_prov').val(id_prov);
-            $('#proveedor').val(proveedor);
-             $('#descripcion').val(descripcion);
-             $('#monto').val(monto)
-             $('#iva').val(iva);
-             $('#subtotal').val(subtotal);
-
-            } else {
+            $('#folio').val(folio)
+            $('#fecha').val(fecha)
+            $('#clave').val(clave)
+            $('#id_obra').val(id_obra)
+            $('#obra').val(obra)
+            $('#id_prov').val(id_prov)
+            $('#proveedor').val(proveedor)
+            $('#descripcion').val(descripcion)
+            $('#monto').val(monto)
+            $('#iva').val(iva)
+            $('#subtotal').val(subtotal)
+          } else {
             Swal.fire({
               title: 'Subcontrato no encontrado',
               icon: 'warning',
@@ -802,7 +847,6 @@ $(document).ready(function () {
           }
         },
       })
-
 
       $('#modalAlta').modal('show')
     } else {
@@ -815,8 +859,6 @@ $(document).ready(function () {
       })
     }
   })
-
- 
 
   //BOTON GUARDAR SUBCONTRATO
   $(document).on('click', '#btnGuardar', function () {
@@ -890,9 +932,9 @@ $(document).ready(function () {
     $('#idprovreq').val(proveedor)
   })
 
-   //BOTON TRASLADAR
-  
-   $(document).on('click', '.btntrasladarprov', function () {
+  //BOTON TRASLADAR
+
+  $(document).on('click', '.btntrasladarprov', function () {
     fila = $(this).closest('tr')
     id = parseInt(fila.find('td:eq(0)').text())
     subcontrato = parseInt(fila.find('td:eq(1)').text())
@@ -907,32 +949,29 @@ $(document).ready(function () {
     $('#idprovision').val(id)
     $('#foliosubcontrato').val(subcontrato)
     $('#idprovreq').val(idprovglobal)
-    
+
     $('#descripcionreq').val(concepto)
     $('#subtotalreq').val(subtotal)
     $('#ivareq').val(iva)
     $('#montoreq').val(total)
-
-
   })
 
-
-    // BOTON NUEVA PROVISION
-    $(document).on('click', '.btnProvision', function () {
-      fila = $(this).closest('tr')
-      id = parseInt(fila.find('td:eq(0)').text())
-      proveedor = parseInt(fila.find('td:eq(3)').text())
-      $('#formProv').trigger('reset')
-      $('#modalProv').modal('show')
-      $('#foliosubcontratop').val(id)
-      $('#idprovp').val(proveedor)
-    })
+  // BOTON NUEVA PROVISION
+  $(document).on('click', '.btnProvision', function () {
+    fila = $(this).closest('tr')
+    id = parseInt(fila.find('td:eq(0)').text())
+    proveedor = parseInt(fila.find('td:eq(3)').text())
+    $('#formProv').trigger('reset')
+    $('#modalProv').modal('show')
+    $('#foliosubcontratop').val(id)
+    $('#idprovp').val(proveedor)
+  })
 
   //BOTON GUARDAR REQUISICION
   $(document).on('click', '#btnGuardarreq', function () {
     folioreq = $('#folioreq').val()
     subcontrato = $('#foliosubcontrato').val()
-    id_prov= $('#idprovreq').val()
+    id_prov = $('#idprovreq').val()
     fechareq = $('#fechareq').val()
     clavereq = $('#clavereq').val()
     factura = $('#clavereq').val()
@@ -972,7 +1011,7 @@ $(document).ready(function () {
               url: 'bd/crudrequisicion.php',
               type: 'POST',
               dataType: 'json',
-              async:false,
+              async: false,
               data: {
                 folioreq: folioreq,
                 fechareq: fechareq,
@@ -1012,63 +1051,62 @@ $(document).ready(function () {
     }
   })
 
+  //BOTON GUARDAR PROVISION
+  $(document).on('click', '#btnGuardarprov', function () {
+    folioreq = $('#folioprov').val()
+    subcontrato = $('#foliosubcontratop').val()
+    id_prov = $('#idprovp').val()
+    fechareq = $('#fechaprov').val()
 
-    //BOTON GUARDAR PROVISION
-    $(document).on('click', '#btnGuardarprov', function () {
-      folioreq = $('#folioprov').val()
-      subcontrato = $('#foliosubcontratop').val()
-      id_prov= $('#idprovp').val()
-      fechareq = $('#fechaprov').val()
-   
-      opcionreq = 1
-      descripcionreq = $('#descripcionprov').val()
-      montoreq = $('#montoprov').val().replace(/,/g, '')
-      ivareq = $('#ivaprov').val().replace(/,/g, '')
-      subtotalreq = $('#subtotalprov').val().replace(/,/g, '')
-  
-      if (
-        fechareq.length == 0 ||
-        descripcionreq.length == 0 ||
-        montoreq.length == 0
-      ) {
-        Swal.fire({
-          title: 'Datos Faltantes',
-          text: 'Debe ingresar todos los datos Requeridos',
-          icon: 'warning',
-        })
-        return false
-      } else {
-        $.ajax({
-          url: 'bd/crudprovisionsub.php',
-          type: 'POST',
-          dataType: 'json',
-          data: {
-            folioreq: folioreq,
-            fechareq: fechareq,
-            subcontrato: subcontrato,
-            descripcionreq: descripcionreq,
-            montoreq: montoreq,
-            subtotalreq: subtotalreq,
-            ivareq: ivareq,
-            opcionreq: opcionreq,
-          },
-          success: function (data) {
-            if (data == 1) {
-              Swal.fire({
-                title: 'Provisión Guardada',
-                icon: 'success',
-              })
-              window.location.reload()
-            } else {
-              Swal.fire({
-                title: 'Operacion No Exitosa',
-                icon: 'warning',
-              })
-            }
-          },
-        })
-      }
-    })
+    opcionreq = 1
+    descripcionreq = $('#descripcionprov').val()
+    montoreq = $('#montoprov').val().replace(/,/g, '')
+    ivareq = $('#ivaprov').val().replace(/,/g, '')
+    subtotalreq = $('#subtotalprov').val().replace(/,/g, '')
+
+    if (
+      fechareq.length == 0 ||
+      descripcionreq.length == 0 ||
+      montoreq.length == 0
+    ) {
+      Swal.fire({
+        title: 'Datos Faltantes',
+        text: 'Debe ingresar todos los datos Requeridos',
+        icon: 'warning',
+      })
+      return false
+    } else {
+      $.ajax({
+        url: 'bd/crudprovisionsub.php',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+          folioreq: folioreq,
+          fechareq: fechareq,
+          subcontrato: subcontrato,
+          descripcionreq: descripcionreq,
+          montoreq: montoreq,
+          subtotalreq: subtotalreq,
+          ivareq: ivareq,
+          opcionreq: opcionreq,
+        },
+        success: function (data) {
+          if (data == 1) {
+            Swal.fire({
+              title: 'Provisión Guardada',
+              icon: 'success',
+            })
+            window.location.reload()
+          } else {
+            Swal.fire({
+              title: 'Operacion No Exitosa',
+              icon: 'warning',
+            })
+          }
+        },
+      })
+    }
+  })
 
   // BOTON RESUMEN REQUISICIONES
   $(document).on('click', '.btnResumen', function () {
@@ -1078,32 +1116,29 @@ $(document).ready(function () {
     $('#modalResumen').modal('show')
   })
 
-    // BOTON RESUMEN REQUISICIONES POR PROVISION
-    $(document).on('click', '.btnVerreq', function () {
-      fila = $(this).closest('tr')
-      id = parseInt(fila.find('td:eq(0)').text())
-      buscarrequisicionprov(id)
-      $('#modalVerprov').modal('hide')
-      $('#modalResumen').modal('show')
-    })
-  
+  // BOTON RESUMEN REQUISICIONES POR PROVISION
+  $(document).on('click', '.btnVerreq', function () {
+    fila = $(this).closest('tr')
+    id = parseInt(fila.find('td:eq(0)').text())
+    buscarrequisicionprov(id)
+    $('#modalVerprov').modal('hide')
+    $('#modalResumen').modal('show')
+  })
 
-
-    // BOTON RESUMEN PROVISIONES
-    $(document).on('click', '.btnVerprovision', function () {
-      fila = $(this).closest('tr')
-      idprovglobal=parseInt(fila.find('td:eq(3)').text())
-      id = parseInt(fila.find('td:eq(0)').text())
-      buscarprovision(id)
-      $('#modalVerprov').modal('show')
-    })
+  // BOTON RESUMEN PROVISIONES
+  $(document).on('click', '.btnVerprovision', function () {
+    fila = $(this).closest('tr')
+    idprovglobal = parseInt(fila.find('td:eq(3)').text())
+    id = parseInt(fila.find('td:eq(0)').text())
+    buscarprovision(id)
+    $('#modalVerprov').modal('show')
+  })
 
   //BOTON VER PAGOS
   $(document).on('click', '.btnVerpagos', function () {
     fila = $(this).closest('tr')
     id = parseInt(fila.find('td:eq(0)').text())
     buscarpagos(id)
-  
 
     $('#modalResumenp').modal('show')
   })
@@ -1138,7 +1173,6 @@ $(document).ready(function () {
     })
   }
 
-  
   //FUNCION BUSCAR REQUISICIONES POR PROVISION
 
   function buscarrequisicionprov(folio) {
@@ -1169,37 +1203,37 @@ $(document).ready(function () {
     })
   }
 
-    //FUNCION BUSCAR PROVISIONES
+  //FUNCION BUSCAR PROVISIONES
 
-    function buscarprovision(folio) {
-      tablaVerprov.clear()
-      tablaVerprov.draw()
-      opcion = 2
-      $.ajax({
-        type: 'POST',
-        url: 'bd/buscarprovision.php',
-        dataType: 'json',
-  
-        data: { folio: folio, opcion: opcion },
-  
-        success: function (res) {
-          for (var i = 0; i < res.length; i++) {
-            tablaVerprov.row
-              .add([
-                res[i].id_provs,
-                res[i].id_sub,
-                res[i].fecha_prov,
-                res[i].concepto_prov,
-                res[i].subtotal_prov,
-                res[i].iva_prov,
-                res[i].monto_prov,
-                res[i].saldo_prov,
-              ])
-              .draw()
-          }
-        },
-      })
-    }
+  function buscarprovision(folio) {
+    tablaVerprov.clear()
+    tablaVerprov.draw()
+    opcion = 2
+    $.ajax({
+      type: 'POST',
+      url: 'bd/buscarprovision.php',
+      dataType: 'json',
+
+      data: { folio: folio, opcion: opcion },
+
+      success: function (res) {
+        for (var i = 0; i < res.length; i++) {
+          tablaVerprov.row
+            .add([
+              res[i].id_provs,
+              res[i].id_sub,
+              res[i].fecha_prov,
+              res[i].concepto_prov,
+              res[i].subtotal_prov,
+              res[i].iva_prov,
+              res[i].monto_prov,
+              res[i].saldo_prov,
+            ])
+            .draw()
+        }
+      },
+    })
+  }
 
   // FUNCION BUSCAR PAGOS
   function buscarpagos(folio) {
@@ -1366,56 +1400,77 @@ $(document).ready(function () {
     }
   })
 
+  // BOTON CANCELAR PROVISION
 
-    //BOTON CANCELAR REQUISICION
-    $(document).on('click', '.btnCancelarreq', function () {
-      fila = $(this).closest('tr')
-      folio = parseInt(fila.find('td:eq(0)').text())
-  
-      saldo = fila.find('td:eq(4)').text().replace(/,/g, '')
-      monto = fila.find('td:eq(5)').text().replace(/,/g, '')
-  
-      if (parseFloat(monto) == parseFloat(saldo)) {
-        $('#formcan').trigger('reset')
-        $('#modalcan').modal('show')
-        $('#foliocan').val(folio)
-        $('#tipodoc').val(2) // 1 PARA REQUISICIONES
-      } else {
-        swal.fire({
-          title: 'No es posible Cancelar la Requisición',
-          text: 'El documento ya tiene operaciones posteriores',
-          icon: 'warning',
-          focusConfirm: true,
-          confirmButtonText: 'Aceptar',
-        })
-      }
-    })
-  
+  $(document).on('click', '.btnCancelarprov', function () {
+    fila = $(this).closest('tr')
+    folio = parseInt(fila.find('td:eq(0)').text())
 
-        //BOTON CANCELAR PAGO
-        $(document).on('click', '.btnCancelarpago', function () {
-          fila = $(this).closest('tr')
-          folio = parseInt(fila.find('td:eq(0)').text())
-      
-          saldo = fila.find('td:eq(4)').text().replace(/,/g, '')
-          monto = fila.find('td:eq(5)').text().replace(/,/g, '')
-      
-        
-            $('#formcan').trigger('reset')
-            $('#modalcan').modal('show')
-            $('#foliocan').val(folio)
-            $('#tipodoc').val(3) // 3 PARA PAGOS DE REQUISICIONES
-         
-        })
+    saldo = fila.find('td:eq(7)').text().replace(/,/g, '')
+    monto = fila.find('td:eq(6)').text().replace(/,/g, '')
+console.log(saldo)
+console.log(monto)
+    if (parseFloat(monto) == parseFloat(saldo)) {
+      $('#formcan').trigger('reset')
+      $('#modalcan').modal('show')
+      $('#foliocan').val(folio)
+      $('#tipodoc').val(6) // 6 PROVISIONES
+    } else {
+      swal.fire({
+        title: 'No es posible Cancelar el Subcontrato',
+        text: 'El documento ya tiene operaciones posteriores',
+        icon: 'warning',
+        focusConfirm: true,
+        confirmButtonText: 'Aceptar',
+      })
+    }
+  })
 
-        // GUARDAR CANCELAR
+  //BOTON CANCELAR REQUISICION
+  $(document).on('click', '.btnCancelarreq', function () {
+    fila = $(this).closest('tr')
+    folio = parseInt(fila.find('td:eq(0)').text())
+
+    saldo = fila.find('td:eq(4)').text().replace(/,/g, '')
+    monto = fila.find('td:eq(5)').text().replace(/,/g, '')
+
+    if (parseFloat(monto) == parseFloat(saldo)) {
+      $('#formcan').trigger('reset')
+      $('#modalcan').modal('show')
+      $('#foliocan').val(folio)
+      $('#tipodoc').val(2) // 1 PARA REQUISICIONES
+    } else {
+      swal.fire({
+        title: 'No es posible Cancelar la Requisición',
+        text: 'El documento ya tiene operaciones posteriores',
+        icon: 'warning',
+        focusConfirm: true,
+        confirmButtonText: 'Aceptar',
+      })
+    }
+  })
+
+  //BOTON CANCELAR PAGO
+  $(document).on('click', '.btnCancelarpago', function () {
+    fila = $(this).closest('tr')
+    folio = parseInt(fila.find('td:eq(0)').text())
+
+    saldo = fila.find('td:eq(4)').text().replace(/,/g, '')
+    monto = fila.find('td:eq(5)').text().replace(/,/g, '')
+
+    $('#formcan').trigger('reset')
+    $('#modalcan').modal('show')
+    $('#foliocan').val(folio)
+    $('#tipodoc').val(3) // 3 PARA PAGOS DE REQUISICIONES
+  })
+
+  // GUARDAR CANCELAR
   $(document).on('click', '#btnGuardarCAN', function () {
     foliocan = $('#foliocan').val()
     motivo = $('#motivo').val()
     fecha = $('#fecha').val()
     usuario = $('#nameuser').val()
     tipodoc = $('#tipodoc').val()
-   
 
     if (motivo === '') {
       swal.fire({
