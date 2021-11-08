@@ -149,10 +149,10 @@
         <!-- CIERRA MENU CATALOGOS -->
 
         <!-- ABRE MENU EGRESOS -->
-        <li class="nav-item has-treeview <?php echo ($pagina == 'subcontrato' || $pagina == 'cntaegresos' || $pagina == 'egresos' || $pagina == 'cntacxp' || $pagina == 'cntapagocxp' || $pagina == 'pagoscxp') ? "menu-open" : ""; ?>">
+        <li class="nav-item has-treeview <?php echo ($pagina == 'subcontrato' || $pagina == 'cntaegresos' || $pagina == 'egresos' || $pagina == 'cntacxp' || $pagina == 'cntapagocxp' || $pagina == 'pagoscxp' || $pagina == 'provision'  || $pagina == 'saldoseg') ? "menu-open" : ""; ?>">
 
 
-          <a href="#" class="nav-link <?php echo ($pagina == 'subcontrato' || $pagina == 'cntaegresos' || $pagina == 'egresos' || $pagina == 'cntacxp' || $pagina == 'cntapagocxp' || $pagina == 'pagoscxp') ? "active" : ""; ?>">
+          <a href="#" class="nav-link <?php echo ($pagina == 'subcontrato' || $pagina == 'cntaegresos' || $pagina == 'egresos' || $pagina == 'cntacxp' || $pagina == 'cntapagocxp' || $pagina == 'pagoscxp' || $pagina == 'provision'  || $pagina == 'saldoseg') ? "active" : ""; ?>">
 
             <span class="fa-stack">
               <i class=" fas fa-arrow-down "></i>
@@ -178,8 +178,16 @@
             <li class="nav-item">
               <a href="cntacxp.php" class="nav-link <?php echo ($pagina == 'cntacxp') ? "active seleccionado" : ""; ?>  ">
 
-                <i class="fas text-purple fa-list nav-icon"></i>
+                <i class="fas text-purple fa-pen-square nav-icon"></i>
                 <p>Cuentas x Pagar</p>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a href="cntaprovision.php" class="nav-link <?php echo ($pagina == 'provision') ? "active seleccionado" : ""; ?>  ">
+
+                <i class="fas text-purple fa-list nav-icon"></i>
+                <p>Provisiones</p>
               </a>
             </li>
 
@@ -199,11 +207,20 @@
               </a>
             </li>
 
+            <li class="nav-item">
+              <a href="cntasaldoseg.php" class="nav-link <?php echo ($pagina == 'saldoseg') ? "active seleccionado" : ""; ?>  ">
+
+                <i class="fas text-purple fa-coins nav-icon"></i>
+                <p>Saldos Pendientes </p>
+              </a>
+            </li>
+
           </ul>
         </li>
         <!-- CIERRA MENU EGRESOS -->
 
         <!-- ABRE MENU REPORTES -->
+        <?php if ($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2') { ?>
         <li class="nav-item has-treeview <?php echo ($pagina == 'rptobra') ? "menu-open" : ""; ?>">
 
 
@@ -232,6 +249,7 @@
 
           </ul>
         </li>
+        <?php } ?>
         <!-- CIERRA MENU EGRESOS -->
 
 

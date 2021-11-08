@@ -157,6 +157,13 @@ switch ($tipodoc) {
                 $res = 1;
             }
             break;
+        case 7:
+            $consulta = "UPDATE w_provision SET estado_provi='0',fecha_can='$fecha',motivo_can='$motivo',usuario_can='$usuario' WHERE folio_provi='$foliocan'";
+            $resultado = $conexion->prepare($consulta);
+            if ($resultado->execute()) {
+                $res = 1;
+            }
+            break;
 }
 
 

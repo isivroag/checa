@@ -39,7 +39,6 @@ $(document).ready(function () {
       columnas =
         "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-primary btnVerpagos' data-toggle='tooltip' data-placement='top' title='Ver Pagos' ><i class='fas fa-search-dollar'></i></button>\
       <button class='btn btn-sm btn-success btnPagar' data-toggle='tooltip' data-placement='top' title='Pagar Requisicion' ><i class='fas fa-dollar-sign'></i></button>\
-      <button class='btn btn-sm bg-danger btnCancelarreq' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
       </div></div>"
     } else {
       columnas =
@@ -58,9 +57,9 @@ $(document).ready(function () {
     var columnas = ''
     console.log(tipousuario)
     if (tipousuario == 1) {
-      columnas =
-        "<div class='text-center'><div class='btn-group'><button class='btn btn-sm bg-danger btnCancelarpago' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
-      </div></div>"
+      columnas =""
+        /*"<div class='text-center'><div class='btn-group'><button class='btn btn-sm bg-danger btnCancelarpago' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
+      </div></div>"*/
     } else {
       columnas =
         "<div class='text-center'><div class='btn-group'><button class='btn btn-sm bg-danger btnCancelarpago' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
@@ -79,7 +78,6 @@ $(document).ready(function () {
       columnas =
         "<div class='text-center'><div class='btn-group'><button class='btn btn-sm bg-success btntrasladarprov' data-toggle='tooltip' data-placement='top' title='Trasladar a Requisición'><i class='fas fa-share'></i></button>\
       <button class='btn btn-sm btn-primary btnVerreq' data-toggle='tooltip' data-placement='top' title='Ver Requisiciones' ><i class='fas fa-search-dollar'></i></button>\
-      <button class='btn btn-sm bg-danger btnCancelarprov' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
       </div></div>"
     } else {
       columnas =
@@ -890,34 +888,57 @@ $(document).ready(function () {
       return false
     } else {
       $.ajax({
-        url: 'bd/crudsubcontrato.php',
+        url: 'bd/buscarclave.php',
         type: 'POST',
         dataType: 'json',
+        async: false,
         data: {
-          folio: folio,
-          fecha: fecha,
-          clave: clave,
-          id_obra: id_obra,
-          id_prov: id_prov,
-          descripcion: descripcion,
-          tipo: tipo,
-          monto: monto,
-          subtotal: subtotal,
-          iva: iva,
-          opcion: opcion,
+          clave: clave
+        
         },
         success: function (data) {
-          if (data == 1) {
-            subcontratoguardado()
-            window.location.reload()
+            
+          if (data == 0) {
+            $.ajax({
+              url: 'bd/crudsubcontrato.php',
+              type: 'POST',
+              dataType: 'json',
+              data: {
+                folio: folio,
+                fecha: fecha,
+                clave: clave,
+                id_obra: id_obra,
+                id_prov: id_prov,
+                descripcion: descripcion,
+                tipo: tipo,
+                monto: monto,
+                subtotal: subtotal,
+                iva: iva,
+                opcion: opcion,
+              },
+              success: function (data) {
+                if (data == 1) {
+                  subcontratoguardado()
+                  window.location.reload()
+                } else {
+                  Swal.fire({
+                    title: 'Operacion No Exitosa',
+                    icon: 'warning',
+                  })
+                }
+              },
+            })
+          
           } else {
             Swal.fire({
-              title: 'Operacion No Exitosa',
-              icon: 'warning',
+              title: 'El Clave de subcontato ya se encuentra registrada',
+              icon: 'error',
             })
           }
         },
       })
+
+     
     }
   })
 
@@ -941,7 +962,7 @@ $(document).ready(function () {
     concepto = fila.find('td:eq(3)').text()
     subtotal = fila.find('td:eq(4)').text()
     iva = fila.find('td:eq(5)').text()
-    total = fila.find('td:eq(6)').text()
+    total = fila.find('td:eq(7)').text()
 
     $('#modalVerprov').modal('hide')
     $('#formReq').trigger('reset')
@@ -951,9 +972,10 @@ $(document).ready(function () {
     $('#idprovreq').val(idprovglobal)
 
     $('#descripcionreq').val(concepto)
-    $('#subtotalreq').val(subtotal)
-    $('#ivareq').val(iva)
+    //$('#subtotalreq').val(subtotal)
+    //$('#ivareq').val(iva)
     $('#montoreq').val(total)
+    calculosubtotalreq($('#montoreq').val().replace(/,/g, ''))
   })
 
   // BOTON NUEVA PROVISION

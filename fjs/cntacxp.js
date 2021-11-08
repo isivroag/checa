@@ -198,6 +198,28 @@ $(document).ready(function () {
     },
   })
 
+  $('#tablaV thead tr').clone(true).appendTo('#tablaV thead')
+  $('#tablaV thead tr:eq(1) th').each(function (i) {
+    var title = $(this).text()
+    $(this).html(
+      '<input class="form-control form-control-sm" type="text" placeholder="' +
+        title +
+        '" />',
+    )
+
+    $('input', this).on('keyup change', function () {
+      if (i == 4) {
+        valbuscar = this.value
+      } else {
+        valbuscar = this.value
+      }
+
+      if (tablaVis.column(i).search() !== valbuscar) {
+        tablaVis.column(i).search(valbuscar, true, true).draw()
+      }
+    })
+  })
+
   // TABLA RESUMEN DE PAGOS
   tablaResumen = $('#tablaResumen').DataTable({
     rowCallback: function (row, data) {
