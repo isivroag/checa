@@ -277,7 +277,6 @@ $message = "";
                                             <thead class="text-center bg-gradient-green">
                                                 <tr>
                                                     <th>FOLIO</th>
-                                                  
                                                     <th>FECHA</th>
                                                     <th>OBRA</th>
                                                     <th>PROVEEDOR</th>
