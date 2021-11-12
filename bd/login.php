@@ -3,7 +3,7 @@ session_start();
 include_once 'conexion.php';
 $objeto = new conn();
 
-
+date_default_timezone_set('America/Mexico_City');
 
 $conexion = $objeto->connect();
 if ($conexion != null) {
@@ -25,29 +25,52 @@ if ($conexion != null) {
             $_SESSION['s_id_usuario'] = $row['id_usuario'];
             $_SESSION['s_nombre'] = $row['nombre'];
             $_SESSION['s_rol'] = $row['rol_usuario'];
-            $_SESSION['id_obra']=null;
-            $_SESSION['nom_obra']=null;
-            
-        }
-        if ($recordar==1){
-                
-            setcookie("usuario", $usuario,time () + 604800,"/");
-            setcookie("pass", $pass,time () + 604800,"/");
-        }
-        else{
-            setcookie("usuario",'',time()-100,"/");
-            setcookie("pass",'',time()-100,"/");
+            $_SESSION['id_obra'] = null;
+            $_SESSION['nom_obra'] = null;
         }
 
-       
+        //BITACORA DE INGRESO
+
+        $navegador = $_SERVER['HTTP_USER_AGENT'];
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $hora = date('Y-m-d H:i:s');
+        $idusuario = $_SESSION['s_id_usuario'];
+
+
+
+        $consulta = "INSERT INTO bitacoraac (ip,navegador,fechacliente,usuario,nombre,obs) values ('$ip','$navegador','$hora','$idusuario','$usuario','CORRECTO')";
+        $resultado = $conexion->prepare($consulta);
+        $resultado->execute();
+
+        if ($recordar == 1) {
+
+            setcookie("usuario", $usuario, time() + 604800, "/");
+            setcookie("pass", $pass, time() + 604800, "/");
+        } else {
+            setcookie("usuario", '', time() - 100, "/");
+            setcookie("pass", '', time() - 100, "/");
+        }
     } else {
         $_SESSION['s_id_usuario'] = null;
         $_SESSION['s_usuario'] = null;
         $_SESSION['s_nombre'] = null;
         $_SESSION['s_rol'] =  null;
-        $_SESSION['id_obra']=null;
-        $_SESSION['nom_obra']=null;
+        $_SESSION['id_obra'] = null;
+        $_SESSION['nom_obra'] = null;
         $data = 1;
+
+        //BITACORA DE INGRESO
+
+        $navegador = $_SERVER['HTTP_USER_AGENT'];
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $hora = date('Y-m-d H:i:s');
+        $idusuario = 0;
+
+
+
+        $consulta = "INSERT INTO bitacoraac (ip,navegador,fechacliente,usuario,nombre,obs) values ('$ip','$navegador','$hora','$idusuario','$usuario','ERROR DE ACCESO')";
+        $resultado = $conexion->prepare($consulta);
+        $resultado->execute();
     }
     print json_encode($data);
     $conexion = null;

@@ -4,6 +4,8 @@
 include_once 'conexion.php';
 $objeto = new conn();
 $conexion = $objeto->connect();
+session_start();
+$usuarioalt=$_SESSION['s_nombre'];
 
 // Recepción de los datos enviados mediante POST desde el JS   
 $folioreq = (isset($_POST['folioreq'])) ? $_POST['folioreq'] : '';
@@ -25,7 +27,7 @@ $opcionreq = (isset($_POST['opcionreq'])) ? $_POST['opcionreq'] : '';
 $data = 0;
 switch ($opcionreq) {
     case 1: //alta
-        $consulta = "INSERT INTO w_reqsub (id_sub,fecha_req,factura_req,concepto_req,monto_req,saldo_req,subtotal_req,iva_req,id_provs) VALUES('$subcontrato','$fechareq','$clavereq','$descripcionreq','$montoreq','$montoreq','$subtotalreq','$ivareq','$idprovision') ";
+        $consulta = "INSERT INTO w_reqsub (id_sub,fecha_req,factura_req,concepto_req,monto_req,saldo_req,subtotal_req,iva_req,id_provs,usuarioalt) VALUES('$subcontrato','$fechareq','$clavereq','$descripcionreq','$montoreq','$montoreq','$subtotalreq','$ivareq','$idprovision','$usuarioalt') ";
         $resultado = $conexion->prepare($consulta);
         if ($resultado->execute()) {
             $data = 1;

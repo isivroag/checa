@@ -15,6 +15,7 @@ $monto = (isset($_POST['monto'])) ? $_POST['monto'] : '';
 $subtotal = (isset($_POST['subtotal'])) ? $_POST['subtotal'] : '';
 $iva = (isset($_POST['iva'])) ? $_POST['iva'] : '';
 $tipo = (isset($_POST['tipo'])) ? $_POST['tipo'] : '';
+$usuario = (isset($_POST['usuario'])) ? $_POST['usuario'] : '';
 
 
 $opcion = (isset($_POST['opcion'])) ? $_POST['opcion'] : '';
@@ -24,7 +25,7 @@ $opcion = (isset($_POST['opcion'])) ? $_POST['opcion'] : '';
 $data=0;
 switch($opcion){
     case 1: //alta
-        $consulta = "INSERT INTO w_subcontrato (id_obra,id_prov,fecha_sub,clave_sub,desc_sub,monto_sub,saldo_sub,tipo_sub,subtotal_sub,iva_sub) VALUES('$id_obra','$id_prov','$fecha','$clave','$descripcion','$monto','$monto','$tipo','$subtotal','$iva') ";
+        $consulta = "INSERT INTO w_subcontrato (id_obra,id_prov,fecha_sub,clave_sub,desc_sub,monto_sub,saldo_sub,tipo_sub,subtotal_sub,iva_sub,usuarioalt) VALUES('$id_obra','$id_prov','$fecha','$clave','$descripcion','$monto','$monto','$tipo','$subtotal','$iva','$usuario') ";
         $resultado = $conexion->prepare($consulta);
         if($resultado->execute()){
             $data=1;

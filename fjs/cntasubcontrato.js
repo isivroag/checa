@@ -1,5 +1,6 @@
 $(document).ready(function () {
   var id, opcion, idprovglobal
+  var usuario=$('#nameuser').val();
   opcion = 4
 
   var textcolumnas = permisos()
@@ -871,6 +872,7 @@ $(document).ready(function () {
     monto = $('#monto').val().replace(/,/g, '')
     iva = $('#iva').val().replace(/,/g, '')
     subtotal = $('#subtotal').val().replace(/,/g, '')
+    
 
     if (
       fecha.length == 0 ||
@@ -915,6 +917,7 @@ $(document).ready(function () {
                 subtotal: subtotal,
                 iva: iva,
                 opcion: opcion,
+                usuario: usuario
               },
               success: function (data) {
                 if (data == 1) {
