@@ -219,36 +219,70 @@
         </li>
         <!-- CIERRA MENU EGRESOS -->
 
-        <!-- ABRE MENU REPORTES -->
-        <?php if ($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2') { ?>
-        <li class="nav-item has-treeview <?php echo ($pagina == 'rptobra') ? "menu-open" : ""; ?>">
+
+        <!-- ABRE MENU OPERACIONES -->
+        <li class="nav-item has-treeview <?php echo ($pagina == 'nomina' ) ? "menu-open" : ""; ?>">
 
 
-          <a href="#" class="nav-link <?php echo ($pagina == 'rptobra') ? "active" : ""; ?>">
+          <a href="#" class="nav-link <?php echo ($pagina == 'nomina' ) ? "active" : ""; ?>">
 
             <span class="fa-stack">
-              <i class="nav-icon fas fa-file-contract "></i>
+              
+              <i class=" fas fa-briefcase nav-icon "></i>
+
             </span>
             <p>
-              Reportes
+              Operaciones
+
               <i class="right fas fa-angle-left"></i>
             </p>
           </a>
           <ul class="nav nav-treeview">
 
             <li class="nav-item">
-              <a href="rptobra.php" class="nav-link <?php echo ($pagina == 'rptobra') ? "active seleccionado" : ""; ?>  ">
+              <a href="cntanomina.php" class="nav-link <?php echo ($pagina == 'nomina') ? "active seleccionado" : ""; ?>  ">
 
-                <i class="fas text-primary fa-building nav-icon"></i>
-                <p>Obra</p>
+                <i class="fas text-info fa-people-arrows nav-icon"></i>
+                <p>Nominas</p>
               </a>
             </li>
 
-
-
+      
 
           </ul>
         </li>
+        <!-- CIERRA MENU OPERACIONES -->
+
+        <!-- ABRE MENU REPORTES -->
+        <?php if ($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2') { ?>
+          <li class="nav-item has-treeview <?php echo ($pagina == 'rptobra') ? "menu-open" : ""; ?>">
+
+
+            <a href="#" class="nav-link <?php echo ($pagina == 'rptobra') ? "active" : ""; ?>">
+
+              <span class="fa-stack">
+                <i class="nav-icon fas fa-file-contract "></i>
+              </span>
+              <p>
+                Reportes
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+
+              <li class="nav-item">
+                <a href="rptobra.php" class="nav-link <?php echo ($pagina == 'rptobra') ? "active seleccionado" : ""; ?>  ">
+
+                  <i class="fas text-primary fa-building nav-icon"></i>
+                  <p>Obra</p>
+                </a>
+              </li>
+
+
+
+
+            </ul>
+          </li>
         <?php } ?>
         <!-- CIERRA MENU EGRESOS -->
 
