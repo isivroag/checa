@@ -48,6 +48,10 @@ $(document).ready(function () {
   // TABLA PRINCIPAL
 
   tablaVis = $('#tablaV').DataTable({
+    
+    fixedHeader: true,
+    paging: false,
+
     dom:
       "<'row justify-content-center'<'col-sm-12 col-md-4 form-group'l><'col-sm-12 col-md-4 form-group'B><'col-sm-12 col-md-4 form-group'f>>" +
       "<'row'<'col-sm-12'tr>>" +
@@ -71,7 +75,7 @@ $(document).ready(function () {
         exportOptions: { columns: [0, 1, 2, 3, 4, 5] },
       },
     ],
-    stateSave: true,
+  
 
     columnDefs: [
       {
@@ -86,6 +90,42 @@ $(document).ready(function () {
 
       $($(row).find('td')['6']).addClass('currency')
     },
+
+      // SUMA DE TOTAL
+      footerCallback: function (row, data, start, end, display) {
+        var api = this.api(),
+          data
+  
+        var intVal = function (i) {
+          return typeof i === 'string'
+            ? i.replace(/[\$,]/g, '') * 1
+            : typeof i === 'number'
+            ? i
+            : 0
+        }
+  /*
+        total = api
+          .column(6)
+          .data()
+          .reduce(function (a, b) {
+            return intVal(a) + intVal(b)
+          }, 0)*/
+        
+          total = api
+          .column( 6, { page: 'current'} )
+          .data()
+          .reduce( function (a, b) {
+              return intVal(a) + intVal(b);
+          }, 0 );
+
+        $(api.column(6).footer()).html(
+          Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+            parseFloat(total).toFixed(2),
+          ),
+        )
+  
+        
+      },
 
     language: {
       lengthMenu: 'Mostrar _MENU_ registros',
@@ -104,6 +144,30 @@ $(document).ready(function () {
       sProcessing: 'Procesando...',
     },
   })
+
+
+   //FILTROS
+   $('#tablaV thead tr').clone(true).appendTo('#tablaV thead')
+   $('#tablaV thead tr:eq(1) th').each(function (i) {
+     var title = $(this).text()
+     $(this).html(
+       '<input class="form-control form-control-sm" type="text" placeholder="' +
+         title +
+         '" />',
+     )
+ 
+     $('input', this).on('keyup change', function () {
+       if (i == 4) {
+         valbuscar = this.value
+       } else {
+         valbuscar = this.value
+       }
+ 
+       if (tablaVis.column(i).search() !== valbuscar) {
+         tablaVis.column(i).search(valbuscar, true, true).draw()
+       }
+     })
+   })
 
   // TABLA BUSCAR OBRA
 
@@ -324,35 +388,24 @@ $(document).ready(function () {
     })
   }
 
-  //BOTON CANCELAR CXC
+  //BOTON CANCELAR NOMINA
 
   $(document).on('click', '.btnCancelar', function () {
     fila = $(this).closest('tr')
 
     folio = parseInt(fila.find('td:eq(0)').text())
 
-    saldo = fila.find('td:eq(6)').text().replace(/,/g, '')
-    monto = fila.find('td:eq(5)').text().replace(/,/g, '')
-    console.log(saldo)
-    console.log(monto)
-    if (monto == saldo) {
+   
       $('#formcan').trigger('reset')
 
       $('#modalcan').modal('show')
       $('#foliocan').val(folio)
-      $('#tipodoc').val(1) // 1 CUENTA POR COBRAR
-    } else {
-      swal.fire({
-        title: '¡No es posible cancelar la Factura!',
-        text: 'El documento ya tiene operaciones posteriores',
-        icon: 'error',
-        focusConfirm: true,
-        confirmButtonText: 'Aceptar',
-      })
-    }
+      $('#tipodoc').val(8) // 8 NOMINAS
+   
+    
   })
 
-  //GUARDAR CANCELAR
+  // GUARDAR CANCELAR
   $(document).on('click', '#btnGuardarCAN', function () {
     foliocan = $('#foliocan').val()
     motivo = $('#motivo').val()
@@ -371,21 +424,20 @@ $(document).ready(function () {
     } else {
       $.ajax({
         type: 'POST',
-        url: 'bd/cancelaringresos.php',
+        url: 'bd/cancelaregresos.php',
         async: false,
         dataType: 'json',
         data: {
           foliocan: foliocan,
           motivo: motivo,
           fecha: fecha,
-          usuario: usuario,
           tipodoc: tipodoc,
+          usuario: usuario,
         },
         success: function (res) {
           if (res == 1) {
-            $('#modalcan').modal('hide')
             mensaje()
-
+            $('#modalcan').modal('hide')
             location.reload()
           } else {
             mensajeerror()
@@ -438,34 +490,35 @@ $(document).ready(function () {
     })
   }
 
+
+  //BUSQUEDA GENERAL
   $(document).on('click', '#btnBuscar', function () {
     var inicio = $('#inicio').val()
     var final = $('#final').val()
+    var obra = $('#id_obra').val()
     var opcion = 1
 
     tablaVis.clear()
     tablaVis.draw()
 
-    if (inicio != '' && final != '') {
+    if (inicio != '' && final != '' && obra!='') {
       $.ajax({
         type: 'POST',
-        url: 'bd/buscarcxc.php',
+        url: 'bd/buscarnomina.php',
         dataType: 'json',
-        data: { inicio: inicio, final: final, opcion: opcion },
+        data: { inicio: inicio, final: final, obra: obra, opcion: opcion },
         success: function (data) {
           for (var i = 0; i < data.length; i++) {
             tablaVis.row
               .add([
-                data[i].folio_cxc,
-                data[i].factura_cxc,
+                data[i].id_nom,
+                data[i].id_obra,
                 data[i].corto_obra,
-                data[i].fecha_cxc,
-                data[i].desc_cxc,
+                data[i].fecha_ini,
+                data[i].fecha_fin,
+                data[i].desc_nom,
                 Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
-                  parseFloat(data[i].monto_cxc).toFixed(2),
-                ),
-                Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
-                  parseFloat(data[i].saldo_cxc).toFixed(2),
+                  parseFloat(data[i].monto_nom).toFixed(2),
                 ),
               ])
               .draw()

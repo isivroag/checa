@@ -27,29 +27,27 @@ switch ($tipodoc) {
         if ($resultado->execute()) {
             $res = 1;
 
-             //IDENTIFICAR LA PROVISION Y EL MONTO DE LA REQUISICION
-             $consulta = "SELECT id_provs,monto_req FROM w_reqsub WHERE id_req='$foliocan'";
-             $resultado = $conexion->prepare($consulta);
-             if ($resultado->execute()) {
-                 $data = $resultado->fetchAll(PDO::FETCH_ASSOC);
-                 $provision = 0;
-                 $montoreq = 0;
-                 foreach ($data as $dat) {
- 
-                     $provision = $dat['id_provs'];
-                     $montoreq = $dat['monto_req'];
-                 }
- 
-                 if($provision!='' && $provision!=0){
+            //IDENTIFICAR LA PROVISION Y EL MONTO DE LA REQUISICION
+            $consulta = "SELECT id_provs,monto_req FROM w_reqsub WHERE id_req='$foliocan'";
+            $resultado = $conexion->prepare($consulta);
+            if ($resultado->execute()) {
+                $data = $resultado->fetchAll(PDO::FETCH_ASSOC);
+                $provision = 0;
+                $montoreq = 0;
+                foreach ($data as $dat) {
+
+                    $provision = $dat['id_provs'];
+                    $montoreq = $dat['monto_req'];
+                }
+
+                if ($provision != '' && $provision != 0) {
                     $consulta = "UPDATE w_provsub SET saldo_prov=saldo_prov+'$montoreq' WHERE id_provs='$provision'";
                     $resultado = $conexion->prepare($consulta);
                     $resultado->execute();
-
-                 }
-                 //ACTUALIZAR SALDO REQUISICION 
-                 
                 }
-            
+                //ACTUALIZAR SALDO REQUISICION 
+
+            }
         }
 
 
@@ -143,26 +141,122 @@ switch ($tipodoc) {
 
                 if ($resultado->execute()) {
                     $res = 1;
-                } 
-            } 
-        } 
+                }
+            }
+        }
 
         break;
 
-        case 6:
+    case 6:
 
-            $consulta = "UPDATE w_provsub SET estado_prov='0',fecha_can='$fecha',motivo_can='$motivo',usuario_can='$usuario' WHERE id_provs='$foliocan'";
+        $consulta = "UPDATE w_provsub SET estado_prov='0',fecha_can='$fecha',motivo_can='$motivo',usuario_can='$usuario' WHERE id_provs='$foliocan'";
+        $resultado = $conexion->prepare($consulta);
+        if ($resultado->execute()) {
+            $res = 1;
+        }
+        break;
+    case 7:
+        $consulta = "UPDATE w_provision SET estado_provi='0',fecha_can='$fecha',motivo_can='$motivo',usuario_can='$usuario' WHERE folio_provi='$foliocan'";
+        $resultado = $conexion->prepare($consulta);
+        if ($resultado->execute()) {
+            $res = 1;
+        }
+        break;
+
+    case 8:
+
+        $consulta = "UPDATE w_nomina SET estado_nom='0',fecha_can='$fecha',motivo_can='$motivo',usuario_can='$usuario' WHERE id_nom='$foliocan'";
+        $resultado = $conexion->prepare($consulta);
+        if ($resultado->execute()) {
+            $res = 1;
+        }
+
+        break;
+
+    case 9:
+
+        $consulta = "UPDATE w_otro SET estado_otro='0',fecha_can='$fecha',motivo_can='$motivo',usuario_can='$usuario' WHERE id_otro='$foliocan'";
+        $resultado = $conexion->prepare($consulta);
+        if ($resultado->execute()) {
+            $res = 1;
+        }
+
+        break;
+
+    case 10:
+
+        $consulta = "UPDATE w_pagootro SET estado_pagoo='0',fecha_can='$fecha',motivo_can='$motivo',usuario_can='$usuario' WHERE folio_pagoo='$foliocan'";
+        $resultado = $conexion->prepare($consulta);
+        if ($resultado->execute()) {
+
+
+            $consulta = "SELECT id_otro,monto_pagoo FROM w_pagootro WHERE folio_pagoo='$foliocan'";
+            $resultado = $conexion->prepare($consulta);
+            if ($resultado->execute()) {
+                $data = $resultado->fetchAll(PDO::FETCH_ASSOC);
+                $monto = 0;
+                $otro = 0;
+                foreach ($data as $dat) {
+
+                    $monto = $dat['monto_pagoo'];
+                    $otro = $dat['id_otro'];
+                }
+
+
+
+                $consulta = "UPDATE w_otro SET saldo_otro=saldo_otro+'$monto' WHERE id_otro='$otro'";
+
+                $resultado = $conexion->prepare($consulta);
+
+                if ($resultado->execute()) {
+                    $res = 1;
+                }
+            }
+        }
+
+        break;
+
+        case 11:
+
+            $consulta = "UPDATE w_gasto SET estado_gto='0',fecha_can='$fecha',motivo_can='$motivo',usuario_can='$usuario' WHERE folio_gto='$foliocan'";
             $resultado = $conexion->prepare($consulta);
             if ($resultado->execute()) {
                 $res = 1;
             }
+    
             break;
-        case 7:
-            $consulta = "UPDATE w_provision SET estado_provi='0',fecha_can='$fecha',motivo_can='$motivo',usuario_can='$usuario' WHERE folio_provi='$foliocan'";
+    
+        case 12:
+    
+            $consulta = "UPDATE w_pagogasto SET estado_pagogto='0',fecha_can='$fecha',motivo_can='$motivo',usuario_can='$usuario' WHERE folio_pagogto='$foliocan'";
             $resultado = $conexion->prepare($consulta);
             if ($resultado->execute()) {
-                $res = 1;
+    
+    
+                $consulta = "SELECT folio_gto,monto_pagogto FROM w_pagogasto WHERE folio_pagogto='$foliocan'";
+                $resultado = $conexion->prepare($consulta);
+                if ($resultado->execute()) {
+                    $data = $resultado->fetchAll(PDO::FETCH_ASSOC);
+                    $monto = 0;
+                    $otro = 0;
+                    foreach ($data as $dat) {
+    
+                        $monto = $dat['monto_pagogto'];
+                        $otro = $dat['folio_gto'];
+                    }
+    
+    
+    
+                    $consulta = "UPDATE w_gasto SET saldo_gto=saldo_gto+'$monto' WHERE folio_gto='$otro'";
+    
+                    $resultado = $conexion->prepare($consulta);
+    
+                    if ($resultado->execute()) {
+                        $res = 1;
+                    }
+                }
             }
+    
             break;
 }
 

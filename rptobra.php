@@ -70,6 +70,7 @@ if ($_SESSION['id_obra'] == null) {
         foreach ($datasub as $rowsub) {
             $saldosub += $rowsub['saldo_sub'];
             $montosub += $rowsub['monto_sub'];
+         
         }
         $pagadosub = $montosub - $saldosub;
 
@@ -90,12 +91,17 @@ if ($_SESSION['id_obra'] == null) {
         $resultado = 0;
         $resultado = $montoobra - ($montosub + $montocxp);
 
+        $resultadopagado=0;
+        $resultadopagado=$ingresos-($pagadosub+$pagadocxp);
 
         // BUSCAR EGRESOS
         $consultaeg = "SELECT * FROM voperacioneseg WHERE id_obra='$id_obra' and estadoop=1 ORDER BY id_obra,fechaop";
         $resultadoeg = $conexion->prepare($consultaeg);
         $resultadoeg->execute();
         $dataeg = $resultadoeg->fetchAll(PDO::FETCH_ASSOC);
+
+
+       
 
     }
 } else {
@@ -163,7 +169,8 @@ if ($_SESSION['id_obra'] == null) {
     $pagadocxp = $montocxp - $saldocxp;
     $resultado = 0;
     $resultado = $montoobra - ($montosub + $montocxp);
-
+    $resultadopagado=0;
+    $resultadopagado=$ingresos-($pagadosub+$pagadocxp);
 
     // BUSCAR EGRESOS
     $consultaeg = "SELECT * FROM voperacioneseg WHERE id_obra='$id_obra' and estadoop=1 ORDER BY id_obra,fechaop";
@@ -257,47 +264,57 @@ $message = "";
                                                             <div class="container-fluid">
 
                                                                 <div class="row justify-content-center">
-                                                                    <div class="col-lg-6">
-                                                                        <canvas class="chart " id="resumenobra" name="resumenobra" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                                                    <div class="col-lg-10">
+                                                                        <canvas class="chart" id="resumenobra" name="resumenobra" style="min-height: 400px; height: 400px; max-height: 400px; max-width: 100%;"></canvas>
 
                                                                     </div>
 
-                                                                    <div class="col-lg-6">
-                                                                        <canvas class="chart " id="resumenobrapie" name="resumenobrapie" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                                                    <div class="col-lg-10">
+                                                                        <canvas class="chart " id="resumenobrapie" name="resumenobrapie" style="min-height: 350px; height: 350px; max-height: 350px; max-width: 100%;"></canvas>
 
                                                                     </div>
 
-                                                                    <div class="row justify-content-center">
+                                                                    <div class="row justify-content-center mt-4">
                                                                         <div class="col-lg-12">
                                                                             <div class="table-responsive">
                                                                                 <table class="table table-responsive table-bordered table-hover table-sm">
                                                                                     <thead class="text-center bg-gradient-primary">
                                                                                         <tr>
                                                                                             <th>CONCEPTO</th>
-                                                                                            <th>MONTO</th>
-                                                                                            <th>%</th>
+                                                                                            <th>IMPORTE CONTRATADO</th>
+                                                                                            <th>IMPORTE PAGADO</th>
+                                                                                            <th>% PAGADO</th>
+                                                                                            <th>% INCIDENCIA</th>
                                                                                         </tr>
                                                                                     </thead>
                                                                                     <tbody>
                                                                                         <tr>
-                                                                                            <td>MONTO CONTRATADO</td>
+                                                                                            <td>IMPORTE CONTRATADO</td>
                                                                                             <td class="text-right"><?php echo number_format($montoobra, 2) ?></td>
-                                                                                            <td class="text-right"><?php echo number_format(($montoobra / $montoobra) * 100, 2) . '%' ?></td>
+                                                                                            <td class="text-right"><?php echo number_format($ingresos,2)   ?></td>
+                                                                                            <td class="text-right"><?php echo number_format(( $ingresos/$montoobra) * 100, 2) . '%' ?></td>
+                                                                                            <td class="text-right"><?php echo number_format(( $montoobra/$montoobra) * 100, 2) . '%' ?></td>
                                                                                         </tr>
                                                                                         <tr>
                                                                                             <td>TOTAL SUBCONTRATOS</td>
                                                                                             <td class="text-right"><?php echo number_format($montosub, 2) ?></td>
-                                                                                            <td class="text-right"><?php echo number_format(($montosub / $montoobra) * 100, 2) . '%' ?></td>
+                                                                                            <td class="text-right"><?php echo number_format($pagadosub,2)   ?></td>
+                                                                                            <td class="text-right"><?php echo number_format(($pagadosub / $montosub) * 100, 2) . '%' ?></td>
+                                                                                            <td class="text-right"><?php echo number_format(( $montosub/$montoobra) * 100, 2) . '%' ?></td>
                                                                                         </tr>
                                                                                         <tr>
                                                                                             <td>TOTAL FACTURAS DE PROVEEDORES </td>
                                                                                             <td class="text-right"><?php echo number_format($montocxp, 2) ?></td>
-                                                                                            <td class="text-right"><?php echo number_format(($montocxp / $montoobra) * 100, 2) ?></td>
+                                                                                            <td class="text-right"><?php echo number_format($pagadocxp,2)   ?></td>
+                                                                                            <td class="text-right"><?php echo number_format(($pagadocxp / $montocxp) * 100, 2) ?></td>
+                                                                                            <td class="text-right"><?php echo number_format(( $montocxp/$montoobra) * 100, 2) . '%' ?></td>
                                                                                         </tr>
                                                                                         <tr>
                                                                                             <td class="text-bold">RESULTADO </td>
                                                                                             <td class="text-right text-bold"><?php echo number_format($resultado, 2) ?></td>
-                                                                                            <td class="text-right text-bold"><?php echo number_format(($resultado / $montoobra) * 100, 2) . '%' ?></td>
+                                                                                            <td class="text-right text-bold"><?php echo number_format($resultadopagado,2)   ?></td>
+                                                                                            <td class="text-right text-bold"><?php //echo number_format(($resultadopagado / $resultado) * 100, 2) . '%' ?></td>
+                                                                                            <td class="text-right text-bold"><?php echo number_format(( $resultado/$montoobra) * 100, 2) . '%' ?></td>
                                                                                         </tr>
 
                                                                                     </tbody>
@@ -1014,8 +1031,9 @@ $message = "";
         var barresumen = $('#resumenobra').get(0).getContext('2d')
 
         var barmetrosdata = {
-            labels: ["RESULTADO ACTUAL", ],
-            datasets: [{
+            labels: ["CONTRATO","SUBCONTRATOS","FACTURAS" ],
+            datasets: [
+                {
                     label: 'MONTO CONTRATADO',
                     fill: true,
                     borderWidth: 1,
@@ -1029,17 +1047,26 @@ $message = "";
 
                     data: [
 
-                        <?php echo $montoobra ?>
+                        <?php echo $montoobra ?>,
+                        <?php echo $montosub ?>,
+                        <?php echo $montocxp ?>,
+                        
 
                     ],
                     backgroundColor: [
 
-                        'rgb(35, 148, 71)'
+                        'rgb(35, 148, 71)',
+                        'rgb(7, 11, 159)',
+                        'rgb(241, 134, 12)'
+                        
 
                     ],
                     borderColor: [
 
-                        'rgb(35, 148, 71)'
+                        'rgb(35, 148, 71)',
+                        'rgb(7, 11, 159)',
+                        'rgb(241, 134, 12)'
+                       
 
                     ],
                     borderWidth: 1
@@ -1057,81 +1084,33 @@ $message = "";
                     pointBackgroundColor: '#A248FA',
 
                     data: [
-                        <?php echo $montosub ?>
+                        <?php echo $ingresos ?>,
+                        <?php echo $pagadosub ?>,
+                        <?php echo $pagadocxp?>
                     ],
                     backgroundColor: [
 
 
-                        'rgb(99, 121, 247)'
+                        'rgba(35, 148, 71,.5)',
+                        'rgba(7, 11, 159,.5)',
+                        'rgba(241, 134, 12,.5)'
 
                     ],
                     borderColor: [
 
 
-                        'rgb(99, 121, 247)'
+                        'rgb(35, 148, 71)',
+                        'rgb(7, 11, 159)',
+                        'rgb(241, 134, 12)'
 
                     ],
                     borderWidth: 1
-                }, {
-                    label: 'FACTURAS',
-                    fill: true,
-                    borderWidth: 1,
-                    lineTension: 0,
-                    spanGaps: true,
-                    borderColor: '#000000',
-                    pointRadius: 3,
-                    pointHoverRadius: 7,
-                    pointColor: '#A248FA',
-                    pointBackgroundColor: '#A248FA',
-
-                    data: [
-
-                        <?php echo $montocxp ?>
-
-                    ],
-                    backgroundColor: [
-
-                        'rgb(154, 16, 35)'
-
-                    ],
-                    borderColor: [
-
-                        'rgb(154, 16, 35)'
-
-                    ],
-                    borderWidth: 1
-                },
-                {
-                    label: 'RESULTADO',
-                    fill: true,
-                    borderWidth: 1,
-                    lineTension: 0,
-                    spanGaps: true,
-                    borderColor: '#000000',
-                    pointRadius: 3,
-                    pointHoverRadius: 7,
-                    pointColor: '#A248FA',
-                    pointBackgroundColor: '#A248FA',
-
-                    data: [
-
-                        <?php echo ($montoobra - ($montosub + $montocxp)) ?>
-
-                    ],
-                    backgroundColor: [
-
-                        'rgb(154, 16, 235)'
-
-                    ],
-                    borderColor: [
-
-                        'rgb(154, 16, 235)'
-
-                    ],
-                    borderWidth: 1
-                }
+                }, 
+                
             ]
         }
+
+      
 
         var metrosGraphChartOptions = {
             animationEnabled: true,
@@ -1139,7 +1118,7 @@ $message = "";
             maintainAspectRatio: false,
             responsive: true,
             legend: {
-                display: true,
+                display: false,
                 position: 'bottom',
                 labels: {
                     fontColor: '#000000'
@@ -1157,9 +1136,13 @@ $message = "";
                     }
                 }],
                 yAxes: [{
+                    y:{
+                        max: <?php echo $montoobra ?>,
+                    },
                     ticks: {
 
-                        beginAtZero: true
+                        beginAtZero: true,
+                        stepSize:10000000
                     },
                     gridLines: {
                         display: true,

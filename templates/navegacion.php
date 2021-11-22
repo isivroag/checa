@@ -149,10 +149,10 @@
         <!-- CIERRA MENU CATALOGOS -->
 
         <!-- ABRE MENU EGRESOS -->
-        <li class="nav-item has-treeview <?php echo ($pagina == 'subcontrato' || $pagina == 'cntaegresos' || $pagina == 'egresos' || $pagina == 'cntacxp' || $pagina == 'cntapagocxp' || $pagina == 'pagoscxp' || $pagina == 'provision'  || $pagina == 'saldoseg') ? "menu-open" : ""; ?>">
+        <li class="nav-item has-treeview <?php echo ($pagina == 'subcontrato' || $pagina == 'cntaegresos' || $pagina == 'egresos' || $pagina == 'cntacxp' || $pagina == 'cntapagocxp' || $pagina == 'pagoscxp' || $pagina == 'provision'  || $pagina == 'saldoseg' || $pagina == 'gastos') ? "menu-open" : ""; ?>">
 
 
-          <a href="#" class="nav-link <?php echo ($pagina == 'subcontrato' || $pagina == 'cntaegresos' || $pagina == 'egresos' || $pagina == 'cntacxp' || $pagina == 'cntapagocxp' || $pagina == 'pagoscxp' || $pagina == 'provision'  || $pagina == 'saldoseg') ? "active" : ""; ?>">
+          <a href="#" class="nav-link <?php echo ($pagina == 'subcontrato' || $pagina == 'cntaegresos' || $pagina == 'egresos' || $pagina == 'cntacxp' || $pagina == 'cntapagocxp' || $pagina == 'pagoscxp' || $pagina == 'provision'  || $pagina == 'saldoseg' || $pagina == 'gastos') ? "active" : ""; ?>">
 
             <span class="fa-stack">
               <i class=" fas fa-arrow-down "></i>
@@ -192,6 +192,14 @@
             </li>
 
             <li class="nav-item">
+              <a href="cntagastos.php" class="nav-link <?php echo ($pagina == 'gastos') ? "active seleccionado" : ""; ?>  ">
+
+                <i class="fas text-purple fa-money-bill-wave nav-icon"></i>
+                <p>Otros Gastos</p>
+              </a>
+            </li>
+
+            <li class="nav-item">
               <a href="cntaegresos.php" class="nav-link <?php echo ($pagina == 'cntapagocxp') ? "active seleccionado" : ""; ?>  ">
 
                 <i class="fas text-purple fa-search-dollar nav-icon"></i>
@@ -221,13 +229,13 @@
 
 
         <!-- ABRE MENU OPERACIONES -->
-        <li class="nav-item has-treeview <?php echo ($pagina == 'nomina' ) ? "menu-open" : ""; ?>">
+        <li class="nav-item has-treeview <?php echo ($pagina == 'nomina' || $pagina == 'otro' || $pagina == 'proveedorobra' || $pagina == 'cajaobra') ? "menu-open" : ""; ?>">
 
 
-          <a href="#" class="nav-link <?php echo ($pagina == 'nomina' ) ? "active" : ""; ?>">
+          <a href="#" class="nav-link <?php echo ($pagina == 'nomina' || $pagina == 'otro' || $pagina == 'proveedorobra' || $pagina == 'cajaobra') ? "active" : ""; ?>">
 
             <span class="fa-stack">
-              
+
               <i class=" fas fa-briefcase nav-icon "></i>
 
             </span>
@@ -240,14 +248,54 @@
           <ul class="nav nav-treeview">
 
             <li class="nav-item">
+              <a href="cntacaja.php" class="nav-link <?php echo ($pagina == 'cajaobra') ? "active seleccionado" : ""; ?>  ">
+
+                <i class=" fas fa-briefcase nav-icon"></i>
+                <p>Caja</p>
+              </a>
+            </li>
+
+
+
+          </ul>
+          <ul class="nav nav-treeview">
+
+            <li class="nav-item">
+              <a href="cntaproveedorobra.php" class="nav-link <?php echo ($pagina == 'proveedorobra') ? "active seleccionado" : ""; ?>  ">
+
+                <i class=" fas fa-portrait nav-icon"></i>
+                <p>Proveedores</p>
+              </a>
+            </li>
+
+
+
+          </ul>
+          <ul class="nav nav-treeview">
+
+            <li class="nav-item">
               <a href="cntanomina.php" class="nav-link <?php echo ($pagina == 'nomina') ? "active seleccionado" : ""; ?>  ">
 
-                <i class="fas text-info fa-people-arrows nav-icon"></i>
+                <i class="fas  fa-people-arrows nav-icon"></i>
                 <p>Nominas</p>
               </a>
             </li>
 
-      
+
+
+          </ul>
+
+          <ul class="nav nav-treeview">
+
+            <li class="nav-item">
+              <a href="cntaotrosgastos.php" class="nav-link <?php echo ($pagina == 'otro') ? "active seleccionado" : ""; ?>  ">
+
+                <i class="fas  fa-money-bill-wave nav-icon"></i>
+                <p>Gastos de Obra</p>
+              </a>
+            </li>
+
+
 
           </ul>
         </li>

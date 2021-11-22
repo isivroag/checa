@@ -895,7 +895,8 @@ $(document).ready(function () {
         dataType: 'json',
         async: false,
         data: {
-          clave: clave
+          clave: clave,
+          opcion: opcion
         
         },
         success: function (data) {

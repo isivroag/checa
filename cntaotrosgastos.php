@@ -1,5 +1,5 @@
 <?php
-$pagina = "nomina";
+$pagina = "otro";
 
 include_once "templates/header.php";
 include_once "templates/barra.php";
@@ -39,7 +39,7 @@ if ($_SESSION['id_obra'] == null) {
         }
 
         //BUSCAR NOMBRE DE OBRA
-        $consultanom = "SELECT * from vnomina where id_obra='$id_obra' AND estado_nom=1 order by id_nom";
+        $consultanom = "SELECT * from votrosgastos where id_obra='$id_obra' AND estado_otro=1 order by id_otro";
         $resultadonom = $conexion->prepare($consultanom);
         $resultadonom->execute();
         $datanom = $resultadonom->fetchAll(PDO::FETCH_ASSOC);
@@ -60,7 +60,7 @@ if ($_SESSION['id_obra'] == null) {
     }
 
     //BUSCAR NOMBRE DE OBRA
-    $consultanom = "SELECT * from vnomina where id_obra='$id_obra' AND estado_nom=1 order by id_nom";
+    $consultanom = "SELECT * from votrosgastos where id_obra='$id_obra' AND estado_otro=1 order by id_otro";
     $resultadonom = $conexion->prepare($consultanom);
     $resultadonom->execute();
     $datanom = $resultadonom->fetchAll(PDO::FETCH_ASSOC);
@@ -87,7 +87,7 @@ $message = "";
 
         <div class="card">
             <div class="card-header bg-gradient-secondary text-light">
-                <h1 class="card-title mx-auto">NOMINAS</h1>
+                <h1 class="card-title mx-auto">OTROS GASTOS</h1>
             </div>
 
             <div class="card-body">
@@ -133,7 +133,7 @@ $message = "";
                                 <!-- Default box -->
                                 <div class="card">
                                     <div class="card-header bg-gradient-secondary text-light">
-                                        <h1 class="card-title mx-auto">INFORMACION DE NOMINAS</h1>
+                                        <h1 class="card-title mx-auto">INFORMACION DE OTROS GASTOS</h1>
                                     </div>
 
                                     <div class="card-body">
@@ -187,10 +187,10 @@ $message = "";
                                                                     <th>ID</th>
                                                                     <th>ID OBRA</th>
                                                                     <th>OBRA</th>
-                                                                    <th>INICIO</th>
-                                                                    <th>FIN</th>
+                                                                    <th>FECHA</th>
                                                                     <th>CONCEPTO</th>
                                                                     <th>MONTO</th>
+                                                                    <th>SALDO</th>
                                                                     <th>ACCIONES</th>
 
                                                                 </tr>
@@ -200,13 +200,13 @@ $message = "";
                                                                 foreach ($datanom as $dat) {
                                                                 ?>
                                                                     <tr>
-                                                                        <td><?php echo $dat['id_nom'] ?></td>
+                                                                        <td><?php echo $dat['id_otro'] ?></td>
                                                                         <td><?php echo $dat['id_obra'] ?></td>
                                                                         <td><?php echo $dat['corto_obra'] ?></td>
-                                                                        <td class="text-center"><?php echo $dat['fecha_ini'] ?></td>
-                                                                        <td class="text-center"><?php echo $dat['fecha_fin'] ?></td>
-                                                                        <td><?php echo $dat['desc_nom'] ?></td>
-                                                                        <td class="text-right"><?php echo number_format($dat['monto_nom'], 2) ?></td>
+                                                                        <td class="text-center"><?php echo $dat['fecha'] ?></td>
+                                                                        <td><?php echo $dat['desc_otro'] ?></td>
+                                                                        <td class="text-right"><?php echo number_format($dat['monto_otro'], 2) ?></td>
+                                                                        <td class="text-right"><?php echo number_format($dat['saldo_otro'], 2) ?></td>
                                                                         <td></td>
 
 
@@ -220,8 +220,8 @@ $message = "";
                                                                 <th></th>
                                                                 <th></th>
                                                                 <th></th>
-                                                                <th></th>
                                                                 <th class="text-right text-bold">TOTAL</th>
+                                                                <th></th>
                                                                 <th></th>
                                                                 <th></th>
                                                             </tfoot>
@@ -304,14 +304,14 @@ $message = "";
 
 
 
-    <!-- INICIA ALTA NOMINA -->
+    <!-- INICIA ALTA GASTO -->
 
     <section>
         <div class="modal fade" id="modalReq" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content w-auto">
                     <div class="modal-header bg-gradient-secondary">
-                        <h5 class="modal-title" id="exampleModalLabel">ALTA DE NOMINA</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">ALTA DE GASTO</h5>
 
                     </div>
                     <form id="formReq" action="" method="POST" autocomplete="off">
@@ -322,29 +322,26 @@ $message = "";
 
                                     <div class="col-sm-2">
                                         <div class="form-group input-group-sm">
-                                            <label for="folionom" class="col-form-label">ID NOM:</label>
+                                            <label for="folionom" class="col-form-label">FOLIO GASTOS:</label>
                                             <input type="text" class="form-control" name="folionom" id="folionom" disabled>
 
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
                                     </div>
+                                    <div class="col-sm-3">
+                                    </div>
 
                                     <div class="col-sm-3 ">
                                         <div class="form-group input-group-sm">
-                                            <label for="fechaini" class="col-form-label">FECHA INICIAL:</label>
-                                            <input type="date" class="form-control" name="fechaini" id="fechaini" value="<?php echo $fecha; ?>">
+                                            <label for="fechao" class="col-form-label">FECHA INICIAL:</label>
+                                            <input type="date" class="form-control" name="fechao" id="fechao" value="<?php echo $fecha; ?>">
                                         </div>
                                     </div>
 
 
 
-                                    <div class="col-sm-3 ">
-                                        <div class="form-group input-group-sm">
-                                            <label for="fechafin" class="col-form-label">FECHA FINAL:</label>
-                                            <input type="date" class="form-control" name="fechafin" id="fechafin" value="<?php echo $fecha; ?>">
-                                        </div>
-                                    </div>
+
 
                                 </div>
 
@@ -425,9 +422,182 @@ $message = "";
     <!-- TERMINA ALTA NOMINA -->
 
 
-    
-    <!-- INICIA CANCELAR -->
+
+ 
+    <!-- INICIA VER PAGOS -->
     <section>
+        <div class="container">
+
+
+
+            <div class="modal fade myModal" id="modalResumenp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl modal-md" role="document">
+                    <div class="modal-content w-auto">
+                        <div class="modal-header bg-gradient-primary">
+                            <h5 class="modal-title" id="exampleModalLabel">Resumen de Pagos</h5>
+
+                        </div>
+                        <br>
+                        <div class="table-hover responsive w-auto " style="padding:10px">
+                            <table name="tablaResumenp" id="tablaResumenp" class="table table-sm table-striped table-bordered table-condensed display compact" style="width:100%">
+                                <thead class="text-center bg-gradient-primary">
+                                    <tr>
+                                        <th>FOLIO</th>
+                                        <th>FECHA</th>
+                                        <th>REFERENCIA</th>
+                                        <th>MONTO</th>
+                                        <th>METODO</th>
+                                        <th>ACCIONES</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                                <tfoot>
+
+                                    <th></th>
+                                    <th></th>
+                                    <th class="text-right text-bold">TOTAL</th>
+                                    <th class="text-right text-bold"></th>
+                                    <th></th>
+                                    <th></th>
+                                </tfoot>
+                            </table>
+                        </div>
+
+
+                    </div>
+
+                </div>
+                <!-- /.card-body -->
+
+                <!-- /.card-footer-->
+            </div>
+            <!-- /.card -->
+
+        </div>
+    </section>
+    <!-- TERMINA VER PAGOS-->
+
+    <!-- INICIA PAGAR-->
+    <section>
+        <div class="modal fade" id="modalPago" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-gradient-green">
+                        <h5 class="modal-title" id="exampleModalLabel">REGISTRAR PAGO</h5>
+
+                    </div>
+                    <form id="formPago" action="" method="POST">
+                        <div class="modal-body">
+                            <div class="row justify-content-sm-between my-auto">
+
+
+
+
+                                <div class="col-sm-3 my-auto">
+                                    <div class="form-group input-group-sm">
+                                        <label for="foliovp" class="col-form-label">FOLIO:</label>
+                                        <input type="text" class="form-control" name="foliovp" id="foliovp" disabled>
+
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="col-sm-3 my-auto">
+                                    <div class="form-group input-group-sm">
+                                        <label for="fechavp" class="col-form-label ">FECHA DE PAGO:</label>
+                                        <input type="date" id="fechavp" name="fechavp" class="form-control text-right" autocomplete="off" value="<?php echo date("Y-m-d") ?>" placeholder="FECHA">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group input-group-sm">
+                                        <label for="referenciavp" class="col-form-label">REFERENCIA DE PAGO</label>
+                                        <input type="text" class="form-control" name="referenciavp" id="referenciavp" autocomplete="off" placeholder="REFERENCIA (CHEQUE,#AUTORIZACIÓN)">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-sm-center">
+                                <div class="col-sm-12">
+                                    <div class="form-group input-group-sm">
+                                        <label for="observacionesvp" class="col-form-label">OBSERVACIONES:</label>
+                                        <textarea class="form-control" name="observacionesvp" id="observacionesvp" rows="3" autocomplete="off" placeholder="OBSERVACIONES"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-sm-center">
+
+                                <div class="col-lg-4 ">
+                                    <label for="saldovp" class="col-form-label ">SALDO ACTUAL:</label>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control text-right" name="saldovp" id="saldovp" disabled>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4">
+                                    <label for="montopagovp" class="col-form-label">MONTO DE PAGO:</label>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </span>
+
+                                        </div>
+                                        <input type="text" id="montopagovp" name="montopagovp" class="form-control text-right" autocomplete="off" placeholder="MONTO DEL PAGO">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4">
+                                    <div class="input-group-sm">
+                                        <label for="metodovp" class="col-form-label">METODO DE PAGO:</label>
+
+                                        <select class="form-control" name="metodovp" id="metodovp">
+                                            <option id="EFECTIVO" value="EFECTIVO">EFECTIVO</option>
+                                            <option id="TRANSFERENCIA" value="TRANSFERENCIA">TRANSFERENCIA</option>
+                                            <option id="DEPOSITO" value="DEPOSITO">DEPOSITO</option>
+                                            <option id="CHEQUE" value="CHEQUE">CHEQUE</option>
+                                            <option id="TARJETA DE CREDITO" value="TARJETA DE CREDITO">TARJETA DE CREDITO</option>
+                                            <option id="TARJETA DE DEBITO" value="TARJETA DE DEBITO">TARJETA DE DEBITO</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+
+
+
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fas fa-ban"></i> Cancelar</button>
+                            <button type="button" id="btnGuardarvp" name="btnGuardarvp" class="btn btn-success" value="btnGuardar"><i class="far fa-save"></i> Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- TERMINA PAGAR -->
+
+       <!-- INICIA CANCELAR -->
+       <section>
         <div class="modal fade" id="modalcan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog " role="document">
                 <div class="modal-content">
@@ -471,11 +641,12 @@ $message = "";
 
     <!-- TERMINA CANCELAR -->
 
+
 </div>
 
 
 <?php include_once 'templates/footer.php'; ?>
-<script src="fjs/cntanomina.js?v=<?php echo (rand()); ?>"></script>
+<script src="fjs/cntaotrosgastos.js?v=<?php echo (rand()); ?>"></script>
 <script src="plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 <script src="plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>

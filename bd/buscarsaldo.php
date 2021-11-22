@@ -48,6 +48,30 @@ switch ($opcion) {
                 }
             }
             break;
+            
+        case 4:
+            $consulta = "SELECT saldo_otro FROM w_otro WHERE id_otro ='$folioreq' ORDER BY id_otro";
+            $resultado = $conexion->prepare($consulta);
+            if ($resultado->execute()) {
+                $data = $resultado->fetchAll(PDO::FETCH_ASSOC);
+    
+                foreach ($data as $reg) {
+                    $saldo = $reg['saldo_otro'];
+                }
+            }
+            break;
+
+            case 5:
+                $consulta = "SELECT saldo_gto FROM w_gasto WHERE folio_gto ='$folioreq' ORDER BY folio_gto";
+                $resultado = $conexion->prepare($consulta);
+                if ($resultado->execute()) {
+                    $data = $resultado->fetchAll(PDO::FETCH_ASSOC);
+        
+                    foreach ($data as $reg) {
+                        $saldo = $reg['saldo_gto'];
+                    }
+                }
+                break;
 }
 
 print json_encode($saldo, JSON_UNESCAPED_UNICODE);

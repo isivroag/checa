@@ -29,6 +29,18 @@ switch($opcion){
         $resultado->execute();
         $data = $resultado->fetchAll(PDO::FETCH_ASSOC);
     break;
+    case 4:
+        $consulta = "SELECT * FROM w_pagootro WHERE id_otro='$folio' and estado_pagoo=1 ORDER BY folio_pagoo,fecha_pagoo";
+        $resultado = $conexion->prepare($consulta);
+        $resultado->execute();
+        $data = $resultado->fetchAll(PDO::FETCH_ASSOC);
+        break;
+        case 5:
+            $consulta = "SELECT * FROM w_pagogasto WHERE folio_gto='$folio' and estado_pagogto=1 ORDER BY folio_pagogto,fecha_pagogto";
+            $resultado = $conexion->prepare($consulta);
+            $resultado->execute();
+            $data = $resultado->fetchAll(PDO::FETCH_ASSOC);
+            break;
     
 }
 
