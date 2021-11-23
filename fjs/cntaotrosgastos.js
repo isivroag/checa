@@ -581,8 +581,8 @@ $(document).ready(function () {
   
       folio = parseInt(fila.find('td:eq(0)').text())
   
-        saldo = fila.find('td:eq(5)').text().replace(/,/g, '')
-        monto = fila.find('td:eq(6)').text().replace(/,/g, '')
+        saldo = fila.find('td:eq(8)').text().replace(/,/g, '')
+        monto = fila.find('td:eq(7)').text().replace(/,/g, '')
 
     
         if (parseFloat(monto) == parseFloat(saldo)) {
