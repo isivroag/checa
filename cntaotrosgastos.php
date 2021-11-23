@@ -14,6 +14,8 @@ $conexion = $objeto->connect();
 
 $datanom = 0;
 $fecha = date('Y-m-d');
+$id_prov = "";
+$proveedor = "";
 
 $resultado = 0;
 
@@ -43,6 +45,11 @@ if ($_SESSION['id_obra'] == null) {
         $resultadonom = $conexion->prepare($consultanom);
         $resultadonom->execute();
         $datanom = $resultadonom->fetchAll(PDO::FETCH_ASSOC);
+
+        $consultaprov = "SELECT * FROM o_proveedor WHERE estado_prov=1 and id_obra='$id_obra' ORDER BY id_prov";
+        $resultadoprov = $conexion->prepare($consultaprov);
+        $resultadoprov->execute();
+        $dataprov = $resultadoprov->fetchAll(PDO::FETCH_ASSOC);
     }
 } else {
 
@@ -64,6 +71,13 @@ if ($_SESSION['id_obra'] == null) {
     $resultadonom = $conexion->prepare($consultanom);
     $resultadonom->execute();
     $datanom = $resultadonom->fetchAll(PDO::FETCH_ASSOC);
+
+    $consultaprov = "SELECT * FROM o_proveedor WHERE estado_prov=1 and id_obra='$id_obra' ORDER BY id_prov";
+    $resultadoprov = $conexion->prepare($consultaprov);
+    $resultadoprov->execute();
+    $dataprov = $resultadoprov->fetchAll(PDO::FETCH_ASSOC);
+
+
 }
 
 
@@ -187,6 +201,8 @@ $message = "";
                                                                     <th>ID</th>
                                                                     <th>ID OBRA</th>
                                                                     <th>OBRA</th>
+                                                                    <th>ID PROV</th>
+                                                                    <th>PROVEEDOR</th>
                                                                     <th>FECHA</th>
                                                                     <th>CONCEPTO</th>
                                                                     <th>MONTO</th>
@@ -203,6 +219,8 @@ $message = "";
                                                                         <td><?php echo $dat['id_otro'] ?></td>
                                                                         <td><?php echo $dat['id_obra'] ?></td>
                                                                         <td><?php echo $dat['corto_obra'] ?></td>
+                                                                        <td><?php echo $dat['id_prov'] ?></td>
+                                                                        <td><?php echo $dat['razon_prov'] ?></td>
                                                                         <td class="text-center"><?php echo $dat['fecha'] ?></td>
                                                                         <td><?php echo $dat['desc_otro'] ?></td>
                                                                         <td class="text-right"><?php echo number_format($dat['monto_otro'], 2) ?></td>
@@ -220,9 +238,11 @@ $message = "";
                                                                 <th></th>
                                                                 <th></th>
                                                                 <th></th>
+                                                                <th></th>
+                                                                <th></th>
                                                                 <th class="text-right text-bold">TOTAL</th>
-                                                                <th></th>
-                                                                <th></th>
+                                                                <th class="text-right text-bold"></th>
+                                                                <th class="text-right text-bold"></th>
                                                                 <th></th>
                                                             </tfoot>
 
@@ -366,7 +386,19 @@ $message = "";
                                     </div>
 
 
+                                    <div class="col-sm-12">
+                                        <div class="input-group input-group-sm">
+                                            <label for="proveedor" class="col-form-label">PROVEEDOR:</label>
+                                            <div class="input-group input-group-sm">
+                                                <input type="hidden" class="form-control" name="id_prov" id="id_prov" value="<?php echo $id_prov; ?>">
+                                                <input type="text" class="form-control" name="proveedor" id="proveedor" disabled placeholder="SELECCIONAR PROVEEDOR" value="<?php echo $proveedor; ?>">
+                                                <span class="input-group-append">
+                                                    <button id="bproveedor" type="button" class="btn btn-sm btn-primary"><i class="fas fa-search"></i></button>
+                                                </span>
+                                            </div>
 
+                                        </div>
+                                    </div>
 
 
                                 </div>
@@ -421,6 +453,51 @@ $message = "";
 
     <!-- TERMINA ALTA NOMINA -->
 
+    <!-- INICIA PROVEEDOR -->
+    <section>
+        <div class="container">
+
+            <!-- Default box -->
+            <div class="modal fade" id="modalProveedor" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-md" role="document">
+                    <div class="modal-content w-auto">
+                        <div class="modal-header bg-gradient-green">
+                            <h5 class="modal-title" id="exampleModalLabel">BUSCAR OBRA</h5>
+
+                        </div>
+                        <br>
+                        <div class="table-hover table-responsive w-auto" style="padding:15px">
+                            <table name="tablaProveedor" id="tablaProveedor" class="table table-sm text-nowrap table-striped table-bordered table-condensed" style="width:100%">
+                                <thead class="text-center bg-gradient-green">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>RFC</th>
+                                        <th>RAZON SOCIAL</th>
+                                        <th>ACCIONES</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    foreach ($dataprov as $datp) {
+                                    ?>
+                                        <tr>
+                                            <td><?php echo $datp['id_prov'] ?></td>
+                                            <td><?php echo $datp['rfc_prov'] ?></td>
+                                            <td><?php echo $datp['razon_prov'] ?></td>
+                                            <td></td>
+                                        </tr>
+                                    <?php
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- TERMINA PROVEEDOR -->
 
 
  
@@ -653,3 +730,9 @@ $message = "";
 <script src="plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
 <script src="plugins/sweetalert2/sweetalert2.all.min.js"></script>
 <script src="plugins/chart.js/Chart.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
+<script src="http://cdn.datatables.net/plug-ins/1.10.21/sorting/formatted-numbers.js"></script>

@@ -71,7 +71,7 @@ $(document).ready(function () {
   
     tablaVis = $('#tablaV').DataTable({
       
-      fixedHeader: true,
+      fixedHeader: false,
       paging: false,
   
       dom:
@@ -84,17 +84,17 @@ $(document).ready(function () {
           extend: 'excelHtml5',
           text: "<i class='fas fa-file-excel'> Excel</i>",
           titleAttr: 'Exportar a Excel',
-          title: 'Reporte de Venta',
+          title: 'Reporte Gastos de Obra' ,
           className: 'btn bg-success ',
-          exportOptions: { columns: [0, 1, 2, 3, 4, 5] },
+          exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8] },
         },
         {
           extend: 'pdfHtml5',
           text: "<i class='far fa-file-pdf'> PDF</i>",
           titleAttr: 'Exportar a PDF',
-          title: 'Reporte de Venta',
+          title: 'Reporte Gastos de Obra',
           className: 'btn bg-danger',
-          exportOptions: { columns: [0, 1, 2, 3, 4, 5] },
+          exportOptions: { columns: [0, 1, 2, 3, 4, 5,6,7,8] },
         },
       ],
     
@@ -106,11 +106,15 @@ $(document).ready(function () {
           defaultContent:textcolumnas,
         },
         { className: 'hide_column', targets: [1] },
+        { className: 'hide_column', targets: [3] },
       ],
       rowCallback: function (row, data) {
-        $($(row).find('td')['6']).addClass('text-right')
+        $($(row).find('td')['7']).addClass('text-right')
   
-        $($(row).find('td')['6']).addClass('currency')
+        $($(row).find('td')['7']).addClass('currency')
+        $($(row).find('td')['8']).addClass('text-right')
+  
+        $($(row).find('td')['8']).addClass('currency')
       },
   
         // SUMA DE TOTAL
@@ -134,27 +138,27 @@ $(document).ready(function () {
             }, 0)*/
           
             total = api
-            .column( 5, { page: 'current'} )
+            .column( 7, { page: 'current'} )
             .data()
             .reduce( function (a, b) {
                 return intVal(a) + intVal(b);
             }, 0 );
 
             saldo = api
-            .column( 6, { page: 'current'} )
+            .column( 8, { page: 'current'} )
             .data()
             .reduce( function (a, b) {
                 return intVal(a) + intVal(b);
             }, 0 );
   
-          $(api.column(5).footer()).html(
+          $(api.column(7).footer()).html(
             Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
               parseFloat(total).toFixed(2),
             ),
           )
-          $(api.column(6).footer()).html(
+          $(api.column(8).footer()).html(
             Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
-              parseFloat(total).toFixed(2),
+              parseFloat(saldo).toFixed(2),
             ),
           )
           
@@ -178,6 +182,34 @@ $(document).ready(function () {
       },
     })
   
+      // TABLA BUSCAR PROVEEDOR
+  tablaprov = $('#tablaProveedor').DataTable({
+    columnDefs: [
+      {
+        targets: -1,
+        data: null,
+        defaultContent:
+          "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-success btnSelProveedor' data-toggle='tooltip' data-placement='top' title='Seleccionar Proveedor'><i class='fas fa-hand-pointer'></i></button></div></div>",
+      },
+    ],
+
+    language: {
+      lengthMenu: 'Mostrar _MENU_ registros',
+      zeroRecords: 'No se encontraron resultados',
+      info:
+        'Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros',
+      infoEmpty: 'Mostrando registros del 0 al 0 de un total de 0 registros',
+      infoFiltered: '(filtrado de un total de _MAX_ registros)',
+      sSearch: 'Buscar:',
+      oPaginate: {
+        sFirst: 'Primero',
+        sLast: 'Último',
+        sNext: 'Siguiente',
+        sPrevious: 'Anterior',
+      },
+      sProcessing: 'Procesando...',
+    },
+  })
   
      //FILTROS
      $('#tablaV thead tr').clone(true).appendTo('#tablaV thead')
@@ -230,6 +262,21 @@ $(document).ready(function () {
         sProcessing: 'Procesando...',
       },
     })
+
+      //BOTON SELECCIONAR PROVEEDOR
+  $(document).on('click', '.btnSelProveedor', function () {
+    fila = $(this)
+    id_prov = parseInt($(this).closest('tr').find('td:eq(0)').text())
+    proveedor = $(this).closest('tr').find('td:eq(2)').text()
+
+    $('#id_prov').val(id_prov)
+    $('#proveedor').val(proveedor)
+    $('#modalProveedor').modal('hide')
+  })
+  //BOTON BUSCAR PROVEEDOR
+  $(document).on('click', '#bproveedor', function () {
+    $('#modalProveedor').modal('show')
+  })
   
  //TABLA RESUMEN DE RESUMEN PAGOS
  tablaResumenp = $('#tablaResumenp').DataTable({
@@ -327,7 +374,7 @@ $(document).ready(function () {
     $(document).on('click', '#btnGuardarnom', function () {
       folio = $('#folionom').val()
       fechao = $('#fechao').val()
-      
+      id_prov = $('#id_prov').val()
       id_obra = $('#id_obra').val()
       descripcion = $('#descripcion').val()
       monto = $('#montonom').val().replace(/,/g, '')
@@ -338,6 +385,7 @@ $(document).ready(function () {
           fechao.length == 0 ||
         id_obra.length == 0 ||
         descripcion.length == 0 ||
+        id_prov.length == 0 ||
         monto.length == 0
       ) {
         Swal.fire({
@@ -355,6 +403,7 @@ $(document).ready(function () {
             folio: folio,
             fechao: fechao,
             id_obra: id_obra,
+            id_prov: id_prov,
             descripcion: descripcion,
             monto: monto,
             opcion: opcion,
@@ -417,7 +466,7 @@ $(document).ready(function () {
     $(document).on('click', '.btnPagar', function () {
         fila = $(this).closest('tr')
         folio_req = parseInt(fila.find('td:eq(0)').text())
-        saldo = fila.find('td:eq(5)').text()
+        saldo = fila.find('td:eq(8)').text()
     
         $('formPago').trigger('reset')
     
@@ -674,14 +723,18 @@ $(document).ready(function () {
             for (var i = 0; i < data.length; i++) {
               tablaVis.row
                 .add([
-                  data[i].id_nom,
+                  data[i].id_otro,
                   data[i].id_obra,
                   data[i].corto_obra,
-                  data[i].fecha_ini,
-                  data[i].fecha_fin,
-                  data[i].desc_nom,
+                  data[i].id_prov,
+                  data[i].razon_prov,
+                  data[i].fecha,
+                  data[i].desc_otro,
                   Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
-                    parseFloat(data[i].monto_nom).toFixed(2),
+                    parseFloat(data[i].monto_otro).toFixed(2),
+                  ),
+                  Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+                    parseFloat(data[i].saldo_otro).toFixed(2),
                   ),
                 ])
                 .draw()
