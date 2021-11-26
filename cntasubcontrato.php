@@ -148,6 +148,9 @@ $message = "";
                                             <th>CONCEPTO</th>
                                             <th>MONTO</th>
                                             <th>SALDO</th>
+                                            <?php if($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2'){ ?>
+                                            <th>COBRADO</th>
+                                            <?php }?>
                                             <th>ACCIONES</th>
 
                                         </tr>
@@ -167,6 +170,10 @@ $message = "";
                                                 <td><?php echo $dat['desc_sub'] ?></td>
                                                 <td class="text-right"><?php echo number_format($dat['monto_sub'], 2) ?></td>
                                                 <td class="text-right"><?php echo number_format($dat['saldo_sub'], 2) ?></td>
+                                                <?php if($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2'){ ?>
+                                                <td class="text-right"><?php echo number_format($dat['cobrado_sub'], 2) ?></td>
+                                                
+                                                <?php }?>
                                                 <td></td>
 
 
@@ -185,6 +192,9 @@ $message = "";
                                         <td class="text-bold text-right">TOTALES</td>
                                         <td class="text-bold text-right"></td>
                                         <td class="text-bold text-right"></td>
+                                        <?php if($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2'){ ?>
+                                        <td class="text-bold text-right"></td>
+                                        <?php }?>
                                         <td></td>
                                     </tfoot>
                                 </table>
@@ -892,7 +902,7 @@ $message = "";
                                             </span>
 
                                         </div>
-                                        <input type="text" id="montopagovp" name="montopagovp" class="form-control text-right" autocomplete="off" placeholder="MONTO DEL PAGO">
+                                        <input type="text" id="montopagovp" name="montopagovp" class="form-control text-right" autocomplete="off" placeholder="MONTO DEL PAGO" onkeypress="return filterFloat(event,this);">
                                     </div>
                                 </div>
 
@@ -977,7 +987,55 @@ $message = "";
 
     <!-- TERMINA CANCELAR -->
 
+   <!-- INICIA CANCELAR -->
+   <section>
+        <div class="modal fade" id="modalcobrar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog " role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-gradient-success">
+                        <h5 class="modal-title" id="exampleModalLabel">ESTABLECER MONTO COBRADO A CLIENTE</h5>
+                    </div>
+                    <div class="card card-widget" style="margin: 10px;">
+                        <form id="formcobrar" action="" method="POST">
+                            <div class="modal-body row justify-content-center">
+                                
+                                <div class="col-lg-8">
+                                <label for="montocobrado" class="col-form-label">IMPORTE COBRADO:</label>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </span>
 
+                                        </div>
+                                        <input type="hidden" id="foliosubcob" name="foliosubcob">
+                                        <input type="text" id="montocobrado" name="montocobrado" class="form-control text-right" autocomplete="off" placeholder="IMPORTE" onkeypress="return filterFloat(event,this);">
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    <?php
+                    if ($message != "") {
+                    ?>
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <span class="badge "><?php echo ($message); ?></span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                        </div>
+                    <?php
+                    }
+                    ?>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fas fa-ban"></i> Cancelar</button>
+                        <button type="button" id="btnGuardarcobro" name="btnGuardarcobro" class="btn btn-success" value="btnGuardarcobro"><i class="far fa-save"></i> Guardar</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TERMINA CANCELAR -->
 
 
     <!-- /.content -->

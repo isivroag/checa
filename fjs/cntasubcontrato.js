@@ -1,6 +1,7 @@
 $(document).ready(function () {
   var id, opcion, idprovglobal
   var usuario=$('#nameuser').val();
+  var rol=$('#rolusuario').val();
   opcion = 4
 
   var textcolumnas = permisos()
@@ -8,7 +9,7 @@ $(document).ready(function () {
   function permisos() {
     var tipousuario = $('#tipousuario').val()
     var columnas = ''
-    console.log(tipousuario)
+   
     if (tipousuario == 1) {
       columnas =
         "<div class='text-center'><div class='btn-group'>\
@@ -20,6 +21,7 @@ $(document).ready(function () {
     } else {
       columnas =
         "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-primary btnEditar'  data-toggle='tooltip' data-placement='top' title='Editar'><i class='fas fa-edit'></i></button>\
+        <button class='btn btn-sm bg-success btnCobrado'><i class='fas fa-money-bill-wave'  data-toggle='tooltip' data-placement='top' title='Definir Importe Cobrado'></i></button>\
       <button class='btn btn-sm bg-secondary btnProvision'><i class='fas fa-funnel-dollar'  data-toggle='tooltip' data-placement='top' title='Provisiones'></i></button>\
       <button class='btn btn-sm bg-orange btnVerprovision'><i class='fas fa-bars'  data-toggle='tooltip' data-placement='top' title='Ver Provisiones'></i></button>\
         <button class='btn btn-sm bg-purple btnRequisicion' data-toggle='tooltip' data-placement='top' title='Registrar Requisición'><i class='fas fa-hand-holding-usd'></i></button>\
@@ -35,7 +37,7 @@ $(document).ready(function () {
   function permisos2() {
     var tipousuario = $('#tipousuario').val()
     var columnas = ''
-    console.log(tipousuario)
+   
     if (tipousuario == 1) {
       columnas =
         "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-primary btnVerpagos' data-toggle='tooltip' data-placement='top' title='Ver Pagos' ><i class='fas fa-search-dollar'></i></button>\
@@ -56,7 +58,7 @@ $(document).ready(function () {
   function permisos3() {
     var tipousuario = $('#tipousuario').val()
     var columnas = ''
-    console.log(tipousuario)
+
     if (tipousuario == 1) {
       columnas =""
         /*"<div class='text-center'><div class='btn-group'><button class='btn btn-sm bg-danger btnCancelarpago' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
@@ -217,6 +219,15 @@ $(document).ready(function () {
       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   }
 
+  
+  document.getElementById('montocobrado').onblur = function () {
+  
+    this.value = parseFloat(this.value.replace(/,/g, ''))
+      .toFixed(2)
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  }
+
   // SOLO NUMEROS IVA PROV
   document.getElementById('ivaprov').onblur = function () {
     this.value = parseFloat(this.value.replace(/,/g, ''))
@@ -359,8 +370,10 @@ $(document).ready(function () {
       // FORMATO DE CELDAS
       $($(row).find('td')['7']).addClass('text-right')
       $($(row).find('td')['8']).addClass('text-right')
+      $($(row).find('td')['9']).addClass('text-right')
       $($(row).find('td')['7']).addClass('currency')
       $($(row).find('td')['8']).addClass('currency')
+      $($(row).find('td')['9']).addClass('currency')
     },
 
     // SUMA DE SALDO Y TOTAL PARA EL FOOTER
@@ -389,6 +402,13 @@ $(document).ready(function () {
           return intVal(a) + intVal(b)
         }, 0)
 
+        cobrado = api
+        .column(9)
+        .data()
+        .reduce(function (a, b) {
+          return intVal(a) + intVal(b)
+        }, 0)
+
       $(api.column(7).footer()).html(
         Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
           parseFloat(total).toFixed(2),
@@ -400,6 +420,13 @@ $(document).ready(function () {
           parseFloat(saldo).toFixed(2),
         ),
       )
+      if(rol==2 || rol==3){
+      $(api.column(9).footer()).html(
+        Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+          parseFloat(cobrado).toFixed(2),
+        ),
+      )
+      }
     },
 
     language: {
@@ -1385,7 +1412,7 @@ $(document).ready(function () {
             opcion: opcion,
           },
           success: function (res) {
-            console.log(res)
+          
             if (res == 1) {
               operacionexitosa()
               $('#modalPago').modal('hide')
@@ -1434,8 +1461,7 @@ $(document).ready(function () {
 
     saldo = fila.find('td:eq(7)').text().replace(/,/g, '')
     monto = fila.find('td:eq(6)').text().replace(/,/g, '')
-console.log(saldo)
-console.log(monto)
+
     if (parseFloat(monto) == parseFloat(saldo)) {
       $('#formcan').trigger('reset')
       $('#modalcan').modal('show')
@@ -1490,6 +1516,8 @@ console.log(monto)
     $('#tipodoc').val(3) // 3 PARA PAGOS DE REQUISICIONES
   })
 
+
+
   // GUARDAR CANCELAR
   $(document).on('click', '#btnGuardarCAN', function () {
     foliocan = $('#foliocan').val()
@@ -1532,6 +1560,67 @@ console.log(monto)
     }
   })
 
+
+  //boton definir monto cobrado
+
+$(document).on('click', '.btnCobrado', function () {
+  fila = $(this).closest('tr')
+  folio = parseInt(fila.find('td:eq(0)').text())
+
+ 
+
+  $('#formcobrar').trigger('reset')
+  $('#modalcobrar').modal('show')
+  $('#foliosubcob').val(folio)
+  
+})
+
+  // GUARDAR MONTO COBRADO
+  $(document).on('click', '#btnGuardarcobro', function () {
+    foliosubcob = $('#foliosubcob').val()
+  
+    montocobrado =$('#montocobrado').val().replace(/,/g, '') 
+
+    if (montocobrado === '') {
+      swal.fire({
+        title: 'Datos Incompletos',
+        text: 'Verifique sus datos',
+        icon: 'warning',
+        focusConfirm: true,
+        confirmButtonText: 'Aceptar',
+      })
+    } else {
+      $.ajax({
+        type: 'POST',
+        url: 'bd/guardarimportecobrado.php',
+        async: false,
+        dataType: 'json',
+        data: {
+          foliosubcob: foliosubcob,
+          montocobrado: montocobrado,
+        },
+        success: function (res) {
+          if (res == 1) {
+            swal.fire({
+              title: 'Registrado Guardado',
+              icon: 'success',
+              focusConfirm: true,
+              confirmButtonText: 'Aceptar',
+            })
+            $('#modalcobrar').modal('hide')
+            location.reload()
+          } else {
+            swal.fire({
+              title: 'Error al Guardar el Registro',
+              icon: 'error',
+              focusConfirm: true,
+              confirmButtonText: 'Aceptar',
+            })
+          }
+        },
+      })
+    }
+  })
   function subcontratoguardado() {
     swal.fire({
       title: 'Subcontrato Guardado',
@@ -1582,7 +1671,7 @@ console.log(monto)
     tablaVis.clear()
     tablaVis.draw()
 
-    console.log(opcion)
+
 
     if (inicio != '' && final != '') {
       $.ajax({
