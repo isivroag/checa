@@ -282,7 +282,9 @@ $(document).ready(function () {
   })
 
   //BOTON EDITAR
-  $(document).on('click', '.btnEditar', function () {})
+  $(document).on('click', '.btnEditar', function () {
+    
+  })
 
   //BOTON BUSCAR OBRA
   $(document).on('click', '#bobra', function () {
