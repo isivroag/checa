@@ -2,6 +2,20 @@ $(document).ready(function() {
     var id, opcion;
     opcion = 4;
 
+
+      //FUNCION FORMATO MONEDA
+  document.getElementById("montonom").onblur = function () {
+
+    //number-format the user input
+    this.value = parseFloat(this.value.replace(/,/g, ""))
+        .toFixed(2)
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+
+}
+
+
     tablaVis = $("#tablaV").DataTable({
         fixedHeader: true,
         paging: false,
@@ -36,8 +50,7 @@ $(document).ready(function() {
             "data": null,
             "defaultContent": "<div class='text-center'><button class='btn btn-sm btn-primary  btnEditar'><i class='fas fa-edit'></i></button><button class='btn btn-sm btn-danger btnBorrar'><i class='fas fa-trash-alt'></i></button></div>"
         },{ className: "hide_column", targets: [1] },
-        { className: "hide_column", targets: [4] },
-        { className: "hide_column", targets: [5] }
+       
     ],
 
         //Para cambiar el lenguaje a español
@@ -115,10 +128,51 @@ $(document).ready(function() {
 
     var fila; //capturar la fila para editar o borrar el registro
 
-    //botón EDITAR    
-    $(document).on("click", ".btnEditar", function() {
-     
-       
+    //botón GUARDAR CAJA    
+    $(document).on("click", "#btnGuardarnom", function() {
+      folio=$('#folionom').val()
+      fecha=$('#fechaini').val()
+      id_obra=$('#id_obra').val()
+      obs=$('#descripcion').val()
+      monto=$('#montonom').val().replace(/,/g, '')
+      usuario=$('#nameuser').val()
+      
+      if (fecha.length == 0 || id_obra.length == 0 || monto.length == 0  ) {
+        Swal.fire({
+            title: 'Datos Faltantes',
+            text: "Debe ingresar todos los datos del Requeridos",
+            icon: 'warning',
+        })
+        return false;
+    } else {
+        $.ajax({
+            url: "bd/crudcaja.php",
+            type: "POST",
+            dataType: "json",
+            data: { folio: folio, 
+                 fecha: fecha, id_obra: id_obra, obs: obs,
+                 monto: monto,usuario: usuario,
+                  id: id, opcion: opcion },
+            success: function (data) {
+               
+                id = data[0].id_caja;
+                id_obra = data[0].id_obra;
+                obra = data[0].corto_obra;
+              
+                saldo = data[0].saldo_caja;
+                monto= data[0].monto_caja;
+                
+                if (opcion == 1) {
+                    tablaVis.row.add([id, id_obra, obra, saldo, monto,]).draw();
+                } else {
+                    tablaVis.row(fila).data([id, id_obra, obra, saldo, monto,]).draw();
+                }
+
+                registroguardado()
+            }
+        });
+        $("#modalReq").modal("hide");
+    }
 
     });
 
@@ -127,8 +181,61 @@ $(document).ready(function() {
      
     });
 
+  function registroguardado() {
+    swal.fire({
+      title: 'Registro Guardado',
+      icon: 'success',
+      focusConfirm: true,
+      confirmButtonText: 'Aceptar',
+    })
+  }
 
+  function registronoguardado() {
+    swal.fire({
+      title: 'Registro No Guardado',
+      icon: 'error',
+      focusConfirm: true,
+      confirmButtonText: 'Aceptar',
+    })
+  }
 
    
 
 });
+
+function filterFloat(evt, input) {
+  // Backspace = 8, Enter = 13, ‘0′ = 48, ‘9′ = 57, ‘.’ = 46, ‘-’ = 43
+  var key = window.Event ? evt.which : evt.keyCode
+  var chark = String.fromCharCode(key)
+  var tempValue = input.value + chark
+  var isNumber = key >= 48 && key <= 57
+  var isSpecial = key == 8 || key == 13 || key == 0 || key == 46
+  if (isNumber || isSpecial) {
+    return filter(tempValue)
+  }
+
+  return false
+}
+function filter(__val__) {
+  var preg = /^([0-9]+\.?[0-9]{0,2})$/
+  return preg.te
+  st(__val__) === true
+}
+
+$('.modal-header').on('mousedown', function (mousedownEvt) {
+  var $draggable = $(this)
+  var x = mousedownEvt.pageX - $draggable.offset().left,
+    y = mousedownEvt.pageY - $draggable.offset().top
+  $('body').on('mousemove.draggable', function (mousemoveEvt) {
+    $draggable.closest('.modal-dialog').offset({
+      left: mousemoveEvt.pageX - x,
+      top: mousemoveEvt.pageY - y,
+    })
+  })
+  $('body').one('mouseup', function () {
+    $('body').off('mousemove.draggable')
+  })
+  $draggable.closest('.modal').one('bs.modal.hide', function () {
+    $('body').off('mousemove.draggable')
+  })
+})

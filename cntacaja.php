@@ -160,14 +160,13 @@ $message = "";
                                                 <div class="col-lg-12">
                                                     <div class="table-responsive">
                                                         <table name="tablaV" id="tablaV" class="table table-sm table-striped table-bordered table-condensed w-auto mx-auto" style="width:100%">
-                                                            <thead class="text-center bg-gradient-green">
+                                                            <thead class="text-center bg-gradient-secondary">
                                                                 <tr>
                                                                     <th>ID</th>
                                                                     <th>ID OBRA</th>
                                                                     <th>OBRA</th>
                                                                     <th>SALDO</th>
-                                                                    <th>MINIMO</th>
-                                                                    <th>MAXIMO</th>
+                                                                    <th>MONTO</th>
                                                                     <th>ACCIONES</th>
                                                                 </tr>
                                                             </thead>
@@ -177,10 +176,10 @@ $message = "";
                                                                 ?>
                                                                     <tr>
                                                                         <td><?php echo $dat['id_caja'] ?></td>
+                                                                        <td><?php echo $dat['id_obra'] ?></td>
                                                                         <td><?php echo $dat['corto_obra'] ?></td>
                                                                         <td class="text-right"><?php echo number_format($dat['saldo_caja']) ?></td>
-                                                                        <td class="text-right"><?php echo number_format($dat['min_caja']) ?></td>
-                                                                        <td class="text-right"><?php echo number_format($dat['max_caja']) ?></td>
+                                                                        <td class="text-right"><?php echo number_format($dat['monto_caja']) ?></td>
                                                                         <td></td>
                                                                     </tr>
                                                                 <?php
@@ -348,7 +347,7 @@ $message = "";
 
                                     </div>
                                     <div class=" col-sm-4 ">
-                                        <label for=" montonom" class="col-form-label">MONTO:</label>
+                                        <label for=" montonom" class="col-form-label">MONTO DE CAJA</label>
                                         <div class="input-group input-group-sm">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">
