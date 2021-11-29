@@ -210,6 +210,45 @@ switch ($tipodoc) {
 
                 if ($resultado->execute()) {
                     $res = 1;
+
+   
+                    $consulta = "SELECT * from w_otro where id_otro='$otro'";
+                    $resultado = $conexion->prepare($consulta);
+                    $resultado->execute();
+                    $data = $resultado->fetchAll(PDO::FETCH_ASSOC);
+                    foreach ($data as $row) {
+                        $id_obra = $row['id_obra'];
+                    }
+            
+                    $consulta = "SELECT * from w_caja where id_obra='$id_obra'";
+                    $resultado = $conexion->prepare($consulta);
+                    $resultado->execute();
+                    $data = $resultado->fetchAll(PDO::FETCH_ASSOC);
+                    foreach ($data as $row) {
+                        $id_caja = $row['id_caja'];
+                        $saldocaja = $row['saldo_caja'];
+                    }
+                    $tipomov='Cancelacion Pago';
+                    $fechamov=date ('Y-m-d');
+                    $descmov="CANCELACION PAGO DE GASTO FOLIO: ". $otro;
+                    $montomov=$monto;
+                    $saldo=$saldocaja;
+                    $saldofin=$saldo+$montomov;
+                    
+            
+            
+                    $consulta = "INSERT INTO mov_caja(id_caja,tipo_mov,fecha_mov,obs_mov,monto_mov,saldo_ini,saldo_fin,usuarioalt) 
+                    values('$id_caja','$tipomov','$fechamov','$descmov','$montomov','$saldo','$saldofin','$usuario')";
+                    $resultado = $conexion->prepare($consulta);
+                    if ($resultado->execute()) {
+                        $res += 1;
+                        $consulta = "UPDATE w_caja SET saldo_caja='$saldofin' WHERE id_caja='$id_caja'";
+                        $resultado = $conexion->prepare($consulta);
+                        if ($resultado->execute()) {
+                            $res += 1;
+                        }
+                    }
+
                 }
             }
         }

@@ -77,7 +77,10 @@ if ($_SESSION['id_obra'] == null) {
     $resultadoprov->execute();
     $dataprov = $resultadoprov->fetchAll(PDO::FETCH_ASSOC);
 
+   
 
+
+ 
 }
 
 
@@ -500,7 +503,7 @@ $message = "";
     <!-- TERMINA PROVEEDOR -->
 
 
- 
+
     <!-- INICIA VER PAGOS -->
     <section>
         <div class="container">
@@ -673,8 +676,8 @@ $message = "";
     </section>
     <!-- TERMINA PAGAR -->
 
-       <!-- INICIA CANCELAR -->
-       <section>
+    <!-- INICIA CANCELAR -->
+    <section>
         <div class="modal fade" id="modalcan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog " role="document">
                 <div class="modal-content">
@@ -736,3 +739,29 @@ $message = "";
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
 <script src="http://cdn.datatables.net/plug-ins/1.10.21/sorting/formatted-numbers.js"></script>
+<?php 
+
+if($id_obra!=null){
+    $consultacaja = "SELECT * FROM w_caja WHERE estado_caja=1 and id_obra='$id_obra'";
+    $resultadocaja = $conexion->prepare($consultacaja);
+    $resultadocaja->execute();
+    if ($resultadocaja->rowCount() > 0) {
+    } else {
+       echo "<script>";
+       echo "swal.fire({";
+        echo "title: 'NO EXISTE REGISTRO DE CAJA',";
+        echo "text: 'No es posible realizar operaciones',";
+        echo "icon: 'error',";
+        echo "focusConfirm: true,";
+        echo "confirmButtonText: 'Aceptar',";
+        echo "});";
+        echo "window.setTimeout(function () {
+           window.location.href = 'inicio.php'
+         }, 1500);";
+        echo "</script>";
+       
+    }
+}
+ 
+
+?>

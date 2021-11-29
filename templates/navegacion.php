@@ -248,7 +248,7 @@
           <ul class="nav nav-treeview">
 
             <li class="nav-item">
-              <a href="cntacaja.php" class="nav-link <?php echo ($pagina == 'cajaobra') ? "active seleccionado" : ""; ?>  ">
+              <a href="cntacajaobra.php" class="nav-link <?php echo ($pagina == 'cajaobra') ? "active seleccionado" : ""; ?>  ">
 
                 <i class=" fas fa-briefcase nav-icon"></i>
                 <p>Caja</p>
@@ -303,6 +303,36 @@
 
         <!-- ABRE MENU REPORTES -->
         <?php if ($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2') { ?>
+          <li class="nav-item has-treeview <?php echo ($pagina == 'caja') ? "menu-open" : ""; ?>">
+
+
+            <a href="#" class="nav-link <?php echo ($pagina == 'caja') ? "active" : ""; ?>">
+
+              <span class="fa-stack">
+                <i class="nav-icon fas fa-shield-alt "></i>
+              </span>
+              <p>
+                Control
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+
+              <li class="nav-item">
+                <a href="cntacaja.php" class="nav-link <?php echo ($pagina == 'caja') ? "active seleccionado" : ""; ?>  ">
+
+                  <i class="fas fa-briefcase   nav-icon"></i>
+                  <p>Caja</p>
+                </a>
+              </li>
+
+
+
+
+            </ul>
+          </li>
+
+
           <li class="nav-item has-treeview <?php echo ($pagina == 'rptobra') ? "menu-open" : ""; ?>">
 
 

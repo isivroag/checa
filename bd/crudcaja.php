@@ -13,6 +13,7 @@ $obs = (isset($_POST['obs'])) ? $_POST['obs'] : '';
 $monto = (isset($_POST['monto'])) ? $_POST['monto'] : '';
 $usuario = (isset($_POST['usuario'])) ? $_POST['usuario'] : '';
 $fecha = (isset($_POST['fecha'])) ? $_POST['fecha'] : '';
+$mincaja = (isset($_POST['mincaja'])) ? $_POST['mincaja'] : '';
 $fechaalta = date('Y-m-d');
 
 $id = (isset($_POST['id'])) ? $_POST['id'] : '';
@@ -21,7 +22,7 @@ $opcion = (isset($_POST['opcion'])) ? $_POST['opcion'] : '';
 
 switch($opcion){
     case 1: //alta
-        $consulta = "INSERT INTO w_caja (id_obra,monto_caja,saldo_caja,obs_caja,fecha_ini,usuarioalt) VALUES('$id_obra','$monto','0','$obs','$fecha','$usuario') ";
+        $consulta = "INSERT INTO w_caja (id_obra,monto_caja,saldo_caja,obs_caja,fecha_ini,usuarioalt,min_caja) VALUES('$id_obra','$monto','0','$obs','$fecha','$usuario','$mincaja') ";
         $resultado = $conexion->prepare($consulta);
         $resultado->execute(); 
 
