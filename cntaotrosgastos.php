@@ -76,11 +76,6 @@ if ($_SESSION['id_obra'] == null) {
     $resultadoprov = $conexion->prepare($consultaprov);
     $resultadoprov->execute();
     $dataprov = $resultadoprov->fetchAll(PDO::FETCH_ASSOC);
-
-   
-
-
- 
 }
 
 
@@ -343,16 +338,30 @@ $message = "";
                             <div class="modal-body">
                                 <div class="row justify-content-sm-center">
 
-                                    <div class="col-sm-2">
+                                    <div class="col-sm-4">
                                         <div class="form-group input-group-sm">
                                             <label for="folionom" class="col-form-label">FOLIO GASTOS:</label>
                                             <input type="text" class="form-control" name="folionom" id="folionom" disabled>
 
                                         </div>
                                     </div>
-                                    <div class="col-sm-4">
+                                    <div class="col-lg-4">
+                                        <div class="form-group input-group-sm">
+                                            <label for="factura" class="col-form-label">Facturado / No. Fact /Ref:</label>
+                                            <div class="input-group input-group-sm">
+
+                                                <span class="input-group-prepend input-group-text">
+                                                    <input type="checkbox" class="" name="facturado" id="facturado" >
+                                                </span>
+
+
+                                                <input type="text" class="form-control" name="factura" id="factura" disabled >
+
+                                            </div>
+
+                                        </div>
                                     </div>
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-1">
                                     </div>
 
                                     <div class="col-sm-3 ">
@@ -420,10 +429,26 @@ $message = "";
                                 <div class="row justify-content-sm-center" style="margin-bottom: 10px;">
 
                                     <div class="col-sm-4 ">
-
+                                        <label for="subtotalreq" class="col-form-label">SUBTOTAL:</label>
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-dollar-sign"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control text-right" name="subtotalreq" id="subtotalreq" value="0.00" disabled onkeypress="return filterFloat(event,this);">
+                                        </div>
                                     </div>
                                     <div class=" col-sm-4 ">
-
+                                        <label for=" ivareq" class="col-form-label">IVA:</label>
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-dollar-sign"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control text-right" name="ivareq" id="ivareq" value="0.00" disabled onkeypress="return filterFloat(event,this);">
+                                        </div>
                                     </div>
                                     <div class=" col-sm-4 ">
                                         <label for=" montonom" class="col-form-label">MONTO:</label>
@@ -739,16 +764,16 @@ $message = "";
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
 <script src="http://cdn.datatables.net/plug-ins/1.10.21/sorting/formatted-numbers.js"></script>
-<?php 
+<?php
 
-if($id_obra!=null){
+if ($id_obra != null) {
     $consultacaja = "SELECT * FROM w_caja WHERE estado_caja=1 and id_obra='$id_obra'";
     $resultadocaja = $conexion->prepare($consultacaja);
     $resultadocaja->execute();
     if ($resultadocaja->rowCount() > 0) {
     } else {
-       echo "<script>";
-       echo "swal.fire({";
+        echo "<script>";
+        echo "swal.fire({";
         echo "title: 'NO EXISTE REGISTRO DE CAJA',";
         echo "text: 'No es posible realizar operaciones',";
         echo "icon: 'error',";
@@ -759,9 +784,8 @@ if($id_obra!=null){
            window.location.href = 'inicio.php'
          }, 1500);";
         echo "</script>";
-       
     }
 }
- 
+
 
 ?>

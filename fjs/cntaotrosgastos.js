@@ -56,13 +56,77 @@ $(document).ready(function () {
   }
 
   //FUNCION FORMATO MONEDA
-  document.getElementById('montonom').onblur = function () {
-    //number-format the user input
-    this.value = parseFloat(this.value.replace(/,/g, ''))
-      .toFixed(2)
-      .toString()
-      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-  }
+
+
+
+    //CALCULO TOTAL REQ
+    function calculototalreq(valor) {
+      subtotal = valor
+  
+      total = round(subtotal * 1.16, 2)
+      iva = total - subtotal
+  
+      $('#ivareq').val(
+        Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+          parseFloat(iva).toFixed(2),
+        ),
+      )
+      $('#montonom').val(
+        Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+          parseFloat(total).toFixed(2),
+        ),
+      )
+    }
+    //CALCULO SUBTOTAL REQ
+    function calculosubtotalreq(valor) {
+      total = valor
+  
+      subtotal = round(total / 1.16, 2)
+  
+      iva = round(total - subtotal, 2)
+  
+      $('#ivareq').val(
+        Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+          parseFloat(iva).toFixed(2),
+        ),
+      )
+      $('#subtotalreq').val(
+        Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+          parseFloat(subtotal).toFixed(2),
+        ),
+      )
+    }
+  
+   
+  
+    // SOLO NUMEROS SUBTOTAL FACTURA
+    document.getElementById('subtotalreq').onblur = function () {
+      calculototalreq(this.value.replace(/,/g, ''))
+      this.value = parseFloat(this.value.replace(/,/g, ''))
+        .toFixed(2)
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    }
+    // SOLO NUMEROS IVA FACTURA
+    document.getElementById('ivareq').onblur = function () {
+      this.value = parseFloat(this.value.replace(/,/g, ''))
+        .toFixed(2)
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    }
+    // SOLO NUMEROS MONTO FACTURA
+    document.getElementById('montonom').onblur = function () {
+      if ($('#facturado').prop('checked')) {
+      calculosubtotalreq(this.value.replace(/,/g, ''))
+      }else{
+        $('#facturado').val('0.00')
+        $('#facturado').val('0.00')  
+      }
+      this.value = parseFloat(this.value.replace(/,/g, ''))
+        .toFixed(2)
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    }
 
   // TABLA PRINCIPAL
 
@@ -386,6 +450,25 @@ $(document).ready(function () {
     })
   })
 
+  $("#facturado").on("click", function() {
+    if ($('#facturado').prop('checked')) {
+        $("#subtotalreq").prop('disabled', false);
+        $("#ivareq").prop('disabled', false);
+        $("#factura").prop('disabled', false);
+        calculosubtotalreq($('#montonom').val().replace(/,/g, ''))
+    } else {
+      $("#subtotalreq").prop('disabled', true);
+      $("#ivareq").prop('disabled', true);
+      $("#factura").prop('disabled', true);
+      $("#subtotalreq").val('0.00');
+      $("#ivareq").val('0.00');
+      $("#factura").val('');
+      
+    }
+
+
+});
+
   //BOTON GUARDAR FACTURA
   $(document).on('click', '#btnGuardarnom', function () {
     folio = $('#folionom').val()
@@ -393,7 +476,26 @@ $(document).ready(function () {
     id_prov = $('#id_prov').val()
     id_obra = $('#id_obra').val()
     descripcion = $('#descripcion').val()
+    
+    
     monto = $('#montonom').val().replace(/,/g, '')
+
+    subtotal = $('#subtotalreq').val().replace(/,/g, '')
+    iva = $('#ivareq').val().replace(/,/g, '')
+    factura=$('#factura').val()
+    facturado=0
+    if ($('#facturado').prop('checked')) {
+      facturado=1
+      if(factura.length == 0){
+        Swal.fire({
+          title: 'Datos Faltantes',
+          text: 'Debe ingresar todos los datos Requeridos',
+          icon: 'warning',
+        })
+        return 0
+      }
+    }
+    
     usuario = $('#nameuser').val()
 
     if (
@@ -421,6 +523,10 @@ $(document).ready(function () {
           id_prov: id_prov,
           descripcion: descripcion,
           monto: monto,
+           subtotal: subtotal,
+           factura: factura,
+           facturado: facturado,
+          iva: iva,
           opcion: opcion,
           usuario: usuario,
         },

@@ -10,8 +10,7 @@ $id_obra = (isset($_POST['id_obra'])) ? $_POST['id_obra'] : '';
 $id_prov = (isset($_POST['id_prov'])) ? $_POST['id_prov'] : '';
 $descripcion = (isset($_POST['descripcion'])) ? $_POST['descripcion'] : '';
 $tipo = (isset($_POST['tipo'])) ? $_POST['tipo'] : '';
-$subtotal = (isset($_POST['subtotal'])) ? $_POST['subtotal'] : '';
-$iva = (isset($_POST['iva'])) ? $_POST['iva'] : '';
+
 $monto = (isset($_POST['monto'])) ? $_POST['monto'] : '';
 $usuario = (isset($_POST['usuario'])) ? $_POST['usuario'] : '';
 
@@ -24,7 +23,7 @@ $opcion = (isset($_POST['opcion'])) ? $_POST['opcion'] : '';
 $data=0;
 switch($opcion){
     case 1: //alta
-        $consulta = "INSERT INTO w_gasto (id_obra,id_prov,fecha_gto,concepto_gto,monto_gto,saldo_gto,subtotal_gto,iva_gto,tipo_gto,usuarioalt) VALUES('$id_obra','$id_prov','$fecha','$descripcion','$monto','$monto','$subtotal','$iva','$tipo','$usuario') ";
+        $consulta = "INSERT INTO w_gasto (id_obra,id_prov,fecha_gto,concepto_gto,monto_gto,saldo_gto,tipo_gto,usuarioalt) VALUES('$id_obra','$id_prov','$fecha','$descripcion','$monto','$monto',,'$tipo','$usuario') ";
         $resultado = $conexion->prepare($consulta);
         if($resultado->execute()){
             $data=1;

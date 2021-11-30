@@ -102,23 +102,25 @@ $(document).ready(function () {
  
 
   // SOLO NUMEROS SUBTOTAL FACTURA
+  /*
   document.getElementById('subtotalreq').onblur = function () {
     calculototalreq(this.value.replace(/,/g, ''))
     this.value = parseFloat(this.value.replace(/,/g, ''))
       .toFixed(2)
       .toString()
       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-  }
+  }*/
   // SOLO NUMEROS IVA FACTURA
+  /*
   document.getElementById('ivareq').onblur = function () {
     this.value = parseFloat(this.value.replace(/,/g, ''))
       .toFixed(2)
       .toString()
       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-  }
+  }*/
   // SOLO NUMEROS MONTO FACTURA
   document.getElementById('montoreq').onblur = function () {
-    calculosubtotalreq(this.value.replace(/,/g, ''))
+    //calculosubtotalreq(this.value.replace(/,/g, ''))
     this.value = parseFloat(this.value.replace(/,/g, ''))
       .toFixed(2)
       .toString()
@@ -394,8 +396,8 @@ $(document).ready(function () {
     id_prov = $('#id_prov').val()
     tipo = 'GASTO'
     descripcion = $('#descripcionreq').val()
-    subtotal = $('#subtotalreq').val().replace(/,/g, '')
-    iva = $('#ivareq').val().replace(/,/g, '')
+    //subtotal = $('#subtotalreq').val().replace(/,/g, '')
+    //iva = $('#ivareq').val().replace(/,/g, '')
     monto = $('#montoreq').val().replace(/,/g, '')
     usuario=$('#nameuser').val()
 
@@ -425,8 +427,8 @@ $(document).ready(function () {
           id_prov: id_prov,
           descripcion: descripcion,
           tipo: tipo,
-          subtotal: subtotal,
-          iva: iva,
+          //subtotal: subtotal,
+          //iva: iva,
           monto: monto,
           usuario: usuario,
           opcion: opcion,

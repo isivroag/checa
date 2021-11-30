@@ -269,26 +269,9 @@ $message = "";
                                 <div class="row justify-content-sm-center" style="margin-bottom: 10px;">
 
                                     <div class="col-sm-4 ">
-                                        <label for="subtotalreq" class="col-form-label">SUBTOTAL:</label>
-                                        <div class="input-group input-group-sm">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">
-                                                    <i class="fas fa-dollar-sign"></i>
-                                                </span>
-                                            </div>
-                                            <input type="text" class="form-control text-right" name="subtotalreq" id="subtotalreq" onkeypress="return filterFloat(event,this);">
-                                        </div>
                                     </div>
                                     <div class=" col-sm-4 ">
-                                        <label for=" ivareq" class="col-form-label">IVA:</label>
-                                        <div class="input-group input-group-sm">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">
-                                                    <i class="fas fa-dollar-sign"></i>
-                                                </span>
-                                            </div>
-                                            <input type="text" class="form-control text-right" name="ivareq" id="ivareq" onkeypress="return filterFloat(event,this);">
-                                        </div>
+                                        
                                     </div>
                                     <div class=" col-sm-4 ">
                                         <label for=" montoreq" class="col-form-label">TOTAL:</label>
