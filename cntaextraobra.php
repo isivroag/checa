@@ -30,6 +30,9 @@ if (isset($_GET['id'])) {
         $id_obra = $row['id_obra'];
         $clave = $row['clave_obra'];
         $obra = $row['corto_obra'];
+        $importe_origen = $row['importe_origen'];
+        $importe_add = $row['add_obra'];
+        $importe_dec = $row['dec_obra'];
         $importe_obra = $row['monto_obra'];
     }
 
@@ -68,6 +71,78 @@ if (isset($_GET['id'])) {
             </div>
 
             <div class="card-body">
+            <div class="row justify-content-center mb-4">
+                    <div class="col-lg-1">
+                        <div class="form-group input-group-sm">
+                            <label for="idobra" class="col-form-label">ID OBRA:</label>
+                            <input type="text" class="form-control" name="idobra" id="idobra" value=" <?php echo $id_obra ?>"  disabled>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group input-group-sm">
+                            <label for="obra" class="col-form-label">OBRA:</label>
+                           
+                            <input type="text" class="form-control" name="obra" id="obra" value="<?php echo $obra ?>"  disabled>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-2">
+                        <label for="imporigen" class="col-form-label">IMPORTE DE ORIGEN:</label>
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-dollar-sign"></i>
+                                </span>
+
+                            </div>
+                            <input type="text" class="form-control text-right bg-white" name="imporigen" id="imporigen" value="<?php echo number_format($importe_origen,2) ?>"  disabled>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <label for="impadd" class="col-form-label">IMPORTE DE INCREMENTOS:</label>
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-dollar-sign"></i>
+                                </span>
+
+                            </div>
+                            <input type="text" class="form-control text-right bg-white" name="impadd" id="impadd" value="<?php echo number_format($importe_add,2) ?>"  disabled>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <label for="impdec" class="col-form-label">IMPORTE DE DECREMETOS:</label>
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-dollar-sign"></i>
+                                </span>
+
+                            </div>
+                            <input type="text" class="form-control text-right bg-white" name="impdec" id="impdec" value="<?php echo number_format($importe_dec,2) ?>"  disabled>
+
+                        </div>
+                    </div>
+                    
+
+                    <div class="col-lg-2">
+                        <label for="importe" class="col-form-label">IMPORTE DE OBRA:</label>
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-dollar-sign"></i>
+                                </span>
+
+                            </div>
+                            <input type="text" class="form-control text-right bg-white" name="importe" id="importe" value="<?php echo number_format($importe_obra,2) ?>"  disabled>
+
+                        </div>
+                    </div>
+                  
+                </div>
 
                 <div class="row">
                     <div class="col-lg-12">
