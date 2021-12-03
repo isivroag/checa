@@ -23,7 +23,7 @@ $opcion = (isset($_POST['opcion'])) ? $_POST['opcion'] : '';
 $data=0;
 switch($opcion){
     case 1: //alta
-        $consulta = "INSERT INTO w_obra (clave_obra,corto_obra,largo_obra,inicio_obra,id_emp,id_clie,monto_obra) VALUES('$clave','$corto','$largo','$fecha','$id_emp','$id_clie','$monto') ";
+        $consulta = "INSERT INTO w_obra (clave_obra,corto_obra,largo_obra,inicio_obra,id_emp,id_clie,monto_obra,importe_origen) VALUES('$clave','$corto','$largo','$fecha','$id_emp','$id_clie','$monto','$monto') ";
         $resultado = $conexion->prepare($consulta);
         if($resultado->execute()){
             $data=1;
@@ -32,7 +32,7 @@ switch($opcion){
         
         break;
     case 2: //modificación
-        $consulta = "UPDATE w_obra SET  clave_obra='$clave',corto_obra='$corto',largo_obra='$largo',inicio_obra='$fecha',id_emp='$id_emp',id_clie='$id_clie',monto_obra='$monto' WHERE id_obra='$folio' ";		
+        $consulta = "UPDATE w_obra SET  clave_obra='$clave',corto_obra='$corto',largo_obra='$largo',inicio_obra='$fecha',id_emp='$id_emp',id_clie='$id_clie',monto_obra='$monto',importe_origen='$monto' WHERE id_obra='$folio' ";		
         $resultado = $conexion->prepare($consulta);
         if($resultado->execute()){
             $data=1;

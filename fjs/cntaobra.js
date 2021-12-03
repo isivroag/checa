@@ -9,10 +9,14 @@ $(document).ready(function() {
         "columnDefs": [{
             "targets": -1,
             "data": null,
-            "defaultContent": "<div class='text-center'><button class='btn btn-sm btn-primary  btnEditar'><i class='fas fa-edit'></i></button><button class='btn btn-sm btn-danger btnBorrar'><i class='fas fa-trash-alt'></i></button></div>"
+            "defaultContent": "<div class='text-center'><div class='btn-group'>\
+            <button class='btn btn-sm btn-primary  btnEditar'><i class='fas fa-edit'></i></button>\
+            <button class='btn btn-sm bg-purple  btnAddenda'><i class='fas fa-expand-alt'></i></button>\
+            <button class='btn btn-sm btn-danger btnBorrar'><i class='fas fa-trash-alt'></i></button>\
+            </div></div>"
         },{ className: "hide_column", targets: [3] },
-        { className: "hide_column", targets: [6] },
-        { className: "hide_column", targets: [8] }
+        { className: "hide_column", targets: [5] },
+        { className: "hide_column", targets: [7] }
     ],
 
         //Para cambiar el lenguaje a español
@@ -46,6 +50,16 @@ $(document).ready(function() {
         fila = $(this).closest("tr");
         id = parseInt(fila.find('td:eq(0)').text());
         window.location.href = "obra.php?id="+id;
+       
+
+    });
+
+    
+
+    $(document).on("click", ".btnAddenda", function() {
+        fila = $(this).closest("tr");
+        id = parseInt(fila.find('td:eq(0)').text());
+        window.location.href = "cntaextraobra.php?id="+id;
        
 
     });

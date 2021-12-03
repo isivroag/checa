@@ -61,11 +61,15 @@ $message = "";
                       <th>NOMBRE CORTO</th>
                       <th>NOMBRE LARGO</th>
                       <th>FECHA INICIO</th>
-                      <th>MONTO</th>
+                      
                       <th>ID EMP</th>
                       <th>EMPRESA RESPONSABLE</th>
                       <th>ID CLIE</th>
                       <th>CLIENTE</th>
+                      <th>IMPORTE CONTRATO</th>
+                      <th>INCREMENTOS</th>
+                      <th>DECREMENTOS</th>
+                      <th>IMPORTE</th>
                       <th>ACCIONES</th>
                     </tr>
                   </thead>
@@ -79,11 +83,15 @@ $message = "";
                         <td><?php echo $dat['corto_obra'] ?></td>
                         <td><?php echo $dat['largo_obra'] ?></td>
                         <td><?php echo $dat['inicio_obra'] ?></td>
-                        <td class="text-right"><?php echo number_format($dat['monto_obra'] )?></td>
+                      
                         <td><?php echo $dat['id_emp'] ?></td>
                         <td><?php echo $dat['razon_emp'] ?></td>
                         <td><?php echo $dat['id_clie'] ?></td>
                         <td><?php echo $dat['razon_clie'] ?></td>
+                        <td class="text-right"><?php echo number_format($dat['importe_origen'] )?></td>
+                        <td class="text-right"><?php echo number_format($dat['add_obra'] )?></td>
+                        <td class="text-right"><?php echo number_format($dat['dec_obra'] )?></td>
+                        <td class="text-right"><?php echo number_format($dat['monto_obra'] )?></td>
                         <td></td>
                       </tr>
                     <?php
