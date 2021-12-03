@@ -643,7 +643,7 @@ $(document).ready(function () {
           if (data != null) {
             saldocaja =parseFloat(data)
 
-            if (saldocaja <= montovp) {
+            if (saldocaja < montovp) {
               swal.fire({
                 title: 'Saldo Insuficiente en Caja',
                 icon: 'error',

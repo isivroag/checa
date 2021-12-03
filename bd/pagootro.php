@@ -54,7 +54,7 @@ if ($resultado->execute()) {
             $saldocaja = $row['saldo_caja'];
         }
         $tipomov='Egreso';
-        $fechamov=date ('Y-m-d');
+        $fechamov=$fechavp;
         $descmov="PAGO DE GASTO FOLIO: ". $folioreq;
         $montomov=$montovp;
         $saldo=$saldocaja;

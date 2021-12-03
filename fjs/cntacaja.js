@@ -275,10 +275,10 @@ $(document).ready(function () {
         success: function (data) {
           if (data != null) {
            
-           saldocaja=data
+           saldocaja=parseFloat(data)
 
            if (tipomov== 'Ajuste Negativo'){
-             if(saldocaja<=montomov){
+             if(saldocaja<montomov){
               swal.fire({
                 title: 'Saldo Insuficiente',
                 icon: 'error',
