@@ -22,8 +22,8 @@ $(document).ready(function () {
       columnas =
         "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-primary btnEditar'  data-toggle='tooltip' data-placement='top' title='Editar'><i class='fas fa-edit'></i></button>\
         <button class='btn btn-sm bg-success btnCobrado'><i class='fas fa-money-bill-wave'  data-toggle='tooltip' data-placement='top' title='Definir Importe Cobrado'></i></button>\
-      <button class='btn btn-sm bg-secondary btnProvision'><i class='fas fa-funnel-dollar'  data-toggle='tooltip' data-placement='top' title='Provisiones'></i></button>\
-      <button class='btn btn-sm bg-orange btnVerprovision'><i class='fas fa-bars'  data-toggle='tooltip' data-placement='top' title='Ver Provisiones'></i></button>\
+        <button class='btn btn-sm bg-secondary btnProvision'><i class='fas fa-funnel-dollar'  data-toggle='tooltip' data-placement='top' title='Provisiones'></i></button>\
+        <button class='btn btn-sm bg-orange btnVerprovision'><i class='fas fa-bars'  data-toggle='tooltip' data-placement='top' title='Ver Provisiones'></i></button>\
         <button class='btn btn-sm bg-purple btnRequisicion' data-toggle='tooltip' data-placement='top' title='Registrar Requisición'><i class='fas fa-hand-holding-usd'></i></button>\
         <button class='btn btn-sm bg-info btnResumen'><i class='fas fa-bars' data-toggle='tooltip' data-placement='top' title='Resumen Requisiciones'></i></button>\
         <button class='btn btn-sm bg-danger btnCancelar' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\

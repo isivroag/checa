@@ -149,10 +149,10 @@
         <!-- CIERRA MENU CATALOGOS -->
 
         <!-- ABRE MENU EGRESOS -->
-        <li class="nav-item has-treeview <?php echo ($pagina == 'subcontrato' || $pagina == 'cntaegresos' || $pagina == 'egresos' || $pagina == 'cntacxp' || $pagina == 'cntapagocxp' || $pagina == 'pagoscxp' || $pagina == 'provision'  || $pagina == 'saldoseg' || $pagina == 'gastos') ? "menu-open" : ""; ?>">
+        <li class="nav-item has-treeview <?php echo ($pagina == 'subcontrato' || $pagina == 'cntaegresos' || $pagina == 'egresos' || $pagina == 'cntacxp' || $pagina == 'cntapagocxp' || $pagina == 'pagoscxp' || $pagina == 'provision'  || $pagina == 'saldoseg' || $pagina == 'gastos' || $pagina == 'extrasub') ? "menu-open" : ""; ?>">
 
 
-          <a href="#" class="nav-link <?php echo ($pagina == 'subcontrato' || $pagina == 'cntaegresos' || $pagina == 'egresos' || $pagina == 'cntacxp' || $pagina == 'cntapagocxp' || $pagina == 'pagoscxp' || $pagina == 'provision'  || $pagina == 'saldoseg' || $pagina == 'gastos') ? "active" : ""; ?>">
+          <a href="#" class="nav-link <?php echo ($pagina == 'subcontrato' || $pagina == 'cntaegresos' || $pagina == 'egresos' || $pagina == 'cntacxp' || $pagina == 'cntapagocxp' || $pagina == 'pagoscxp' || $pagina == 'provision'  || $pagina == 'saldoseg' || $pagina == 'gastos' || $pagina == 'extrasub') ? "active" : ""; ?>">
 
             <span class="fa-stack">
               <i class=" fas fa-arrow-down "></i>
@@ -172,6 +172,14 @@
 
                 <i class="fas text-purple fa-industry nav-icon"></i>
                 <p>Subcontratos</p>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a href="cntasubcontratosadd.php" class="nav-link <?php echo ($pagina == 'extrasub') ? "active seleccionado" : ""; ?>  ">
+
+                <i class="fas text-purple fa-folder-plus nav-icon"></i>
+                <p>Adendas Subcontrato</p>
               </a>
             </li>
 

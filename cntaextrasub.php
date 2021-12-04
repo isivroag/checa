@@ -74,7 +74,7 @@ if (isset($_GET['id'])) {
 
         <div class="card">
             <div class="card-header bg-gradient-purple text-light">
-                <h1 class="card-title mx-auto">ANEXOS DE OBRA</h1>
+                <h1 class="card-title mx-auto">ANEXOS DE SUCONTRATO</h1>
             </div>
 
             <div class="card-body">

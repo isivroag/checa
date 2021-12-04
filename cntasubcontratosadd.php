@@ -1,5 +1,5 @@
 <?php
-$pagina = "subcontrato";
+$pagina = "extrasub";
 
 include_once "templates/header.php";
 include_once "templates/barra.php";
@@ -122,14 +122,14 @@ $message = "";
             </div>
 
             <div class="card-body">
-
+<!--
                 <div class="row">
                     <div class="col-lg-12">
                         <button id="btnNuevo" type="button" class="btn bg-gradient-green btn-ms" data-toggle="modal" <?php echo $_SESSION['s_rol'] == 1 ? 'disabled' : ''  ?>><i class="fas fa-plus-square text-light"></i><span class="text-light"> Nuevo</span></button>
                     </div>
                 </div>
                 <br>
-
+-->
                 <div class="container-fluid">
 
                     <div class="row">
@@ -1043,7 +1043,7 @@ $message = "";
 
 
 <?php include_once 'templates/footer.php'; ?>
-<script src="fjs/cntasubcontrato.js?v=<?php echo (rand()); ?>"></script>
+<script src="fjs/cntasubcontratoadd.js?v=<?php echo (rand()); ?>"></script>
 <script src="plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 <script src="plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
