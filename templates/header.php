@@ -6,9 +6,12 @@ if ($_SESSION['s_usuario'] === null) {
   header("Location:index.php");
 } else {
   if ($_SESSION['s_rol'] != 2 && $_SESSION['s_rol'] != 3) {
-    if ($_SESSION['id_obra'] == null) {
-      header("Location:inicioobra.php");
+    if($_SESSION['s_rol']==1){
+      if ($_SESSION['id_obra'] == null) {
+        header("Location:inicioobra.php");
+      }
     }
+    
   }
 }
 ?>

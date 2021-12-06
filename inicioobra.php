@@ -114,7 +114,7 @@ if ($_SESSION['s_usuario'] === null) {
                                 <?php echo $_SESSION['id_obra']?>
                     <!-- /.col -->
                     <div class="col-6">
-                        <button type="buttn" id="btnaceptar" class="btn btn-primary btn-block">SELECCIONAR</button>
+                        <button type="button" id="btnaceptar" class="btn btn-primary btn-block">SELECCIONAR</button>
                     </div>
                     <div class="col-6">
                         <button type="button" id="btncancelar" class="btn btn-warning btn-block" >CANCELAR</button>

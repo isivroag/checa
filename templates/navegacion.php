@@ -1,10 +1,10 @@
-<aside class="main-sidebar sidebar-light-primary elevation-3 ">
+<aside class="main-sidebar <?php echo $_SESSION['s_rol'] == '4' ? 'sidebar-dark-primary' : 'sidebar-light-primary' ?> sidebar-light-primary elevation-3 ">
   <!-- Brand Logo -->
 
   <a href="inicio.php" class="brand-link">
 
     <img src="img/logoempresa.jpg" alt="Logo" class="brand-image  elevation-3" style="opacity: .8">
-    <span class="brand-text font-weight-bold">CHECA</span>
+    <span class="brand-text font-weight-bold <?php echo $_SESSION['s_rol'] == '4' ? 'text-white' :'' ?>">CHECA</span>
   </a>
 
   <!-- Sidebar -->
@@ -38,8 +38,10 @@
           </a>
         </li>
 
+
+        <!-- ABRE MENU CATALOGOS -->
         <?php if ($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2') { ?>
-          <!-- ABRE MENU CATALOGOS -->
+
           <li class="nav-item  has-treeview <?php echo ($pagina == 'empresa' ||  $pagina == 'cliente' ||  $pagina == 'obra'  ||  $pagina == 'especialidad' ||  $pagina == 'proveedor') ? "menu-open" : ""; ?>">
             <a href="#" class="nav-link  <?php echo ($pagina == 'empresa' || $pagina == 'cliente' ||  $pagina == 'obra'  ||  $pagina == 'especialidad' ||  $pagina == 'proveedor') ? "active" : ""; ?>">
               <i class="nav-icon fas fa-bars "></i>
@@ -101,6 +103,7 @@
 
 
         <!-- ABRE MENU INGRESOS -->
+        <?php if ($_SESSION['s_rol'] !='4') { ?>
         <li class="nav-item has-treeview <?php echo ($pagina == 'cntaingresos' || $pagina == 'ingresos' || $pagina == 'cntacxc' || $pagina == 'recepcion' || $pagina == 'ingresos' || $pagina == 'diario' || $pagina == 'confirmar') ? "menu-open" : ""; ?>">
 
 
@@ -146,6 +149,7 @@
 
           </ul>
         </li>
+        
         <!-- CIERRA MENU CATALOGOS -->
 
         <!-- ABRE MENU EGRESOS -->
@@ -234,7 +238,7 @@
           </ul>
         </li>
         <!-- CIERRA MENU EGRESOS -->
-
+        <?php } ?>
 
         <!-- ABRE MENU OPERACIONES -->
         <li class="nav-item has-treeview <?php echo ($pagina == 'nomina' || $pagina == 'otro' || $pagina == 'proveedorobra' || $pagina == 'cajaobra') ? "menu-open" : ""; ?>">

@@ -95,10 +95,11 @@ $message = "";
 
     }
 
-    .w10{
+    .w10 {
         width: 8% !important;
     }
-    .w40{
+
+    .w40 {
         width: 45% !important;
     }
 </style>
@@ -148,9 +149,9 @@ $message = "";
                                             <th>CONCEPTO</th>
                                             <th>MONTO</th>
                                             <th>SALDO</th>
-                                            <?php if($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2'){ ?>
-                                            <th>COBRADO</th>
-                                            <?php }?>
+                                            <?php if ($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2') { ?>
+                                                <th>COBRADO</th>
+                                            <?php } ?>
                                             <th>ACCIONES</th>
 
                                         </tr>
@@ -170,10 +171,10 @@ $message = "";
                                                 <td><?php echo $dat['desc_sub'] ?></td>
                                                 <td class="text-right"><?php echo number_format($dat['monto_sub'], 2) ?></td>
                                                 <td class="text-right"><?php echo number_format($dat['saldo_sub'], 2) ?></td>
-                                                <?php if($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2'){ ?>
-                                                <td class="text-right"><?php echo number_format($dat['cobrado_sub'], 2) ?></td>
-                                                
-                                                <?php }?>
+                                                <?php if ($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2') { ?>
+                                                    <td class="text-right"><?php echo number_format($dat['cobrado_sub'], 2) ?></td>
+
+                                                <?php } ?>
                                                 <td></td>
 
 
@@ -192,9 +193,9 @@ $message = "";
                                         <td class="text-bold text-right">TOTALES</td>
                                         <td class="text-bold text-right"></td>
                                         <td class="text-bold text-right"></td>
-                                        <?php if($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2'){ ?>
-                                        <td class="text-bold text-right"></td>
-                                        <?php }?>
+                                        <?php if ($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2') { ?>
+                                            <td class="text-bold text-right"></td>
+                                        <?php } ?>
                                         <td></td>
                                     </tfoot>
                                 </table>
@@ -671,13 +672,13 @@ $message = "";
                             <table name="tablaResumen" id="tablaResumen" class="table table-sm table-striped table-bordered table-condensed " style="width:100%">
                                 <thead class="text-center bg-gradient-green">
                                     <tr>
-                                        <th class="w10" >FOLIO</th>
+                                        <th class="w10">FOLIO</th>
                                         <th class="w10">FACTURA</th>
-                                        <th class="w10" >FECHA</th>
+                                        <th class="w10">FECHA</th>
                                         <th class="w40">CONCEPTO</th>
                                         <th class="w10">MONTO</th>
                                         <th class="w10">SALDO</th>
-                                        <th class="w10" >ACCIONES</th>
+                                        <th class="w10">ACCIONES</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -987,8 +988,8 @@ $message = "";
 
     <!-- TERMINA CANCELAR -->
 
-   <!-- INICIA CANCELAR -->
-   <section>
+    <!-- INICIA MONTO COBRADO -->
+    <section>
         <div class="modal fade" id="modalcobrar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog " role="document">
                 <div class="modal-content">
@@ -998,9 +999,9 @@ $message = "";
                     <div class="card card-widget" style="margin: 10px;">
                         <form id="formcobrar" action="" method="POST">
                             <div class="modal-body row justify-content-center">
-                                
+
                                 <div class="col-lg-8">
-                                <label for="montocobrado" class="col-form-label">IMPORTE COBRADO:</label>
+                                    <label for="montocobrado" class="col-form-label">IMPORTE COBRADO:</label>
                                     <div class="input-group input-group-sm">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">
@@ -1035,7 +1036,7 @@ $message = "";
         </div>
     </section>
 
-    <!-- TERMINA CANCELAR -->
+    <!-- TERMINA MONTO COBRADO -->
 
 
     <!-- /.content -->

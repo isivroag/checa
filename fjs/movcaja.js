@@ -3,6 +3,7 @@
 $(document).ready(function () {
     var id, opcion
     opcion = 4
+    var fila //capturar la fila para editar o borrar el registro
 
     $('#tablaV thead tr').clone(true).appendTo('#tablaV thead');
     $('#tablaV thead tr:eq(1) th').each(function (i) {
@@ -35,10 +36,21 @@ $(document).ready(function () {
 
 
     tablaVis = $('#tablaV').DataTable({
+
+        columnDefs: [
+            {
+              targets: -1,
+              data: null,
+              defaultContent:
+                "<div class='text-center'><button class='btn btn-sm bg-danger btnCancelar' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
+                                  </div></div>",
+            },
+        ],
         dom:
             "<'row justify-content-center'<'col-sm-12 col-md-4 form-group'l><'col-sm-12 col-md-4 form-group'B><'col-sm-12 col-md-4 form-group'f>>" +
             "<'row'<'col-sm-12'tr>>" +
             "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+            
 
        
 
@@ -84,7 +96,7 @@ $(document).ready(function () {
             },
         ],
         stateSave: false,
-        orderCellsTop: true,
+        orderCellsTop: false,
         fixedHeader: true,
         paging: false,
         order: [[ 0, "desc" ]],
@@ -154,10 +166,112 @@ $(document).ready(function () {
 
 
 
-    var fila //capturar la fila para editar o borrar el registro
+
+  //BOTON CANCELAR PAGO
+  $(document).on('click', '.btnCancelar', function () {
+    fila = $(this).closest('tr')
+    folio = parseInt(fila.find('td:eq(0)').text())
+    tipo=fila.find('td:eq(2)').text()
+   
+    if (tipo=='Reposicion' || tipo=='Ajuste Negativo' || tipo=='Ajuste Negativo' || tipo=='Saldo Inicial' ){
+        $('#formcan').trigger('reset')
+        $('#modalcan').modal('show')
+        $('#foliocan').val(folio)    
+    }else{
+        swal.fire({
+            title: 'No es posible Cancelar el Registro',
+            text:'Estas operaciones deben ser canceladas desde el modulo de Gastos.',
+            icon: 'error',
+            focusConfirm: true,
+            confirmButtonText: 'Aceptar',
+          })
+    }
+    
+ 
+  })
 
 
 
+  // GUARDAR CANCELAR
+  $(document).on('click', '#btnGuardarCAN', function () {
+    foliocan = $('#foliocan').val()
+    motivo = $('#motivo').val()
+    fecha = $('#fecha').val()
+    usuario = $('#nameuser').val()
+    idcaja=$('#idcaja').val()
+    
+    if (motivo === '') {
+      swal.fire({
+        title: 'Datos Incompletos',
+        text: 'Verifique sus datos',
+        icon: 'warning',
+        focusConfirm: true,
+        confirmButtonText: 'Aceptar',
+      })
+    } else {
+      
+        $.ajax({
+        type: 'POST',
+        url: 'bd/buscarregcaja.php',
+        async: false,
+        dataType: 'json',
+        data: {
+          foliocan: foliocan,
+          idcaja: idcaja,
+        },
+        success: function (res) {
+          if (res == 0) {
+            $.ajax({
+                type: 'POST',
+                url: 'bd/cancelarmovcaja.php',
+                async: false,
+                dataType: 'json',
+                data: {
+                  foliocan: foliocan,
+                  motivo: motivo,
+                  fecha: fecha,
+                  usuario: usuario,
+                },
+                success: function (res) {
+                  if (res == 1) {
+                    mensaje()
+                    $('#modalcan').modal('hide')
+                    location.reload()
+                  } else {
+                    mensajeerror()
+                  }
+                },
+              })
+            
+          } else {
+            mensajeerror()
+          }
+        },
+      })
+
+    }
+  })
+
+
+
+    function mensaje() {
+        swal.fire({
+          title: 'Registro Cancelado',
+          icon: 'warning',
+          focusConfirm: true,
+          confirmButtonText: 'Aceptar',
+        })
+      }
+    
+      function mensajeerror() {
+        swal.fire({
+          title: 'No es posible Cancelar el Registro',
+          text:'Esta caja tiene registros posteriores.',
+          icon: 'error',
+          focusConfirm: true,
+          confirmButtonText: 'Aceptar',
+        })
+      }
 
 
     function startTime() {

@@ -23,6 +23,7 @@ if ($conexion != null) {
         foreach ($data as $row) {
 
             $_SESSION['s_id_usuario'] = $row['id_usuario'];
+            $idusuario=$row['id_usuario'];
             $_SESSION['s_nombre'] = $row['nombre'];
             $_SESSION['s_rol'] = $row['rol_usuario'];
             $_SESSION['id_obra'] = null;
@@ -49,6 +50,22 @@ if ($conexion != null) {
         } else {
             setcookie("usuario", '', time() - 100, "/");
             setcookie("pass", '', time() - 100, "/");
+        }
+
+        if( $_SESSION['s_rol']==4)
+        {
+            $consulta = "SELECT * from vusuarioobra where id_usuario='$idusuario' and estado_reg='1'";
+            $resultado = $conexion->prepare($consulta);
+            $resultado->execute();
+            $registros=$resultado->fetchAll(PDO::FETCH_ASSOC);
+            $id_obra=0;
+            foreach($registros as $reg){
+                $id_obra=$reg['id_obra'];
+                $nom_obra=$reg['corto_obra'];
+            }
+            $_SESSION['id_obra'] = $id_obra;
+            $_SESSION['nom_obra'] = $nom_obra;
+
         }
     } else {
         $_SESSION['s_id_usuario'] = null;

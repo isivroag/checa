@@ -70,15 +70,15 @@ if (isset($_GET['folio'])) {
                     <div class="col-lg-1">
                         <div class="form-group input-group-sm">
                             <label for="idcaja" class="col-form-label">ID CAJA:</label>
-                            <input type="text" class="form-control" name="idcaja" id="idcaja" value=" <?php echo $folio ?>" placeholder="Saldo" disabled>
+                            <input type="text" class="form-control" name="idcaja" id="idcaja" value=" <?php echo $folio ?>"  disabled>
                         </div>
 
                     </div>
                     <div class="col-lg-4">
                         <div class="form-group input-group-sm">
                             <label for="obra" class="col-form-label">OBRA:</label>
-                            <input type="hidden" class="form-control" name="idobra" id="idobra" value=" <?php echo $idobra ?>" placeholder="Saldo" disabled>
-                            <input type="text" class="form-control" name="obra" id="obra" value="<?php echo $obra ?>" placeholder="Saldo" disabled>
+                            <input type="hidden" class="form-control" name="idobra" id="idobra" value=" <?php echo $idobra ?>"  disabled>
+                            <input type="text" class="form-control" name="obra" id="obra" value="<?php echo $obra ?>"  disabled>
                         </div>
 
                     </div>
@@ -91,7 +91,7 @@ if (isset($_GET['folio'])) {
                                 </span>
 
                             </div>
-                            <input type="text" class="form-control text-right bg-white" name="saldo" id="saldo" value="<?php echo $saldo ?>" placeholder="Saldo" disabled>
+                            <input type="text" class="form-control text-right bg-white" name="saldo" id="saldo" value="<?php echo number_format($saldo,2) ?>"  disabled>
 
                         </div>
                     </div>
@@ -112,21 +112,23 @@ if (isset($_GET['folio'])) {
                                             <th>Saldo Inicial</th>
                                             <th>Monto</th>
                                             <th>Saldo Final</th>
+                                            <th>Acciones</th>
 
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php  foreach ($data as $row) {?>
+                                        <?php foreach ($data as $row) { ?>
                                             <tr>
-                                            <td><?php echo $row['id_mov']?></td>
-                                            <td class="text-center"><?php echo $row['fecha_mov']?> </td>
-                                            <td class="text-center"><?php echo $row['tipo_mov']?></td>
-                                            <td><?php echo $row['obs_mov']?></td>
-                                            <td class="text-roght"><?php echo number_format($row['saldo_ini'],2)?></td>
-                                            <td class="text-roght"><?php echo number_format($row['monto_mov'],2)?></td>
-                                            <td class="text-roght"><?php echo number_format($row['saldo_fin'],2)?></td>
+                                                <td><?php echo $row['id_mov'] ?></td>
+                                                <td class="text-center"><?php echo $row['fecha_mov'] ?> </td>
+                                                <td class="text-center"><?php echo $row['tipo_mov'] ?></td>
+                                                <td><?php echo $row['obs_mov'] ?></td>
+                                                <td class="text-roght"><?php echo number_format($row['saldo_ini'], 2) ?></td>
+                                                <td class="text-roght"><?php echo number_format($row['monto_mov'], 2) ?></td>
+                                                <td class="text-roght"><?php echo number_format($row['saldo_fin'], 2) ?></td>
+                                                <td></td>
                                             </tr>
-                                        <?php }?>
+                                        <?php } ?>
                                     </tbody>
 
                                 </table>
@@ -144,7 +146,49 @@ if (isset($_GET['folio'])) {
     </section>
 
 
+    <!-- INICIA CANCELAR -->
+    <section>
+        <div class="modal fade" id="modalcan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog " role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-gradient-danger">
+                        <h5 class="modal-title" id="exampleModalLabel">CANCELAR REGISTRO</h5>
+                    </div>
+                    <div class="card card-widget" style="margin: 10px;">
+                        <form id="formcan" action="" method="POST">
+                            <div class="modal-body row">
+                                <div class="col-sm-12">
+                                    <div class="form-group input-group-sm">
+                                        <label for="motivo" class="col-form-label">Motivo de Cancelacioón:</label>
+                                        <textarea rows="3" class="form-control" name="motivo" id="motivo" placeholder="Motivo de Cancelación"></textarea>
+                                        <input type="hidden" id="fecha" name="fecha" value="<?php echo $fecha ?>">
+                                        <input type="hidden" id="foliocan" name="foliocan">
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    <?php
+                    if ($message != "") {
+                    ?>
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <span class="badge "><?php echo ($message); ?></span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                        </div>
+                    <?php
+                    }
+                    ?>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fas fa-ban"></i> Cancelar</button>
+                        <button type="button" id="btnGuardarCAN" name="btnGuardarCAN" class="btn btn-success" value="btnGuardarCAN"><i class="far fa-save"></i> Guardar</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <!-- TERMINA CANCELAR -->
 
 
     <!-- /.content -->

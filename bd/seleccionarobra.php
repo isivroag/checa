@@ -29,5 +29,4 @@
  
  
  print json_encode($res, JSON_UNESCAPED_UNICODE);
- $conexion = NULL;  
- ?>
+ $conexion = NULL;
