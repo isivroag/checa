@@ -173,7 +173,7 @@ $(document).ready(function () {
     folio = parseInt(fila.find('td:eq(0)').text())
     tipo=fila.find('td:eq(2)').text()
    
-    if (tipo=='Reposicion' || tipo=='Ajuste Negativo' || tipo=='Ajuste Negativo' || tipo=='Saldo Inicial' ){
+    if (tipo=='Reposicion' || tipo=='Ajuste Negativo' || tipo=='Ajuste Positivo' || tipo=='Saldo Inicial' ){
         $('#formcan').trigger('reset')
         $('#modalcan').modal('show')
         $('#foliocan').val(folio)    
