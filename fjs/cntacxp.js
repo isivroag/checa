@@ -67,16 +67,11 @@ $(document).ready(function () {
     total = round(subtotal * 1.16, 2)
     iva = total - subtotal
 
-    $('#ivareq').val(
-      Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
-        parseFloat(iva).toFixed(2),
-      ),
-    )
-    $('#montoreq').val(
-      Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
-        parseFloat(total).toFixed(2),
-      ),
-    )
+    $('#ivareq').val(Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(arseFloat(iva).toFixed(2)))
+    $('#montoreq').val(Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(parseFloat(total).toFixed(2)))
+    $('#montoreqa').val(Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(parseFloat(total).toFixed(2)))
+
+    
   }
   //CALCULO SUBTOTAL REQ
   function calculosubtotalreq(valor) {
@@ -86,16 +81,12 @@ $(document).ready(function () {
 
     iva = round(total - subtotal, 2)
 
-    $('#ivareq').val(
-      Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
-        parseFloat(iva).toFixed(2),
-      ),
-    )
-    $('#subtotalreq').val(
-      Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
-        parseFloat(subtotal).toFixed(2),
-      ),
-    )
+    $('#ivareq').val(Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(parseFloat(iva).toFixed(2)))
+    $('#subtotalreq').val(Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(parseFloat(subtotal).toFixed(2)))
+
+    $('#montoreqa').val(Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(parseFloat(total).toFixed(2)))
+
+    $('#montoreq').val(Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(parseFloat(total).toFixed(2)))
   }
 
   // SOLO NUMEROS SUBTOTAL FACTURA
@@ -122,6 +113,14 @@ $(document).ready(function () {
       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   }
 
+
+  document.getElementById('montoreqa').onblur = function () {
+    calculosubtotalreq(this.value.replace(/,/g, ''))
+    this.value = parseFloat(this.value.replace(/,/g, ''))
+      .toFixed(2)
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  }
   // SOLO NUMEROS MONTO
   document.getElementById('montopagovp').onblur = function () {
     this.value = parseFloat(this.value.replace(/,/g, ''))

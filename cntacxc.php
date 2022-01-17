@@ -262,6 +262,74 @@ $message = "";
                                             <input type="text" class="form-control text-right" name="ivareq" id="ivareq" onkeypress="return filterFloat(event,this);">
                                         </div>
                                     </div>
+
+                                    <div class=" col-sm-4 ">
+                                        <label for=" montoreqa" class="col-form-label">TOTAL:</label>
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-dollar-sign"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control text-right" name="montoreqa" id="montoreqa" onkeypress="return filterFloat(event,this);">
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row justify-content-sm-center" style="margin-bottom: 10px;">
+
+                                    <div class="col-sm-4 ">
+                                        <label for="ret1" class="col-form-label">RET1:</label>
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-dollar-sign"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control text-right" name="ret1" id="ret1" onkeypress="return filterFloat(event,this);">
+                                        </div>
+                                    </div>
+                                    <div class=" col-sm-4 ">
+                                        <label for=" ret2" class="col-form-label">RET2:</label>
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-dollar-sign"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control text-right" name="ret2" id="ret2" onkeypress="return filterFloat(event,this);">
+                                        </div>
+                                    </div>
+                                    <div class=" col-sm-4 ">
+                                        <label for=" ret3" class="col-form-label">RET3:</label>
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-dollar-sign"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control text-right" name="ret3" id="ret3" onkeypress="return filterFloat(event,this);">
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row justify-content-sm-center" style="margin-bottom: 10px;">
+
+                                    <div class="col-sm-4 ">
+                                        <label for="ret4" class="col-form-label">RET4:</label>
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-dollar-sign"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control text-right" name="ret4" id="ret4" onkeypress="return filterFloat(event,this);">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4"></div>
+                                 
                                     <div class=" col-sm-4 ">
                                         <label for=" montoreq" class="col-form-label">TOTAL:</label>
                                         <div class="input-group input-group-sm">
@@ -275,6 +343,7 @@ $message = "";
                                     </div>
 
                                 </div>
+
 
                             </div>
 

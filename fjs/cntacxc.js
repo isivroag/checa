@@ -32,6 +32,9 @@ function calculototalreq(valor) {
     
     $("#ivareq").val( Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(iva).toFixed(2)));
     $("#montoreq").val( Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(total).toFixed(2)));
+    $("#montoreqa").val( Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(total).toFixed(2)));
+    caluloconret()
+
 
 }
 //CALCULO SUBTOTAL REQ
@@ -45,8 +48,58 @@ function calculosubtotalreq(valor) {
     
         $("#ivareq").val(Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(iva).toFixed(2)));
         $("#subtotalreq").val(Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(subtotal).toFixed(2)));
+        $("#montoreq").val( Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(total).toFixed(2)));
+        $("#montoreqa").val( Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(total).toFixed(2)));
+        caluloconret()
+
         
 
+}
+
+function caluloconret(){
+    total=$('#montoreqa').val().replace(/,/g, '')
+    ret1=$('#ret1').val().replace(/,/g, '')
+    ret2=$('#ret2').val().replace(/,/g, '')
+    ret3=$('#ret3').val().replace(/,/g, '')
+    ret4=$('#ret4').val().replace(/,/g, '')
+
+    console.log(ret1)
+    console.log(ret2)
+    console.log(ret3)
+    console.log(ret4)
+    if(ret1.length==0){
+        ret1=0
+        $("#ret1").val( Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(ret1).toFixed(2)));
+        
+    }
+
+    if(ret2.length==0){
+        ret2=0;
+        $("#ret2").val( Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(ret2).toFixed(2)));
+        
+    }
+
+    if(ret3.length==0){
+        ret3=0;
+        $("#ret3").val( Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(ret3).toFixed(2)));
+       
+    }
+
+    if(ret4.length==0){
+        ret4=0;
+        $("#ret4").val( Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(ret4).toFixed(2)));
+      
+    }
+    console.log("DESPUES")    
+    console.log(ret1)
+    console.log(ret2)
+    console.log(ret3)
+    console.log(ret4)
+
+    retenciones=parseFloat(ret1)+parseFloat(ret2)+parseFloat(ret3)+parseFloat(ret4)
+    calculo=parseFloat(total)-parseFloat(retenciones)
+    $("#montoreq").val( Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(calculo).toFixed(2)));
+        
 }
 
     // SOLO NUMEROS SUBTOTAL FACTURA
@@ -73,13 +126,37 @@ function calculosubtotalreq(valor) {
             .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
     }
 
-
+    document.getElementById('montoreqa').onblur = function () {
+        calculosubtotalreq(this.value.replace(/,/g, ''))
+        this.value = parseFloat(this.value.replace(/,/g, ''))
+          .toFixed(2)
+          .toString()
+          .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+      }
     // SOLO NUMEROS MONTO
     document.getElementById('montopagovp').onblur = function () {
         this.value = parseFloat(this.value.replace(/,/g, ''))
             .toFixed(2)
             .toString()
             .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    }
+
+    //retenciones
+
+    document.getElementById('ret1').onblur = function () {
+      caluloconret()
+    }
+
+    document.getElementById('ret2').onblur = function () {
+      caluloconret()
+    }
+
+    document.getElementById('ret3').onblur = function () {
+      caluloconret()
+    }
+
+    document.getElementById('ret4').onblur = function () {
+      caluloconret()
     }
     // TABLA PRINCIPAL
 
@@ -361,7 +438,12 @@ $(document).on('click', '.btnSelObra', function () {
         descripcion = $('#descripcionreq').val()
         subtotal = $('#subtotalreq').val().replace(/,/g, '')
         iva = $('#ivareq').val().replace(/,/g, '')
+        montob = $('#montoreqa').val().replace(/,/g, '')
         monto = $('#montoreq').val().replace(/,/g, '')
+        ret1 = $('#ret1').val().replace(/,/g, '')
+        ret2 = $('#ret2').val().replace(/,/g, '')
+        ret3 = $('#ret3').val().replace(/,/g, '')
+        ret4 = $('#ret4').val().replace(/,/g, '')
 
         if (
             fecha.length == 0 ||
@@ -390,6 +472,11 @@ $(document).on('click', '.btnSelObra', function () {
                     subtotal: subtotal,
                     iva: iva,
                     monto: monto,
+                    ret1: ret1,
+                    ret2: ret2,
+                    ret3: ret3,
+                    ret4: ret4,
+                    montob: montob,
                     opcion: opcion,
                 },
                 success: function (data) {
