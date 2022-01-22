@@ -40,7 +40,7 @@
 
 
         <!-- ABRE MENU CATALOGOS -->
-        <?php if ($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2') { ?>
+        <?php if ($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2' || $_SESSION['s_rol'] == '5') { ?>
 
           <li class="nav-item  has-treeview <?php echo ($pagina == 'empresa' ||  $pagina == 'cliente' ||  $pagina == 'obra'  ||  $pagina == 'especialidad' ||  $pagina == 'proveedor') ? "menu-open" : ""; ?>">
             <a href="#" class="nav-link  <?php echo ($pagina == 'empresa' || $pagina == 'cliente' ||  $pagina == 'obra'  ||  $pagina == 'especialidad' ||  $pagina == 'proveedor') ? "active" : ""; ?>">
@@ -240,6 +240,8 @@
         <!-- CIERRA MENU EGRESOS -->
         <?php } ?>
 
+
+        <?php if ($_SESSION['s_rol'] != '5') {?>
         <!-- ABRE MENU OPERACIONES -->
         <li class="nav-item has-treeview <?php echo ($pagina == 'nomina' || $pagina == 'otro' || $pagina == 'proveedorobra' || $pagina == 'cajaobra') ? "menu-open" : ""; ?>">
 
@@ -312,9 +314,9 @@
           </ul>
         </li>
         <!-- CIERRA MENU OPERACIONES -->
-
+          <?php } ?>
         <!-- ABRE MENU REPORTES -->
-        <?php if ($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2') { ?>
+        <?php if ($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2' || $_SESSION['s_rol'] == '5') { ?>
           <li class="nav-item has-treeview <?php echo ($pagina == 'caja') ? "menu-open" : ""; ?>">
 
 
@@ -344,7 +346,7 @@
             </ul>
           </li>
 
-
+          <?php if ($_SESSION['s_rol'] != '5') {?>
           <li class="nav-item has-treeview <?php echo ($pagina == 'rptobra') ? "menu-open" : ""; ?>">
 
 
@@ -373,7 +375,9 @@
 
             </ul>
           </li>
-        <?php } ?>
+            <?php } ?>
+
+          <?php } ?>
         <!-- CIERRA MENU EGRESOS -->
 
 
