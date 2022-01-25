@@ -15,7 +15,11 @@ $monto = (isset($_POST['monto'])) ? $_POST['monto'] : '';
 $ret1 = (isset($_POST['ret1'])) ? $_POST['ret1'] : '';
 $ret2 = (isset($_POST['ret2'])) ? $_POST['ret2'] : '';
 $ret3 = (isset($_POST['ret3'])) ? $_POST['ret3'] : '';
-$ret4 = (isset($_POST['ret4'])) ? $_POST['ret4'] : '';
+
+$importe = (isset($_POST['importe'])) ? $_POST['importe'] : '';
+$descuento = (isset($_POST['descuento'])) ? $_POST['descuento'] : '';
+$devolucion = (isset($_POST['devolucion'])) ? $_POST['devolucion'] : '';
+//$ret4 = (isset($_POST['ret4'])) ? $_POST['ret4'] : '';
 $montob = (isset($_POST['montob'])) ? $_POST['montob'] : '';
 
 
@@ -27,7 +31,7 @@ $opcion = (isset($_POST['opcion'])) ? $_POST['opcion'] : '';
 $data=0;
 switch($opcion){
     case 1: //alta
-        $consulta = "INSERT INTO w_cxc (id_obra,fecha_cxc,factura_cxc,desc_cxc,monto_cxc,saldo_cxc,subtotal_cxc,iva_cxc,ret1,ret2,ret3,ret4,montob) VALUES('$id_obra','$fecha','$factura','$descripcion','$monto','$monto','$subtotal','$iva','$ret1','$ret2','$ret3','$ret4','$montob') ";
+        $consulta = "INSERT INTO w_cxc (id_obra,fecha_cxc,factura_cxc,desc_cxc,monto_cxc,saldo_cxc,subtotal_cxc,iva_cxc,ret1,ret2,ret3,montob,importe,descuento,devolucion) VALUES('$id_obra','$fecha','$factura','$descripcion','$monto','$monto','$subtotal','$iva','$ret1','$ret2','$ret3','$montob','$importe','$descuento','$devolucion')";
         $resultado = $conexion->prepare($consulta);
         if($resultado->execute()){
             $data=1;
