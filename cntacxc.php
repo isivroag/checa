@@ -13,12 +13,12 @@ $objeto = new conn();
 $conexion = $objeto->connect();
 $fecha = date('Y-m-d');
 
-if($_SESSION['id_obra'] != null){
-    $id_obra=$_SESSION['id_obra'];
+if ($_SESSION['id_obra'] != null) {
+    $id_obra = $_SESSION['id_obra'];
     $consulta = "SELECT * FROM vcxc WHERE id_obra='$id_obra' and estado_cxc=1 ORDER BY id_obra,fecha_cxc,folio_cxc";
-}else{
-    $id_obra=null;
-    $obra=null;
+} else {
+    $id_obra = null;
+    $obra = null;
     $consulta = "SELECT * FROM vcxc WHERE estado_cxc=1 ORDER BY id_obra,fecha_cxc,folio_cxc";
 }
 //$consulta = "SELECT * FROM vcxc WHERE estado_cxc=1 ORDER BY id_obra,fecha_cxc,folio_cxc";
@@ -65,7 +65,7 @@ $message = "";
 
             <div class="card-body">
 
-            <div class="row">
+                <div class="row">
                     <div class="col-lg-12">
                         <button id="btnNuevo" type="button" class="btn bg-gradient-green btn-ms" data-toggle="modal"><i class="fas fa-plus-square text-light"></i><span class="text-light"> Nuevo</span></button>
                     </div>
@@ -82,7 +82,7 @@ $message = "";
                                 <div class="form-group input-group-sm">
                                     <label for="fecha" class="col-form-label">Desde:</label>
                                     <input type="date" class="form-control" name="inicio" id="inicio">
-                                    
+
 
                                 </div>
                             </div>
@@ -177,8 +177,8 @@ $message = "";
     </section>
 
 
-        <!-- INICIA ALTA DE FACTURAS -->
-        <section>
+    <!-- INICIA ALTA DE FACTURAS -->
+    <section>
         <div class="modal fade" id="modalReq" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content w-auto">
@@ -239,8 +239,8 @@ $message = "";
                                         </div>
                                     </div>
 
-                              
-                               
+
+
 
 
                                 </div>
@@ -317,8 +317,8 @@ $message = "";
                                             <input type="text" class="form-control text-right" name="ivareq" id="ivareq" onkeypress="return filterFloat(event,this);">
                                         </div>
                                     </div>
-                                    
-                                    
+
+
                                     <div class=" col-sm-4 ">
                                         <label for=" montoreqa" class="col-form-label">TOTAL:</label>
                                         <div class="input-group input-group-sm">
@@ -373,8 +373,8 @@ $message = "";
 
                                 <div class="row justify-content-sm-center" style="margin-bottom: 10px;">
 
-                                <div class=" col-sm-4 ">
-                                    <!--
+                                    <div class=" col-sm-4 ">
+                                        <!--
                                         <label for=" ret4" class="col-form-label">RET4:</label>
                                         <div class="input-group input-group-sm">
                                             <div class="input-group-prepend">
@@ -389,7 +389,7 @@ $message = "";
 
 
                                     <div class="col-sm-4"></div>
-                                 
+
                                     <div class=" col-sm-4 ">
                                         <label for=" montoreq" class="col-form-label">GRAN TOTAL:</label>
                                         <div class="input-group input-group-sm">
@@ -474,7 +474,7 @@ $message = "";
         </div>
     </section>
     <!-- TERMINA RESUMEN DE PAGOS -->
-        <!-- INICIA PAGAR -->
+    <!-- INICIA PAGAR -->
     <section>
         <div class="modal fade" id="modalPago" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
@@ -590,8 +590,8 @@ $message = "";
     </section>
     <!-- TERMINA PAGAR -->
 
-      <!-- INICIA OBRA -->
-      <section>
+    <!-- INICIA OBRA -->
+    <section>
         <div class="container">
 
             <!-- Default box -->
@@ -678,13 +678,13 @@ $message = "";
             </div>
         </div>
     </section>
-<!-- TERMINA CANCELAR -->
+    <!-- TERMINA CANCELAR -->
     <!-- /.content -->
 </div>
 
 
 <?php include_once 'templates/footer.php'; ?>
-<script src="fjs/cntacxc.js?v=<?php echo(rand()); ?>"></script>
+<script src="fjs/cntacxc.js?v=<?php echo (rand()); ?>"></script>
 <script src="plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 <script src="plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>

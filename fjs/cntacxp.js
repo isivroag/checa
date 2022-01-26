@@ -10,6 +10,136 @@ $(document).ready(function () {
   var textcolumnas2=permisos2();
 
 
+      // SOLO NUMEROS NUEVOS CAMPOS
+      document.getElementById('importe').onblur = function () {
+        calculosubtotal(this.value.replace(/,/g, ''))
+        this.value = parseFloat(this.value.replace(/,/g, ''))
+          .toFixed(2)
+          .toString()
+          .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+      }
+    
+      document.getElementById('descuento').onblur = function () {
+        calculoantes()
+        this.value = parseFloat(this.value.replace(/,/g, ''))
+          .toFixed(2)
+          .toString()
+          .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+      }
+    
+      document.getElementById('devolucion').onblur = function () {
+        calculoantes()
+        this.value = parseFloat(this.value.replace(/,/g, ''))
+          .toFixed(2)
+          .toString()
+          .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+      }
+    
+     
+    
+    // TERMINA SOLO NUMEROS NUEVOS CAMPOS
+
+    //NUEVOS CALCULOS
+function calculosubtotal(valor) {
+
+  descuento=$('#descuento').val().replace(/,/g, '')
+  devolucion=$('#devolucion').val().replace(/,/g, '')
+
+  if (descuento.length==0){
+    descuento=0
+    $('#descuento').val('0.00')
+  }
+
+  if (devolucion.length==0){
+    devolucion=0
+    $('#devolucion').val('0.00')
+  }
+  subtotal = (parseFloat(valor)+parseFloat(devolucion))-parseFloat(descuento)
+
+  
+  total = round(subtotal * 1.16, 2)
+  iva = total - subtotal
+
+
+      
+ 
+  $("#subtotalreq").val( Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(subtotal).toFixed(2)));
+  $("#ivareq").val( Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(iva).toFixed(2)));
+  $("#montoreq").val( Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(total).toFixed(2)));
+  $("#montoreqa").val( Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(total).toFixed(2)));
+  caluloconret()
+
+
+}
+
+function calculototal(valor) {
+
+  descuento=$('#descuento').val().replace(/,/g, '')
+  devolucion=$('#devolucion').val().replace(/,/g, '')
+
+  if (descuento.length==0){
+    descuento=0
+    $('#descuento').val('0.00')
+  }
+
+  if (devolucion.length==0){
+    devolucion=0
+    $('#devolucion').val('0.00')
+  }
+
+
+
+  total=valor;
+
+  subtotal = round(total / 1.16, 2);
+  importe=(parseFloat(subtotal)-parseFloat(devolucion))+parseFloat(descuento)
+  iva = round(total - subtotal, 2);
+  $("#importe").val(Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(importe).toFixed(2)));
+  $("#ivareq").val(Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(iva).toFixed(2)));
+  $("#subtotalreq").val(Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(subtotal).toFixed(2)));
+  $("#montoreq").val( Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(total).toFixed(2)));
+  $("#montoreqa").val( Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(total).toFixed(2)));
+  caluloconret()
+
+  
+
+}
+
+function calculoantes()
+{
+  valor=$('#importe').val().replace(/,/g, '')
+  descuento=$('#descuento').val().replace(/,/g, '')
+  devolucion=$('#devolucion').val().replace(/,/g, '')
+  if (descuento.length==0){
+      descuento=0
+      $('#descuento').val('0.00')
+    }
+
+    if (devolucion.length==0){
+      devolucion=0
+      $('#devolucion').val('0.00')
+    }
+
+    subtotal = (parseFloat(valor)+parseFloat(devolucion))-parseFloat(descuento)
+
+    
+    total = round(subtotal * 1.16, 2)
+    iva = total - subtotal
+
+
+        
+   
+    $("#subtotalreq").val( Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(subtotal).toFixed(2)));
+    $("#ivareq").val( Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(iva).toFixed(2)));
+    $("#montoreq").val( Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(total).toFixed(2)));
+    $("#montoreqa").val( Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(total).toFixed(2)));
+    caluloconret()
+}
+
+//TERMINA NUEVOS CALCULOS
+
+
+
 // PERMISOS TABLA PRINCIPAL
   function permisos(){
     var tipousuario =  $('#tipousuario').val();
@@ -61,66 +191,149 @@ $(document).ready(function () {
   }
 
   //CALCULO TOTAL REQ
-  function calculototalreq(valor) {
-    subtotal = valor
+    //CALCULO TOTAL REQ
+function calculototalreq(valor) {
 
+  
+
+  subtotal=valor
+  
+    descuento=$('#descuento').val().replace(/,/g, '')
+    devolucion=$('#devolucion').val().replace(/,/g, '')
+
+    if (descuento.length==0){
+        descuento=0
+        $('#descuento').val('0.00')
+      }
+  
+      if (devolucion.length==0){
+        devolucion=0
+        $('#devolucion').val('0.00')
+      }
+
+      //subtotal = (parseFloat(valor)+parseFloat(devolucion))-parseFloat(descuento)
+      importe=(parseFloat(subtotal)-parseFloat(devolucion))+parseFloat(descuento)
+    
     total = round(subtotal * 1.16, 2)
     iva = total - subtotal
 
-    $('#ivareq').val(Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(arseFloat(iva).toFixed(2)))
-    $('#montoreq').val(Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(parseFloat(total).toFixed(2)))
-    $('#montoreqa').val(Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(parseFloat(total).toFixed(2)))
 
+        
+   
+    $("#importe").val(Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(importe).toFixed(2)));
+    $("#ivareq").val( Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(iva).toFixed(2)));
+    $("#montoreq").val( Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(total).toFixed(2)));
+    $("#montoreqa").val( Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(total).toFixed(2)));
     
-  }
-  //CALCULO SUBTOTAL REQ
-  function calculosubtotalreq(valor) {
-    total = valor
+    caluloconret()
+    
 
-    subtotal = round(total / 1.16, 2)
 
-    iva = round(total - subtotal, 2)
+}
+//CALCULO SUBTOTAL REQ
+function calculosubtotalreq(valor) {
+ 
+    descuento=$('#descuento').val().replace(/,/g, '')
+    devolucion=$('#devolucion').val().replace(/,/g, '')
 
-    $('#ivareq').val(Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(parseFloat(iva).toFixed(2)))
-    $('#subtotalreq').val(Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(parseFloat(subtotal).toFixed(2)))
+    if (descuento.length==0){
+      descuento=0
+      $('#descuento').val('0.00')
+    }
 
-    $('#montoreqa').val(Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(parseFloat(total).toFixed(2)))
+    if (devolucion.length==0){
+      devolucion=0
+      $('#devolucion').val('0.00')
+    }
 
-    $('#montoreq').val(Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(parseFloat(total).toFixed(2)))
-  }
 
-  // SOLO NUMEROS SUBTOTAL FACTURA
-  document.getElementById('subtotalreq').onblur = function () {
-    calculototalreq(this.value.replace(/,/g, ''))
-    this.value = parseFloat(this.value.replace(/,/g, ''))
-      .toFixed(2)
-      .toString()
-      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+ 
+    total=valor;
+
+    subtotal = round(total / 1.16, 2);
+    importe=(parseFloat(subtotal)-parseFloat(devolucion))+parseFloat(descuento)
+    iva = round(total - subtotal, 2);
+    $("#importe").val(Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(importe).toFixed(2)));
+    $("#ivareq").val(Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(iva).toFixed(2)));
+    $("#subtotalreq").val(Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(subtotal).toFixed(2)));
+    $("#montoreq").val( Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(total).toFixed(2)));
+    $("#montoreqa").val( Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(total).toFixed(2)));
+    caluloconret()
+
+        
+
+}
+
+function caluloconret(){
+    total=$('#montoreqa').val().replace(/,/g, '')
+    ret1=$('#ret1').val().replace(/,/g, '')
+    ret2=$('#ret2').val().replace(/,/g, '')
+    ret3=$('#ret3').val().replace(/,/g, '')
+  //  ret4=$('#ret4').val().replace(/,/g, '')
+
+  
+    if(ret1.length==0){
+        ret1=0
+        $("#ret1").val( Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(ret1).toFixed(2)));
+        
+    }
+
+    if(ret2.length==0){
+        ret2=0;
+        $("#ret2").val( Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(ret2).toFixed(2)));
+        
+    }
+
+    if(ret3.length==0){
+        ret3=0;
+        $("#ret3").val( Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(ret3).toFixed(2)));
+       
+    }
+/*
+    if(ret4.length==0){
+        ret4=0;
+        $("#ret4").val( Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(ret4).toFixed(2)));
+      
+    }*/
+    
+
+    retenciones=parseFloat(ret1)+parseFloat(ret2)+parseFloat(ret3)
+    calculo=parseFloat(total)-parseFloat(retenciones)
+    $("#montoreq").val( Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(calculo).toFixed(2)));
+        
+}
+
+     // SOLO NUMEROS SUBTOTAL FACTURA
+     document.getElementById('subtotalreq').onblur = function () {
+      calculototalreq(this.value.replace(/,/g, ''))
+      this.value = parseFloat(this.value.replace(/,/g, ''))
+          .toFixed(2)
+          .toString()
+          .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   }
   // SOLO NUMEROS IVA FACTURA
   document.getElementById('ivareq').onblur = function () {
-    this.value = parseFloat(this.value.replace(/,/g, ''))
-      .toFixed(2)
-      .toString()
-      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+      this.value = parseFloat(this.value.replace(/,/g, ''))
+          .toFixed(2)
+          .toString()
+          .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   }
   // SOLO NUMEROS MONTO FACTURA
   document.getElementById('montoreq').onblur = function () {
-    calculosubtotalreq(this.value.replace(/,/g, ''))
-    this.value = parseFloat(this.value.replace(/,/g, ''))
-      .toFixed(2)
-      .toString()
-      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+     // calculosubtotalreq(this.value.replace(/,/g, ''))
+      this.value = parseFloat(this.value.replace(/,/g, ''))
+          .toFixed(2)
+          .toString()
+          .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   }
-
 
   document.getElementById('montoreqa').onblur = function () {
-    calculosubtotalreq(this.value.replace(/,/g, ''))
-    this.value = parseFloat(this.value.replace(/,/g, ''))
-      .toFixed(2)
-      .toString()
-      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-  }
+      calculosubtotalreq(this.value.replace(/,/g, ''))
+      this.value = parseFloat(this.value.replace(/,/g, ''))
+        .toFixed(2)
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    }
   // SOLO NUMEROS MONTO
   document.getElementById('montopagovp').onblur = function () {
     this.value = parseFloat(this.value.replace(/,/g, ''))
@@ -128,6 +341,32 @@ $(document).ready(function () {
       .toString()
       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   }
+
+     //retenciones
+
+     document.getElementById('ret1').onblur = function () {
+      caluloconret()
+      this.value = parseFloat(this.value.replace(/,/g, ''))
+      .toFixed(2)
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    }
+
+    document.getElementById('ret2').onblur = function () {
+      caluloconret()
+      this.value = parseFloat(this.value.replace(/,/g, ''))
+      .toFixed(2)
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    }
+
+    document.getElementById('ret3').onblur = function () {
+      caluloconret()
+      this.value = parseFloat(this.value.replace(/,/g, ''))
+      .toFixed(2)
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    }
   // TABLA PRINCIPAL
 
   tablaVis = $('#tablaV').DataTable({
@@ -399,6 +638,14 @@ $(document).ready(function () {
     iva = $('#ivareq').val().replace(/,/g, '')
     monto = $('#montoreq').val().replace(/,/g, '')
 
+    montob = $('#montoreqa').val().replace(/,/g, '')
+    ret1 = $('#ret1').val().replace(/,/g, '')
+    ret2 = $('#ret2').val().replace(/,/g, '')
+    ret3 = $('#ret3').val().replace(/,/g, '')
+    importe = $('#importe').val().replace(/,/g, '')
+    descuento = $('#descuento').val().replace(/,/g, '')
+    devolucion = $('#devolucion').val().replace(/,/g, '')
+
     if (
       fecha.length == 0 ||
       factura.length == 0 ||
@@ -441,6 +688,13 @@ $(document).ready(function () {
                 subtotal: subtotal,
                 iva: iva,
                 monto: monto,
+                ret1: ret1,
+                ret2: ret2,
+                ret3: ret3,
+                importe: importe,
+                devolucion: devolucion,
+                descuento: descuento,
+                montob: montob,
                 opcion: opcion,
               },
               success: function (data) {
