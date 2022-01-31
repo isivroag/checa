@@ -22,12 +22,23 @@ $idprovision = (isset($_POST['idprovision'])) ? $_POST['idprovision'] : '';
 
 $opcionreq = (isset($_POST['opcionreq'])) ? $_POST['opcionreq'] : '';
 
+$ret1 = (isset($_POST['ret1'])) ? $_POST['ret1'] : '';
+$ret2 = (isset($_POST['ret2'])) ? $_POST['ret2'] : '';
+$ret3 = (isset($_POST['ret3'])) ? $_POST['ret3'] : '';
+
+$importe = (isset($_POST['importe'])) ? $_POST['importe'] : '';
+$descuento = (isset($_POST['descuento'])) ? $_POST['descuento'] : '';
+$devolucion = (isset($_POST['devolucion'])) ? $_POST['devolucion'] : '';
+//$ret4 = (isset($_POST['ret4'])) ? $_POST['ret4'] : '';
+$montob = (isset($_POST['montob'])) ? $_POST['montob'] : '';
+
 
 
 $data = 0;
 switch ($opcionreq) {
     case 1: //alta
-        $consulta = "INSERT INTO w_reqsub (id_sub,fecha_req,factura_req,concepto_req,monto_req,saldo_req,subtotal_req,iva_req,id_provs,usuarioalt) VALUES('$subcontrato','$fechareq','$clavereq','$descripcionreq','$montoreq','$montoreq','$subtotalreq','$ivareq','$idprovision','$usuarioalt') ";
+        $consulta = "INSERT INTO w_reqsub (id_sub,fecha_req,factura_req,concepto_req,monto_req,saldo_req,subtotal_req,iva_req,id_provs,usuarioalt,ret1,ret2,ret3,montob,importe,descuento,devolucion) 
+        VALUES('$subcontrato','$fechareq','$clavereq','$descripcionreq','$montoreq','$montoreq','$subtotalreq','$ivareq','$idprovision','$usuarioalt','$ret1','$ret2','$ret3','$montob','$importe','$descuento','$devolucion') ";
         $resultado = $conexion->prepare($consulta);
         if ($resultado->execute()) {
             $data = 1;
