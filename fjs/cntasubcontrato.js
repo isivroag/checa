@@ -1586,6 +1586,14 @@ function calculoantes()
     iva = fila.find('td:eq(5)').text()
     total = fila.find('td:eq(7)').text()
 
+    ret1=fila.find('td:eq(8)').text()
+    ret2=fila.find('td:eq(9)').text()
+    ret3=fila.find('td:eq(10)').text()
+    importe=fila.find('td:eq(11)').text()
+    descuento=fila.find('td:eq(12)').text()
+    devolucion=fila.find('td:eq(13)').text()
+    
+
     $('#modalVerprov').modal('hide')
     $('#formReq').trigger('reset')
     $('#modalReq').modal('show')
@@ -1596,8 +1604,13 @@ function calculoantes()
     $('#descripcionreq').val(concepto)
     //$('#subtotalreq').val(subtotal)
     //$('#ivareq').val(iva)
-    $('#montoreq').val(total)
-    calculosubtotalreq($('#montoreq').val().replace(/,/g, ''))
+    $('#importe').val(importe)
+    $('#devolucion').val(devolucion)
+    $('#descuento').val(descuento)
+    $('#ret1').val(ret1)
+    $('#ret2').val(ret2)
+    $('#ret3').val(ret3)
+    calculosubtotalreq1($('#importe').val().replace(/,/g, ''))
   })
 
   // BOTON NUEVA PROVISION
@@ -1726,6 +1739,15 @@ function calculoantes()
     ivareq = $('#ivaprov').val().replace(/,/g, '')
     subtotalreq = $('#subtotalprov').val().replace(/,/g, '')
 
+    montob = $('#montoaprov').val().replace(/,/g, '')
+    ret1 = $('#ret1prov').val().replace(/,/g, '')
+    ret2 = $('#ret2prov').val().replace(/,/g, '')
+    ret3 = $('#ret3prov').val().replace(/,/g, '')
+    importe = $('#importeprov').val().replace(/,/g, '')
+    descuento = $('#descuentoprov').val().replace(/,/g, '')
+    devolucion = $('#devolucionprov').val().replace(/,/g, '')
+
+
     if (
       fechareq.length == 0 ||
       descripcionreq.length == 0 ||
@@ -1751,6 +1773,13 @@ function calculoantes()
           subtotalreq: subtotalreq,
           ivareq: ivareq,
           opcionreq: opcionreq,
+          ret1: ret1,
+          ret2: ret2,
+          ret3: ret3,
+          importe: importe,
+          devolucion: devolucion,
+          descuento: descuento,
+          montob: montob,
         },
         success: function (data) {
           if (data == 1) {
@@ -1890,6 +1919,12 @@ function calculoantes()
               res[i].iva_prov,
               res[i].monto_prov,
               res[i].saldo_prov,
+              res[i].ret1,
+              res[i].ret2,
+              res[i].ret3,
+              res[i].importe,
+              res[i].descuento,
+              res[i].devolucion,
             ])
             .draw()
         }

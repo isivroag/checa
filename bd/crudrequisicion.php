@@ -70,7 +70,8 @@ switch ($opcionreq) {
 
         break;
     case 2: //modificación
-        $consulta = "UPDATE w_reqsub SET  id_sub='$id_sub',fecha_reg='$fechareq',concepto_req='$descripcionreq',factura_req='$clavereq',monto_req='$montoreq',saldo_req='$montoreq',subtotal_req='$subtotalreq',iva_req='$ivareq' WHERE folio_req='$folioreq' ";
+        $consulta = "UPDATE w_reqsub SET  id_sub='$id_sub',fecha_reg='$fechareq',concepto_req='$descripcionreq',factura_req='$clavereq',monto_req='$montoreq',saldo_req='$montoreq',subtotal_req='$subtotalreq',
+        iva_req='$ivareq' WHERE folio_req='$folioreq' ";
         $resultado = $conexion->prepare($consulta);
         if ($resultado->execute()) {
             $data = 1;

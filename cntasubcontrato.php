@@ -934,6 +934,12 @@ $message = "";
                                         <th>IVA</th>
                                         <th>MONTO</th>
                                         <th>SALDO</th>
+                                        <th>RET1</th>
+                                        <th>RET2</th>
+                                        <th>RET3</th>
+                                        <th>IMPORTE</th>
+                                        <th>DESCUENTO</th>
+                                        <th>DEVOLUCION</th>
                                         <th>ACCIONES</th>
                                     </tr>
                                 </thead>
@@ -948,6 +954,12 @@ $message = "";
                                     <th></th>
                                     <th></th>
                                     <th></th>
+                                    <th class="text-right text-bold"></th>
+                                    <th class="text-right text-bold"></th>
+                                    <th class="text-right text-bold"></th>
+                                    <th class="text-right text-bold"></th>
+                                    <th class="text-right text-bold"></th>
+                                    <th class="text-right text-bold"></th>
                                     <th class="text-right text-bold"></th>
                                     <th class="text-right text-bold"></th>
                                     <th></th>
