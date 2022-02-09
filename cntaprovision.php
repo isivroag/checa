@@ -135,7 +135,13 @@ $message = "";
                                             <th>CONCEPTO</th>
                                             <th>MONTO</th>
                                             <th>SALDO</th>
-
+                                            <th>RET1</th>
+                                            <th>RET2</th>
+                                            <th>RET3</th>
+                                            <th>IMPORTE</th>
+                                            <th>DESCUENTO</th>
+                                            <th>DEVOLUCION</th>
+                                            <th>MONTOB</th>
                                             <th>ACCIONES</th>
 
                                         </tr>
@@ -154,7 +160,13 @@ $message = "";
                                                 <td><?php echo $dat['concepto_provi'] ?></td>
                                                 <td class="text-right"><?php echo number_format($dat['monto_provi'], 2) ?></td>
                                                 <td class="text-right"><?php echo number_format($dat['saldo_provi'], 2) ?></td>
-
+                                                <td class="text-right"><?php echo number_format($dat['ret1'], 2) ?></td>
+                                                <td class="text-right"><?php echo number_format($dat['ret2'], 2) ?></td>
+                                                <td class="text-right"><?php echo number_format($dat['ret3'], 2) ?></td>
+                                                <td class="text-right"><?php echo number_format($dat['importe'], 2) ?></td>
+                                                <td class="text-right"><?php echo number_format($dat['descuento'], 2) ?></td>
+                                                <td class="text-right"><?php echo number_format($dat['devolucion'], 2) ?></td>
+                                                <td class="text-right"><?php echo number_format($dat['montob'], 2) ?></td>
                                                 <td></td>
 
 
@@ -270,6 +282,42 @@ $message = "";
                                 <div class="row justify-content-sm-center" style="margin-bottom: 10px;">
 
                                     <div class="col-sm-4 ">
+                                        <label for="importe" class="col-form-label">IMPORTE:</label>
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-dollar-sign"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control text-right" name="importe" id="importe" onkeypress="return filterFloat(event,this);">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-4 ">
+                                        <label for="descuento" class="col-form-label">AMORT. (DESC):</label>
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-dollar-sign"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control text-right" name="descuento" id="descuento" onkeypress="return filterFloat(event,this);">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-4 ">
+                                        <label for="devolucion" class="col-form-label">DEVOLUCIÓN:</label>
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-dollar-sign"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control text-right" name="devolucion" id="devolucion" onkeypress="return filterFloat(event,this);">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-4 ">
                                         <label for="subtotalreq" class="col-form-label">SUBTOTAL:</label>
                                         <div class="input-group input-group-sm">
                                             <div class="input-group-prepend">
@@ -280,6 +328,7 @@ $message = "";
                                             <input type="text" class="form-control text-right" name="subtotalreq" id="subtotalreq" onkeypress="return filterFloat(event,this);">
                                         </div>
                                     </div>
+
                                     <div class=" col-sm-4 ">
                                         <label for=" ivareq" class="col-form-label">IVA:</label>
                                         <div class="input-group input-group-sm">
@@ -291,15 +340,78 @@ $message = "";
                                             <input type="text" class="form-control text-right" name="ivareq" id="ivareq" onkeypress="return filterFloat(event,this);">
                                         </div>
                                     </div>
+
+
                                     <div class=" col-sm-4 ">
-                                        <label for=" montoreq" class="col-form-label">TOTAL:</label>
+                                        <label for=" montoreqa" class="col-form-label">TOTAL:</label>
                                         <div class="input-group input-group-sm">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">
                                                     <i class="fas fa-dollar-sign"></i>
                                                 </span>
                                             </div>
-                                            <input type="text" class="form-control text-right" name="montoreq" id="montoreq" onkeypress="return filterFloat(event,this);">
+                                            <input type="text" class="form-control text-right" name="montoreqa" id="montoreqa" onkeypress="return filterFloat(event,this);">
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row justify-content-sm-between" style="margin-bottom: 10px;">
+
+                                    <div class="col-sm-4 ">
+                                        <label for="ret1" class="col-form-label">RET1:</label>
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-dollar-sign"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control text-right" name="ret1" id="ret1" onkeypress="return filterFloat(event,this);">
+                                        </div>
+                                    </div>
+                                    <div class=" col-sm-4 ">
+                                        <label for="ret2" class="col-form-label">RET2:</label>
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-dollar-sign"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control text-right" name="ret2" id="ret2" onkeypress="return filterFloat(event,this);">
+                                        </div>
+                                    </div>
+                                    <div class=" col-sm-4 ">
+                                        <label for=" ret3" class="col-form-label">RET3:</label>
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-dollar-sign"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control text-right" name="ret3" id="ret3" onkeypress="return filterFloat(event,this);">
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row justify-content-sm-center" style="margin-bottom: 10px;">
+
+                                    <div class=" col-sm-4 ">
+
+                                    </div>
+
+
+                                    <div class="col-sm-4"></div>
+
+                                    <div class=" col-sm-4 ">
+                                        <label for=" montoreq" class="col-form-label">GRAN TOTAL:</label>
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-dollar-sign"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control text-right" name="montoreq" id="montoreq" onkeypress="return filterFloat(event,this); " disabled>
                                         </div>
                                     </div>
 
@@ -435,7 +547,7 @@ $message = "";
                                         <th>FACTURA</th>
                                         <th>MONTO</th>
                                         <th>SALDO</th>
-                                        
+
                                         <th>ACCIONES</th>
                                     </tr>
                                 </thead>
@@ -485,7 +597,7 @@ $message = "";
                                     <div class="form-group input-group-sm">
                                         <label for="folioreq2" class="col-form-label">FOLIO:</label>
                                         <input type="text" class="form-control" name="folioreq2" id="folioreq2" disabled>
-                                        <input type="text" class="form-control" name="folioprovi" id="folioprovi" disabled>
+                                        <input type="hidden" class="form-control" name="folioprovi" id="folioprovi" disabled>
                                     </div>
                                 </div>
 
@@ -552,7 +664,7 @@ $message = "";
                                 </div>
 
                             </div>
-
+                            <!--
                             <div class="row justify-content-sm-center" style="margin-bottom: 10px;">
 
                                 <div class="col-sm-4 ">
@@ -590,7 +702,144 @@ $message = "";
                                 </div>
 
                             </div>
+                                            -->
+                            <div class="row justify-content-sm-center" style="margin-bottom: 10px;">
 
+                                <div class="col-sm-4 ">
+                                    <label for="importe2" class="col-form-label">IMPORTE:</label>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control text-right" name="importe2" id="importe2" onkeypress="return filterFloat(event,this);">
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4 ">
+                                    <label for="descuento2" class="col-form-label">AMORT. (DESC):</label>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control text-right" name="descuento2" id="descuento2" onkeypress="return filterFloat(event,this);">
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4 ">
+                                    <label for="devolucion2" class="col-form-label">DEVOLUCIÓN:</label>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control text-right" name="devolucion2" id="devolucion2" onkeypress="return filterFloat(event,this);">
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4 ">
+                                    <label for="subtotalreq2" class="col-form-label">SUBTOTAL:</label>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control text-right" name="subtotalreq2" id="subtotalreq2" onkeypress="return filterFloat(event,this);">
+                                    </div>
+                                </div>
+
+                                <div class=" col-sm-4 ">
+                                    <label for=" ivareq2" class="col-form-label">IVA:</label>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control text-right" name="ivareq2" id="ivareq2" onkeypress="return filterFloat(event,this);">
+                                    </div>
+                                </div>
+
+
+                                <div class=" col-sm-4 ">
+                                    <label for=" montoreqa2" class="col-form-label">TOTAL:</label>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control text-right" name="montoreqa2" id="montoreqa2" onkeypress="return filterFloat(event,this);">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row justify-content-sm-between" style="margin-bottom: 10px;">
+
+                                <div class="col-sm-4 ">
+                                    <label for="ret12" class="col-form-label">RET1:</label>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control text-right" name="ret12" id="ret12" onkeypress="return filterFloat(event,this);">
+                                    </div>
+                                </div>
+                                <div class=" col-sm-4 ">
+                                    <label for="ret22" class="col-form-label">RET2:</label>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control text-right" name="ret22" id="ret22" onkeypress="return filterFloat(event,this);">
+                                    </div>
+                                </div>
+                                <div class=" col-sm-4 ">
+                                    <label for="ret32" class="col-form-label">RET3:</label>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control text-right" name="ret32" id="ret32" onkeypress="return filterFloat(event,this);">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row justify-content-sm-center" style="margin-bottom: 10px;">
+
+                                <div class=" col-sm-4 ">
+
+                                </div>
+
+
+                                <div class="col-sm-4"></div>
+
+                                <div class=" col-sm-4 ">
+                                    <label for="montoreq2" class="col-form-label">GRAN TOTAL:</label>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control text-right" name="montoreq2" id="montoreq2" onkeypress="return filterFloat(event,this); " disabled>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
 
 
@@ -653,8 +902,8 @@ $message = "";
     <!-- TERMINA CANCELAR -->
 
 
-      <!-- INICIA RESUMEN DE PAGOS -->
-      <section>
+    <!-- INICIA RESUMEN DE PAGOS -->
+    <section>
         <div class="container">
 
 
@@ -676,7 +925,7 @@ $message = "";
                                         <th>REFERENCIA</th>
                                         <th>MONTO</th>
                                         <th>METODO</th>
-                                     
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -689,7 +938,7 @@ $message = "";
                                     <th class="text-right">TOTAL</th>
                                     <th class="text-right"></th>
                                     <th></th>
-                                    
+
                                 </tfoot>
                             </table>
                         </div>
@@ -706,7 +955,7 @@ $message = "";
 
         </div>
     </section>
- <!-- TERMINA RESUMEN DE PAGOS -->
+    <!-- TERMINA RESUMEN DE PAGOS -->
     <!-- /.content -->
 </div>
 

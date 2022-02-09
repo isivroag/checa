@@ -13,7 +13,15 @@ $tipo = (isset($_POST['tipo'])) ? $_POST['tipo'] : '';
 $subtotal = (isset($_POST['subtotal'])) ? $_POST['subtotal'] : '';
 $iva = (isset($_POST['iva'])) ? $_POST['iva'] : '';
 $monto = (isset($_POST['monto'])) ? $_POST['monto'] : '';
+$ret1 = (isset($_POST['ret1'])) ? $_POST['ret1'] : '';
+$ret2 = (isset($_POST['ret2'])) ? $_POST['ret2'] : '';
+$ret3 = (isset($_POST['ret3'])) ? $_POST['ret3'] : '';
 
+$importe = (isset($_POST['importe'])) ? $_POST['importe'] : '';
+$descuento = (isset($_POST['descuento'])) ? $_POST['descuento'] : '';
+$devolucion = (isset($_POST['devolucion'])) ? $_POST['devolucion'] : '';
+//$ret4 = (isset($_POST['ret4'])) ? $_POST['ret4'] : '';
+$montob = (isset($_POST['montob'])) ? $_POST['montob'] : '';
 
 
 $opcion = (isset($_POST['opcion'])) ? $_POST['opcion'] : '';
@@ -23,7 +31,8 @@ $opcion = (isset($_POST['opcion'])) ? $_POST['opcion'] : '';
 $data=0;
 switch($opcion){
     case 1: //alta
-        $consulta = "INSERT INTO w_provision (id_obra,id_prov,fecha_provi,concepto_provi,monto_provi,saldo_provi,subtotal_provi,iva_provi,tipo_provi) VALUES('$id_obra','$id_prov','$fecha','$descripcion','$monto','$monto','$subtotal','$iva','$tipo') ";
+        $consulta = "INSERT INTO w_provision (id_obra,id_prov,fecha_provi,concepto_provi,monto_provi,saldo_provi,subtotal_provi,iva_provi,tipo_provi,ret1,ret2,ret3,montob,importe,descuento,devolucion) 
+        VALUES('$id_obra','$id_prov','$fecha','$descripcion','$monto','$monto','$subtotal','$iva','$tipo','$ret1','$ret2','$ret3','$montob','$importe','$descuento','$devolucion') ";
         $resultado = $conexion->prepare($consulta);
         if($resultado->execute()){
             $data=1;

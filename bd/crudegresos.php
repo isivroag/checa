@@ -62,7 +62,8 @@ switch ($opcion) {
 
         break;
     case 4:
-        $consulta = "INSERT INTO w_cxp (id_obra,id_prov,fecha_cxp,factura_cxp,desc_cxp,monto_cxp,saldo_cxp,tipo_cxp,subtotal_cxp,iva_cxp,folio_provi) VALUES('$id_obra','$id_prov','$fecha','$factura','$descripcion','$monto','$monto','$tipo','$subtotal','$iva','$folioprovi') ";
+        $consulta = "INSERT INTO w_cxp (id_obra,id_prov,fecha_cxp,factura_cxp,desc_cxp,monto_cxp,saldo_cxp,tipo_cxp,subtotal_cxp,iva_cxp,folio_provi,ret1,ret2,ret3,montob,importe,descuento,devolucion)
+         VALUES('$id_obra','$id_prov','$fecha','$factura','$descripcion','$monto','$monto','$tipo','$subtotal','$iva','$folioprovi','$ret1','$ret2','$ret3','$montob','$importe','$descuento','$devolucion') ";
         $resultado = $conexion->prepare($consulta);
         if ($resultado->execute()) {
 
