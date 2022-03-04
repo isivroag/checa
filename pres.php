@@ -188,8 +188,12 @@ if ($_SESSION['id_obra'] == null) {
                                                     <thead class="text-center bg-gradient-green">
                                                         <tr>
                                                             <th>ID</th>
+                                                            <th>INDICE</th>
                                                             <th>CLAVE</th>
                                                             <th>CONCEPTO</th>
+                                                            <th>UNIDAD</th>
+                                                            <th>CANTIDAD</th>
+                                                            <th>PRECIO</th>
                                                             <th>MONTO</th>
                                                             <th>TIPO</th>
                                                             <th>PADRE</th>

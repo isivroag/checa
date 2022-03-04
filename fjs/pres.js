@@ -52,9 +52,9 @@ $(document).ready(function () {
     "order": [[ 1, "asc" ]],
     columnDefs: [
       
-      { className: "hide_column", "targets": [4] },
-      { className: "hide_column", "targets": [5] },
-      { "sWidth": "70%", "aTargets": [ 2 ] }
+      //{ className: "hide_column", "targets": [4] },
+      //{ className: "hide_column", "targets": [5] },
+      { "sWidth": "70%", "aTargets": [ 3 ] }
       
       
 
@@ -81,14 +81,20 @@ $(document).ready(function () {
 
            
 
-      $($(row).find('td')[3]).addClass("text-right")
-      if (data[4] == "A") {
+      $($(row).find('td')[5]).addClass("text-right")
+      $($(row).find('td')[6]).addClass("text-right")
+      $($(row).find('td')[7]).addClass("text-right")
+      if (data[8] == "A") {
         $('td', row).css('background-color', '#D1D1D1');
         $('td', row).css('font-weight', 'bold');
         //$($(row).find('td')).addClass('bg-gradient-secondary')  
-      }else{
-        
-        $('td', row).css('background-color', '#A4C9E7');
+      }else if(data[8]=="B"){
+          $('td', row).css('background-color', '#A4C9E7');
+      
+      }else if (data[8]=="C"){
+        $('td', row).css('background-color', '#EE936E');
+      }else if (data[8]=="CO"){
+        $('td', row).css('background-color', '#FEFEFE');
       }
       
 
@@ -216,8 +222,12 @@ function buscarpresupuesto(obra){
                   tabla.row
                       .add([
                           data[i].id_renglon,
+                          data[i].indice_renglon,
                           data[i].clave_renglon,
                           data[i].concepto_renglon,
+                          data[i].unidad_renglon,
+                          Intl.NumberFormat('es-MX',{ minimumFractionDigits: 2 }).format(parseFloat(data[i].cantidad_renglon).toFixed(2)),
+                          Intl.NumberFormat('es-MX',{ minimumFractionDigits: 2 }).format(parseFloat(data[i].precion_renglon).toFixed(2)),
                           Intl.NumberFormat('es-MX',{ minimumFractionDigits: 2 }).format(parseFloat(data[i].monto_renglon).toFixed(2)),
                           //new Intl.NumberFormat('es-MX').format(Math.round((data[i].monto_renglon) * 100,2) / 100) ,
                           data[i].tipo_renglon,
