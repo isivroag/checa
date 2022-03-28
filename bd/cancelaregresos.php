@@ -190,14 +190,14 @@ switch ($tipodoc) {
         if ($resultado->execute()) {
 
 
-            $consulta = "SELECT id_otro,monto_pagoo FROM w_pagootro WHERE folio_pagoo='$foliocan'";
+            $consulta = "SELECT id_otro,monto_pagoo,id_caja FROM w_pagootro WHERE folio_pagoo='$foliocan'";
             $resultado = $conexion->prepare($consulta);
             if ($resultado->execute()) {
                 $data = $resultado->fetchAll(PDO::FETCH_ASSOC);
                 $monto = 0;
                 $otro = 0;
                 foreach ($data as $dat) {
-
+                    $caja= $dat['id_caja'];
                     $monto = $dat['monto_pagoo'];
                     $otro = $dat['id_otro'];
                 }
@@ -220,7 +220,7 @@ switch ($tipodoc) {
                         $id_obra = $row['id_obra'];
                     }
             
-                    $consulta = "SELECT * from w_caja where id_obra='$id_obra'";
+                    $consulta = "SELECT * from w_caja where id_obra='$id_obra' and id_caja='$caja'";
                     $resultado = $conexion->prepare($consulta);
                     $resultado->execute();
                     $data = $resultado->fetchAll(PDO::FETCH_ASSOC);

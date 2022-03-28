@@ -610,6 +610,7 @@ $(document).ready(function () {
     montovp = montovp.replace(/,/g, '')
     var metodovp = $('#metodovp').val()
     var usuario = $('#nameuser').val()
+    var caja = $('#caja').val()
     var opcion = 4
     id_obra = $('#id_obra').val()
 
@@ -619,7 +620,8 @@ $(document).ready(function () {
       referenciavp.length == 0 ||
       montovp.length == 0 ||
       metodovp.length == 0 ||
-      usuario.length == 0
+      usuario.length == 0 ||
+      caja.length == 0
     ) {
       swal.fire({
         title: 'Datos Incompletos',
@@ -637,7 +639,7 @@ $(document).ready(function () {
         type: 'POST',
         dataType: 'json',
         async: false,
-        data: { folio: id_obra, opcioncaja: opcioncaja },
+        data: { folio: id_obra, opcioncaja: opcioncaja,caja: caja },
         success: function (data) {
           console.log(data)
           if (data != null) {
@@ -698,6 +700,7 @@ $(document).ready(function () {
                   saldofin: saldofin,
                   metodovp: metodovp,
                   usuario: usuario,
+                  caja: caja,
                   opcion: opcion,
                 },
                 success: function (res) {

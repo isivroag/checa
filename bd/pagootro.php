@@ -17,6 +17,7 @@ $saldofin = (isset($_POST['saldofin'])) ? $_POST['saldofin'] : '';
 $metodovp = (isset($_POST['metodovp'])) ? $_POST['metodovp'] : '';
 $usuario = (isset($_POST['usuario'])) ? $_POST['usuario'] : '';
 $opcion = (isset($_POST['opcion'])) ? $_POST['opcion'] : '';
+$caja = (isset($_POST['caja'])) ? $_POST['caja'] : '';
 
 
 
@@ -26,7 +27,8 @@ $res = 0;
 
 
 
-$consulta = "INSERT INTO w_pagootro (id_otro,fecha_pagoo,referencia_pagoo,observaciones_pagoo,metodo_pagoo,monto_pagoo,usuario) VALUES ('$folioreq','$fechavp','$referenciavp','$observacionesvp','$metodovp','$montovp','$usuario')";
+$consulta = "INSERT INTO w_pagootro (id_otro,fecha_pagoo,referencia_pagoo,observaciones_pagoo,metodo_pagoo,monto_pagoo,usuario,id_caja) 
+VALUES ('$folioreq','$fechavp','$referenciavp','$observacionesvp','$metodovp','$montovp','$usuario','$caja')";
 $resultado = $conexion->prepare($consulta);
 
 if ($resultado->execute()) {
@@ -45,7 +47,7 @@ if ($resultado->execute()) {
             $id_obra = $row['id_obra'];
         }
 
-        $consulta = "SELECT * from w_caja where id_obra='$id_obra'";
+        $consulta = "SELECT * from w_caja where id_obra='$id_obra' and id_caja='$caja'";
         $resultado = $conexion->prepare($consulta);
         $resultado->execute();
         $data = $resultado->fetchAll(PDO::FETCH_ASSOC);

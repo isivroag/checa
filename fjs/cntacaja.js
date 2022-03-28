@@ -77,24 +77,24 @@ $(document).ready(function () {
       },
       { className: 'hide_column', targets: [1] },
       { className: 'hide_column', targets: [5] },
-      { width: '50%', targets: 2 },
+      { width: '50%', targets: 3 },
     ],
     rowCallback: function (row, data) {
       // FORMATO DE CELDAS
-      $($(row).find('td')['3']).addClass('text-right')
       $($(row).find('td')['4']).addClass('text-right')
+      $($(row).find('td')['5']).addClass('text-right')
 
-      $($(row).find('td')['3']).addClass('currency')
       $($(row).find('td')['4']).addClass('currency')
-      saldo = parseFloat(data[3])
-      minimo = parseFloat(data[5])
+      $($(row).find('td')['5']).addClass('currency')
+      saldo = parseFloat(data[4])
+      minimo = parseFloat(data[6])
 
       if (saldo == 0) {
-        $($(row).find('td')[3]).addClass('text-danger text-bold')
+        $($(row).find('td')[4]).addClass('text-danger text-bold')
       } else if (saldo <= minimo) {
-        $($(row).find('td')[3]).addClass('text-warning text-bold')
+        $($(row).find('td')[4]).addClass('text-warning text-bold')
       } else {
-        $($(row).find('td')[3]).addClass('text-success text-bold')
+        $($(row).find('td')[4]).addClass('text-success text-bold')
       }
     },
 
@@ -179,8 +179,9 @@ $(document).ready(function () {
     monto = $('#montonom').val().replace(/,/g, '')
     mincaja = $('#mincaja').val().replace(/,/g, '')
     usuario = $('#nameuser').val()
+    claveca = $('#claveca').val()
 
-    if (fecha.length == 0 || id_obra.length == 0 || monto.length == 0) {
+    if (fecha.length == 0 || id_obra.length == 0 || monto.length == 0 || claveca.length == 0) {
       Swal.fire({
         title: 'Datos Faltantes',
         text: 'Debe ingresar todos los datos del Requeridos',
@@ -200,12 +201,14 @@ $(document).ready(function () {
           monto: monto,
           usuario: usuario,
           mincaja: mincaja,
+          claveca: claveca,
           id: id,
           opcion: opcion,
         },
         success: function (data) {
           id = data[0].id_caja
           id_obra = data[0].id_obra
+          claveca = data[0].clave_caja
           obra = data[0].corto_obra
 
           saldo = data[0].saldo_caja
@@ -213,11 +216,11 @@ $(document).ready(function () {
           minimo = data[0].min_caja
 
           if (opcion == 1) {
-            tablaVis.row.add([id, id_obra, obra, saldo, monto, minimo]).draw()
+            tablaVis.row.add([id, id_obra,claveca, obra, saldo, monto, minimo]).draw()
           } else {
             tablaVis
               .row(fila)
-              .data([id, id_obra, obra, saldo, monto, minimo])
+              .data([id, id_obra,claveca, obra, saldo, monto, minimo])
               .draw()
           }
 

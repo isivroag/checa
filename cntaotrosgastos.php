@@ -50,6 +50,11 @@ if ($_SESSION['id_obra'] == null) {
         $resultadoprov = $conexion->prepare($consultaprov);
         $resultadoprov->execute();
         $dataprov = $resultadoprov->fetchAll(PDO::FETCH_ASSOC);
+
+        $consultacaja="SELECT * from w_caja where id_obra='$id_obra' and estado_caja='1'";
+        $resultadocaja=$conexion->prepare($consultacaja);
+        $resultadocaja->execute();
+        $datacaj=$resultadocaja->fetchAll(PDO::FETCH_ASSOC);
     }
 } else {
 
@@ -351,17 +356,18 @@ $message = "";
                                             <div class="input-group input-group-sm">
 
                                                 <span class="input-group-prepend input-group-text">
-                                                    <input type="checkbox" class="" name="facturado" id="facturado" >
+                                                    <input type="checkbox" class="" name="facturado" id="facturado">
                                                 </span>
 
 
-                                                <input type="text" class="form-control" name="factura" id="factura" disabled >
+                                                <input type="text" class="form-control" name="factura" id="factura" disabled>
 
                                             </div>
 
                                         </div>
                                     </div>
                                     <div class="col-sm-1">
+
                                     </div>
 
                                     <div class="col-sm-3 ">
@@ -608,7 +614,24 @@ $message = "";
                                     </div>
                                 </div>
 
+                                <div class="col-sm-3 my-auto">
+                                <div class="input-group-sm">
+                                        <label for="caja" class="col-form-label">CAJA:</label>
 
+                                        <select class="form-control" name="caja" id="caja">
+                                            <?php 
+                                            foreach($datacaj as $rowcaj){
+
+                                            
+                                            ?>
+                                            <option id="idcaja<?php echo $rowcaj['id_caja']?>" value="<?php  echo $rowcaj['id_caja']?>"><?php  echo $rowcaj['clave_caja']?></option>
+                                            <?php
+                                            }
+                                            ?>
+
+                                        </select>
+                                    </div>
+                                </div>
 
 
                                 <div class="col-sm-3 my-auto">
