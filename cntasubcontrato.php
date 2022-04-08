@@ -611,7 +611,7 @@ $message = "";
 
                                 </div>
 
-                                <div class="row justify-content-sm-center" style="margin-bottom: 10px;">
+ <!--                               <div class="row justify-content-sm-center" style="margin-bottom: 10px;">
 
 
                                     <div class="col-sm-4 ">
@@ -662,6 +662,7 @@ $message = "";
                                             <input type="text" class="form-control text-right" name="subtotalprov" id="subtotalprov" onkeypress="return filterFloat(event,this);">
                                         </div>
                                     </div>
+
                                     <div class=" col-sm-4 ">
                                         <label for=" ivaprov" class="col-form-label">IVA:</label>
                                         <div class="input-group input-group-sm">
@@ -685,7 +686,7 @@ $message = "";
                                             <input type="text" class="form-control text-right" name="montoaprov" id="montoaprov" onkeypress="return filterFloat(event,this);">
                                         </div>
                                     </div>
-
+ 
                                     <div class="col-sm-4 ">
                                         <label for="ret1prov" class="col-form-label">RET1:</label>
                                         <div class="input-group input-group-sm">
@@ -697,6 +698,8 @@ $message = "";
                                             <input type="text" class="form-control text-right" name="ret1prov" id="ret1prov" onkeypress="return filterFloat(event,this);">
                                         </div>
                                     </div>
+                                               
+
                                     <div class=" col-sm-4 ">
                                         <label for="ret2prov" class="col-form-label">RET2:</label>
                                         <div class="input-group input-group-sm">
@@ -721,7 +724,7 @@ $message = "";
                                     </div>
 
                                 </div>
-
+-->
 
                                 <div class="row justify-content-sm-center" style="margin-bottom: 10px;">
 
@@ -739,7 +742,7 @@ $message = "";
                                                     <i class="fas fa-dollar-sign"></i>
                                                 </span>
                                             </div>
-                                            <input type="text" class="form-control text-right" name="montoprov" id="montoprov" onkeypress="return filterFloat(event,this);" disabled>
+                                            <input type="text" class="form-control text-right" name="montoprov" id="montoprov" onkeypress="return filterFloat(event,this);" >
                                         </div>
                                     </div>
 
@@ -930,16 +933,10 @@ $message = "";
                                         <th>SUBCONTRATO</th>
                                         <th>FECHA</th>
                                         <th>CONCEPTO</th>
-                                        <th>SUBTOTAL</th>
-                                        <th>IVA</th>
+                                       
                                         <th>MONTO</th>
                                         <th>SALDO</th>
-                                        <th>RET1</th>
-                                        <th>RET2</th>
-                                        <th>RET3</th>
-                                        <th>IMPORTE</th>
-                                        <th>DESCUENTO</th>
-                                        <th>DEVOLUCION</th>
+                                        
                                         <th>ACCIONES</th>
                                     </tr>
                                 </thead>
@@ -952,16 +949,10 @@ $message = "";
                                     <th></th>
                                     <th class="text-right text-bold">TOTALES</th>
                                     <th></th>
-                                    <th></th>
-                                    <th></th>
+                                   
                                     <th class="text-right text-bold"></th>
                                     <th class="text-right text-bold"></th>
-                                    <th class="text-right text-bold"></th>
-                                    <th class="text-right text-bold"></th>
-                                    <th class="text-right text-bold"></th>
-                                    <th class="text-right text-bold"></th>
-                                    <th class="text-right text-bold"></th>
-                                    <th class="text-right text-bold"></th>
+                                    
                                     <th></th>
 
                                 </tfoot>

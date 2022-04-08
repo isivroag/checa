@@ -507,7 +507,7 @@ function calculoantes()
 
 
         // --------------------NUEVOS CAMPOS PROVISION
-        document.getElementById('importeprov').onblur = function () {
+     /*   document.getElementById('importeprov').onblur = function () {
           calculosubtotalprov1(this.value.replace(/,/g, ''))
           this.value = parseFloat(this.value.replace(/,/g, ''))
             .toFixed(2)
@@ -531,11 +531,12 @@ function calculoantes()
             .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
         }
       
-       
+       */
       
       // TERMINA SOLO NUMEROS NUEVOS CAMPOS
   
       //NUEVOS CALCULOS
+      /*
   function calculosubtotalprov1(valor) {
   
     descuento=$('#descuentoprov').val().replace(/,/g, '')
@@ -566,8 +567,8 @@ function calculoantes()
     caluloconretprov()
   
   
-  }
-  
+  }*/
+  /*
   function calculototalreq1(valor) {
   
     descuento=$('#descuentoprov').val().replace(/,/g, '')
@@ -704,7 +705,8 @@ function calculoantes()
               
       
       }
-      
+      */
+     /*
       function caluloconretprov(){
           total=$('#montoaprov').val().replace(/,/g, '')
           ret1=$('#ret1prov').val().replace(/,/g, '')
@@ -730,20 +732,20 @@ function calculoantes()
               $("#ret3prov").val( Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(ret3).toFixed(2)));
              
           }
-      /*
-          if(ret4.length==0){
-              ret4=0;
-              $("#ret4").val( Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(ret4).toFixed(2)));
+      
+      //    if(ret4.length==0){
+      //        ret4=0;
+      //        $("#ret4").val( Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(ret4).toFixed(2)));
             
-          }*/
+      //    }
           
       
           retenciones=parseFloat(ret1)+parseFloat(ret2)+parseFloat(ret3)
           calculo=parseFloat(total)-parseFloat(retenciones)
           $("#montoprov").val( Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(calculo).toFixed(2)));
               
-      }
-      
+      }*/
+      /*
            // SOLO NUMEROS SUBTOTAL FACTURA
            document.getElementById('subtotalprov').onblur = function () {
             calculototalprov(this.value.replace(/,/g, ''))
@@ -760,13 +762,7 @@ function calculoantes()
                 .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
         }
         // SOLO NUMEROS MONTO FACTURA
-        document.getElementById('montoprov').onblur = function () {
-           // calculosubtotalreq(this.value.replace(/,/g, ''))
-            this.value = parseFloat(this.value.replace(/,/g, ''))
-                .toFixed(2)
-                .toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-        }
+     
       
         document.getElementById('montoaprov').onblur = function () {
             calculosubtotalprov(this.value.replace(/,/g, ''))
@@ -800,7 +796,7 @@ function calculoantes()
         .toFixed(2)
         .toString()
         .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-      }
+      }*/
   
   //----------------------------TERMINA NUEVOS CALCULOS
 
@@ -848,7 +844,13 @@ function calculoantes()
 
   */
 
-
+  document.getElementById('montoprov').onblur = function () {
+    // calculosubtotalreq(this.value.replace(/,/g, ''))
+     this.value = parseFloat(this.value.replace(/,/g, ''))
+         .toFixed(2)
+         .toString()
+         .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+ }
   document.getElementById('montocobrado').onblur = function () {
   
     this.value = parseFloat(this.value.replace(/,/g, ''))
@@ -1156,17 +1158,17 @@ function calculoantes()
   //TABLA RESUMEN DE PROVISIONES
   tablaVerprov = $('#tablaVerprov').DataTable({
     rowCallback: function (row, data) {
-      $($(row).find('td')['6']).addClass('text-right')
-      $($(row).find('td')['6']).addClass('currency')
-      $($(row).find('td')['7']).addClass('text-right')
-      $($(row).find('td')['7']).addClass('currency')
+      $($(row).find('td')['4']).addClass('text-right')
+      $($(row).find('td')['4']).addClass('currency')
+      $($(row).find('td')['5']).addClass('text-right')
+      $($(row).find('td')['5']).addClass('currency')
     },
     columnDefs: [
-      { className: 'hide_column', targets: [1] },
+     /* { className: 'hide_column', targets: [1] },
       { className: 'hide_column', targets: [4] },
-      { className: 'hide_column', targets: [5] },
+      { className: 'hide_column', targets: [5] },*/
       {
-        targets: 6,
+        targets: 4,
         render: function (data, type, full, meta) {
           return new Intl.NumberFormat('es-MX', {
             minimumFractionDigits: 2,
@@ -1174,7 +1176,7 @@ function calculoantes()
         },
       },
       {
-        targets: 7,
+        targets: 5,
         render: function (data, type, full, meta) {
           return new Intl.NumberFormat('es-MX', {
             minimumFractionDigits: 2,
@@ -1221,26 +1223,26 @@ function calculoantes()
       }
 
       totalr = api
-        .column(6)
+        .column(4)
         .data()
         .reduce(function (a, b) {
           return intVal(a) + intVal(b)
         }, 0)
 
       saldor = api
-        .column(7)
+        .column(5)
         .data()
         .reduce(function (a, b) {
           return intVal(a) + intVal(b)
         }, 0)
 
-      $(api.column(6).footer()).html(
+      $(api.column(4).footer()).html(
         Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
           parseFloat(totalr).toFixed(2),
         ),
       )
 
-      $(api.column(7).footer()).html(
+      $(api.column(5).footer()).html(
         Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
           parseFloat(saldor).toFixed(2),
         ),
@@ -1736,8 +1738,9 @@ function calculoantes()
     opcionreq = 1
     descripcionreq = $('#descripcionprov').val()
     montoreq = $('#montoprov').val().replace(/,/g, '')
-    ivareq = $('#ivaprov').val().replace(/,/g, '')
+  /*  ivareq = $('#ivaprov').val().replace(/,/g, '')
     subtotalreq = $('#subtotalprov').val().replace(/,/g, '')
+    
 
     montob = $('#montoaprov').val().replace(/,/g, '')
     ret1 = $('#ret1prov').val().replace(/,/g, '')
@@ -1746,7 +1749,7 @@ function calculoantes()
     importe = $('#importeprov').val().replace(/,/g, '')
     descuento = $('#descuentoprov').val().replace(/,/g, '')
     devolucion = $('#devolucionprov').val().replace(/,/g, '')
-
+*/
 
     if (
       fechareq.length == 0 ||
@@ -1769,8 +1772,8 @@ function calculoantes()
           fechareq: fechareq,
           subcontrato: subcontrato,
           descripcionreq: descripcionreq,
-          montoreq: montoreq,
-          subtotalreq: subtotalreq,
+          montoreq: montoreq
+          /*subtotalreq: subtotalreq,
           ivareq: ivareq,
           opcionreq: opcionreq,
           ret1: ret1,
@@ -1779,7 +1782,7 @@ function calculoantes()
           importe: importe,
           devolucion: devolucion,
           descuento: descuento,
-          montob: montob,
+          montob: montob,*/
         },
         success: function (data) {
           if (data == 1) {
