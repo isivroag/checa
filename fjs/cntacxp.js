@@ -630,6 +630,7 @@ function calculoantes()
   //BOTON GUARDAR FACTURA
   $(document).on('click', '#btnGuardarreq', function () {
     folio = $('#folioreq').val()
+    uuid= $('#uuid').val()
     fecha = $('#fechareq').val()
     factura = $('#facturareq').val()
     id_obra = $('#id_obra').val()
@@ -654,7 +655,9 @@ function calculoantes()
       id_obra.length == 0 ||
       id_prov.length == 0 ||
       descripcion.length == 0 ||
-      monto.length == 0
+      monto.length == 0 ||
+      uuid.length == 0 ||
+      uuid.length != 36
     ) {
       Swal.fire({
         title: 'Datos Faltantes',
@@ -663,6 +666,8 @@ function calculoantes()
       })
       return false
     } else {
+
+
       $.ajax({
         url: 'bd/buscarfacturacxp.php',
         type: 'POST',
@@ -671,8 +676,10 @@ function calculoantes()
         data: {
           factura: factura,
           id_prov: id_prov,
+          uuid: uuid
         },
         success: function (data) {
+          console.log(data)
           if (data == 0) {
             opcion = 1
             $.ajax({
@@ -682,6 +689,7 @@ function calculoantes()
               data: {
                 folio: folio,
                 fecha: fecha,
+                uuid: uuid,
                 factura: factura,
                 id_obra: id_obra,
                 id_prov: id_prov,
@@ -702,7 +710,7 @@ function calculoantes()
               success: function (data) {
                 if (data == 1) {
                   facturaexitosa()
-                  window.location.href = 'cntacxp.php'
+                  //window.location.href = 'cntacxp.php'
                 } else {
                   facturaerror()
                 }

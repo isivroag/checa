@@ -10,28 +10,29 @@
  
  $id_prov = (isset($_POST['id_prov'])) ? $_POST['id_prov'] : '';
  $factura = (isset($_POST['factura'])) ? $_POST['factura'] : '';
+ $uuid = (isset($_POST['uuid'])) ? $_POST['uuid'] : '';
  
- 
- $consulta = "SELECT * FROM vcxp where estado_cxp = 1 and id_prov='$id_prov' and factura_cxp='$factura'";
+ $res=0;
+ //$consulta = "SELECT * FROM vcxp where estado_cxp = 1 and id_prov='$id_prov' and factura_cxp='$factura'";
+ $consulta = "SELECT * FROM vcxp where estado_cxp = 1 and uuid='$uuid'";
  $resultado = $conexion->prepare($consulta);
  $resultado->execute();
  if($resultado->rowCount() >= 1){
-   $data=1;
+   $res=1;
  }
  else{
-    $consulta = "SELECT * FROM vrequisicion where estado_req = 1 and id_prov='$id_prov' and factura_req='$factura'";
+    //$consulta = "SELECT * FROM vrequisicion where estado_req = 1 and id_prov='$id_prov' and factura_req='$factura'";
+    $consulta = "SELECT * FROM vrequisicion where estado_req = 1 and uuid='$uuid'";
     $resultado = $conexion->prepare($consulta);
     $resultado->execute();
     if($resultado->rowCount() >= 1){
-       $data=1;
+       $res=1;
     }
-    else{
-        $data=0;
-    }
+   
  }
  
  
  
  
- print json_encode($data, JSON_UNESCAPED_UNICODE);
+ print json_encode($res, JSON_UNESCAPED_UNICODE);
  $conexion = NULL;

@@ -325,7 +325,7 @@ $message = "";
     </section>
     TERMINA ALTA DE FACTURAS VIEJAS-->
 
-     <!-- INICIA ALTA DE FACTURAS -->
+    <!-- INICIA ALTA DE FACTURAS -->
     <section>
         <div class="modal fade" id="modalReq" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
@@ -356,6 +356,11 @@ $message = "";
                                     </div>
 
                                     <div class="col-sm-4">
+                                        <div class="form-group input-group-sm">
+                                            <label for="uuid" class="col-form-label">UUID FACTURA:</label>
+                                            <input type="text" class="form-control" name="uuid" id="uuid" placeholder="UUID FACTURA" minlength="36" maxlength="36">
+                                        </div>
+
                                     </div>
 
                                     <div class="col-sm-3 ">
@@ -534,7 +539,7 @@ $message = "";
                                 <div class="row justify-content-sm-center" style="margin-bottom: 10px;">
 
                                     <div class=" col-sm-4 ">
-                                      
+
                                     </div>
 
 
@@ -568,10 +573,10 @@ $message = "";
             </div>
         </div>
     </section>
- <!--     TERMINA ALTA DE FACTURAS -->
+    <!--     TERMINA ALTA DE FACTURAS -->
 
-      <!-- INICIA OBRA -->
-      <section>
+    <!-- INICIA OBRA -->
+    <section>
         <div class="container">
 
             <!-- Default box -->
@@ -662,7 +667,7 @@ $message = "";
     </section>
     <!-- TERMINA PROVEEDOR -->
 
-  <!-- INICIA RESUMEN DE PAGOS -->
+    <!-- INICIA RESUMEN DE PAGOS -->
     <section>
         <div class="container">
 
@@ -715,9 +720,9 @@ $message = "";
 
         </div>
     </section>
- <!-- TERMINA RESUMEN DE PAGOS -->
+    <!-- TERMINA RESUMEN DE PAGOS -->
 
- <!-- INICIA PAGAR -->
+    <!-- INICIA PAGAR -->
     <section>
         <div class="modal fade" id="modalPago" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
@@ -741,7 +746,7 @@ $message = "";
                                     </div>
                                 </div>
 
-                               
+
 
 
                                 <div class="col-sm-3 my-auto">
@@ -832,9 +837,9 @@ $message = "";
             </div>
         </div>
     </section>
-<!-- TERMINA PAGAR -->
+    <!-- TERMINA PAGAR -->
 
-<!-- INICIA CANCELAR -->
+    <!-- INICIA CANCELAR -->
     <section>
         <div class="modal fade" id="modalcan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog " role="document">
@@ -876,14 +881,14 @@ $message = "";
             </div>
         </div>
     </section>
-<!-- TERMINA CANCELAR -->
+    <!-- TERMINA CANCELAR -->
 
     <!-- /.content -->
 </div>
 
 
 <?php include_once 'templates/footer.php'; ?>
-<script src="fjs/cntacxp.js?v=<?php echo(rand()); ?>"></script>
+<script src="fjs/cntacxp.js?v=<?php echo (rand()); ?>"></script>
 <script src="plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 <script src="plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>

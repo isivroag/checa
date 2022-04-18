@@ -6,6 +6,7 @@ $conexion = $objeto->connect();
 // Recepción de los datos enviados mediante POST desde el JS   
 $folio = (isset($_POST['folio'])) ? $_POST['folio'] : '';
 $fecha = (isset($_POST['fecha'])) ? $_POST['fecha'] : '';
+$uuid = (isset($_POST['uuid'])) ? $_POST['uuid'] : '';
 $factura = (isset($_POST['factura'])) ? $_POST['factura'] : '';
 $id_obra = (isset($_POST['id_obra'])) ? $_POST['id_obra'] : '';
 $id_prov = (isset($_POST['id_prov'])) ? $_POST['id_prov'] : '';
@@ -35,8 +36,8 @@ $opcion = (isset($_POST['opcion'])) ? $_POST['opcion'] : '';
 $data = 0;
 switch ($opcion) {
     case 1: //alta
-        $consulta = "INSERT INTO w_cxp (id_obra,id_prov,fecha_cxp,factura_cxp,desc_cxp,monto_cxp,saldo_cxp,tipo_cxp,subtotal_cxp,iva_cxp,ret1,ret2,ret3,montob,importe,descuento,devolucion) 
-        VALUES('$id_obra','$id_prov','$fecha','$factura','$descripcion','$monto','$monto','$tipo','$subtotal','$iva','$ret1','$ret2','$ret3','$montob','$importe','$descuento','$devolucion') ";
+        $consulta = "INSERT INTO w_cxp (id_obra,id_prov,fecha_cxp,factura_cxp,desc_cxp,monto_cxp,saldo_cxp,tipo_cxp,subtotal_cxp,iva_cxp,ret1,ret2,ret3,montob,importe,descuento,devolucion,uuid) 
+        VALUES('$id_obra','$id_prov','$fecha','$factura','$descripcion','$monto','$monto','$tipo','$subtotal','$iva','$ret1','$ret2','$ret3','$montob','$importe','$descuento','$devolucion','$uuid') ";
         $resultado = $conexion->prepare($consulta);
         if ($resultado->execute()) {
             $data = 1;
