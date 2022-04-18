@@ -13,13 +13,14 @@ $descripcionreq = (isset($_POST['descripcionreq'])) ? $_POST['descripcionreq'] :
 
 $fechareq = (isset($_POST['fechareq'])) ? $_POST['fechareq'] : '';
 $montoreq = (isset($_POST['montoreq'])) ? $_POST['montoreq'] : '';
-/*$subtotalreq = (isset($_POST['subtotalreq'])) ? $_POST['subtotalreq'] : '';
+$opcionreq = (isset($_POST['opcionreq'])) ? $_POST['opcionreq'] : '';
+$subtotalreq = (isset($_POST['subtotalreq'])) ? $_POST['subtotalreq'] : '';
 $ivareq = (isset($_POST['ivareq'])) ? $_POST['ivareq'] : '';
 
 
 
-$opcionreq = (isset($_POST['opcionreq'])) ? $_POST['opcionreq'] : '';
 
+/*
 $ret1 = (isset($_POST['ret1'])) ? $_POST['ret1'] : '';
 $ret2 = (isset($_POST['ret2'])) ? $_POST['ret2'] : '';
 $ret3 = (isset($_POST['ret3'])) ? $_POST['ret3'] : '';
@@ -34,8 +35,8 @@ $montob = (isset($_POST['montob'])) ? $_POST['montob'] : '';
 $data=0;
 switch($opcionreq){
     case 1: //alta
-        $consulta = "INSERT INTO w_provsub (id_sub,fecha_prov,concepto_prov,monto_prov,saldo_prov) 
-        VALUES('$subcontrato','$fechareq','$descripcionreq','$montoreq','$montoreq') ";
+        $consulta = "INSERT INTO w_provsub (id_sub,fecha_prov,concepto_prov,monto_prov,saldo_prov,subtotal_prov,iva_prov) 
+        VALUES('$subcontrato','$fechareq','$descripcionreq','$montoreq','$montoreq','$subtotalreq','$ivareq') ";
         $resultado = $conexion->prepare($consulta);
         if($resultado->execute()){
             $data=1;

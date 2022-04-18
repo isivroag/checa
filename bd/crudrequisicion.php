@@ -44,7 +44,9 @@ switch ($opcionreq) {
             $data = 1;
 
             if ($idprovision != "") {
-                $consulta = "UPDATE w_provsub SET saldo_prov=saldo_prov-'$montoreq' WHERE id_provs='$idprovision'";
+                //$consulta = "UPDATE w_provsub SET saldo_prov=saldo_prov-'$montoreq' WHERE id_provs='$idprovision'";
+                $montoabono=round($importe * 1.16, 0 , PHP_ROUND_HALF_UP);
+                $consulta = "UPDATE w_provsub SET saldo_prov=saldo_prov-'$montoabono' WHERE id_provs='$idprovision'";
                 $resultado = $conexion->prepare($consulta);
                 $resultado->execute();
 

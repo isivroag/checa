@@ -28,7 +28,7 @@ switch ($tipodoc) {
             $res = 1;
 
             //IDENTIFICAR LA PROVISION Y EL MONTO DE LA REQUISICION
-            $consulta = "SELECT id_provs,monto_req FROM w_reqsub WHERE id_req='$foliocan'";
+            $consulta = "SELECT id_provs,importe FROM w_reqsub WHERE id_req='$foliocan'";
             $resultado = $conexion->prepare($consulta);
             if ($resultado->execute()) {
                 $data = $resultado->fetchAll(PDO::FETCH_ASSOC);
@@ -37,9 +37,9 @@ switch ($tipodoc) {
                 foreach ($data as $dat) {
 
                     $provision = $dat['id_provs'];
-                    $montoreq = $dat['monto_req'];
+                    $montoreq = $dat['importe'];
                 }
-
+                $montoreq = round($montoreq *1.16 ,0, PHP_ROUND_HALF_UP);
                 if ($provision != '' && $provision != 0) {
                     $consulta = "UPDATE w_provsub SET saldo_prov=saldo_prov+'$montoreq' WHERE id_provs='$provision'";
                     $resultado = $conexion->prepare($consulta);
@@ -112,7 +112,28 @@ switch ($tipodoc) {
         $resultado = $conexion->prepare($consulta);
         if ($resultado->execute()) {
             $res = 1;
+
+            $consulta = "SELECT folio_provi,importe FROM w_cxp WHERE folio_cxp='$foliocan'";
+            $resultado = $conexion->prepare($consulta);
+            if ($resultado->execute()) {
+                $data = $resultado->fetchAll(PDO::FETCH_ASSOC);
+                $provision = 0;
+                $montoreq = 0;
+                foreach ($data as $dat) {
+
+                    $provision = $dat['folio_provi'];
+                    $montoreq = $dat['importe'];
+                }
+                $montoreq= round($montoreq * 1.16 ,0, PHP_ROUND_HALF_UP);
+                if ($provision != '' && $provision != 0) {
+                    $consulta = "UPDATE w_provision SET saldo_provi=saldo_provi+'$montoreq' WHERE folio_provi='$provision'";
+                    $resultado = $conexion->prepare($consulta);
+                    $resultado->execute();
+                }
+
+            
         }
+    }
         break;
 
     case 5: // CANCELAR PAGO DE CXP

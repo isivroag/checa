@@ -35,8 +35,8 @@ $opcion = (isset($_POST['opcion'])) ? $_POST['opcion'] : '';
 $data = 0;
 switch ($opcion) {
     case 1: //alta
-        $consulta = "INSERT INTO w_cxp (id_obra,id_prov,fecha_cxp,factura_cxp,desc_cxp,monto_cxp,saldo_cxp,tipo_cxp,subtotal_cxp,iva_cxp,ret1,ret2,ret3,montob,importe,descuento,devolucion) 
-        VALUES('$id_obra','$id_prov','$fecha','$factura','$descripcion','$monto','$monto','$tipo','$subtotal','$iva','$ret1','$ret2','$ret3','$montob','$importe','$descuento','$devolucion') ";
+        $consulta = "INSERT INTO w_cxpgral (id_prov,fecha_cxp,factura_cxp,desc_cxp,monto_cxp,saldo_cxp,tipo_cxp,subtotal_cxp,iva_cxp,ret1,ret2,ret3,montob,importe,descuento,devolucion) 
+        VALUES('$id_prov','$fecha','$factura','$descripcion','$monto','$monto','$tipo','$subtotal','$iva','$ret1','$ret2','$ret3','$montob','$importe','$descuento','$devolucion') ";
         $resultado = $conexion->prepare($consulta);
         if ($resultado->execute()) {
             $data = 1;
@@ -45,7 +45,7 @@ switch ($opcion) {
 
         break;
     case 2: //modificación
-        $consulta = "UPDATE w_cxp SET  id_obra='$id_obra',id_prov='$id_prov',desc_cxp='$descripcion',clave_cxp='$clave',tipo_cxp='$tipo' WHERE folio_cxp='$folio' ";
+        $consulta = "UPDATE w_cxpgral SET  id_prov='$id_prov',desc_cxp='$descripcion',clave_cxp='$clave',tipo_cxp='$tipo' WHERE folio_cxp='$folio' ";
         $resultado = $conexion->prepare($consulta);
         if ($resultado->execute()) {
             $data = 1;
@@ -54,7 +54,7 @@ switch ($opcion) {
 
         break;
     case 3: //baja
-        $consulta = "UPDATE w_cxp SET estado_cxp=0 WHERE folio_cxp='$folio'";
+        $consulta = "UPDATE w_cxpgral SET estado_cxp=0 WHERE folio_cxp='$folio'";
         $resultado = $conexion->prepare($consulta);
         if ($resultado->execute()) {
             $data = 1;
@@ -62,18 +62,16 @@ switch ($opcion) {
 
         break;
     case 4:
-        $consulta = "INSERT INTO w_cxp (id_obra,id_prov,fecha_cxp,factura_cxp,desc_cxp,monto_cxp,saldo_cxp,tipo_cxp,subtotal_cxp,iva_cxp,folio_provi,ret1,ret2,ret3,montob,importe,descuento,devolucion)
-         VALUES('$id_obra','$id_prov','$fecha','$factura','$descripcion','$monto','$monto','$tipo','$subtotal','$iva','$folioprovi','$ret1','$ret2','$ret3','$montob','$importe','$descuento','$devolucion') ";
+        $consulta = "INSERT INTO w_cxpgral (id_prov,fecha_cxp,factura_cxp,desc_cxp,monto_cxp,saldo_cxp,tipo_cxp,subtotal_cxp,iva_cxp,folio_provi,ret1,ret2,ret3,montob,importe,descuento,devolucion)
+         VALUES('$id_prov','$fecha','$factura','$descripcion','$monto','$monto','$tipo','$subtotal','$iva','$folioprovi','$ret1','$ret2','$ret3','$montob','$importe','$descuento','$devolucion') ";
         $resultado = $conexion->prepare($consulta);
         if ($resultado->execute()) {
-
-
-            $abono=round($importe * 1.16,0,PHP_ROUND_HALF_UP);
-            $consulta = "UPDATE w_provision SET saldo_provi=saldo_provi-'$abono' WHERE folio_provi='$folioprovi'";
+            $abono= round($importe * 1.16, 0, PHP_ROUND_HALF_UP);
+            $consulta = "UPDATE w_provisiongral SET saldo_provi=saldo_provi-'$abono' WHERE folio_provi='$folioprovi'";
             $resultado = $conexion->prepare($consulta);
             $resultado->execute();
 
-            $consulta = "SELECT saldo_provi FROM w_provision WHERE folio_provi='$folioprovi'";
+            $consulta = "SELECT saldo_provi FROM w_provisiongral WHERE folio_provi='$folioprovi'";
             $resultado = $conexion->prepare($consulta);
             $resultado->execute();
             $datos = $resultado->fetchAll(PDO::FETCH_ASSOC);;
@@ -84,7 +82,7 @@ switch ($opcion) {
             }
 
             if ($saldoprov == 0) {
-                $consulta = "UPDATE w_provision SET estado=2 WHERE folio_provi='$folioprovi'";
+                $consulta = "UPDATE w_provisiongral SET estado=2 WHERE folio_provi='$folioprovi'";
                 $resultado = $conexion->prepare($consulta);
                 $resultado->execute();
             }

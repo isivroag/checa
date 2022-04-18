@@ -33,6 +33,7 @@ if ($_SESSION['s_usuario'] === null) {
   <!-- overlayScrollbars -->
   <link rel="stylesheet" href="css/adminlte.css">
   <link rel="stylesheet" href="css/estilo.css?v=<?php echo (rand()); ?>">
+  <script src="https://kit.fontawesome.com/f1fe472df3.js" crossorigin="anonymous"></script>
 
 
   <link rel="apple-touch-icon" sizes="57x57" href="img/apple-icon-57x57.png">

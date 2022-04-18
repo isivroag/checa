@@ -1,5 +1,5 @@
 <?php
-$pagina = "provision";
+$pagina = "egresosgral";
 
 include_once "templates/header.php";
 include_once "templates/barra.php";
@@ -15,33 +15,11 @@ $fecha = date('Y-m-d');
 $id_prov = "";
 $proveedor = "";
 
-if ($_SESSION['id_obra'] != null) {
-    $id_obra = $_SESSION['id_obra'];
-    $consulta = "SELECT * FROM vprovision WHERE id_obra='$id_obra' and estado_provi=1 and estado=1 ORDER BY id_obra,id_prov,fecha_provi,folio_provi";
-} else {
-    $id_obra = null;
-    $obra = null;
-    $consulta = "SELECT * FROM vprovision WHERE estado_provi=1 and estado=1 ORDER BY id_obra,id_prov,fecha_provi,folio_provi";
-}
 
-
-
-
-$resultado = $conexion->prepare($consulta);
-$resultado->execute();
-$data = $resultado->fetchAll(PDO::FETCH_ASSOC);
-
-
-if ($_SESSION['id_obra'] == null) {
-    $consultacon = "SELECT * FROM w_obra WHERE estado_obra=1 ORDER BY id_obra";
-    $resultadocon = $conexion->prepare($consultacon);
-    $resultadocon->execute();
-    $datacon = $resultadocon->fetchAll(PDO::FETCH_ASSOC);
-} else {
-    $id_obra = $_SESSION['id_obra'];
-    $obra = $_SESSION['nom_obra'];
-}
-
+$consultaprov = "SELECT * FROM vprovisiongral WHERE estado_provi=1 ORDER BY folio_provi";
+$resultadoprov = $conexion->prepare($consultaprov);
+$resultadoprov->execute();
+$data = $resultadoprov->fetchAll(PDO::FETCH_ASSOC);
 
 
 $consultaprov = "SELECT * FROM w_proveedor WHERE estado_prov=1 ORDER BY id_prov";
@@ -127,21 +105,13 @@ $message = "";
                                     <thead class="text-center bg-gradient-green">
                                         <tr>
                                             <th>FOLIO</th>
-                                            <th>ID OBRA</th>
-                                            <th>OBRA</th>
                                             <th>ID PROV</th>
                                             <th>PROVEEDOR</th>
                                             <th>FECHA</th>
                                             <th>CONCEPTO</th>
                                             <th>MONTO</th>
                                             <th>SALDO</th>
-                                        <!--    <th>RET1</th>
-                                            <th>RET2</th>
-                                            <th>RET3</th>
-                                            <th>IMPORTE</th>
-                                            <th>DESCUENTO</th>
-                                            <th>DEVOLUCION</th>
-                                            <th>MONTOB</th>-->
+                                            
                                             <th>ACCIONES</th>
 
                                         </tr>
@@ -152,21 +122,13 @@ $message = "";
                                         ?>
                                             <tr>
                                                 <td><?php echo $dat['folio_provi'] ?></td>
-                                                <td><?php echo $dat['id_obra'] ?></td>
-                                                <td><?php echo $dat['corto_obra'] ?></td>
                                                 <td><?php echo $dat['id_prov'] ?></td>
                                                 <td><?php echo $dat['razon_prov'] ?></td>
                                                 <td class="text-center"><?php echo $dat['fecha_provi'] ?></td>
                                                 <td><?php echo $dat['concepto_provi'] ?></td>
                                                 <td class="text-right"><?php echo number_format($dat['monto_provi'], 2) ?></td>
                                                 <td class="text-right"><?php echo number_format($dat['saldo_provi'], 2) ?></td>
-                                                <!--<td class="text-right"><?php echo number_format($dat['ret1'], 2) ?></td>
-                                                <td class="text-right"><?php echo number_format($dat['ret2'], 2) ?></td>
-                                                <td class="text-right"><?php echo number_format($dat['ret3'], 2) ?></td>
-                                                <td class="text-right"><?php echo number_format($dat['importe'], 2) ?></td>
-                                                <td class="text-right"><?php echo number_format($dat['descuento'], 2) ?></td>
-                                                <td class="text-right"><?php echo number_format($dat['devolucion'], 2) ?></td>
-                                                <td class="text-right"><?php echo number_format($dat['montob'], 2) ?></td>-->
+                                             
                                                 <td></td>
 
 
@@ -232,24 +194,7 @@ $message = "";
 
                                 <div class=" row justify-content-sm-center">
 
-                                    <div class="col-sm-12">
-                                        <div class="input-group input-group-sm">
-                                            <label for="obra" class="col-form-label">OBRA:</label>
-                                            <div class="input-group input-group-sm">
-                                                <input type="hidden" class="form-control" name="id_obra" id="id_obra" value="<?php echo $id_obra; ?>">
-                                                <input type="text" class="form-control" name="obra" id="obra" disabled placeholder="SELECCIONAR OBRA" value="<?php echo $obra; ?>">
-                                                <?php
-                                                if ($id_obra == null) {
-                                                ?>
-                                                    <span class="input-group-append">
-                                                        <button id="bobra" type="button" class="btn btn-sm btn-primary"><i class="fas fa-search"></i></button>
-                                                    </span>
-                                                <?php } ?>
-                                            </div>
-
-                                        </div>
-                                    </div>
-
+                              
                                     <div class="col-sm-12">
                                         <div class="input-group input-group-sm">
                                             <label for="proveedor" class="col-form-label">PROVEEDOR:</label>
@@ -278,122 +223,11 @@ $message = "";
                                     </div>
 
                                 </div>
-<!--
-                                <div class="row justify-content-sm-center" style="margin-bottom: 10px;">
 
-                                    <div class="col-sm-4 ">
-                                        <label for="importe" class="col-form-label">IMPORTE:</label>
-                                        <div class="input-group input-group-sm">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">
-                                                    <i class="fas fa-dollar-sign"></i>
-                                                </span>
-                                            </div>
-                                            <input type="text" class="form-control text-right" name="importe" id="importe" onkeypress="return filterFloat(event,this);">
-                                        </div>
-                                    </div>
+                            
 
-                                    <div class="col-sm-4 ">
-                                        <label for="descuento" class="col-form-label">AMORT. (DESC):</label>
-                                        <div class="input-group input-group-sm">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">
-                                                    <i class="fas fa-dollar-sign"></i>
-                                                </span>
-                                            </div>
-                                            <input type="text" class="form-control text-right" name="descuento" id="descuento" onkeypress="return filterFloat(event,this);">
-                                        </div>
-                                    </div>
+                         
 
-                                    <div class="col-sm-4 ">
-                                        <label for="devolucion" class="col-form-label">DEVOLUCIÓN:</label>
-                                        <div class="input-group input-group-sm">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">
-                                                    <i class="fas fa-dollar-sign"></i>
-                                                </span>
-                                            </div>
-                                            <input type="text" class="form-control text-right" name="devolucion" id="devolucion" onkeypress="return filterFloat(event,this);">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-4 ">
-                                        <label for="subtotalreq" class="col-form-label">SUBTOTAL:</label>
-                                        <div class="input-group input-group-sm">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">
-                                                    <i class="fas fa-dollar-sign"></i>
-                                                </span>
-                                            </div>
-                                            <input type="text" class="form-control text-right" name="subtotalreq" id="subtotalreq" onkeypress="return filterFloat(event,this);">
-                                        </div>
-                                    </div>
-
-                                    <div class=" col-sm-4 ">
-                                        <label for=" ivareq" class="col-form-label">IVA:</label>
-                                        <div class="input-group input-group-sm">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">
-                                                    <i class="fas fa-dollar-sign"></i>
-                                                </span>
-                                            </div>
-                                            <input type="text" class="form-control text-right" name="ivareq" id="ivareq" onkeypress="return filterFloat(event,this);">
-                                        </div>
-                                    </div>
-
-
-                                    <div class=" col-sm-4 ">
-                                        <label for=" montoreqa" class="col-form-label">TOTAL:</label>
-                                        <div class="input-group input-group-sm">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">
-                                                    <i class="fas fa-dollar-sign"></i>
-                                                </span>
-                                            </div>
-                                            <input type="text" class="form-control text-right" name="montoreqa" id="montoreqa" onkeypress="return filterFloat(event,this);">
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div class="row justify-content-sm-between" style="margin-bottom: 10px;">
-
-                                    <div class="col-sm-4 ">
-                                        <label for="ret1" class="col-form-label">RET1:</label>
-                                        <div class="input-group input-group-sm">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">
-                                                    <i class="fas fa-dollar-sign"></i>
-                                                </span>
-                                            </div>
-                                            <input type="text" class="form-control text-right" name="ret1" id="ret1" onkeypress="return filterFloat(event,this);">
-                                        </div>
-                                    </div>
-                                    <div class=" col-sm-4 ">
-                                        <label for="ret2" class="col-form-label">RET2:</label>
-                                        <div class="input-group input-group-sm">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">
-                                                    <i class="fas fa-dollar-sign"></i>
-                                                </span>
-                                            </div>
-                                            <input type="text" class="form-control text-right" name="ret2" id="ret2" onkeypress="return filterFloat(event,this);">
-                                        </div>
-                                    </div>
-                                    <div class=" col-sm-4 ">
-                                        <label for=" ret3" class="col-form-label">RET3:</label>
-                                        <div class="input-group input-group-sm">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">
-                                                    <i class="fas fa-dollar-sign"></i>
-                                                </span>
-                                            </div>
-                                            <input type="text" class="form-control text-right" name="ret3" id="ret3" onkeypress="return filterFloat(event,this);">
-                                        </div>
-                                    </div>
-
-                                </div>
-                                                -->
                                 <div class="row justify-content-sm-center" style="margin-bottom: 10px;">
 <!--
                                     <div class=" col-sm-4 ">
@@ -403,18 +237,6 @@ $message = "";
 
                                     <div class="col-sm-4"></div>
 
-                                    <div class=" col-sm-4 ">
-                                        <label for=" montoreq" class="col-form-label">GRAN TOTAL:</label>
-                                        <div class="input-group input-group-sm">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">
-                                                    <i class="fas fa-dollar-sign"></i>
-                                                </span>
-                                            </div>
-                                            <input type="text" class="form-control text-right" name="montoreq" id="montoreq" onkeypress="return filterFloat(event,this); " disabled>
-                                        </div>
-                                    </div>
-                                                
                                     <div class="col-sm-4 ">
                                         <label for="importe" class="col-form-label">IMPORTE:</label>
                                         <div class="input-group input-group-sm">
@@ -426,9 +248,11 @@ $message = "";
                                             <input type="text" class="form-control text-right" name="importe" id="importe" onkeypress="return filterFloat(event,this);">
                                         </div>
                                     </div>
-                                                -->
 
-                                                <div class="col-sm-4 ">
+                                    -->
+
+                                    
+                                    <div class="col-sm-4 ">
                                         <label for="subtotalreq" class="col-form-label">SUBTOTAL:</label>
                                         <div class="input-group input-group-sm">
                                             <div class="input-group-prepend">
@@ -464,6 +288,9 @@ $message = "";
                                             <input type="text" class="form-control text-right" name="montoreqa" id="montoreqa" onkeypress="return filterFloat(event,this);">
                                         </div>
                                     </div>
+                                </div>
+
+
                                 </div>
 
                             </div>
@@ -481,51 +308,7 @@ $message = "";
     </section>
     <!-- TERMINA ALTA DE FACTURAS -->
 
-    <!-- INICIA OBRA -->
-    <section>
-        <div class="container">
-
-            <!-- Default box -->
-            <div class="modal fade" id="modalObra" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-md" role="document">
-                    <div class="modal-content w-auto">
-                        <div class="modal-header bg-gradient-green">
-                            <h5 class="modal-title" id="exampleModalLabel">BUSCAR OBRA</h5>
-
-                        </div>
-                        <br>
-                        <div class="table-hover table-responsive w-auto" style="padding:15px">
-                            <table name="tablaObra" id="tablaObra" class="table table-sm text-nowrap table-striped table-bordered table-condensed" style="width:100%">
-                                <thead class="text-center bg-gradient-green">
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>CLAVE</th>
-                                        <th>NOMBRE CORTO</th>
-                                        <th>ACCIONES</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    foreach ($datacon as $datc) {
-                                    ?>
-                                        <tr>
-                                            <td><?php echo $datc['id_obra'] ?></td>
-                                            <td><?php echo $datc['clave_obra'] ?></td>
-                                            <td><?php echo $datc['corto_obra'] ?></td>
-                                            <td></td>
-                                        </tr>
-                                    <?php
-                                    }
-                                    ?>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- TERMINA OBRA -->
+   
 
     <!-- INICIA PROVEEDOR -->
     <section>
@@ -671,21 +454,7 @@ $message = "";
 
                             <div class=" row justify-content-sm-center">
 
-                                <div class="col-sm-12">
-                                    <div class="input-group input-group-sm">
-                                        <label for="obra2" class="col-form-label">OBRA:</label>
-                                        <div class="input-group input-group-sm">
-                                            <input type="hidden" class="form-control" name="id_obra2" id="id_obra2" value="<?php echo $id_obra; ?>">
-                                            <input type="text" class="form-control" name="obra2" id="obra2" disabled placeholder="SELECCIONAR OBRA" value="<?php echo $obra; ?>">
-                                            <?php
-                                            if ($id_obra == null) {
-                                            ?>
-
-                                            <?php } ?>
-                                        </div>
-
-                                    </div>
-                                </div>
+                      
 
                                 <div class="col-sm-12">
                                     <div class="input-group input-group-sm">
@@ -1010,7 +779,7 @@ $message = "";
 
 
 <?php include_once 'templates/footer.php'; ?>
-<script src="fjs/cntaprovision.js?v=<?php echo (rand()); ?>"></script>
+<script src="fjs/cntaprovisiongral.js?v=<?php echo (rand()); ?>"></script>
 <script src="plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 <script src="plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>

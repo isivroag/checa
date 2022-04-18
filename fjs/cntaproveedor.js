@@ -6,6 +6,31 @@ $(document).ready(function () {
   $('[data-toggle="tooltip"]').tooltip()
 
   tablaVis = $('#tablaV').DataTable({
+
+    dom:
+    "<'row justify-content-center'<'col-sm-12 col-md-4 form-group'l><'col-sm-12 col-md-4 form-group'B><'col-sm-12 col-md-4 form-group'f>>" +
+    "<'row'<'col-sm-12'tr>>" +
+    "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+
+  buttons: [
+    {
+      extend: 'excelHtml5',
+      text: "<i class='fas fa-file-excel'> Excel</i>",
+      titleAttr: 'Exportar a Excel',
+      title: 'Listado de Proveedores',
+      className: 'btn bg-success ',
+      exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7] },
+    },
+    {
+      extend: 'pdfHtml5',
+      text: "<i class='far fa-file-pdf'> PDF</i>",
+      titleAttr: 'Exportar a PDF',
+      title: 'Listado de Proveedores',
+      className: 'btn bg-danger',
+      exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7] },
+    },
+  ],
+
     columnDefs: [
       {
         targets: -1,
@@ -37,6 +62,29 @@ $(document).ready(function () {
       sProcessing: 'Procesando...',
     },
   })
+
+    //FILTROS
+    $('#tablaV thead tr').clone(true).appendTo('#tablaV thead')
+    $('#tablaV thead tr:eq(1) th').each(function (i) {
+      var title = $(this).text()
+      $(this).html(
+        '<input class="form-control form-control-sm" type="text" placeholder="' +
+          title +
+          '" />',
+      )
+  
+      $('input', this).on('keyup change', function () {
+        if (i == 4) {
+          valbuscar = this.value
+        } else {
+          valbuscar = this.value
+        }
+  
+        if (tablaVis.column(i).search() !== valbuscar) {
+          tablaVis.column(i).search(valbuscar, true, true).draw()
+        }
+      })
+    })
 
   //BONTON NUEVO
   $('#btnNuevo').click(function () {

@@ -15,15 +15,15 @@ $fecha = date('Y-m-d');
 
 if ($_SESSION['id_obra'] != null) {
     $id_obra = $_SESSION['id_obra'];;
-    $consulta = "SELECT * FROM vprovsub WHERE id_obra='$id_obra' and estado=1 ORDER BY id_obra,fecha_prov";
-    $consulta2 = "SELECT * FROM vrequisicion WHERE id_obra='$id_obra' and estado_req=1 and saldo_req>0 ORDER BY id_obra,fecha_req";
-    $consulta3 = "SELECT * FROM vcxp WHERE id_obra='$id_obra' and estado_cxp=1 and saldo_cxp>0 ORDER BY id_obra,fecha_cxp";
-    $consulta4 = "SELECT * FROM vprovision WHERE id_obra='$id_obra' and estado=1 and estado_provi=1 ORDER BY id_obra,fecha_provi";
+    $consulta = "SELECT * FROM vprovsub WHERE id_obra='$id_obra' and estado=1 and edorpt=0 ORDER BY id_obra,fecha_prov";
+    $consulta2 = "SELECT * FROM vrequisicion WHERE id_obra='$id_obra' and estado_req=1 and saldo_req>0 and edorpt=0 ORDER BY id_obra,fecha_req";
+    $consulta3 = "SELECT * FROM vcxp WHERE id_obra='$id_obra' and estado_cxp=1 and saldo_cxp>0 and edorpt=0 ORDER BY id_obra,fecha_cxp";
+    $consulta4 = "SELECT * FROM vprovision WHERE id_obra='$id_obra' and estado=1 and estado_provi=1 and edorpt=0 ORDER BY id_obra,fecha_provi";
 } else {
-    $consulta = "SELECT * FROM vprovsub WHERE estado=1 ORDER BY id_obra,fecha_prov";
-    $consulta2 = "SELECT * FROM vrequisicion WHERE estado_req=1 and saldo_req>0 ORDER BY id_obra,fecha_req";
-    $consulta3 = "SELECT * FROM vcxp WHERE estado_cxp=1 and saldo_cxp>0 ORDER BY id_obra,fecha_cxp";
-    $consulta4 = "SELECT * FROM vprovision WHERE estado=1 and estado_provi=1 ORDER BY id_obra,fecha_provi";
+    $consulta = "SELECT * FROM vprovsub WHERE estado=1 and edorpt=0 ORDER BY id_obra,fecha_prov";
+    $consulta2 = "SELECT * FROM vrequisicion WHERE estado_req=1 and saldo_req>0 and edorpt=0 ORDER BY id_obra,fecha_req";
+    $consulta3 = "SELECT * FROM vcxp WHERE estado_cxp=1 and saldo_cxp>0 and edorpt=0 ORDER BY id_obra,fecha_cxp";
+    $consulta4 = "SELECT * FROM vprovision WHERE estado=1 and estado_provi=1 and edorpt=0 ORDER BY id_obra,fecha_provi";
 }
 
 
@@ -93,6 +93,7 @@ $message = "";
                                                     <th>CONCEPTO</th>
                                                     <th>MONTO</th>
                                                     <th>SALDO</th>
+                                                    <th>SELECCIONAR</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -108,7 +109,7 @@ $message = "";
                                                         <td><?php echo $dat['concepto_prov'] ?></td>
                                                         <td class="text-right"><?php echo number_format($dat['monto_prov'], 2) ?></td>
                                                         <td class="text-right"><?php echo number_format($dat['saldo_prov'], 2) ?></td>
-
+                                                        <td></td>
 
                                                     </tr>
                                                 <?php
@@ -125,7 +126,7 @@ $message = "";
                                                 <th class="text-right text-bold">TOTALES:</th>
                                                 <th class="text-right text-bold"></th>
                                                 <th class="text-right text-bold"></th>
-
+                                                <th></th>
                                             </tfoot>
                                         </table>
                                     </div>
@@ -157,6 +158,7 @@ $message = "";
                                                     <th>CONCEPTO</th>
                                                     <th>MONTO</th>
                                                     <th>SALDO</th>
+                                                    <th>SELECCIONAR</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -173,7 +175,7 @@ $message = "";
                                                         <td><?php echo $dat['concepto_req'] ?></td>
                                                         <td class="text-right"><?php echo number_format($dat['monto_req'], 2) ?></td>
                                                         <td class="text-right"><?php echo number_format($dat['saldo_req'], 2) ?></td>
-
+                                                        <td></td>
 
                                                     </tr>
                                                 <?php
@@ -190,6 +192,68 @@ $message = "";
                                                 <th class="text-right text-bold">TOTALES:</th>
                                                 <th class="text-right text-bold"></th>
                                                 <th class="text-right text-bold"></th>
+                                                <th></th>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card card-widget">
+                    <div class="card-header bg-gradient-green">
+                        <h3 class="card-title">PROVISIONES </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="container-fluid">
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="table-responsive">
+                                        <table name="tablaProv" id="tablaProv" class="table table-sm table-striped table-bordered table-condensed w-auto mx-auto" style="width:100%; font-size:15px">
+                                            <thead class="text-center bg-gradient-green">
+                                                <tr>
+                                                    <th>FOLIO</th>
+                                                    <th>FECHA</th>
+                                                    <th>OBRA</th>
+                                                    <th>PROVEEDOR</th>
+                                                    <th>CONCEPTO</th>
+                                                    <th>MONTO</th>
+                                                    <th>SALDO</th>
+                                                    <th>SELECCIONAR</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                foreach ($data4 as $dat) {
+                                                ?>
+                                                    <tr>
+                                                        <td><?php echo $dat['folio_provi'] ?></td>
+
+                                                        <td class="text-center"><?php echo $dat['fecha_provi'] ?></td>
+                                                        <td><?php echo $dat['corto_obra'] ?></td>
+                                                        <td><?php echo $dat['razon_prov'] ?></td>
+                                                        <td><?php echo $dat['concepto_provi'] ?></td>
+                                                        <td class="text-right"><?php echo number_format($dat['monto_provi'], 2) ?></td>
+                                                        <td class="text-right"><?php echo number_format($dat['saldo_provi'], 2) ?></td>
+                                                        <td></td>
+
+                                                    </tr>
+                                                <?php
+                                                }
+                                                ?>
+                                            </tbody>
+                                            <tfoot>
+                                                <th></th>
+                                                <th></th>
+
+                                                <th></th>
+                                                <th></th>
+                                                <th class="text-right text-bold">TOTALES:</th>
+                                                <th class="text-right text-bold"></th>
+                                                <th class="text-right text-bold"></th>
+                                                <th></th>
 
                                             </tfoot>
                                         </table>
@@ -199,7 +263,6 @@ $message = "";
                         </div>
                     </div>
                 </div>
-
 
                 <div class="card card-widget">
                     <div class="card-header bg-gradient-green">
@@ -222,6 +285,7 @@ $message = "";
                                                     <th>CONCEPTO</th>
                                                     <th>MONTO</th>
                                                     <th>SALDO</th>
+                                                    <th>SELECCIONAR</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -237,7 +301,7 @@ $message = "";
                                                         <td><?php echo $dat['desc_cxp'] ?></td>
                                                         <td class="text-right"><?php echo number_format($dat['monto_cxp'], 2) ?></td>
                                                         <td class="text-right"><?php echo number_format($dat['saldo_cxp'], 2) ?></td>
-
+                                                        <td></td>
 
                                                     </tr>
                                                 <?php
@@ -253,6 +317,7 @@ $message = "";
                                                 <th class="text-right text-bold">TOTALES:</th>
                                                 <th class="text-right text-bold"></th>
                                                 <th class="text-right text-bold"></th>
+                                                <th></th>
 
                                             </tfoot>
                                         </table>
@@ -263,66 +328,7 @@ $message = "";
                     </div>
                 </div>
 
-                <div class="card card-widget">
-                    <div class="card-header bg-gradient-green">
-                        <h3 class="card-title">PROVISIONES </h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="container-fluid">
 
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="table-responsive">
-                                        <table name="tablaProv" id="tablaProv" class="table table-sm table-striped table-bordered table-condensed w-auto mx-auto" style="width:100%; font-size:15px">
-                                            <thead class="text-center bg-gradient-green">
-                                                <tr>
-                                                    <th>FOLIO</th>
-                                                    <th>FECHA</th>
-                                                    <th>OBRA</th>
-                                                    <th>PROVEEDOR</th>
-                                                    <th>CONCEPTO</th>
-                                                    <th>MONTO</th>
-                                                    <th>SALDO</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php
-                                                foreach ($data4 as $dat) {
-                                                ?>
-                                                    <tr>
-                                                        <td><?php echo $dat['folio_provi'] ?></td>
-                                                      
-                                                        <td class="text-center"><?php echo $dat['fecha_provi'] ?></td>
-                                                        <td><?php echo $dat['corto_obra'] ?></td>
-                                                        <td><?php echo $dat['razon_prov'] ?></td>
-                                                        <td><?php echo $dat['concepto_provi'] ?></td>
-                                                        <td class="text-right"><?php echo number_format($dat['monto_provi'], 2) ?></td>
-                                                        <td class="text-right"><?php echo number_format($dat['saldo_provi'], 2) ?></td>
-
-
-                                                    </tr>
-                                                <?php
-                                                }
-                                                ?>
-                                            </tbody>
-                                            <tfoot>
-                                                <th></th>
-                                                <th></th>
-                                             
-                                                <th></th>
-                                                <th></th>
-                                                <th class="text-right text-bold">TOTALES:</th>
-                                                <th class="text-right text-bold"></th>
-                                                <th class="text-right text-bold"></th>
-
-                                            </tfoot>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
             <!-- /.card-body -->
 

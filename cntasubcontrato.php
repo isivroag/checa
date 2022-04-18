@@ -611,7 +611,7 @@ $message = "";
 
                                 </div>
 
- <!--                               <div class="row justify-content-sm-center" style="margin-bottom: 10px;">
+                                <!--                               <div class="row justify-content-sm-center" style="margin-bottom: 10px;">
 
 
                                     <div class="col-sm-4 ">
@@ -650,43 +650,9 @@ $message = "";
                                         </div>
                                     </div>
 
+                                                -->
 
-                                    <div class="col-sm-4 ">
-                                        <label for="subtotalprov" class="col-form-label">SUBTOTAL:</label>
-                                        <div class="input-group input-group-sm">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">
-                                                    <i class="fas fa-dollar-sign"></i>
-                                                </span>
-                                            </div>
-                                            <input type="text" class="form-control text-right" name="subtotalprov" id="subtotalprov" onkeypress="return filterFloat(event,this);">
-                                        </div>
-                                    </div>
-
-                                    <div class=" col-sm-4 ">
-                                        <label for=" ivaprov" class="col-form-label">IVA:</label>
-                                        <div class="input-group input-group-sm">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">
-                                                    <i class="fas fa-dollar-sign"></i>
-                                                </span>
-                                            </div>
-                                            <input type="text" class="form-control text-right" name="ivaprov" id="ivaprov" onkeypress="return filterFloat(event,this);">
-                                        </div>
-                                    </div>
-
-                                    <div class=" col-sm-4 ">
-                                        <label for="montoaprov" class="col-form-label">TOTAL:</label>
-                                        <div class="input-group input-group-sm">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">
-                                                    <i class="fas fa-dollar-sign"></i>
-                                                </span>
-                                            </div>
-                                            <input type="text" class="form-control text-right" name="montoaprov" id="montoaprov" onkeypress="return filterFloat(event,this);">
-                                        </div>
-                                    </div>
- 
+                                <!--
                                     <div class="col-sm-4 ">
                                         <label for="ret1prov" class="col-form-label">RET1:</label>
                                         <div class="input-group input-group-sm">
@@ -728,6 +694,42 @@ $message = "";
 
                                 <div class="row justify-content-sm-center" style="margin-bottom: 10px;">
 
+                                    <div class="col-sm-4 ">
+                                        <label for="subtotalprov" class="col-form-label">SUBTOTAL:</label>
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-dollar-sign"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control text-right" name="subtotalprov" id="subtotalprov" onkeypress="return filterFloat(event,this);">
+                                        </div>
+                                    </div>
+
+                                    <div class=" col-sm-4 ">
+                                        <label for=" ivaprov" class="col-form-label">IVA:</label>
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-dollar-sign"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control text-right" name="ivaprov" id="ivaprov" onkeypress="return filterFloat(event,this);">
+                                        </div>
+                                    </div>
+
+                                    <div class=" col-sm-4 ">
+                                        <label for="montoprov" class="col-form-label">TOTAL:</label>
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-dollar-sign"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control text-right" name="montoprov" id="montoprov" onkeypress="return filterFloat(event,this);">
+                                        </div>
+                                    </div>
+                                    <!--
                                     <div class=" col-sm-4 ">
 
                                     </div>
@@ -735,7 +737,7 @@ $message = "";
                                     <div class="col-sm-4"></div>
 
                                     <div class=" col-sm-4 ">
-                                        <label for="montoprov" class="col-form-label">GRAN TOTAL:</label>
+                                        <label for="montoprov" class="col-form-label">IMPORTE (SIN IVA):</label>
                                         <div class="input-group input-group-sm">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">
@@ -745,6 +747,7 @@ $message = "";
                                             <input type="text" class="form-control text-right" name="montoprov" id="montoprov" onkeypress="return filterFloat(event,this);" >
                                         </div>
                                     </div>
+                                                -->
 
                                 </div>
 
@@ -933,10 +936,11 @@ $message = "";
                                         <th>SUBCONTRATO</th>
                                         <th>FECHA</th>
                                         <th>CONCEPTO</th>
-                                       
+                                        <th>SUBTOTAL</th>
+                                        <th>IVA</th>
                                         <th>MONTO</th>
                                         <th>SALDO</th>
-                                        
+
                                         <th>ACCIONES</th>
                                     </tr>
                                 </thead>
@@ -947,12 +951,13 @@ $message = "";
 
                                     <th></th>
                                     <th></th>
-                                    <th class="text-right text-bold">TOTALES</th>
                                     <th></th>
-                                   
+                                    <th class="text-right text-bold">TOTALES</th>
                                     <th class="text-right text-bold"></th>
                                     <th class="text-right text-bold"></th>
-                                    
+                                    <th class="text-right text-bold"></th>
+                                    <th class="text-right text-bold"></th>
+
                                     <th></th>
 
                                 </tfoot>
@@ -1239,6 +1244,55 @@ $message = "";
 
     <!-- TERMINA MONTO COBRADO -->
 
+    <!-- INICIA SALDAR PROV -->
+    <section>
+        <div class="modal fade" id="modalsaldar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog " role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-gradient-success">
+                        <h5 class="modal-title" id="exampleModalLabel">SALDAR PROVISION</h5>
+                    </div>
+                    <div class="card card-widget" style="margin: 10px;">
+                        <form id="formsaldar" action="" method="POST">
+                            <div class="modal-body row justify-content-center">
+
+                                <div class="col-lg-8">
+                                    <label for="saldopendiente" class="col-form-label">SALDO PENDIENTE:</label>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </span>
+
+                                        </div>
+                                        <input type="hidden" id="folioprovs" name="folioprovs">
+                                        <input type="text" id="saldopendiente" name="saldopendiente" class="form-control text-right" autocomplete="off" placeholder="IMPORTE" onkeypress="return filterFloat(event,this);" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    <?php
+                    if ($message != "") {
+                    ?>
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <span class="badge "><?php echo ($message); ?></span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                        </div>
+                    <?php
+                    }
+                    ?>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fas fa-ban"></i> Cancelar</button>
+                        <button type="button" id="btnGuadarsaldar" name="btnGuadarsaldar" class="btn btn-success" value="btnSaldarprov"><i class="far fa-save"></i> Guardar</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TERMINA SALDAR PROV -->
 
     <!-- /.content -->
 </div>

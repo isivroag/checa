@@ -21,6 +21,9 @@
     color: white;
 }
 .bg-orange {
+    color: white !important;
+}
+.btn-orange {
     color: white;
 }
 

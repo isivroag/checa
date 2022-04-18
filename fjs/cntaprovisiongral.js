@@ -9,172 +9,42 @@ $(document).ready(function () {
   var textcolumnas = permisos()
   var textcolumnas2 = permisos2()
 
-  // SOLO NUMEROS NUEVOS CAMPOS
- /* document.getElementById('importe').onblur = function () {
-    calculosubtotal(this.value.replace(/,/g, ''))
+  // SOLO NUMEROS MONTO FACTURA
+  /*
+  document.getElementById('importe').onblur = function () {
+    // calculosubtotalreq(this.value.replace(/,/g, ''))
     this.value = parseFloat(this.value.replace(/,/g, ''))
       .toFixed(2)
       .toString()
       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   }*/
-/*
-  document.getElementById('descuento').onblur = function () {
-    calculoantes()
+
+  
+  // SOLO NUMEROS SUBTOTAL FACTURA
+  document.getElementById('subtotalreq').onblur = function () {
+    calculototalreq(this.value.replace(/,/g, ''))
+    this.value = parseFloat(this.value.replace(/,/g, ''))
+      .toFixed(2)
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  }
+  // SOLO NUMEROS IVA FACTURA
+  document.getElementById('ivareq').onblur = function () {
     this.value = parseFloat(this.value.replace(/,/g, ''))
       .toFixed(2)
       .toString()
       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   }
 
-  document.getElementById('devolucion').onblur = function () {
-    calculoantes()
+  document.getElementById('montoreqa').onblur = function () {
+    calculosubtotalreq(this.value.replace(/,/g, ''))
     this.value = parseFloat(this.value.replace(/,/g, ''))
       .toFixed(2)
       .toString()
       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   }
-*/
-  // TERMINA SOLO NUMEROS NUEVOS CAMPOS
 
-  //NUEVOS CALCULOS
 
-  /*
-  function calculosubtotal(valor) {
-    descuento = $('#descuento').val().replace(/,/g, '')
-    devolucion = $('#devolucion').val().replace(/,/g, '')
-
-    if (descuento.length == 0) {
-      descuento = 0
-      $('#descuento').val('0.00')
-    }
-
-    if (devolucion.length == 0) {
-      devolucion = 0
-      $('#devolucion').val('0.00')
-    }
-    subtotal =
-      parseFloat(valor) + parseFloat(devolucion) - parseFloat(descuento)
-
-    total = round(subtotal * 1.16, 2)
-    iva = total - subtotal
-
-    $('#subtotalreq').val(
-      Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
-        parseFloat(subtotal).toFixed(2),
-      ),
-    )
-    $('#ivareq').val(
-      Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
-        parseFloat(iva).toFixed(2),
-      ),
-    )
-    $('#montoreq').val(
-      Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
-        parseFloat(total).toFixed(2),
-      ),
-    )
-    $('#montoreqa').val(
-      Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
-        parseFloat(total).toFixed(2),
-      ),
-    )
-    caluloconret()
-  }
-
-  function calculototal(valor) {
-    descuento = $('#descuento').val().replace(/,/g, '')
-    devolucion = $('#devolucion').val().replace(/,/g, '')
-
-    if (descuento.length == 0) {
-      descuento = 0
-      $('#descuento').val('0.00')
-    }
-
-    if (devolucion.length == 0) {
-      devolucion = 0
-      $('#devolucion').val('0.00')
-    }
-
-    total = valor
-
-    subtotal = round(total / 1.16, 2)
-    importe =
-      parseFloat(subtotal) - parseFloat(devolucion) + parseFloat(descuento)
-    iva = round(total - subtotal, 2)
-    $('#importe').val(
-      Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
-        parseFloat(importe).toFixed(2),
-      ),
-    )
-    $('#ivareq').val(
-      Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
-        parseFloat(iva).toFixed(2),
-      ),
-    )
-    $('#subtotalreq').val(
-      Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
-        parseFloat(subtotal).toFixed(2),
-      ),
-    )
-    $('#montoreq').val(
-      Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
-        parseFloat(total).toFixed(2),
-      ),
-    )
-    $('#montoreqa').val(
-      Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
-        parseFloat(total).toFixed(2),
-      ),
-    )
-    caluloconret()
-  }
-
-  function calculoantes() {
-    valor = $('#importe').val().replace(/,/g, '')
-    descuento = $('#descuento').val().replace(/,/g, '')
-    devolucion = $('#devolucion').val().replace(/,/g, '')
-    if (descuento.length == 0) {
-      descuento = 0
-      $('#descuento').val('0.00')
-    }
-
-    if (devolucion.length == 0) {
-      devolucion = 0
-      $('#devolucion').val('0.00')
-    }
-
-    subtotal =
-      parseFloat(valor) + parseFloat(devolucion) - parseFloat(descuento)
-
-    total = round(subtotal * 1.16, 2)
-    iva = total - subtotal
-
-    $('#subtotalreq').val(
-      Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
-        parseFloat(subtotal).toFixed(2),
-      ),
-    )
-    $('#ivareq').val(
-      Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
-        parseFloat(iva).toFixed(2),
-      ),
-    )
-    $('#montoreq').val(
-      Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
-        parseFloat(total).toFixed(2),
-      ),
-    )
-    $('#montoreqa').val(
-      Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
-        parseFloat(total).toFixed(2),
-      ),
-    )
-    caluloconret()
-  }
-
-  //CALCULO TOTAL REQ
-  //CALCULO TOTAL REQ
-  */
   function calculototalreq(valor) {
     subtotal = valor
 
@@ -223,7 +93,7 @@ $(document).ready(function () {
 
     //caluloconret()
   }
-  //CALCULO SUBTOTAL REQ
+
   function calculosubtotalreq(valor) {
 
     /*
@@ -275,115 +145,13 @@ total = valor
     )
     //caluloconret()
   }
-/*
-  function caluloconret() {
-    total = $('#montoreqa').val().replace(/,/g, '')
-    ret1 = $('#ret1').val().replace(/,/g, '')
-    ret2 = $('#ret2').val().replace(/,/g, '')
-    ret3 = $('#ret3').val().replace(/,/g, '')
-    //  ret4=$('#ret4').val().replace(/,/g, '')
-
-    if (ret1.length == 0) {
-      ret1 = 0
-      $('#ret1').val(
-        Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
-          parseFloat(ret1).toFixed(2),
-        ),
-      )
-    }
-
-    if (ret2.length == 0) {
-      ret2 = 0
-      $('#ret2').val(
-        Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
-          parseFloat(ret2).toFixed(2),
-        ),
-      )
-    }
-
-    if (ret3.length == 0) {
-      ret3 = 0
-      $('#ret3').val(
-        Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
-          parseFloat(ret3).toFixed(2),
-        ),
-      )
-    }
   
-
-    retenciones = parseFloat(ret1) + parseFloat(ret2) + parseFloat(ret3)
-    calculo = parseFloat(total) - parseFloat(retenciones)
-    $('#montoreq').val(
-      Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
-        parseFloat(calculo).toFixed(2),
-      ),
-    )
-  }
-*/
-  // SOLO NUMEROS SUBTOTAL FACTURA
-  document.getElementById('subtotalreq').onblur = function () {
-    calculototalreq(this.value.replace(/,/g, ''))
-    this.value = parseFloat(this.value.replace(/,/g, ''))
-      .toFixed(2)
-      .toString()
-      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-  }
-  // SOLO NUMEROS IVA FACTURA
-  document.getElementById('ivareq').onblur = function () {
-    this.value = parseFloat(this.value.replace(/,/g, ''))
-      .toFixed(2)
-      .toString()
-      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-  }
-
-  document.getElementById('montoreqa').onblur = function () {
-    calculosubtotalreq(this.value.replace(/,/g, ''))
-    this.value = parseFloat(this.value.replace(/,/g, ''))
-      .toFixed(2)
-      .toString()
-      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-  }
-  // SOLO NUMEROS MONTO FACTURA
-  /*
-  document.getElementById('montoreq').onblur = function () {
-    // calculosubtotalreq(this.value.replace(/,/g, ''))
-    this.value = parseFloat(this.value.replace(/,/g, ''))
-      .toFixed(2)
-      .toString()
-      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-  }
-
- 
-
-  //retenciones
-
-  document.getElementById('ret1').onblur = function () {
-    caluloconret()
-    this.value = parseFloat(this.value.replace(/,/g, ''))
-      .toFixed(2)
-      .toString()
-      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-  }
-
-  document.getElementById('ret2').onblur = function () {
-    caluloconret()
-    this.value = parseFloat(this.value.replace(/,/g, ''))
-      .toFixed(2)
-      .toString()
-      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-  }
-
-  document.getElementById('ret3').onblur = function () {
-    caluloconret()
-    this.value = parseFloat(this.value.replace(/,/g, ''))
-      .toFixed(2)
-      .toString()
-      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-  }*/
-
+  
   //TERMINA NUEVOS CALCULOS
 
   // FUNCION PERMISOS EDITAR POR USUARIO
+
+  
 
   var textcolumnas = permisos()
   var textcolumnas2 = permisos2()
@@ -805,10 +573,10 @@ total = valor
 
   tablaVis = $('#tablaV').DataTable({
     rowCallback: function (row, data) {
-      $($(row).find('td')['7']).addClass('text-right')
-      $($(row).find('td')['8']).addClass('text-right')
-      $($(row).find('td')['7']).addClass('currency')
-      $($(row).find('td')['8']).addClass('currency')
+      $($(row).find('td')['3']).addClass('text-right')
+      $($(row).find('td')['4']).addClass('text-right')
+      $($(row).find('td')['3']).addClass('currency')
+      $($(row).find('td')['4']).addClass('currency')
     },
     dom:
       "<'row justify-content-center'<'col-sm-12 col-md-4 form-group'l><'col-sm-12 col-md-4 form-group'B><'col-sm-12 col-md-4 form-group'f>>" +
@@ -822,7 +590,7 @@ total = valor
         titleAttr: 'Exportar a Excel',
         title: 'Listado de Egresos',
         className: 'btn bg-success ',
-        exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] },
+        exportOptions: { columns: [0, 1, 2, 3, 4] },
       },
       {
         extend: 'pdfHtml5',
@@ -830,7 +598,7 @@ total = valor
         titleAttr: 'Exportar a PDF',
         title: 'Listado de Egresos',
         className: 'btn bg-danger',
-        exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] },
+        exportOptions: { columns: [0, 1, 2, 3, 4] },
       },
     ],
     stateSave: true,
@@ -842,15 +610,15 @@ total = valor
         defaultContent: textcolumnas,
         /* */
       },
-      { className: 'hide_column', targets: [3] },
-      { className: 'hide_column', targets: [1] },
-     
+     // { className: 'hide_column', targets: [4] },
+     { className: 'hide_column', targets: [1] },
+    /* 
       { width: '30%', targets: 6 },
       { width: '20%', targets: 2 },
       { width: '20%', targets: 4 },
       { width: '8%', targets: 5 },
       { width: '8%', targets: 7 },
-      { width: '8%', targets: 8 },
+      { width: '8%', targets: 8 },*/
     ],
 
     language: {
@@ -1056,33 +824,6 @@ total = valor
   })
   // TABLA BUSCAR OBRA
 
-  tablaobra = $('#tablaObra').DataTable({
-    columnDefs: [
-      {
-        targets: -1,
-        data: null,
-        defaultContent:
-          "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-success btnSelObra' data-toggle='tooltip' data-placement='top' title='Seleccionar Obra'><i class='fas fa-hand-pointer'></i></button></div></div>",
-      },
-    ],
-    language: {
-      lengthMenu: 'Mostrar _MENU_ registros',
-      zeroRecords: 'No se encontraron resultados',
-      info:
-        'Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros',
-      infoEmpty: 'Mostrando registros del 0 al 0 de un total de 0 registros',
-      infoFiltered: '(filtrado de un total de _MAX_ registros)',
-      sSearch: 'Buscar:',
-      oPaginate: {
-        sFirst: 'Primero',
-        sLast: 'Último',
-        sNext: 'Siguiente',
-        sPrevious: 'Anterior',
-      },
-      sProcessing: 'Procesando...',
-    },
-  })
-
   // TABLA BUSCAR PROVEEDOR
   tablaprov = $('#tablaProveedor').DataTable({
     columnDefs: [
@@ -1154,33 +895,22 @@ total = valor
     folio = $('#folioreq').val()
     fecha = $('#fechareq').val()
 
-    id_obra = $('#id_obra').val()
+  
     id_prov = $('#id_prov').val()
-    tipo = 'PROVISION'
+    tipo = 'PROVISION GRAL'
     descripcion = $('#descripcionreq').val()
-    
+
     subtotal = $('#subtotalreq').val().replace(/,/g, '')
     iva = $('#ivareq').val().replace(/,/g, '')
-    monto = $('#montoreqa').val().replace(/,/g, '')
-
-
-/*
-    montob = $('#montoreqa').val().replace(/,/g, '')
-    ret1 = $('#ret1').val().replace(/,/g, '')
-    ret2 = $('#ret2').val().replace(/,/g, '')
-    ret3 = $('#ret3').val().replace(/,/g, '')
+    
+    montoreq = $('#montoreqa').val().replace(/,/g, '')
   
-    monto = $('#importe').val().replace(/,/g, '')
-    /*
-    descuento = $('#descuento').val().replace(/,/g, '')
-    devolucion = $('#devolucion').val().replace(/,/g, '')
-*/
+
     if (
       fecha.length == 0 ||
-      id_obra.length == 0 ||
       id_prov.length == 0 ||
       descripcion.length == 0 ||
-      monto.length == 0
+        montoreq.length == 0
     ) {
       Swal.fire({
         title: 'Datos Faltantes',
@@ -1191,32 +921,24 @@ total = valor
     } else {
       opcion = 1
       $.ajax({
-        url: 'bd/crudprovision.php',
+        url: 'bd/crudprovisiongral.php',
         type: 'POST',
         dataType: 'json',
         data: {
           folio: folio,
           fecha: fecha,
-          id_obra: id_obra,
           id_prov: id_prov,
           descripcion: descripcion,
-          tipo: tipo,
           subtotal: subtotal,
           iva: iva,
-          monto: monto,
-         /* ret1: ret1,
-          ret2: ret2,
-          ret3: ret3,
-          importe: importe,
-          devolucion: devolucion,
-          descuento: descuento,
-          montob: montob,*/
+          tipo: tipo,
+          montoreq: montoreq,
           opcion: opcion,
         },
         success: function (data) {
           if (data == 1) {
             facturaexitosa()
-            window.location.href = 'cntaprovision.php'
+            window.location.reload()
           } else {
             facturaerror()
           }
@@ -1263,7 +985,7 @@ total = valor
     opcion = 2 // 2 para cuentas pagar
     $.ajax({
       type: 'POST',
-      url: 'bd/buscarcxp-provi.php',
+      url: 'bd/buscarcxp-provigral.php',
       dataType: 'json',
 
       data: { folio: folio },
@@ -1288,47 +1010,26 @@ total = valor
     fila = $(this).closest('tr')
     folio_provi = parseInt(fila.find('td:eq(0)').text())
 
-    id_obra = fila.find('td:eq(1)').text()
-    obra = fila.find('td:eq(2)').text()
-    id_prov = fila.find('td:eq(3)').text()
-    proveedor = fila.find('td:eq(4)').text()
-    concepto = fila.find('td:eq(6)').text()
-    saldo = fila.find('td:eq(8)').text()
-   /*
-    total = fila.find('td:eq(7)').text()
 
-    ret1 = fila.find('td:eq(9)').text()
-    ret2 = fila.find('td:eq(10)').text()
-    ret3 = fila.find('td:eq(11)').text()
-    importe = fila.find('td:eq(12)').text()
-    descuento = fila.find('td:eq(13)').text()
-    devolucion = fila.find('td:eq(14)').text()
-    montob=fila.find('td:eq(15)').text()*/
+    id_prov = fila.find('td:eq(1)').text()
+    proveedor = fila.find('td:eq(2)').text()
+    saldo = fila.find('td:eq(6)').text()
+    concepto = fila.find('td:eq(4)').text()
+    
 
    
 
     $('formPago').trigger('reset')
 
     $('#folioprovi').val(folio_provi)
-    $('#id_obra2').val(id_obra)
-    $('#obra2').val(obra)
+  
     $('#id_prov2').val(id_prov)
     $('#proveedor2').val(proveedor)
     $('#descripcionreq2').val(concepto)
-
     $('#montoreqa2').val(saldo)
-    /*
-    $('#montoreqa2').val(montob)
-    $('#importe2').val(importe)
-   $('#devolucion2').val(devolucion)
-   $('#descuento2').val(descuento)
-
-    $('#ret12').val(ret1)
-    $('#ret22').val(ret2)
-    $('#ret32').val(ret3)
-   */
+    
    
-    calculosubtotalreq2($('#montoreqa2').val().replace(/,/g, ''))
+    calculototal2($('#montoreqa2').val().replace(/,/g, ''))
 
     
 
@@ -1340,10 +1041,10 @@ total = valor
     folio = $('#folioreq2').val()
     fecha = $('#fechareq2').val()
     factura = $('#facturareq2').val()
-    id_obra = $('#id_obra2').val()
+  
     id_prov = $('#id_prov2').val()
     folioprovi = $('#folioprovi').val()
-    tipo = 'FACTURA'
+    tipo = 'FACTURA GRAL'
     descripcion = $('#descripcionreq2').val()
     subtotal = $('#subtotalreq2').val().replace(/,/g, '')
     iva = $('#ivareq2').val().replace(/,/g, '')
@@ -1361,7 +1062,7 @@ total = valor
     if (
       fecha.length == 0 ||
       factura.length == 0 ||
-      id_obra.length == 0 ||
+  
       id_prov.length == 0 ||
       descripcion.length == 0 ||
       monto.length == 0
@@ -1386,7 +1087,7 @@ total = valor
           if (data == 0) {
             opcion = 4
             $.ajax({
-              url: 'bd/crudegresos.php',
+              url: 'bd/crudcxpgral.php',
               type: 'POST',
               dataType: 'json',
               data: {
@@ -1394,7 +1095,6 @@ total = valor
                 folioprovi: folioprovi,
                 fecha: fecha,
                 factura: factura,
-                id_obra: id_obra,
                 id_prov: id_prov,
                 descripcion: descripcion,
                 tipo: tipo,
@@ -1414,7 +1114,7 @@ total = valor
                 if (data == 1) {
                   facturaexitosa()
 
-                  window.location.href = 'cntaprovision.php'
+                  window.location.reload()
                 } else {
                   facturaerror()
                 }
@@ -1438,8 +1138,8 @@ total = valor
 
     folio = parseInt(fila.find('td:eq(0)').text())
 
-    saldo = fila.find('td:eq(7)').text().replace(/,/g, '')
-    monto = fila.find('td:eq(8)').text().replace(/,/g, '')
+    saldo = fila.find('td:eq(5)').text().replace(/,/g, '')
+    monto = fila.find('td:eq(6)').text().replace(/,/g, '')
 
     if (parseFloat(monto) == parseFloat(saldo)) {
       $('#formcan').trigger('reset')
@@ -1472,7 +1172,7 @@ total = valor
     opcion = 2 // 2 para cuentas pagar
     $.ajax({
       type: 'POST',
-      url: 'bd/buscarpagocxp.php',
+      url: 'bd/buscarpagocxpgral.php',
       dataType: 'json',
 
       data: { folio: folio, opcion: opcion },
@@ -1512,7 +1212,7 @@ total = valor
     } else {
       $.ajax({
         type: 'POST',
-        url: 'bd/cancelaregresos.php',
+        url: 'bd/cancelaregresosgral.php',
         async: false,
         dataType: 'json',
         data: {
@@ -1589,26 +1289,23 @@ total = valor
     if (inicio != '' && final != '') {
       $.ajax({
         type: 'POST',
-        url: 'bd/buscarprovision.php',
+        url: 'bd/buscarprovisiongral.php',
         dataType: 'json',
         data: { inicio: inicio, final: final, opcion: opcion },
         success: function (data) {
           for (var i = 0; i < data.length; i++) {
             tablaVis.row
               .add([
-                data[i].folio_cxp,
-                data[i].id_obra,
-                data[i].corto_obra,
+                data[i].folio_provi,
                 data[i].id_prov,
                 data[i].razon_prov,
-                data[i].fecha_cxp,
-                data[i].desc_cxp,
-                
+                data[i].fecha_provi,
+                data[i].concepto_provi,
                 Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
-                  parseFloat(data[i].monto_cxp).toFixed(2),
+                  parseFloat(data[i].monto_provi).toFixed(2),
                 ),
                 Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
-                  parseFloat(data[i].saldo_cxp).toFixed(2),
+                  parseFloat(data[i].saldo_provi).toFixed(2),
                 ),
               ])
               .draw()
