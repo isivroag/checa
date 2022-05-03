@@ -74,7 +74,7 @@ $message = "";
                                                     <th>CONCEPTO</th>
                                                     <th>MONTO</th>
                                                     <th>SALDO</th>
-                                                    <th>SELECCIONAR</th>
+                                                    <th>ACCIONES</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

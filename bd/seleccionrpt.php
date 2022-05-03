@@ -62,6 +62,51 @@ switch ($tipo) {
             $res = 1;
         }
         break;
+
+    case 8://provisiones sub
+        $consulta = "UPDATE w_provsub SET edorpt=0 WHERE id_provs='$id'";
+        $resultado = $conexion->prepare($consulta);
+        if ($resultado->execute()) {
+            $res = 1;
+        }
+        break;
+    case 9:// requisiciones
+        $consulta = "UPDATE w_reqsub SET edorpt=0 WHERE id_req='$id'";
+        $resultado = $conexion->prepare($consulta);
+        if ($resultado->execute()) {
+            $res = 1;
+        }
+        break;
+    case 10:// cxp
+        $consulta = "UPDATE w_cxp SET edorpt=0 WHERE folio_cxp='$id'";
+        $resultado = $conexion->prepare($consulta);
+        if ($resultado->execute()) {
+            $res = 1;
+        }
+        break;
+    case 11:// provisiones
+        $consulta = "UPDATE w_provision SET edorpt=0 WHERE folio_provi='$id'";
+        $resultado = $conexion->prepare($consulta);
+        if ($resultado->execute()) {
+            $res = 1;
+        }
+        break;
+
+        case 12:// cxp gral
+            $consulta = "UPDATE w_cxpgral SET edorpt=0 WHERE folio_cxp='$id'";
+            $resultado = $conexion->prepare($consulta);
+            if ($resultado->execute()) {
+                $res = 1;
+            }
+            break;
+
+            case 13:// provisiones gral
+                $consulta = "UPDATE w_provisiongral SET edorpt=0 WHERE folio_provi='$id'";
+                $resultado = $conexion->prepare($consulta);
+                if ($resultado->execute()) {
+                    $res = 1;
+                }
+                break;
 }
 
 

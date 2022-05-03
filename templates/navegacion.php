@@ -139,7 +139,7 @@
                 <a href="prerptpagosgral.php" class="nav-link <?php echo ($pagina == 'cntapagocxpgral') ? "active seleccionado" : ""; ?>  ">
 
                   <i class="fas text-purple fa-file-invoice-dollar nav-icon"></i>
-                  <p>Rpt Pago a Proveedores General </p>
+                  <p>Prereporte de Pagos Global</p>
                 </a>
               </li>
 
@@ -280,7 +280,7 @@
                 <a href="prerptpagos.php" class="nav-link <?php echo ($pagina == 'rptpagoobra') ? "active seleccionado" : ""; ?>  ">
 
                   <i class="fas text-purple fa-file-invoice-dollar nav-icon"></i>
-                  <p>Rpt Pago a Proveedores </p>
+                  <p>Prereporte de Pagos Obra </p>
                 </a>
               </li>
 
