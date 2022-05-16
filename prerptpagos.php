@@ -15,7 +15,7 @@ $fecha = date('Y-m-d');
 
 
     $id_obra = $_SESSION['id_obra'];;
-    $consulta = "SELECT * FROM vpreseleccion ORDER BY razon_prov";
+    $consulta = "SELECT * FROM vpreseleccion ORDER BY id_obra";
 
 
 
@@ -68,6 +68,8 @@ $message = "";
                                                 <tr>
                                                     <th>TIPO</th>
                                                     <th>FOLIO</th>
+                                                    <th>ID OBRA</th>
+                                                    <th>OBRA</th>
                                                     <th>PROVEEDOR</th>
                                                     <th>FECHA</th>
                                                     <th>CONCEPTO</th>
@@ -83,6 +85,8 @@ $message = "";
                                                     <tr>
                                                         <td><?php echo $dat['tipo'] ?></td>
                                                         <td><?php echo $dat['folio'] ?></td>
+                                                        <td><?php echo $dat['id_obra'] ?></td>
+                                                        <td><?php echo $dat['corto_obra'] ?></td>
                                                         <td><?php echo $dat['razon_prov'] ?></td>
                                                         <td class="text-center"><?php echo $dat['fecha'] ?></td>
                                                         <td><?php echo $dat['concepto'] ?></td>
@@ -96,6 +100,8 @@ $message = "";
                                                 ?>
                                             </tbody>
                                             <tfoot>
+                                                <th></th>
+                                                <th></th>
                                                 <th></th>
                                                 <th></th>
                                                 <th></th>

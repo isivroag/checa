@@ -18,7 +18,7 @@ $(document).ready(function () {
         titleAttr: 'Exportar a Excel',
         title: 'Reporte de Pago a Proveedores',
         className: 'btn bg-success ',
-        exportOptions: { columns: [0, 1, 2, 3, 4, 6] },
+        exportOptions: { columns: [0, 1, 2, 3, 4,5, 6,7] },
       },
       {
         extend: 'pdfHtml5',
@@ -26,7 +26,7 @@ $(document).ready(function () {
         titleAttr: 'Exportar a PDF',
         title: 'Reporte de Pago a Proveedores',
         className: 'btn bg-danger',
-        exportOptions: { columns: [0, 1, 2, 3, 4, 6] },
+        exportOptions: { columns: [0, 1, 2, 3, 4,5, 6,7] },
       },
     ],
 
@@ -39,8 +39,10 @@ $(document).ready(function () {
               <button class='btn btn-sm btn-warning text-light btnCancelar'><i class='fa-solid fa-rectangle-xmark' data-toggle='tooltip' data-placement='top' title='Cancelar'></i></button>\
               </div>",
       },
-      { className: 'hide_column', targets: [5] },
+      { className: 'hide_column', targets: [7] },
+      { className: 'hide_column', targets: [2] },
     ],
+    "ordering": false,
 
     //Para cambiar el lenguaje a español
     language: {
@@ -74,14 +76,14 @@ $(document).ready(function () {
 
       // Total over this page
       montototal = api
-        .column(6, { page: 'current' })
+        .column(8, { page: 'current' })
         .data()
         .reduce(function (a, b) {
           return intVal(a) + intVal(b)
         }, 0)
 
       // Update footer
-      $(api.column(6).footer()).html(
+      $(api.column(8).footer()).html(
         Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
           parseFloat(montototal).toFixed(2),
         ),

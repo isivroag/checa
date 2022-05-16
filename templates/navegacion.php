@@ -102,8 +102,8 @@
         <!-- CIERRA MENU CATALOGOS -->
         <?php if ($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2' || $_SESSION['s_rol'] == '5') { ?>
 
-          <li class="nav-item  has-treeview <?php echo ($pagina == 'egresosgral' || $pagina == 'cxpgral' || $pagina === 'saldoseggral' || $pagina == "cntapagocxpgral") ? "menu-open" : ""; ?>">
-            <a href="#" class="nav-link  <?php echo ($pagina == 'egresosgral' || $pagina == 'cxpgral' || $pagina === 'saldoseggral' || $pagina == "cntapagocxpgral") ? "active" : ""; ?>">
+          <li class="nav-item  has-treeview <?php echo ($pagina == 'egresosgral' || $pagina == 'cxpgral' || $pagina === 'saldoseggral' || $pagina == "cntapagocxpgral" || $pagina == "reportepagos" ) ? "menu-open" : ""; ?>">
+            <a href="#" class="nav-link  <?php echo ($pagina == 'egresosgral' || $pagina == 'cxpgral' || $pagina === 'saldoseggral' || $pagina == "cntapagocxpgral" || $pagina == "reportepagos" ) ? "active" : ""; ?>">
               <i class="fa-solid fa-building  nav-icon"></i>
               <p>
                 Administración
@@ -143,7 +143,13 @@
                 </a>
               </li>
 
+              <li class="nav-item">
+                <a href="cntarptpagos.php" class="nav-link <?php echo ($pagina == 'reportepagos') ? "active seleccionado" : ""; ?>  ">
 
+                  <i class="text-purple fa-solid fa-money-bill-transfer nav-icon"></i>
+                  <p>Reporte de Pagos Semanal</p>
+                </a>
+              </li>
             </ul>
 
           </li>

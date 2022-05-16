@@ -39,7 +39,8 @@ $(document).ready(function () {
                 <button class='btn btn-sm btn-warning text-light btnCancelar'><i class='fa-solid fa-rectangle-xmark' data-toggle='tooltip' data-placement='top' title='Cancelar'></i></button>\
                 </div>",
       },
-      { className: 'hide_column', targets: [5] },
+      { className: 'hide_column', targets: [7] },
+      { className: 'hide_column', targets: [2] },
     ],
 
     //Para cambiar el lenguaje a español
@@ -59,6 +60,7 @@ $(document).ready(function () {
       },
       sProcessing: 'Procesando...',
     },
+    "ordering": false,
 
     footerCallback: function (row, data, start, end, display) {
       var api = this.api(),
@@ -74,14 +76,14 @@ $(document).ready(function () {
 
       // Total over this page
       montototal = api
-        .column(6, { page: 'current' })
+        .column(8, { page: 'current' })
         .data()
         .reduce(function (a, b) {
           return intVal(a) + intVal(b)
         }, 0)
 
       // Update footer
-      $(api.column(6).footer()).html(
+      $(api.column(8).footer()).html(
         Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
           parseFloat(montototal).toFixed(2),
         ),
