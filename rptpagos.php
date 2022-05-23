@@ -333,7 +333,7 @@ $datac = $resultadoc->fetchAll(PDO::FETCH_ASSOC);
                                                                     <td><?php echo $rowdet['tipo'] ?></td>
                                                                     <td><?php echo $rowdet['folio'] ?></td>
                                                                     <td><?php echo $rowdet['observaciones'] ?></td>
-                                                                    <td><?php echo $rowdet['monto'] ?></td>
+                                                                    <td class="text-right"><?php echo number_format($rowdet['monto'],2) ?></td>
 
                                                                     <td></td>
                                                                 </tr>
@@ -379,7 +379,7 @@ $datac = $resultadoc->fetchAll(PDO::FETCH_ASSOC);
                                                 </span>
                                             </div>
 
-                                            <input type="text" class="form-control text-right" name="total" id="total" value="<?php echo $total; ?>" onkeypress="return filterFloat(event,this);" disabled>
+                                            <input type="text" class="form-control text-right" name="total" id="total" value="<?php echo number_format($total,2); ?>" onkeypress="return filterFloat(event,this);" disabled>
                                         </div>
 
                                     </div>
@@ -400,7 +400,7 @@ $datac = $resultadoc->fetchAll(PDO::FETCH_ASSOC);
     </section>
     <!-- TERMINA ALTA CXP -->
 
-    <!-- INICIA TABLA PROVEEDOR-->
+    <!-- INICIA TABLA CUENTAS-->
     <section>
         <div class="container">
             <div class="modal fade" id="modalcuentas" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -428,7 +428,7 @@ $datac = $resultadoc->fetchAll(PDO::FETCH_ASSOC);
                                     </tr>
                                 </thead>
                                 <tbody>
-                                   
+
                                 </tbody>
                             </table>
                         </div>
@@ -440,6 +440,76 @@ $datac = $resultadoc->fetchAll(PDO::FETCH_ASSOC);
     <!-- TERMINA TABLA PROVEEDOR-->
 
 
+    <section>
+        <div class="modal fade" id="modalPago" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog " role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-gradient-purple">
+                        <h5 class="modal-title" id="exampleModalLabel">Confirmar Monto del Pago</h5>
+
+                    </div>
+                    <form id="formPago" action="" method="POST">
+                        <div class="modal-body">
+
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group input-group-sm">
+                                        <label for="obspago" class="col-form-label">Observaciones</label>
+                                        <input type="hidden" class="form-control" name="tipocuenta" id="tipocuenta" autocomplete="off" placeholder="Concepto de Pago">
+                                        <input type="hidden" class="form-control" name="foliocuenta" id="foliocuenta" autocomplete="off" placeholder="Concepto de Pago">
+                                        <textarea row='3' class="form-control" name="obspago" id="obspago" autocomplete="off" placeholder="Observaciones"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row justify-content-sm-center">
+
+                                <div class="col-lg-6 ">
+                                    <label for="saldo" class="col-form-label ">Saldo:</label>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control text-right" name="saldo" id="saldo" value="<?php echo $saldo; ?>" disabled>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <label for="montopago" class="col-form-label">Pago:</label>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </span>
+
+                                        </div>
+                                        <input type="text" id="montopago" name="montopago" class="form-control text-right" autocomplete="off" placeholder="Monto del Pago">
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+
+                        </div>
+
+
+
+
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fas fa-ban"></i> Cancelar</button>
+                            <button type="button" id="btnguardarpago" name="btnguardarpago" class="btn btn-success" value="btnGuardar"><i class="far fa-save"></i> Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
 
 
     <!-- /.content -->
