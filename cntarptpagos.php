@@ -102,8 +102,9 @@ $message = "";
 
                                             <th>FECHA</th>
                                             <th>FECHA INICIO</th>
-                                            <th>FECHHA FINAL</th>
+                                            <th>FECHA FINAL</th>
                                             <th>MONTO</th>
+                                            <th>ESTADO</th>
                                             <th>ACCIONES</th>
 
                                         </tr>
@@ -118,6 +119,7 @@ $message = "";
                                                 <td><?php echo $dat['fecha_ini'] ?></td>
                                                 <td><?php echo $dat['fecha_fin'] ?></td>
                                                 <td class="text-right"><?php echo number_format($dat['total'], 2) ?></td>
+                                                <td><?php echo  ($dat['activo']==1)?"ABIERTO":"APLICADO" ?></td>
                                                 <td></td>
 
 

@@ -44,7 +44,7 @@ if ($folio != "") {
     //BUSCAR CUENTA ABIERTA
 
 
-    $consultatmp = "SELECT * FROM semanal WHERE activo='0' ORDER BY folio DESC LIMIT 1";
+    $consultatmp = "SELECT * FROM semanal WHERE activo='1' ORDER BY folio DESC LIMIT 1";
     $resultadotmp = $conexion->prepare($consultatmp);
     $resultadotmp->execute();
     if ($resultadotmp->rowCount() >= 1) {
@@ -54,9 +54,10 @@ if ($folio != "") {
         // INSERTAR FOLIO NUEVO
 
         $fecha = date('Y-m-d');
-        $consultatmp = "INSERT INTO semanal (fecha,fecha_ini,fecha_fin,usuario,total) VALUES('$fecha','$fecha','$fecha',$usuario,'0')";
+        $consultatmp = "INSERT INTO semanal (fecha,fecha_ini,fecha_fin,usuario,total) VALUES('$fecha','$fecha','$fecha','$usuario','0')";
         $resultadotmp = $conexion->prepare($consultatmp);
         $resultadotmp->execute();
+        $opcion=1;
 
 
         $consultatmp = "SELECT * FROM semanal WHERE activo='1' ORDER BY folio DESC LIMIT 1";
@@ -192,7 +193,7 @@ $datac = $resultadoc->fetchAll(PDO::FETCH_ASSOC);
         <!-- Default box -->
         <div class="card">
             <div class="card-header bg-gradient-purple text-light">
-                <h1 class="card-title mx-auto">Pagos Semanal</h1>
+                <h1 class="card-title mx-auto">Pagos Semanal <?php echo $opcion?></h1>
             </div>
 
             <div class="card-body">
@@ -307,21 +308,29 @@ $datac = $resultadoc->fetchAll(PDO::FETCH_ASSOC);
 
                                             <div class="col-lg-12 mx-auto">
                                                 <div class="table-responsive" style="padding:5px;">
-                                                    <table name="tablav" id="tablav" class="table table-sm table-striped table-bordered table-condensed text-nowrap mx-auto" style="width:100%;font-size:15px">
+                                                    <table name="tablav" id="tablav" class="table table-sm table-striped table-bordered table-condensed mx-auto" style="width:100%;font-size:15px">
                                                         <thead class="text-center bg-gradient-purple">
                                                             <tr>
                                                                 <th>Id</th>
                                                                 <th>Folio Rpt</th>
-                                                                <th>Tipo</th>
-                                                                <th>Folio Doc</th>
+                                                                <th>Tipo Op</th>
+                                                                <th>Folio Op</th>
+                                                                <th>Obra</th>
+                                                                <th>Proveedor</th>
+                                                                <th>Concepto</th>
+                                                                <th>Banco</th>
+                                                                <th>Cuenta</th>
+                                                                <th>Clabe</th>
+                                                                <th>Tarjeta</th>
                                                                 <th>Observaciones</th>
                                                                 <th>Importe</th>
+                                                                <th>Aplicado</th>
                                                                 <th>Acciones</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             <?php
-                                                            $consultadeto = "SELECT * FROM semanal_detalle where folio_rpt='$folio' and estado=1 order by id_reg";
+                                                            $consultadeto = "SELECT * FROM vdetallesemanal where folio_rpt='$folio' and estado=1 order by id_reg";
                                                             $resultadodeto = $conexion->prepare($consultadeto);
                                                             $resultadodeto->execute();
                                                             $datadeto = $resultadodeto->fetchAll(PDO::FETCH_ASSOC);
@@ -332,9 +341,17 @@ $datac = $resultadoc->fetchAll(PDO::FETCH_ASSOC);
                                                                     <td><?php echo $rowdet['folio_rpt'] ?></td>
                                                                     <td><?php echo $rowdet['tipo'] ?></td>
                                                                     <td><?php echo $rowdet['folio'] ?></td>
+                                                                    <td><?php echo $rowdet['corto_obra'] ?></td>
+                                                                    <td><?php echo $rowdet['razon_prov'] ?></td>
+                                                                    <td><?php echo $rowdet['concepto'] ?></td>
+                                                                    <td><?php echo $rowdet['banco'] ?></td>
+                                                                    <td><?php echo $rowdet['cuenta'] ?></td>
+                                                                    <td><?php echo $rowdet['clabe'] ?></td>
+                                                                    <td><?php echo $rowdet['tarjeta'] ?></td>
+                                                                    
                                                                     <td><?php echo $rowdet['observaciones'] ?></td>
-                                                                    <td class="text-right"><?php echo number_format($rowdet['monto'],2) ?></td>
-
+                                                                    <td class="text-right"><?php echo number_format($rowdet['montoautorizado'],2) ?></td>
+                                                                    <td><?php echo $rowdet['aplicado'] ?></td>
                                                                     <td></td>
                                                                 </tr>
                                                             <?php

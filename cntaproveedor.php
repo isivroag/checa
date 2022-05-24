@@ -220,6 +220,12 @@ $message = "";
           <div class="card card-widget" style="margin: 10px;">
             <form id="formcuentaprov" action="" method="POST">
               <div class="modal-body row">
+                <div class="col-sm-12">
+                  <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="cuentadefault">
+                    <label class="form-check-label text-bold" for="cuentadefault">ESTABLECER ESTA CUENTA COMO PREDETERMINADA</label>
+                  </div>
+                </div>
 
                 <div class="col-sm-3">
                   <div class="form-group input-group-sm">
@@ -311,6 +317,7 @@ $message = "";
                     <th>CUENTA</th>
                     <th>CLABE</th>
                     <th>TARJETA</th>
+                    <th>PREDETERMINADA</th>
                     <th>ACCIONES</th>
                   </tr>
                 </thead>
@@ -344,7 +351,7 @@ $message = "";
 
 
 <?php include_once 'templates/footer.php'; ?>
-<script src="fjs/cntaproveedor.js?v=<?php echo(rand()); ?>"></script>
+<script src="fjs/cntaproveedor.js?v=<?php echo (rand()); ?>"></script>
 <script src="plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 <script src="plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>

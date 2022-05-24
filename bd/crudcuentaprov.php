@@ -11,12 +11,27 @@ $clabe = (isset($_POST['clabe'])) ? $_POST['clabe'] : '';
 $tarjeta = (isset($_POST['tarjeta'])) ? $_POST['tarjeta'] : '';
 $idprovcuenta = (isset($_POST['idprovcuenta'])) ? $_POST['idprovcuenta'] : '';
 $id = (isset($_POST['id'])) ? $_POST['id'] : '';
+$cuentadefault = (isset($_POST['cuentadefault'])) ? $_POST['cuentadefault'] : '';
 
 $opcion = (isset($_POST['opcion'])) ? $_POST['opcion'] : '';
 
 switch ($opcion) {
     case 1: //alta
-        $consulta = "INSERT INTO w_cuentaprov (id_prov,banco,cuenta,clabe,tarjeta) VALUES('$idprovcuenta','$banco','$cuenta','$clabe','$tarjeta')";
+        if ($cuentadefault==1){
+            $consulta = "UPDATE w_cuentaprov SET cuentadefault='0' where id_prov='$idprovcuenta'";
+            $resultado = $conexion->prepare($consulta);
+            $resultado->execute();
+        }else{
+            $consulta = "SELECT * from w_cuentaprov where id_prov='$idprovcuenta' and cuentadefault='1'";
+            $resultado = $conexion->prepare($consulta);
+            $resultado->execute();
+            if ($resultado->rowCount()==0){
+                $cuentadefault=1;
+            }
+        }
+
+
+        $consulta = "INSERT INTO w_cuentaprov (id_prov,banco,cuenta,clabe,tarjeta,cuentadefault) VALUES('$idprovcuenta','$banco','$cuenta','$clabe','$tarjeta','$cuentadefault')";
         $resultado = $conexion->prepare($consulta);
         $resultado->execute();
 
@@ -26,7 +41,20 @@ switch ($opcion) {
         $data = $resultado->fetchAll(PDO::FETCH_ASSOC);
         break;
     case 2: //modificación
-        $consulta = "UPDATE w_cuentaprov SET banco='$banco',cuenta='$cuenta',clabe='$clabe',tarjeta='$tarjeta' WHERE id_cuentaprov='$id'";
+
+        if ($cuentadefault==1){
+            $consulta = "UPDATE w_cuentaprov SET cuentadefault='0' where id_prov='$idprovcuenta'";
+            $resultado = $conexion->prepare($consulta);
+            $resultado->execute();
+        }else{
+            $consulta = "SELECT * from w_cuentaprov where id_prov='$idprovcuenta' and cuentadefault='1'";
+            $resultado = $conexion->prepare($consulta);
+            $resultado->execute();
+            if ($resultado->rowCount()==0){
+                $cuentadefault=1;
+            }
+        }
+        $consulta = "UPDATE w_cuentaprov SET banco='$banco',cuenta='$cuenta',clabe='$clabe',tarjeta='$tarjeta',cuentadefault='$cuentadefault' WHERE id_cuentaprov='$id'";
         $resultado = $conexion->prepare($consulta);
         $resultado->execute();
 

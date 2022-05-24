@@ -174,6 +174,7 @@ $(document).ready(function () {
     var contacto = $('#contacto').val()
     var tel_contacto = $('#tel_contacto').val()
     var especialidad = $('#especialidad').val()
+  
 
     if (razon.length == 0 || rfc.length == 0) {
       Swal.fire({
@@ -289,6 +290,13 @@ $(document).ready(function () {
     var tarjeta = $('#tarjeta').val()
     var idprovcuenta = $('#idprovcuenta').val()
 
+    if ($('#cuentadefault').prop("checked")){
+      cuentadefault=1
+    }
+    else{
+      cuentadefault=0
+    }
+
     if (banco.length == 0 || cuenta.length == 0) {
       Swal.fire({
         title: 'Datos Faltantes',
@@ -305,6 +313,7 @@ $(document).ready(function () {
           banco: banco,
           cuenta: cuenta,
           clabe: clabe,
+          cuentadefault: cuentadefault,
           id: id,
           tarjeta: tarjeta,
           idprovcuenta: idprovcuenta,
@@ -330,6 +339,7 @@ $(document).ready(function () {
                     </div></div>",
       },
       { className: 'hide_column', targets: [1] },
+      { className: 'hide_column', targets: [6] },
     ],
 
     language: {
@@ -348,6 +358,19 @@ $(document).ready(function () {
       },
       sProcessing: 'Procesando...',
     },
+    rowCallback: function (row, data) {
+  
+    
+      if (data[6] == '1') {
+        //$($(row).find("td")[6]).css("background-color", "warning");
+        $($(row).find('td')).addClass('bg-gradient-info')
+        //$($(row).find('td')[4]).css('background-color','#EEA447');
+        //$($(row).find('td')['4']).text('PENDIENTE')
+      
+      }
+    },
+
+
   })
 
   //BOTON RESUMEN DE CUENTAS
@@ -380,6 +403,7 @@ $(document).ready(function () {
               res[i].cuenta,
               res[i].clabe,
               res[i].tarjeta,
+              res[i].cuentadefault,
             ])
             .draw()
         }
@@ -396,6 +420,7 @@ $(document).ready(function () {
     cuenta = fila.find('td:eq(3)').text()
     clabe = fila.find('td:eq(4)').text()
     tarjeta = fila.find('td:eq(5)').text()
+    cuentadefault = fila.find('td:eq(6)').text()
     $('#formcuentaprov').trigger('reset')
 
     $('#idcuentaprov').val(id)
@@ -404,6 +429,9 @@ $(document).ready(function () {
     $('#cuenta').val(cuenta)
     $('#clabe').val(clabe)
     $('#tarjeta').val(tarjeta)
+    if(cuentadefault==1){
+      $('#cuentadefault').prop('checked',true)
+    }
     $('#modalCuentas').modal('hide')
     $('#modalcuentaprov').modal('show')
 

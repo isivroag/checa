@@ -15,8 +15,7 @@ $fecha = date('Y-m-d');
 
 
     $id_obra = $_SESSION['id_obra'];;
-    $consulta = "SELECT * FROM vpreseleccion  UNION 
-    SELECT * FROM vpreselecciongral ORDER BY id_obra";
+    $consulta = "SELECT * FROM vpreseleccionglobal ORDER BY id_obra";
 
 
 

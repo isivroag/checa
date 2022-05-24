@@ -19,8 +19,11 @@ $(document).ready(function () {
             <button class='btn btn-sm btn-danger btnBorrar'><i class='fas fa-trash-alt'></i></button>\
             </div></div>",
       },
+      { className: 'hide_column', targets: [0] },
+      { className: 'hide_column', targets: [1] },
+      
+     
     ],
-
     //Para cambiar el lenguaje a español
     language: {
       lengthMenu: 'Mostrar _MENU_ registros',
@@ -37,6 +40,22 @@ $(document).ready(function () {
         sPrevious: 'Anterior',
       },
       sProcessing: 'Procesando...',
+    },
+    rowCallback: function (row, data) {
+  
+    
+      if (data[13] == '0') {
+        //$($(row).find("td")[6]).css("background-color", "warning");
+        $($(row).find('td')[13]).addClass('bg-gradient-warning')
+        //$($(row).find('td')[4]).css('background-color','#EEA447');
+        $($(row).find('td')[13]).text('PENDIENTE')
+      
+      }else{
+        $($(row).find('td')[13]).addClass('bg-gradient-success')
+        //$($(row).find('td')[4]).css('background-color','#EEA447');
+        $($(row).find('td')[13]).text('APLICADO')
+      }
+
     },
   })
 
