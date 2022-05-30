@@ -100,7 +100,7 @@ switch ($opcionreq) {
 
             //busca el registro agregado en requisicion
 
-            $consulta = "SELECT * from w_reqsub where id_provs='$idprovosion' ORDER BY id_req DESC LIMIT 1 ";
+            $consulta = "SELECT * from w_reqsub where id_provs='$idprovision' ORDER BY id_req DESC LIMIT 1 ";
             $resultado = $conexion->prepare($consulta);
             $resultado->execute();
             $datos = $resultado->fetchAll(PDO::FETCH_ASSOC);
