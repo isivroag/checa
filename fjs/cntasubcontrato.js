@@ -86,7 +86,7 @@ $(document).ready(function () {
       columnas =
         "<div class='text-center'><div class='btn-group'><button class='btn btn-sm bg-success btntrasladarprov' data-toggle='tooltip' data-placement='top' title='Trasladar a Requisición'><i class='fas fa-share'></i></button>\
       <button class='btn btn-sm btn-primary btnVerreq' data-toggle='tooltip' data-placement='top' title='Ver Requisiciones' ><i class='fas fa-search-dollar'></i></button>\
-      <button class='btn btn-sm bg-info btnSaldarprov' data-toggle='tooltip' data-placement='top' title='Saldar'><i class='fa-solid fa-circle-dollar-to-slot'></i></button>\
+      <button class='btn btn-sm bg-warning btnSaldarprov' data-toggle='tooltip' data-placement='top' title='Saldar'><i class=' text-white fa-solid fa-circle-dollar-to-slot'></i></button>\
       <button class='btn btn-sm bg-danger btnCancelarprov' data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
       </div></div>"
     }

@@ -14,15 +14,11 @@ $(document).ready(function () {
         data: null,
         defaultContent:
           "<div class='text-center'><div class='btn-group'>\
-            <button class='btn btn-sm btn-primary  btnEditar'><i class='fas fa-edit'></i></button>\
-            <button class='btn btn-sm bg-purple  btnAddenda'><i class='fas fa-expand-alt'></i></button>\
             <button class='btn btn-sm btn-danger btnBorrar'><i class='fas fa-trash-alt'></i></button>\
             </div></div>",
       },
       { className: 'hide_column', targets: [0] },
       { className: 'hide_column', targets: [1] },
-      
-     
     ],
     //Para cambiar el lenguaje a español
     language: {
@@ -42,20 +38,16 @@ $(document).ready(function () {
       sProcessing: 'Procesando...',
     },
     rowCallback: function (row, data) {
-  
-    
       if (data[13] == '0') {
         //$($(row).find("td")[6]).css("background-color", "warning");
         $($(row).find('td')[13]).addClass('bg-gradient-warning')
         //$($(row).find('td')[4]).css('background-color','#EEA447');
         $($(row).find('td')[13]).text('PENDIENTE')
-      
-      }else{
+      } else {
         $($(row).find('td')[13]).addClass('bg-gradient-success')
         //$($(row).find('td')[4]).css('background-color','#EEA447');
         $($(row).find('td')[13]).text('APLICADO')
       }
-
     },
   })
 
@@ -123,8 +115,8 @@ $(document).ready(function () {
     tipodoc = $('#tipocuenta').val()
     id = $('#foliocuenta').val()
     montopago = $('#montopago').val()
-    obs= $('#obspago').val()
-    usuario=$('nameuser').val()
+    obs = $('#obspago').val()
+    usuario = $('nameuser').val()
 
     if (id.length == 0 || tipodoc.length == 0 || montopago.length == 0) {
       swal.fire({
@@ -180,33 +172,29 @@ $(document).ready(function () {
           opcion: opcion,
         },
         success: function (res) {
-          if (res==1){
-          operacionexitosa()
-          $('#modalPago').modal('hide')
-          window.location.reload()
-        }
-          else{
+          if (res == 1) {
+            operacionexitosa()
+            $('#modalPago').modal('hide')
+            window.location.reload()
+          } else {
             swal.fire({
               title: 'Pago No aplicado',
-              text:
-                'Error al registrarl el pago',
+              text: 'Error al registrarl el pago',
               icon: 'error',
               focusConfirm: true,
               confirmButtonText: 'Aceptar',
             })
           }
-        } ,error: function(){
+        },
+        error: function () {
           swal.fire({
             title: 'Pago No aplicado',
-            text:
-              'Error al registrarl el pago',
+            text: 'Error al registrarl el pago',
             icon: 'error',
             focusConfirm: true,
             confirmButtonText: 'Aceptar',
           })
-        }
-        
-        
+        },
       })
     }
   })
@@ -244,18 +232,142 @@ $(document).ready(function () {
     })
   }
 
-
   function operacionexitosa() {
     swal.fire({
-        title: "Pago Registrado",
-        icon: "success",
-        focusConfirm: true,
-        confirmButtonText: "Aceptar",
-    });
-}
+      title: 'Operación Exitosa',
+      icon: 'success',
+      focusConfirm: true,
+      confirmButtonText: 'Aceptar',
+    })
+  }
+
+  $(document).on('click', '#btnGuardar', function () {
+    opcion = 1
+    foliosemanal = $('#folio').val()
+    fechaini = $('#fechaini').val()
+    fechafin = $('#fechafin').val()
+    $.ajax({
+      type: 'POST',
+      url: 'bd/guardarsemanal.php',
+      dataType: 'json',
+
+      data: {
+        foliosemanal: foliosemanal,
+        fechaini: fechaini,
+        fechafin: fechafin,
+        opcion: opcion,
+      },
+
+      success: function (res) {
+        if (res == 1) {
+          swal
+            .fire({
+              title: 'Operacion Exitosa',
+              text: 'El reporte ha sido Actualizado',
+              icon: 'success',
+            })
+            .then(function () {
+              window.location = 'cntarptpagos.php'
+            })
+        } else {
+          swal.fire({
+            title: 'Operación No guardada',
+            icon: 'error',
+            focusConfirm: true,
+            confirmButtonText: 'Aceptar',
+          })
+        }
+      },
+    })
+  })
+
+  $(document).on('click', '#btnGuardaryc', function () {
+    opcion = 2
+    foliosemanal = $('#folio').val()
+    fechaini = $('#fechaini').val()
+    fechafin = $('#fechafin').val()
+    $.ajax({
+      type: 'POST',
+      url: 'bd/guardarsemanal.php',
+      dataType: 'json',
+
+      data: {
+        foliosemanal: foliosemanal,
+        fechaini: fechaini,
+        fechafin: fechafin,
+        opcion: opcion,
+      },
+
+      success: function (res) {
+        if (res == 1) {
+          swal
+            .fire({
+              title: 'Operacion Exitosa',
+              text: 'El reporte ha sido Actualizado',
+              icon: 'success',
+            })
+            .then(function () {
+              window.location = 'cntarptpagos.php'
+            })
+        } else {
+          swal.fire({
+            title: 'Operación No guardada',
+            icon: 'error',
+            focusConfirm: true,
+            confirmButtonText: 'Aceptar',
+          })
+        }
+      },
+    })
+  })
+
+  $(document).on('click', '.btnBorrar', function () {
+    fila = $(this).closest('tr')
+    foliosemanal = $('#folio').val()
+    id = parseInt(fila.find('td:eq(3)').text())
+    tipodoc = fila.find('td:eq(2)').text()
+    id_reg = fila.find('td:eq(0)').text()
+    opcion = 3
+   
+
+    $.ajax({
+      url: 'bd/registrarpagosem.php',
+      type: 'POST',
+      dataType: 'json',
+      async: false,
+      data: {
+        foliosemanal: foliosemanal,
+        tipodoc: tipodoc,
+        id: id,
+        id_reg: id_reg,
+        opcion: opcion,
+      },
+      success: function (res) {
+        if (res == 1) {
+          operacionexitosa()
+          window.location.reload()
+        } else {
+          swal.fire({
+            title: 'Operación no permitida',
+            text: 'Error al actualizar el registro',
+            icon: 'error',
+            focusConfirm: true,
+            confirmButtonText: 'Aceptar',
+          })
+        }
+      },
+      error: function () {
+        swal.fire({
+          title: 'Error en funcion',
+          text: 'La función arrojo un resultado negativo',
+          icon: 'error',
+          focusConfirm: true,
+          confirmButtonText: 'Aceptar',
+        })
+      },
+    })
+  })
 })
-
-
 
 $('.modal-header').on('mousedown', function (mousedownEvt) {
   var $draggable = $(this)

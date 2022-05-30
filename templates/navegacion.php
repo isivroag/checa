@@ -124,7 +124,7 @@
               <li class="nav-item">
                 <a href="cntacxpgral.php" class="nav-link <?php echo ($pagina == 'cxpgral') ? "active seleccionado" : ""; ?>  ">
                   <i class="fa-solid fa-money-check-dollar nav-icon"></i>
-                  <p>Cuentas x Pagar Generales</p>
+                  <p>CXP  Gral</p>
                 </a>
               </li>
 
@@ -132,14 +132,14 @@
                 <a href="cntasaldoseggral.php" class="nav-link <?php echo ($pagina == 'saldoseggral') ? "active seleccionado" : ""; ?>  ">
 
                   <i class="fas text-purple fa-coins nav-icon"></i>
-                  <p>Saldos Pendientes Generales </p>
+                  <p>Saldo Pendiente Cta Gral </p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="prerptpagosgral.php" class="nav-link <?php echo ($pagina == 'cntapagocxpgral') ? "active seleccionado" : ""; ?>  ">
 
                   <i class="fas text-purple fa-file-invoice-dollar nav-icon"></i>
-                  <p>Prereporte de Pagos Global</p>
+                  <p>Prereporte Pagos Global</p>
                 </a>
               </li>
 
@@ -147,7 +147,7 @@
                 <a href="cntarptpagos.php" class="nav-link <?php echo ($pagina == 'reportepagos') ? "active seleccionado" : ""; ?>  ">
 
                   <i class="text-purple fa-solid fa-money-bill-transfer nav-icon"></i>
-                  <p>Reporte de Pagos Semanal</p>
+                  <p>Reporte Pagos Semanal</p>
                 </a>
               </li>
             </ul>
@@ -286,7 +286,7 @@
                 <a href="prerptpagos.php" class="nav-link <?php echo ($pagina == 'rptpagoobra') ? "active seleccionado" : ""; ?>  ">
 
                   <i class="fas text-purple fa-file-invoice-dollar nav-icon"></i>
-                  <p>Prereporte de Pagos Obra </p>
+                  <p>Prereporte Pagos Obra </p>
                 </a>
               </li>
 
@@ -361,7 +361,7 @@
                 <a href="cntaotrosgastos.php" class="nav-link <?php echo ($pagina == 'otro') ? "active seleccionado" : ""; ?>  ">
 
                   <i class="fas  fa-money-bill-wave nav-icon"></i>
-                  <p>Gastos de Obra</p>
+                  <p>Gastos Obra</p>
                 </a>
               </li>
 

@@ -5,7 +5,7 @@
  $objeto = new conn();
  $conexion = $objeto->connect();
  $res=0;
- $consulta = "SELECT * FROM vpreseleccion  UNION  SELECT * FROM vpreselecciongral ORDER BY id_obra";
+ $consulta = "SELECT * FROM vpreseleccionglobal where edorpt=1 ORDER BY id_obra";
     $resultado = $conexion->prepare($consulta);
     $resultado->execute();
     if($resultado->rowCount() >= 1){

@@ -25,12 +25,14 @@ if ($folio != "") {
     $data = $resultado->fetchAll(PDO::FETCH_ASSOC);
 
     foreach ($data as $dt) {
-        $folio = $dt['folio_cxp'];
+        $folio =  $dt['folio'];;
 
-        $fecha = $dt['fecha'];
+        $fecha =   $dt['fecha'];;
+
         $fecha_ini = $dt['fecha_ini'];
         $fecha_fin = $dt['fecha_fin'];
         $total = $dt['total'];
+        $activo = $dt['activo'];
     }
 
 
@@ -57,7 +59,7 @@ if ($folio != "") {
         $consultatmp = "INSERT INTO semanal (fecha,fecha_ini,fecha_fin,usuario,total) VALUES('$fecha','$fecha','$fecha','$usuario','0')";
         $resultadotmp = $conexion->prepare($consultatmp);
         $resultadotmp->execute();
-        $opcion=1;
+        $opcion = 1;
 
 
         $consultatmp = "SELECT * FROM semanal WHERE activo='1' ORDER BY folio DESC LIMIT 1";
@@ -79,6 +81,7 @@ if ($folio != "") {
         $fecha_ini = $dt['fecha_ini'];
         $fecha_fin = $dt['fecha_fin'];
         $total = $dt['total'];
+        $activo = $dt['activo'];
     }
 }
 
@@ -193,15 +196,17 @@ $datac = $resultadoc->fetchAll(PDO::FETCH_ASSOC);
         <!-- Default box -->
         <div class="card">
             <div class="card-header bg-gradient-purple text-light">
-                <h1 class="card-title mx-auto">Pagos Semanal <?php echo $opcion?></h1>
+                <h1 class="card-title mx-auto">Pagos Semanal</h1>
             </div>
 
             <div class="card-body">
 
                 <div class="row">
                     <div class="col-lg-12">
-                        <?php if ($opcion == 1) { ?>
-                            <button type="button" id="btnGuardar" name="btnGuardar" class="btn btn-success" value="btnGuardar" <?php echo $opcion == 2 ? 'disabled' : '' ?>><i class="far fa-save"></i> Guardar</button>
+                        <?php if ($activo == 1) { ?>
+                            <button type="button" id="btnGuardar" name="btnGuardar" class="btn btn-primary" value="btnGuardar"><i class="far fa-save"></i> Guardar</button>
+                            <button type="button" id="btnGuardaryc" name="btnGuardaryc" class="btn btn-success" value="btnGuardaryc"><i class="far fa-save "></i> <i class="fa-solid fa-lock"></i> Guardar y Cerrar</button>
+                            <!--<button type="button" id="btnGuardarya" name="btnGuardarya" class="btn btn-success" value="btnGuardarya"><i class="far fa-save "></i> <i class="fa-solid fa-circle-check"></i> Guardar y Aplicar</button>-->
                         <?php } ?>
 
                     </div>
@@ -288,21 +293,21 @@ $datac = $resultadoc->fetchAll(PDO::FETCH_ASSOC);
                                     </div>
 
                                     <div class="card-body" style="margin:0px;padding:3px;">
+                                        <?php if ($activo == 1) { ?>
+                                            <div class="card card-widget collapsed-card " style="margin:2px;padding:5px;">
 
-                                        <div class="card card-widget collapsed-card " style="margin:2px;padding:5px;">
+                                                <div class="card-header " style="margin:0px;padding:8px;">
 
-                                            <div class="card-header " style="margin:0px;padding:8px;">
+                                                    <button type="button" id="btnAgregar" class="btn bg-gradient-purple btn-sm">
+                                                        Agregar Detalle <i class="fas fa-plus"></i>
+                                                    </button>
 
-                                                <button type="button" id="btnAgregar" class="btn bg-gradient-purple btn-sm">
-                                                    Agregar Detalle <i class="fas fa-plus"></i>
-                                                </button>
+                                                </div>
+
+
 
                                             </div>
-
-
-
-                                        </div>
-
+                                        <?php } ?>
 
                                         <div class="row">
 
@@ -348,9 +353,9 @@ $datac = $resultadoc->fetchAll(PDO::FETCH_ASSOC);
                                                                     <td><?php echo $rowdet['cuenta'] ?></td>
                                                                     <td><?php echo $rowdet['clabe'] ?></td>
                                                                     <td><?php echo $rowdet['tarjeta'] ?></td>
-                                                                    
+
                                                                     <td><?php echo $rowdet['observaciones'] ?></td>
-                                                                    <td class="text-right"><?php echo number_format($rowdet['montoautorizado'],2) ?></td>
+                                                                    <td class="text-right"><?php echo number_format($rowdet['montoautorizado'], 2) ?></td>
                                                                     <td><?php echo $rowdet['aplicado'] ?></td>
                                                                     <td></td>
                                                                 </tr>
@@ -396,7 +401,7 @@ $datac = $resultadoc->fetchAll(PDO::FETCH_ASSOC);
                                                 </span>
                                             </div>
 
-                                            <input type="text" class="form-control text-right" name="total" id="total" value="<?php echo number_format($total,2); ?>" onkeypress="return filterFloat(event,this);" disabled>
+                                            <input type="text" class="form-control text-right" name="total" id="total" value="<?php echo number_format($total, 2); ?>" onkeypress="return filterFloat(event,this);" disabled>
                                         </div>
 
                                     </div>

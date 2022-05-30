@@ -15,7 +15,7 @@ $fecha = date('Y-m-d');
 
 
     $id_obra = $_SESSION['id_obra'];;
-    $consulta = "SELECT * FROM vpreseleccion ORDER BY id_obra";
+    $consulta = "SELECT * FROM vpreseleccion where edorpt=1 ORDER BY id_obra";
 
 
 
