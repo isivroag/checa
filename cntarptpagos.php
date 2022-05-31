@@ -402,6 +402,123 @@ $message = "";
         </div>
     </section>
     <!-- TERMINA ALTA DE REQUISICION -->
+
+     <!-- INICIA PAGAR-->
+     <section>
+        <div class="modal fade" id="modalPago" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-gradient-green">
+                        <h5 class="modal-title" id="exampleModalLabel">REGISTRAR PAGO</h5>
+
+                    </div>
+                    <form id="formPago" action="" method="POST">
+                        <div class="modal-body">
+                            <div class="row justify-content-sm-between my-auto">
+
+
+
+
+                                <div class="col-sm-3 my-auto">
+                                    <div class="form-group input-group-sm">
+                                        <label for="foliovp1" class="col-form-label">FOLIO REQUISICION:</label>
+                                        <input type="text" class="form-control" name="foliovp1" id="foliovp1" disabled>
+                                        <input type="hidden" class="form-control" name="id_prov1" id="id_prov1" disabled>
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="col-sm-3 my-auto">
+                                    <div class="form-group input-group-sm">
+                                        <label for="fechavp1" class="col-form-label ">FECHA DE PAGO:</label>
+                                        <input type="date" id="fechavp1" name="fechavp1" class="form-control text-right" autocomplete="off" value="<?php echo date("Y-m-d") ?>" placeholder="FECHA">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group input-group-sm">
+                                        <label for="referenciavp1" class="col-form-label">REFERENCIA DE PAGO</label>
+                                        <input type="text" class="form-control" name="referenciavp1" id="referenciavp1" autocomplete="off" placeholder="REFERENCIA (CHEQUE,#AUTORIZACIÓN)">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-sm-center">
+                                <div class="col-sm-12">
+                                    <div class="form-group input-group-sm">
+                                        <label for="observacionesvp1" class="col-form-label">OBSERVACIONES:</label>
+                                        <textarea class="form-control" name="observacionesvp1" id="observacionesvp1" rows="3" autocomplete="off" placeholder="OBSERVACIONES"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-sm-center">
+
+                                <div class="col-lg-4 ">
+                                    <label for="saldovp1" class="col-form-label ">SALDO ACTUAL:</label>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control text-right" name="saldovp1" id="saldovp1" disabled>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4">
+                                    <label for="montopagovp1" class="col-form-label">MONTO DE PAGO:</label>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </span>
+
+                                        </div>
+                                        <input type="text" id="montopagovp1" name="montopagovp1" class="form-control text-right" autocomplete="off" placeholder="MONTO DEL PAGO" onkeypress="return filterFloat(event,this);">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4">
+                                    <div class="input-group-sm">
+                                        <label for="metodovp1" class="col-form-label">METODO DE PAGO:</label>
+
+                                        <select class="form-control" name="metodovp" id="metodovp">
+                                            <option id="EFECTIVO" value="EFECTIVO">EFECTIVO</option>
+                                            <option id="TRANSFERENCIA" value="TRANSFERENCIA">TRANSFERENCIA</option>
+                                            <option id="DEPOSITO" value="DEPOSITO">DEPOSITO</option>
+                                            <option id="CHEQUE" value="CHEQUE">CHEQUE</option>
+                                            <option id="TARJETA DE CREDITO" value="TARJETA DE CREDITO">TARJETA DE CREDITO</option>
+                                            <option id="TARJETA DE DEBITO" value="TARJETA DE DEBITO">TARJETA DE DEBITO</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+
+
+
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fas fa-ban"></i> Cancelar</button>
+                            <button type="button" id="btnGuardarp" name="btnGuardarp" class="btn btn-success" value="btnGuardarp"><i class="far fa-save"></i> Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- TERMINA PAGAR -->
 </div>
 
 

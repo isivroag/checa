@@ -31,6 +31,7 @@ $descuento = (isset($_POST['descuento'])) ? $_POST['descuento'] : '';
 $devolucion = (isset($_POST['devolucion'])) ? $_POST['devolucion'] : '';
 //$ret4 = (isset($_POST['ret4'])) ? $_POST['ret4'] : '';
 $montob = (isset($_POST['montob'])) ? $_POST['montob'] : '';
+$forigen = (isset($_POST['forigen'])) ? $_POST['forigen'] : '';
 
 
 
@@ -175,7 +176,10 @@ switch ($opcionreq) {
                                 $res = 2;
                             }
                             //falta actualizar el registro del reporte semanal
-                        
+
+                            $consulta = "UPDATE semanal_detalle SET aplicado=1 where id_reg='$forigen'";
+                            $resultado = $conexion->prepare($consulta);
+                            $resultado->execute();
                     } else {
                         $res = 2;
                     }

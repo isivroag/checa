@@ -1,5 +1,6 @@
 $(document).ready(function () {
   var id, opcion
+  var forigen
   opcion = 4
 
   tablaVis = $('#tablaV').DataTable({
@@ -117,15 +118,31 @@ $(document).ready(function () {
   $(document).on('click', '.btnejecutar', function () {
     fila = $(this).closest('tr')
     id_reg = parseInt(fila.find('td:eq(0)').text())
+    forigen = id_reg
     tipodoc = fila.find('td:eq(2)').text()
     id = parseInt(fila.find('td:eq(3)').text())
     total = fila.find('td:eq(8)').text()
-    
+
     switch (tipodoc) {
       case 'PROVISION SUB':
         trasladarprovsub(id, tipodoc, total)
         break
       case 'REQUISICION':
+//checar para pagar la requisicion
+        folio_req = parseInt(fila.find('td:eq(3)').text())
+        saldo = fila.find('td:eq(8)').text()
+
+        $('formPago').trigger('reset')
+
+        $('#foliovp').val(folio_req)
+        $('#conceptovp').val('')
+        $('#obsvp').val('')
+        $('#saldovp').val(saldo)
+        $('#montpagovp').val('')
+        $('#metodovp').val('')
+        $('#id_prov').val('')
+
+        $('#modalPago').modal('show')
         break
       case 'CXP':
         break
@@ -141,8 +158,9 @@ $(document).ready(function () {
   $(document).on('click', '.btnaplicar', function () {
     fila = $(this).closest('tr')
     folio = parseInt(fila.find('td:eq(0)').text())
+
     estado = fila.find('td:eq(5)').text()
-   
+
     if (estado == 'CERRADO') {
       buscarcuentas(folio)
 
@@ -193,14 +211,12 @@ $(document).ready(function () {
 
   function trasladarprovsub(id, opcdoc, totaldoc) {
     //buscar subcontrato en el documento
-    console.log(id)
-    console.log(opcdoc)
-    console.log(totaldoc)
+
     $.ajax({
       type: 'POST',
       url: 'bd/buscardocumento.php',
       dataType: 'json',
-        async:false,
+      async: false,
       data: { id: id, opcdoc: opcdoc },
 
       success: function (res) {
@@ -278,7 +294,6 @@ $(document).ready(function () {
     caluloconret()
   }
 
-
   function caluloconret() {
     total = $('#montoreqa').val().replace(/,/g, '')
     ret1 = $('#ret1').val().replace(/,/g, '')
@@ -328,9 +343,6 @@ $(document).ready(function () {
     )
   }
 
-
-
-
   $(document).on('click', '#btnGuardarreq', function () {
     folioreq = $('#folioreq').val()
     subcontrato = $('#foliosubcontrato').val()
@@ -354,9 +366,6 @@ $(document).ready(function () {
     descuento = $('#descuento').val().replace(/,/g, '')
     devolucion = $('#devolucion').val().replace(/,/g, '')
 
-
-
-   
     var fechavp = $('#fechavp').val()
 
     var referenciavp = $('#referenciavp').val()
@@ -372,8 +381,8 @@ $(document).ready(function () {
       clavereq.length == 0 ||
       descripcionreq.length == 0 ||
       montoreq.length == 0 ||
-      referenciavp.length==0 ||
-      metodovp.length==0
+      referenciavp.length == 0 ||
+      metodovp.length == 0
     ) {
       Swal.fire({
         title: 'Datos Faltantes',
@@ -399,6 +408,7 @@ $(document).ready(function () {
               dataType: 'json',
               async: false,
               data: {
+                forigen: forigen,
                 folioreq: folioreq,
                 fechareq: fechareq,
                 clavereq: clavereq,
@@ -422,10 +432,7 @@ $(document).ready(function () {
                 montovp: montovp,
                 metodovp: metodovp,
                 usuario: usuario,
-                opcionpago: opcionpago
-
-
-
+                opcionpago: opcionpago,
               },
               success: function (data) {
                 if (data == 1) {
