@@ -16,19 +16,19 @@ $data = 0;
 
                     break;
                 case 'REQUISICION':
-                    $consulta = "UPDATE w_reqsub SET edorpt=2 WHERE id_req ='$id'";
+                    
                     break;
                 case 'CXP':
-                    $consulta = "UPDATE w_cxp SET edorpt=2 WHERE folio_cxp ='$id'";
+                    
                     break;
                 case 'PROVISION':
-                    $consulta = "UPDATE w_provision SET edorpt=2 WHERE folio_provi ='$id'";
+                    $consulta = "SELECT * FROM vprovision WHERE folio_provi='$id'";
                     break;
                 case 'CXP GRAL':
-                    $consulta = "UPDATE w_cxpgral SET edorpt=2 WHERE folio_cxp ='$id'";
+                    
                     break;
                 case 'PROVISION GRAL':
-                    $consulta = "UPDATE w_provisiongral SET edorpt=2 WHERE folio_provi ='$id'";
+                    
                     break;
             }
            

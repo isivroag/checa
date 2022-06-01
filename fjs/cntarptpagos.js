@@ -128,25 +128,14 @@ $(document).ready(function () {
         trasladarprovsub(id, tipodoc, total)
         break
       case 'REQUISICION':
-//checar para pagar la requisicion
-        folio_req = parseInt(fila.find('td:eq(3)').text())
-        saldo = fila.find('td:eq(8)').text()
+        //checar para pagar la requisicion
+        pagarreqsub(id, total)
 
-        $('formPago').trigger('reset')
-
-        $('#foliovp').val(folio_req)
-        $('#conceptovp').val('')
-        $('#obsvp').val('')
-        $('#saldovp').val(saldo)
-        $('#montpagovp').val('')
-        $('#metodovp').val('')
-        $('#id_prov').val('')
-
-        $('#modalPago').modal('show')
         break
       case 'CXP':
         break
       case 'PROVISION':
+        trasladarprov(id, tipodoc, total)
         break
       case 'CXP GRAL':
         break
@@ -408,6 +397,7 @@ $(document).ready(function () {
               dataType: 'json',
               async: false,
               data: {
+                
                 forigen: forigen,
                 folioreq: folioreq,
                 fechareq: fechareq,
@@ -460,6 +450,365 @@ $(document).ready(function () {
       })
     }
   })
+
+  function pagarreqsub(folio_req, saldo) {
+    $('formPago').trigger('reset')
+
+    $('#foliovp1').val(folio_req)
+    $('#conceptovp1').val('')
+    $('#obsvp1').val('')
+    $('#saldovp1').val(saldo)
+    $('#montpagovp1').val('')
+    $('#metodovp1').val('')
+    $('#id_prov1').val('')
+    $('#modalPago').modal('show')
+
+  }
+
+  //BOTON GUARDAR PAGO
+  $(document).on('click', '#btnGuardarp', function () {
+    var folioreq = $('#foliovp1').val()
+    var fechavp = $('#fechavp1').val()
+
+    var referenciavp = $('#referenciavp1').val()
+    var observacionesvp = $('#observacionesvp1').val()
+    var saldovp = $('#saldovp1').val()
+    saldovp = saldovp.replace(/,/g, '')
+    var montovp = $('#montopagovp1').val()
+    montovp = montovp.replace(/,/g, '')
+    var metodovp = $('#metodovp1').val()
+    var usuario = $('#nameuser').val()
+    var opcion = 4
+
+    if (
+      folioreq.length == 0 ||
+      fechavp.length == 0 ||
+      referenciavp.length == 0 ||
+      montovp.length == 0 ||
+      metodovp.length == 0 ||
+      usuario.length == 0
+    ) {
+      swal.fire({
+        title: 'Datos Incompletos',
+        text: 'Verifique sus datos',
+        icon: 'warning',
+        focusConfirm: true,
+        confirmButtonText: 'Aceptar',
+      })
+    } else {
+      saldofin = 0
+
+      opcion = 2
+      $.ajax({
+        url: 'bd/pagoreq.php',
+        type: 'POST',
+        dataType: 'json',
+        async: false,
+        data: {
+          forigen: forigen,
+          folioreq: folioreq,
+          fechavp: fechavp,
+          observacionesvp: observacionesvp,
+          referenciavp: referenciavp,
+          saldovp: saldovp,
+          montovp: montovp,
+          saldofin: saldofin,
+          metodovp: metodovp,
+          usuario: usuario,
+          opcion: opcion,
+        },
+        success: function (res) {
+          if (res == 1) {
+            operacionexitosa()
+            $('#modalPago').modal('hide')
+            window.location.reload()
+          } else {
+            Swal.fire({
+              title: 'La operación no pudo ser registrada',
+              icon: 'error',
+            })
+          }
+        },
+      })
+    }
+  })
+
+  function trasladarprov(id, opcdoc, totaldoc) {
+    folio_provi = id
+    $.ajax({
+      type: 'POST',
+      url: 'bd/buscardocumento.php',
+      dataType: 'json',
+      async: false,
+      data: { id: id, opcdoc: opcdoc },
+
+      success: function (res) {
+        id_obra = res[0].id_obra
+        obra = res[0].corto_obra
+        id_prov = res[0].id_prov
+        proveedor = res[0].razon_prov
+        concepto = res[0].concepto_provi
+      },
+    })
+
+    saldo = totaldoc
+    /*
+    total = fila.find('td:eq(7)').text()
+
+    ret1 = fila.find('td:eq(9)').text()
+    ret2 = fila.find('td:eq(10)').text()
+    ret3 = fila.find('td:eq(11)').text()
+    importe = fila.find('td:eq(12)').text()
+    descuento = fila.find('td:eq(13)').text()
+    devolucion = fila.find('td:eq(14)').text()
+    montob=fila.find('td:eq(15)').text()*/
+
+    $('formtprov').trigger('reset')
+
+    $('#folioprovi').val(folio_provi)
+    $('#id_obra2').val(id_obra)
+    $('#obra2').val(obra)
+    $('#id_prov2').val(id_prov)
+    $('#proveedor2').val(proveedor)
+    $('#descripcionreq2').val(concepto)
+
+    $('#montoreqa2').val(saldo)
+    /*
+    $('#montoreqa2').val(montob)
+    $('#importe2').val(importe)
+   $('#devolucion2').val(devolucion)
+   $('#descuento2').val(descuento)
+
+    $('#ret12').val(ret1)
+    $('#ret22').val(ret2)
+    $('#ret32').val(ret3)
+   */
+
+    calculosubtotalreq2($('#montoreqa2').val().replace(/,/g, ''))
+
+    $('#modaltprov').modal('show')
+  }
+
+  function calculosubtotalreq2(valor) {
+    descuento = $('#descuento2').val().replace(/,/g, '')
+    devolucion = $('#devolucion2').val().replace(/,/g, '')
+
+    if (descuento.length == 0) {
+      descuento = 0
+      $('#descuento2').val('0.00')
+    }
+
+    if (devolucion.length == 0) {
+      devolucion = 0
+      $('#devolucion2').val('0.00')
+    }
+
+    total = valor
+
+    subtotal = round(total / 1.16, 2)
+    importe =
+      parseFloat(subtotal) - parseFloat(devolucion) + parseFloat(descuento)
+    iva = round(total - subtotal, 2)
+    $('#importe2').val(
+      Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+        parseFloat(importe).toFixed(2),
+      ),
+    )
+    $('#ivareq2').val(
+      Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+        parseFloat(iva).toFixed(2),
+      ),
+    )
+    $('#subtotalreq2').val(
+      Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+        parseFloat(subtotal).toFixed(2),
+      ),
+    )
+    $('#montoreq2').val(
+      Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+        parseFloat(total).toFixed(2),
+      ),
+    )
+    $('#montoreqa2').val(
+      Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+        parseFloat(total).toFixed(2),
+      ),
+    )
+    caluloconret2()
+  }
+
+  function caluloconret2() {
+    total = $('#montoreqa2').val().replace(/,/g, '')
+    ret1 = $('#ret12').val().replace(/,/g, '')
+    ret2 = $('#ret22').val().replace(/,/g, '')
+    ret3 = $('#ret32').val().replace(/,/g, '')
+    //  ret4=$('#ret4').val().replace(/,/g, '')
+
+    if (ret1.length == 0) {
+      ret1 = 0
+      $('#ret12').val(
+        Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+          parseFloat(ret1).toFixed(2),
+        ),
+      )
+    }
+
+    if (ret2.length == 0) {
+      ret2 = 0
+      $('#ret22').val(
+        Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+          parseFloat(ret2).toFixed(2),
+        ),
+      )
+    }
+
+    if (ret3.length == 0) {
+      ret3 = 0
+      $('#ret32').val(
+        Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+          parseFloat(ret3).toFixed(2),
+        ),
+      )
+    }
+    /*
+        if(ret4.length==0){
+            ret4=0;
+            $("#ret4").val( Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(ret4).toFixed(2)));
+          
+        }*/
+
+    retenciones = parseFloat(ret1) + parseFloat(ret2) + parseFloat(ret3)
+    calculo = parseFloat(total) - parseFloat(retenciones)
+    $('#montoreq2').val(
+      Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+        parseFloat(calculo).toFixed(2),
+      ),
+    )
+  }
+
+
+   //BOTON GUARDAR TRASLADO A CXP
+   $(document).on('click', '#btnGuardarvp2', function () {
+    folio = $('#folioreq2').val()
+    fecha = $('#fechareq2').val()
+    factura = $('#facturareq2').val()
+    id_obra = $('#id_obra2').val()
+    id_prov = $('#id_prov2').val()
+    folioprovi = $('#folioprovi').val()
+    tipo = 'FACTURA'
+    descripcion = $('#descripcionreq2').val()
+    subtotal = $('#subtotalreq2').val().replace(/,/g, '')
+    iva = $('#ivareq2').val().replace(/,/g, '')
+    monto = $('#montoreq2').val().replace(/,/g, '')
+
+    montob = $('#montoreqa2').val().replace(/,/g, '')
+    ret1 = $('#ret12').val().replace(/,/g, '')
+    ret2 = $('#ret22').val().replace(/,/g, '')
+    ret3 = $('#ret32').val().replace(/,/g, '')
+    importe = $('#importe2').val().replace(/,/g, '')
+    descuento = $('#descuento2').val().replace(/,/g, '')
+    devolucion = $('#devolucion2').val().replace(/,/g, '')
+    var fechavp = $('#fechavp2').val()
+
+    var referenciavp = $('#referenciavp2').val()
+    var observacionesvp = $('#observacionesvp2').val()
+    var montovp = $('#montoreqa2').val()
+    montovp = montovp.replace(/,/g, '')
+    var metodovp = $('#metodovp2').val()
+    var usuario = $('#nameuser').val()
+    var opcionpago = 3
+
+
+    if (
+      fecha.length == 0 ||
+      factura.length == 0 ||
+      id_obra.length == 0 ||
+      id_prov.length == 0 ||
+      descripcion.length == 0 ||
+      monto.length == 0
+    ) {
+      Swal.fire({
+        title: 'Datos Faltantes',
+        text: 'Debe ingresar todos los datos Requeridos',
+        icon: 'warning',
+      })
+      return false
+    } else {
+      $.ajax({
+        url: 'bd/buscarfacturacxp.php',
+        type: 'POST',
+        dataType: 'json',
+        async: false,
+        data: {
+          factura: factura,
+          id_prov: id_prov,
+        },
+        success: function (data) {
+          if (data == 0) {
+            opcion = 5
+            $.ajax({
+              url: 'bd/crudegresos.php',
+              type: 'POST',
+              dataType: 'json',
+              data: {
+                forigen: forigen,
+                folio: folio,
+                folioprovi: folioprovi,
+                fecha: fecha,
+                factura: factura,
+                id_obra: id_obra,
+                id_prov: id_prov,
+                descripcion: descripcion,
+                tipo: tipo,
+                subtotal: subtotal,
+                iva: iva,
+                monto: monto,
+                ret1: ret1,
+                ret2: ret2,
+                ret3: ret3,
+                importe: importe,
+                devolucion: devolucion,
+                descuento: descuento,
+                montob: montob,
+                fechavp: fechavp,
+                observacionesvp: observacionesvp,
+                referenciavp: referenciavp,
+                montovp: montovp,
+                metodovp: metodovp,
+                usuario: usuario,
+                opcion: opcion,
+                
+
+              },
+              success: function (data) {
+                if (data == 1) {
+                  operacionexitosa()
+
+                  window.location.reload()
+                } else {
+                  facturaerror()
+                }
+              },
+            })
+          } else {
+            Swal.fire({
+              title:
+                'El Folio de la factura ya fue registrada para este proveedor',
+              icon: 'error',
+            })
+          }
+        },
+      })
+    }
+  })
+  function operacionexitosa() {
+    swal.fire({
+      title: 'Pago Registrado',
+      icon: 'success',
+      focusConfirm: true,
+      confirmButtonText: 'Aceptar',
+    })
+  }
 
   function round(value, decimals) {
     return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals)

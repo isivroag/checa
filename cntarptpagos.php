@@ -181,7 +181,7 @@ $message = "";
                                         </div>
                                     </div>
 
-                                   
+
 
                                     <div class="col-sm-3 ">
                                         <div class="form-group input-group-sm">
@@ -329,7 +329,7 @@ $message = "";
 
                                 <div class="row justify-content-sm-center" style="margin-bottom: 10px;">
 
-                                <div class="col-lg-4">
+                                    <div class="col-sm-4">
                                         <div class="input-group-sm">
                                             <label for="metodovp" class="col-form-label">METODO DE PAGO:</label>
 
@@ -382,16 +382,16 @@ $message = "";
 
                                 <div class="row justify-content-sm-center">
 
-                                    
 
-                                   
+
+
 
                                 </div>
 
                             </div>
 
 
-                          
+
                             <div class=" modal-footer">
                                 <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fas fa-ban"></i> Cancelar</button>
                                 <button type="button" id="btnGuardarreq" name="btnGuardarreq" class="btn btn-success" value="btnGuardarreq"><i class="far fa-save"></i> Guardar</button>
@@ -403,8 +403,8 @@ $message = "";
     </section>
     <!-- TERMINA ALTA DE REQUISICION -->
 
-     <!-- INICIA PAGAR-->
-     <section>
+    <!-- INICIA PAGAR-->
+    <section>
         <div class="modal fade" id="modalPago" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
@@ -488,7 +488,7 @@ $message = "";
                                     <div class="input-group-sm">
                                         <label for="metodovp1" class="col-form-label">METODO DE PAGO:</label>
 
-                                        <select class="form-control" name="metodovp" id="metodovp">
+                                        <select class="form-control" name="metodovp1" id="metodovp1">
                                             <option id="EFECTIVO" value="EFECTIVO">EFECTIVO</option>
                                             <option id="TRANSFERENCIA" value="TRANSFERENCIA">TRANSFERENCIA</option>
                                             <option id="DEPOSITO" value="DEPOSITO">DEPOSITO</option>
@@ -519,6 +519,327 @@ $message = "";
         </div>
     </section>
     <!-- TERMINA PAGAR -->
+
+    <!-- INICIA PROVISION A CXP -->
+    <section>
+        <div class="modal fade" id="modaltprov" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-gradient-green">
+                        <h5 class="modal-title" id="exampleModalLabel">TRASLADAR A CXP</h5>
+
+                    </div>
+                    <form id="formtprov" action="" method="POST">
+                        <div class="modal-body">
+                            <div class="row justify-content-sm-center">
+
+                                <div class="col-sm-2">
+                                    <div class="form-group input-group-sm">
+                                        <label for="folioreq2" class="col-form-label">FOLIO:</label>
+                                        <input type="text" class="form-control" name="folioreq2" id="folioreq2" disabled>
+                                        <input type="hidden" class="form-control" name="folioprovi" id="folioprovi" disabled>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="form-group input-group-sm">
+                                        <label for="facturareq2" class="col-form-label">FACTURA:</label>
+                                        <input type="text" class="form-control" name="facturareq2" id="facturareq2" placeholder="FACTURA">
+                                    </div>
+                                </div>
+
+                               
+
+                                <div class="col-sm-3 ">
+                                    <div class="form-group input-group-sm">
+                                        <label for="fechareq2" class="col-form-label">FECHA:</label>
+                                        <input type="date" class="form-control" name="fechareq2" id="fechareq2" value="<?php echo $fecha; ?>">
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 my-auto">
+                                        <div class="form-group input-group-sm">
+                                            <label for="fechavp2" class="col-form-label ">FECHA DE PAGO:</label>
+                                            <input type="date" id="fechavp2" name="fechavp2" class="form-control text-right" autocomplete="off" value="<?php echo date("Y-m-d") ?>" placeholder="FECHA">
+                                        </div>
+                                    </div>
+
+                            </div>
+
+                            <div class=" row justify-content-sm-center">
+
+                                <div class="col-sm-12">
+                                    <div class="input-group input-group-sm">
+                                        <label for="obra2" class="col-form-label">OBRA:</label>
+                                        <div class="input-group input-group-sm">
+                                            <input type="hidden" class="form-control" name="id_obra2" id="id_obra2" >
+                                            <input type="text" class="form-control" name="obra2" id="obra2" disabled placeholder="SELECCIONAR OBRA" >
+                                          
+                                          
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12">
+                                    <div class="input-group input-group-sm">
+                                        <label for="proveedor2" class="col-form-label">PROVEEDOR:</label>
+                                        <div class="input-group input-group-sm">
+                                            <input type="hidden" class="form-control" name="id_prov2" id="id_prov2" value="<?php echo $id_prov; ?>">
+                                            <input type="text" class="form-control" name="proveedor2" id="proveedor2" disabled placeholder="SELECCIONAR PROVEEDOR" value="<?php echo $proveedor; ?>">
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+
+                            <div class=" row justify-content-sm-center">
+
+                                <div class="col-sm-12">
+                                    <div class="form-group input-group-sm">
+                                        <label for="descripcionreq2" class="col-form-label">CONCEPTO:</label>
+                                        <textarea row="2" type="text" class="form-control" name="descripcionreq2" id="descripcionreq2" placeholder="CONCEPTO"></textarea>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!--
+                            <div class="row justify-content-sm-center" style="margin-bottom: 10px;">
+
+                                <div class="col-sm-4 ">
+                                    <label for="subtotalreq2" class="col-form-label">SUBTOTAL:</label>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control text-right" name="subtotalreq2" id="subtotalreq2" onkeypress="return filterFloat(event,this);">
+                                    </div>
+                                </div>
+                                <div class=" col-sm-4 ">
+                                    <label for=" ivareq2" class="col-form-label">IVA:</label>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control text-right" name="ivareq2" id="ivareq2" onkeypress="return filterFloat(event,this);">
+                                    </div>
+                                </div>
+                                <div class=" col-sm-4 ">
+                                    <label for=" montoreq2" class="col-form-label">TOTAL:</label>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control text-right" name="montoreq2" id="montoreq2" onkeypress="return filterFloat(event,this);">
+                                    </div>
+                                </div>
+
+                            </div>
+                                            -->
+                            <div class="row justify-content-sm-center" style="margin-bottom: 10px;">
+
+                                <div class="col-sm-4 ">
+                                    <label for="importe2" class="col-form-label">IMPORTE:</label>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control text-right" name="importe2" id="importe2" onkeypress="return filterFloat(event,this);">
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4 ">
+                                    <label for="descuento2" class="col-form-label">AMORT. (DESC):</label>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control text-right" name="descuento2" id="descuento2" onkeypress="return filterFloat(event,this);">
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4 ">
+                                    <label for="devolucion2" class="col-form-label">DEVOLUCIÓN:</label>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control text-right" name="devolucion2" id="devolucion2" onkeypress="return filterFloat(event,this);">
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4 ">
+                                    <label for="subtotalreq2" class="col-form-label">SUBTOTAL:</label>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control text-right" name="subtotalreq2" id="subtotalreq2" onkeypress="return filterFloat(event,this);">
+                                    </div>
+                                </div>
+
+                                <div class=" col-sm-4 ">
+                                    <label for=" ivareq2" class="col-form-label">IVA:</label>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control text-right" name="ivareq2" id="ivareq2" onkeypress="return filterFloat(event,this);">
+                                    </div>
+                                </div>
+
+
+                                <div class=" col-sm-4 ">
+                                    <label for=" montoreqa2" class="col-form-label">TOTAL:</label>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control text-right" name="montoreqa2" id="montoreqa2" onkeypress="return filterFloat(event,this);">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row justify-content-sm-between" style="margin-bottom: 10px;">
+
+                                <div class="col-sm-4 ">
+                                    <label for="ret12" class="col-form-label">RET1:</label>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control text-right" name="ret12" id="ret12" onkeypress="return filterFloat(event,this);">
+                                    </div>
+                                </div>
+                                <div class=" col-sm-4 ">
+                                    <label for="ret22" class="col-form-label">RET2:</label>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control text-right" name="ret22" id="ret22" onkeypress="return filterFloat(event,this);">
+                                    </div>
+                                </div>
+                                <div class=" col-sm-4 ">
+                                    <label for="ret32" class="col-form-label">RET3:</label>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control text-right" name="ret32" id="ret32" onkeypress="return filterFloat(event,this);">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row justify-content-sm-center" style="margin-bottom: 10px;">
+
+                                <div class="col-sm-4">
+                                    <div class="input-group-sm">
+                                        <label for="metodovp2" class="col-form-label">METODO DE PAGO:</label>
+
+                                        <select class="form-control" name="metodovp2" id="metodovp2">
+                                            <option id="EFECTIVO" value="EFECTIVO">EFECTIVO</option>
+                                            <option id="TRANSFERENCIA" value="TRANSFERENCIA">TRANSFERENCIA</option>
+                                            <option id="DEPOSITO" value="DEPOSITO">DEPOSITO</option>
+                                            <option id="CHEQUE" value="CHEQUE">CHEQUE</option>
+                                            <option id="TARJETA DE CREDITO" value="TARJETA DE CREDITO">TARJETA DE CREDITO</option>
+                                            <option id="TARJETA DE DEBITO" value="TARJETA DE DEBITO">TARJETA DE DEBITO</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class=" col-sm-4 ">
+
+                                </div>
+
+
+                               
+
+                                <div class=" col-sm-4 ">
+                                    <label for="montoreq2" class="col-form-label">GRAN TOTAL:</label>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control text-right" name="montoreq2" id="montoreq2" onkeypress="return filterFloat(event,this); " disabled>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row justify-content-sm-center">
+                                    <div class="col-sm-12">
+                                        <div class="form-group input-group-sm">
+                                            <label for="referenciavp2" class="col-form-label">REFERENCIA DE PAGO</label>
+                                            <input type="text" class="form-control" name="referenciavp2" id="referenciavp2" autocomplete="off" placeholder="REFERENCIA (CHEQUE,#AUTORIZACIÓN)">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row justify-content-sm-center">
+                                    <div class="col-sm-12">
+                                        <div class="form-group input-group-sm">
+                                            <label for="observacionesvp2" class="col-form-label">OBSERVACIONES:</label>
+                                            <textarea class="form-control" name="observacionesvp2" id="observacionesvp2" rows="3" autocomplete="off" placeholder="OBSERVACIONES"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row justify-content-sm-center">
+
+                                    
+
+                                   
+
+                                </div>
+                        </div>
+
+
+
+
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fas fa-ban"></i> Cancelar</button>
+                            <button type="button" id="btnGuardarvp2" name="btnGuardarvp2" class="btn btn-success" value="btnGuardar"><i class="far fa-save"></i> Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- TERMINA TRASLADAR A CXP -->
 </div>
 
 

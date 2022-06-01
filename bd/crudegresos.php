@@ -27,7 +27,7 @@ $montob = (isset($_POST['montob'])) ? $_POST['montob'] : '';
 
 $folioprovi = (isset($_POST['folioprovi'])) ? $_POST['folioprovi'] : '';
 
-
+$forigen = (isset($_POST['forigen'])) ? $_POST['forigen'] : '';
 
 $opcion = (isset($_POST['opcion'])) ? $_POST['opcion'] : '';
 
@@ -94,6 +94,83 @@ switch ($opcion) {
             $data = 1;
         }
         break;
+        case 5:
+            $consulta = "INSERT INTO w_cxp (id_obra,id_prov,fecha_cxp,factura_cxp,desc_cxp,monto_cxp,saldo_cxp,tipo_cxp,subtotal_cxp,iva_cxp,folio_provi,ret1,ret2,ret3,montob,importe,descuento,devolucion)
+             VALUES('$id_obra','$id_prov','$fecha','$factura','$descripcion','$monto','$monto','$tipo','$subtotal','$iva','$folioprovi','$ret1','$ret2','$ret3','$montob','$importe','$descuento','$devolucion') ";
+            $resultado = $conexion->prepare($consulta);
+            if ($resultado->execute()) {
+
+
+                $consulta = "SELECT * from w_cxp where id_obra='$id_obra' ORDER BY folio_cxp DESC LIMIT 1 ";
+                $resultado = $conexion->prepare($consulta);
+                $resultado->execute();
+                $datos = $resultado->fetchAll(PDO::FETCH_ASSOC);
+                foreach($datos as $row){
+                    $foliocxp=$row['folio_cxp'];
+                  
+                }
+    
+    
+                $abono=round($importe * 1.16,0,PHP_ROUND_HALF_UP);
+                $consulta = "UPDATE w_provision SET saldo_provi=saldo_provi-'$abono' WHERE folio_provi='$folioprovi'";
+                $resultado = $conexion->prepare($consulta);
+                $resultado->execute();
+    
+                $consulta = "SELECT saldo_provi FROM w_provision WHERE folio_provi='$folioprovi'";
+                $resultado = $conexion->prepare($consulta);
+                $resultado->execute();
+                $datos = $resultado->fetchAll(PDO::FETCH_ASSOC);;
+                $saldoprov = 1;
+    
+                foreach ($datos as $row) {
+                    $saldoprov = $row['saldo_provi'];
+                }
+    
+                if ($saldoprov == 0) {
+                    $consulta = "UPDATE w_provision SET estado=2 WHERE folio_provi='$folioprovi'";
+                    $resultado = $conexion->prepare($consulta);
+                    $resultado->execute();
+                }
+
+
+                
+                $fechavp = (isset($_POST['fechavp'])) ? $_POST['fechavp'] : '';
+                $observacionesvp = (isset($_POST['observacionesvp'])) ? $_POST['observacionesvp'] : '';
+                $referenciavp = (isset($_POST['referenciavp'])) ? $_POST['referenciavp'] : '';
+              
+                $montovp = (isset($_POST['montovp'])) ? $_POST['montovp'] : '';
+              
+                $metodovp = (isset($_POST['metodovp'])) ? $_POST['metodovp'] : '';
+                $usuario = (isset($_POST['usuario'])) ? $_POST['usuario'] : '';
+                $opcionpago = (isset($_POST['opcionpago'])) ? $_POST['opcionpago'] : '';
+
+
+                $consulta = "INSERT INTO w_pagocxp (folio_cxp,fecha_pagocxp,referencia_pagocxp,observaciones_pagocxp,metodo_pagocxp,monto_pagocxp,usuario) 
+                VALUES ('$foliocxp','$fechavp','$referenciavp','$observacionesvp','$metodovp','$montovp','$usuario')";
+                $resultado = $conexion->prepare($consulta);
+
+
+                if ($resultado->execute()) {
+
+                    $consulta = "UPDATE w_cxp SET saldo_cxp=0 where folio_cxp='$foliocxp'";
+                    $resultado = $conexion->prepare($consulta);
+                    if ($resultado->execute()) {
+                        
+                       
+                        
+                        
+
+                            $consulta = "UPDATE semanal_detalle SET aplicado=1 where id_reg='$forigen'";
+                            $resultado = $conexion->prepare($consulta);
+                            $resultado->execute();
+                    } else {
+                        $res = 2;
+                    }
+                }
+    
+                $data = 1;
+            }
+            break;
 }
 
 print json_encode($data, JSON_UNESCAPED_UNICODE); //enviar el array final en formato json a JS
