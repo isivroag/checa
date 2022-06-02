@@ -422,6 +422,7 @@ $message = "";
                                 <div class="col-sm-3 my-auto">
                                     <div class="form-group input-group-sm">
                                         <label for="foliovp1" class="col-form-label">FOLIO REQUISICION:</label>
+                                        <input type="hidden" class="form-control" name="tipopago" id="tipopago" disabled>
                                         <input type="text" class="form-control" name="foliovp1" id="foliovp1" disabled>
                                         <input type="hidden" class="form-control" name="id_prov1" id="id_prov1" disabled>
                                     </div>

@@ -18,28 +18,54 @@ $metodovp = (isset($_POST['metodovp'])) ? $_POST['metodovp'] : '';
 $usuario = (isset($_POST['usuario'])) ? $_POST['usuario'] : '';
 $opcion = (isset($_POST['opcion'])) ? $_POST['opcion'] : '';
 
+$forigen = (isset($_POST['forigen'])) ? $_POST['forigen'] : '';
+
 $id_prov = (isset($_POST['id_prov'])) ? $_POST['id_prov'] : '';
 
 
 $folio = (isset($_POST['folio'])) ? $_POST['folio'] : '';
 $res = 0;
 
+switch ($opcion) {
+    case 1:
 
+        $consulta = "INSERT INTO w_pagocxp (folio_cxp,fecha_pagocxp,referencia_pagocxp,observaciones_pagocxp,metodo_pagocxp,monto_pagocxp,usuario) VALUES ('$foliocxp','$fechavp','$referenciavp','$observacionesvp','$metodovp','$montovp','$usuario')";
+        $resultado = $conexion->prepare($consulta);
+
+        if ($resultado->execute()) {
+
+            $consulta = "UPDATE w_cxp SET saldo_cxp='$saldofin' where folio_cxp='$foliocxp'";
+            $resultado = $conexion->prepare($consulta);
+            if ($resultado->execute()) {
+                $res = 1;
+            }
+        } else {
+            $res = 2;
+        }
+        break;
+    case 2:
+
+        $consulta = "INSERT INTO w_pagocxp (folio_cxp,fecha_pagocxp,referencia_pagocxp,observaciones_pagocxp,metodo_pagocxp,monto_pagocxp,usuario) VALUES ('$foliocxp','$fechavp','$referenciavp','$observacionesvp','$metodovp','$montovp','$usuario')";
+        $resultado = $conexion->prepare($consulta);
+
+        if ($resultado->execute()) {
+
+            $consulta = "UPDATE w_cxp SET saldo_cxp='$saldofin' where folio_cxp='$foliocxp'";
+            $resultado = $conexion->prepare($consulta);
+            if ($resultado->execute()) {
+
+
+                $consulta = "UPDATE semanal_detalle SET aplicado=1 where id_reg='$forigen'";
+                $resultado = $conexion->prepare($consulta);
+                $resultado->execute();
  
-$consulta = "INSERT INTO w_pagocxp (folio_cxp,fecha_pagocxp,referencia_pagocxp,observaciones_pagocxp,metodo_pagocxp,monto_pagocxp,usuario) VALUES ('$foliocxp','$fechavp','$referenciavp','$observacionesvp','$metodovp','$montovp','$usuario')";
-$resultado = $conexion->prepare($consulta);
-
-if ($resultado->execute()) {
-    
-    $consulta = "UPDATE w_cxp SET saldo_cxp='$saldofin' where folio_cxp='$foliocxp'";
-    $resultado = $conexion->prepare($consulta);
-    if ($resultado->execute()) {
-        $res = 1;
-    }
-} else {
-    $res = 2;
+                $res = 1;
+            }
+        } else {
+            $res = 2;
+        }
+        break;
 }
-
 
 print json_encode($res, JSON_UNESCAPED_UNICODE);
 $conexion = NULL;

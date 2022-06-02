@@ -133,6 +133,7 @@ $(document).ready(function () {
 
         break
       case 'CXP':
+        pagarcxp(id, total)
         break
       case 'PROVISION':
         trasladarprov(id, tipodoc, total)
@@ -461,6 +462,25 @@ $(document).ready(function () {
     $('#montpagovp1').val('')
     $('#metodovp1').val('')
     $('#id_prov1').val('')
+    $('#tipopago').val(1)
+    $(".modal-title").text("PAGAR REQUISICION");
+    $('#modalPago').modal('show')
+
+  }
+
+
+  function pagarcxp(folio_req, saldo) {
+    $('formPago').trigger('reset')
+
+    $('#foliovp1').val(folio_req)
+    $('#conceptovp1').val('')
+    $('#obsvp1').val('')
+    $('#saldovp1').val(saldo)
+    $('#montpagovp1').val('')
+    $('#metodovp1').val('')
+    $('#id_prov1').val('')
+    $('#tipopago').val(2)
+    $(".modal-title").text("PACAR CXP");
     $('#modalPago').modal('show')
 
   }
@@ -479,6 +499,13 @@ $(document).ready(function () {
     var metodovp = $('#metodovp1').val()
     var usuario = $('#nameuser').val()
     var opcion = 4
+    var tipo = $('#tipopago').val()
+    if (tipo==1){
+      url='bd/pagoreq.php'
+    }else{
+      url='bd/pagocxp.php'
+      foliocxp=folioreq
+    }
 
     if (
       folioreq.length == 0 ||
@@ -500,13 +527,14 @@ $(document).ready(function () {
 
       opcion = 2
       $.ajax({
-        url: 'bd/pagoreq.php',
+        url: url,
         type: 'POST',
         dataType: 'json',
         async: false,
         data: {
           forigen: forigen,
           folioreq: folioreq,
+          foliocxp: foliocxp,
           fechavp: fechavp,
           observacionesvp: observacionesvp,
           referenciavp: referenciavp,
