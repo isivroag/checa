@@ -139,6 +139,7 @@ $(document).ready(function () {
         trasladarprov(id, tipodoc, total)
         break
       case 'CXP GRAL':
+        pagarcxpgral(id, total)
         break
       case 'PROVISION GRAL':
         break
@@ -485,6 +486,22 @@ $(document).ready(function () {
 
   }
 
+  function pagarcxpgral(folio_req, saldo) {
+    $('formPago').trigger('reset')
+
+    $('#foliovp1').val(folio_req)
+    $('#conceptovp1').val('')
+    $('#obsvp1').val('')
+    $('#saldovp1').val(saldo)
+    $('#montpagovp1').val('')
+    $('#metodovp1').val('')
+    $('#id_prov1').val('')
+    $('#tipopago').val(3)
+    $(".modal-title").text("PACAR CXP GENERAL");
+    $('#modalPago').modal('show')
+
+  }
+
   //BOTON GUARDAR PAGO
   $(document).on('click', '#btnGuardarp', function () {
     var folioreq = $('#foliovp1').val()
@@ -499,12 +516,21 @@ $(document).ready(function () {
     var metodovp = $('#metodovp1').val()
     var usuario = $('#nameuser').val()
     var opcion = 4
-    var tipo = $('#tipopago').val()
-    if (tipo==1){
+    var tipo = parseInt($('#tipopago').val())
+    console.log(tipo)
+
+    switch (tipo){
+    case 1:
       url='bd/pagoreq.php'
-    }else{
+      break
+    case 2:
       url='bd/pagocxp.php'
       foliocxp=folioreq
+      break
+    case 3:
+      url='bd/pagocxpgral.php'
+      foliocxp=folioreq
+      break
     }
 
     if (
@@ -842,3 +868,23 @@ $(document).ready(function () {
     return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals)
   }
 })
+
+
+function filterFloat(evt, input) {
+  // Backspace = 8, Enter = 13, ‘0′ = 48, ‘9′ = 57, ‘.’ = 46, ‘-’ = 43
+  var key = window.Event ? evt.which : evt.keyCode
+  var chark = String.fromCharCode(key)
+  var tempValue = input.value + chark
+  var isNumber = key >= 48 && key <= 57
+  var isSpecial = key == 8 || key == 13 || key == 0 || key == 46
+  if (isNumber || isSpecial) {
+    return filter(tempValue)
+  }
+
+  return false
+}
+function filter(__val__) {
+  var preg = /^([0-9]+\.?[0-9]{0,2})$/
+  return preg.te
+  st(__val__) === true
+}
