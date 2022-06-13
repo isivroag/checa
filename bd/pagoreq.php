@@ -81,6 +81,24 @@ switch ($opcion) {
                         $resultado = $conexion->prepare($consulta);
                         $resultado->execute();
 
+                        $consulta = "SELECT folio_rpt from semanal_detalle WHERE id_reg='$forigen'";
+                        $resultado = $conexion->prepare($consulta);
+                        $resultado->execute();
+                        $reg = $resultado->fetchAll(PDO::FETCH_ASSOC);
+                        foreach($reg as $row){
+                         $folioreporte=$row['folio_rpt'];
+                        }
+ 
+ 
+                        $consulta = "SELECT * FROM semanal_detalle where folio_rpt='$folioreporte' and aplicado=0";
+                        $resultado = $conexion->prepare($consulta);
+                        $resultado->execute();
+                        if ($resultado->rowCount()==0){
+                         $consulta = "UPDATE semanal SET activo=3 where folio='$folioreporte'";
+                         $resultado = $conexion->prepare($consulta);
+                         $resultado->execute();
+                        }
+
                         $res = 1;
                     } else {
                         $res = 2;

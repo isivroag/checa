@@ -32,21 +32,22 @@ $devolucion = (isset($_POST['devolucion'])) ? $_POST['devolucion'] : '';
 //$ret4 = (isset($_POST['ret4'])) ? $_POST['ret4'] : '';
 $montob = (isset($_POST['montob'])) ? $_POST['montob'] : '';
 $forigen = (isset($_POST['forigen'])) ? $_POST['forigen'] : '';
+$uuid = (isset($_POST['uuid'])) ? $_POST['uuid'] : '';
 
 
 
 $data = 0;
 switch ($opcionreq) {
     case 1: //alta
-        $consulta = "INSERT INTO w_reqsub (id_sub,fecha_req,factura_req,concepto_req,monto_req,saldo_req,subtotal_req,iva_req,id_provs,usuarioalt,ret1,ret2,ret3,montob,importe,descuento,devolucion) 
-        VALUES('$subcontrato','$fechareq','$clavereq','$descripcionreq','$montoreq','$montoreq','$subtotalreq','$ivareq','$idprovision','$usuarioalt','$ret1','$ret2','$ret3','$montob','$importe','$descuento','$devolucion') ";
+        $consulta = "INSERT INTO w_reqsub (id_sub,fecha_req,factura_req,concepto_req,monto_req,saldo_req,subtotal_req,iva_req,id_provs,usuarioalt,ret1,ret2,ret3,montob,importe,descuento,devolucion,uuid) 
+        VALUES('$subcontrato','$fechareq','$clavereq','$descripcionreq','$montoreq','$montoreq','$subtotalreq','$ivareq','$idprovision','$usuarioalt','$ret1','$ret2','$ret3','$montob','$importe','$descuento','$devolucion','$uuid') ";
         $resultado = $conexion->prepare($consulta);
         if ($resultado->execute()) {
             $data = 1;
 
             if ($idprovision != "") {
                 //$consulta = "UPDATE w_provsub SET saldo_prov=saldo_prov-'$montoreq' WHERE id_provs='$idprovision'";
-                $montoabono = round($importe * 1.16, 0, PHP_ROUND_HALF_UP);
+                $montoabono = round($importe * 1.16, 2, PHP_ROUND_HALF_UP);
                 $consulta = "UPDATE w_provsub SET saldo_prov=saldo_prov-'$montoabono' WHERE id_provs='$idprovision'";
                 $resultado = $conexion->prepare($consulta);
                 $resultado->execute();
@@ -93,8 +94,8 @@ switch ($opcionreq) {
 
     case 4:
 
-        $consulta = "INSERT INTO w_reqsub (id_sub,fecha_req,factura_req,concepto_req,monto_req,saldo_req,subtotal_req,iva_req,id_provs,usuarioalt,ret1,ret2,ret3,montob,importe,descuento,devolucion) 
-        VALUES('$subcontrato','$fechareq','$clavereq','$descripcionreq','$montoreq','$montoreq','$subtotalreq','$ivareq','$idprovision','$usuarioalt','$ret1','$ret2','$ret3','$montob','$importe','$descuento','$devolucion') ";
+        $consulta = "INSERT INTO w_reqsub (id_sub,fecha_req,factura_req,concepto_req,monto_req,saldo_req,subtotal_req,iva_req,id_provs,usuarioalt,ret1,ret2,ret3,montob,importe,descuento,devolucion,uuid) 
+        VALUES('$subcontrato','$fechareq','$clavereq','$descripcionreq','$montoreq','$montoreq','$subtotalreq','$ivareq','$idprovision','$usuarioalt','$ret1','$ret2','$ret3','$montob','$importe','$descuento','$devolucion','$uuid') ";
         $resultado = $conexion->prepare($consulta);
         if ($resultado->execute()) {
             $data = 1;
@@ -105,16 +106,15 @@ switch ($opcionreq) {
             $resultado = $conexion->prepare($consulta);
             $resultado->execute();
             $datos = $resultado->fetchAll(PDO::FETCH_ASSOC);
-            foreach($datos as $row){
-                $folioreq=$row['id_req'];
+            foreach ($datos as $row) {
+                $folioreq = $row['id_req'];
                 $foliosub = $row['id_sub'];
-
             }
 
 
             if ($idprovision != "") {
                 //$consulta = "UPDATE w_provsub SET saldo_prov=saldo_prov-'$montoreq' WHERE id_provs='$idprovision'";
-                $montoabono = round($importe * 1.16, 0, PHP_ROUND_HALF_UP);
+                $montoabono = round($importe * 1.16, 2, PHP_ROUND_HALF_UP);
                 $consulta = "UPDATE w_provsub SET saldo_prov=saldo_prov-'$montoabono' WHERE id_provs='$idprovision'";
                 $resultado = $conexion->prepare($consulta);
                 $resultado->execute();
@@ -138,20 +138,20 @@ switch ($opcionreq) {
 
                 //registrar el pago
 
-             
+
                 $fechavp = (isset($_POST['fechavp'])) ? $_POST['fechavp'] : '';
                 $observacionesvp = (isset($_POST['observacionesvp'])) ? $_POST['observacionesvp'] : '';
                 $referenciavp = (isset($_POST['referenciavp'])) ? $_POST['referenciavp'] : '';
-              
+
                 $montovp = (isset($_POST['montovp'])) ? $_POST['montovp'] : '';
-              
+
                 $metodovp = (isset($_POST['metodovp'])) ? $_POST['metodovp'] : '';
                 $usuario = (isset($_POST['usuario'])) ? $_POST['usuario'] : '';
                 $opcionpago = (isset($_POST['opcionpago'])) ? $_POST['opcionpago'] : '';
 
 
 
-                
+
                 $res = 0;
 
 
@@ -162,24 +162,43 @@ switch ($opcionreq) {
                 $resultado = $conexion->prepare($consulta);
 
                 if ($resultado->execute()) {
-//aqui empieza el error
+                    //aqui empieza el error
                     $consulta = "UPDATE w_reqsub SET saldo_req=0 where id_req='$folioreq'";
                     $resultado = $conexion->prepare($consulta);
                     if ($resultado->execute()) {
-                        
-                       
-                            $consulta = "UPDATE w_subcontrato SET saldo_sub=saldo_sub - '$montovp' where folio_sub='$foliosub'";
-                            $resultado = $conexion->prepare($consulta);
-                            if ($resultado->execute()) {
-                                $res = 1;
-                            } else {
-                                $res = 2;
-                            }
-                            //falta actualizar el registro del reporte semanal
 
-                            $consulta = "UPDATE semanal_detalle SET aplicado=1 where id_reg='$forigen'";
+
+                        $consulta = "UPDATE w_subcontrato SET saldo_sub=saldo_sub - '$montovp' where folio_sub='$foliosub'";
+                        $resultado = $conexion->prepare($consulta);
+                        if ($resultado->execute()) {
+                            $res = 1;
+                        } else {
+                            $res = 2;
+                        }
+                        //falta actualizar el registro del reporte semanal
+
+                        $consulta = "UPDATE semanal_detalle SET aplicado=1 where id_reg='$forigen'";
+                        $resultado = $conexion->prepare($consulta);
+                        $resultado->execute();
+
+
+                        $consulta = "SELECT folio_rpt from semanal_detalle WHERE id_reg='$forigen'";
+                        $resultado = $conexion->prepare($consulta);
+                        $resultado->execute();
+                        $reg = $resultado->fetchAll(PDO::FETCH_ASSOC);
+                        foreach ($reg as $row) {
+                            $folioreporte = $row['folio_rpt'];
+                        }
+
+
+                        $consulta = "SELECT * FROM semanal_detalle where folio_rpt='$folioreporte' and aplicado=0";
+                        $resultado = $conexion->prepare($consulta);
+                        $resultado->execute();
+                        if ($resultado->rowCount() == 0) {
+                            $consulta = "UPDATE semanal SET activo=3 where folio='$folioreporte'";
                             $resultado = $conexion->prepare($consulta);
                             $resultado->execute();
+                        }
                     } else {
                         $res = 2;
                     }

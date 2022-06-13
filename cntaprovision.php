@@ -135,7 +135,7 @@ $message = "";
                                             <th>CONCEPTO</th>
                                             <th>MONTO</th>
                                             <th>SALDO</th>
-                                        <!--    <th>RET1</th>
+                                            <!--    <th>RET1</th>
                                             <th>RET2</th>
                                             <th>RET3</th>
                                             <th>IMPORTE</th>
@@ -278,7 +278,7 @@ $message = "";
                                     </div>
 
                                 </div>
-<!--
+                                <!--
                                 <div class="row justify-content-sm-center" style="margin-bottom: 10px;">
 
                                     <div class="col-sm-4 ">
@@ -395,7 +395,7 @@ $message = "";
                                 </div>
                                                 -->
                                 <div class="row justify-content-sm-center" style="margin-bottom: 10px;">
-<!--
+                                    <!--
                                     <div class=" col-sm-4 ">
 
                                     </div>
@@ -428,7 +428,7 @@ $message = "";
                                     </div>
                                                 -->
 
-                                                <div class="col-sm-4 ">
+                                    <div class="col-sm-4 ">
                                         <label for="subtotalreq" class="col-form-label">SUBTOTAL:</label>
                                         <div class="input-group input-group-sm">
                                             <div class="input-group-prepend">
@@ -658,6 +658,11 @@ $message = "";
                                 </div>
 
                                 <div class="col-sm-4">
+                                    <div class="form-group input-group-sm">
+                                        <label for="uuid" class="col-form-label">UUID FACTURA:</label>
+                                        <input type="text" class="form-control" name="uuid" id="uuid" placeholder="UUID FACTURA" minlength="36" maxlength="36">
+                                    </div>
+
                                 </div>
 
                                 <div class="col-sm-3 ">
@@ -1007,8 +1012,8 @@ $message = "";
     <!-- TERMINA RESUMEN DE PAGOS -->
 
 
-      <!-- INICIA SALDAR PROV -->
-      <section>
+    <!-- INICIA SALDAR PROV -->
+    <section>
         <div class="modal fade" id="modalsaldar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog " role="document">
                 <div class="modal-content">

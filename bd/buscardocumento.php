@@ -28,7 +28,7 @@ $data = 0;
                     
                     break;
                 case 'PROVISION GRAL':
-                    
+                    $consulta = "SELECT * FROM vprovisiongral WHERE folio_provi='$id'";
                     break;
             }
            

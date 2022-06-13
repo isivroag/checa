@@ -33,6 +33,7 @@ $opcion = (isset($_POST['opcion'])) ? $_POST['opcion'] : '';
 
 
 
+
 $data = 0;
 switch ($opcion) {
     case 1: //alta
@@ -63,8 +64,8 @@ switch ($opcion) {
 
         break;
     case 4:
-        $consulta = "INSERT INTO w_cxp (id_obra,id_prov,fecha_cxp,factura_cxp,desc_cxp,monto_cxp,saldo_cxp,tipo_cxp,subtotal_cxp,iva_cxp,folio_provi,ret1,ret2,ret3,montob,importe,descuento,devolucion)
-         VALUES('$id_obra','$id_prov','$fecha','$factura','$descripcion','$monto','$monto','$tipo','$subtotal','$iva','$folioprovi','$ret1','$ret2','$ret3','$montob','$importe','$descuento','$devolucion') ";
+        $consulta = "INSERT INTO w_cxp (id_obra,id_prov,fecha_cxp,factura_cxp,desc_cxp,monto_cxp,saldo_cxp,tipo_cxp,subtotal_cxp,iva_cxp,folio_provi,ret1,ret2,ret3,montob,importe,descuento,devolucion,uuid)
+         VALUES('$id_obra','$id_prov','$fecha','$factura','$descripcion','$monto','$monto','$tipo','$subtotal','$iva','$folioprovi','$ret1','$ret2','$ret3','$montob','$importe','$descuento','$devolucion','$uuid') ";
         $resultado = $conexion->prepare($consulta);
         if ($resultado->execute()) {
 
@@ -95,8 +96,8 @@ switch ($opcion) {
         }
         break;
         case 5:
-            $consulta = "INSERT INTO w_cxp (id_obra,id_prov,fecha_cxp,factura_cxp,desc_cxp,monto_cxp,saldo_cxp,tipo_cxp,subtotal_cxp,iva_cxp,folio_provi,ret1,ret2,ret3,montob,importe,descuento,devolucion)
-             VALUES('$id_obra','$id_prov','$fecha','$factura','$descripcion','$monto','$monto','$tipo','$subtotal','$iva','$folioprovi','$ret1','$ret2','$ret3','$montob','$importe','$descuento','$devolucion') ";
+            $consulta = "INSERT INTO w_cxp (id_obra,id_prov,fecha_cxp,factura_cxp,desc_cxp,monto_cxp,saldo_cxp,tipo_cxp,subtotal_cxp,iva_cxp,folio_provi,ret1,ret2,ret3,montob,importe,descuento,devolucion,uuid)
+             VALUES('$id_obra','$id_prov','$fecha','$factura','$descripcion','$monto','$monto','$tipo','$subtotal','$iva','$folioprovi','$ret1','$ret2','$ret3','$montob','$importe','$descuento','$devolucion','$uuid') ";
             $resultado = $conexion->prepare($consulta);
             if ($resultado->execute()) {
 
@@ -163,6 +164,24 @@ switch ($opcion) {
                             $consulta = "UPDATE semanal_detalle SET aplicado=1 where id_reg='$forigen'";
                             $resultado = $conexion->prepare($consulta);
                             $resultado->execute();
+
+                            $consulta = "SELECT folio_rpt from semanal_detalle WHERE id_reg='$forigen'";
+                            $resultado = $conexion->prepare($consulta);
+                            $resultado->execute();
+                            $reg = $resultado->fetchAll(PDO::FETCH_ASSOC);
+                            foreach($reg as $row){
+                             $folioreporte=$row['folio_rpt'];
+                            }
+     
+     
+                            $consulta = "SELECT * FROM semanal_detalle where folio_rpt='$folioreporte' and aplicado=0";
+                            $resultado = $conexion->prepare($consulta);
+                            $resultado->execute();
+                            if ($resultado->rowCount()==0){
+                             $consulta = "UPDATE semanal SET activo=3 where folio='$folioreporte'";
+                             $resultado = $conexion->prepare($consulta);
+                             $resultado->execute();
+                            }
                     } else {
                         $res = 2;
                     }

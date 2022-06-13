@@ -172,6 +172,7 @@ total = valor
         "<div class='text-center'><div class='btn-group'>\
         <button class='btn btn-sm bg-success btntrasladar'><i class='fas fa-share'  data-toggle='tooltip' data-placement='top' title='Trasladar a Cxp'></i></button>\
         <button class='btn btn-sm bg-info btnResumen'><i class='fas fa-bars'  data-toggle='tooltip' data-placement='top' title='Ver Cxp relacionadas'></i></button>\
+        <button class='btn btn-sm bg-warning btnSaldarprov' data-toggle='tooltip' data-placement='top' title='Saldar'><i class=' text-white fa-solid fa-circle-dollar-to-slot'></i></button>\
         <button class='btn btn-sm bg-danger btnCancelar'  data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
         </div></div>"
     }
@@ -1057,6 +1058,7 @@ total = valor
     importe = $('#importe2').val().replace(/,/g, '')
     descuento = $('#descuento2').val().replace(/,/g, '')
     devolucion = $('#devolucion2').val().replace(/,/g, '')
+    uuid = $('#uuid').val()
 
 
     if (
@@ -1065,7 +1067,9 @@ total = valor
   
       id_prov.length == 0 ||
       descripcion.length == 0 ||
-      monto.length == 0
+      monto.length == 0 ||
+      uuid.length == 0 ||
+      uuid.length != 36
     ) {
       Swal.fire({
         title: 'Datos Faltantes',
@@ -1074,14 +1078,15 @@ total = valor
       })
       return false
     } else {
-      $.ajax({
-        url: 'bd/buscarfacturacxp.php',
+
+
+       $.ajax({
+        url: 'bd/buscaruuid.php',
         type: 'POST',
         dataType: 'json',
         async: false,
         data: {
-          factura: factura,
-          id_prov: id_prov,
+          uuid: uuid,
         },
         success: function (data) {
           if (data == 0) {
@@ -1109,6 +1114,7 @@ total = valor
                 descuento: descuento,
                 montob: montob,
                 opcion: opcion,
+                uuid: uuid
               },
               success: function (data) {
                 if (data == 1) {
@@ -1341,6 +1347,77 @@ total = valor
     }
     return i
   }
+
+  $(document).on('click', '.btnSaldarprov', function () {
+    fila = $(this).closest('tr')
+    folio = parseInt(fila.find('td:eq(0)').text())
+    saldo = fila.find('td:eq(6)').text()
+
+    $('#formsaldar').trigger('reset')
+    $('#modalsaldar').modal('show')
+    $('#folioprovs').val(folio)
+    $('#saldopendiente').val(saldo)
+  })
+
+
+    // GUARDAR MONTO COBRADO
+    $(document).on('click', '#btnGuadarsaldar', function () {
+      folioprov = $('#folioprovs').val()
+  
+      saldopendiente = $('#saldopendiente').val().replace(/,/g, '')
+  
+      if (saldopendiente === '') {
+        swal.fire({
+          title: 'Datos Incompletos',
+          text: 'Verifique sus datos',
+          icon: 'warning',
+          focusConfirm: true,
+          confirmButtonText: 'Aceptar',
+        })
+      } else {
+        Swal.fire({
+          title: '¿Está seguro de Saldar el registro:?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#0B9E09',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Aceptar',
+        }).then(function (isConfirm) {
+          if (isConfirm.value) {
+            $.ajax({
+              type: 'POST',
+              url: 'bd/saldarprovgral.php',
+              async: false,
+              dataType: 'json',
+              data: {
+                folioprov: folioprov,
+                saldopendiente: saldopendiente,
+              },
+              success: function (res) {
+                if (res == 1) {
+                  swal.fire({
+                    title: 'Registrado Guardado',
+                    icon: 'success',
+                    focusConfirm: true,
+                    confirmButtonText: 'Aceptar',
+                  })
+                  $('#modalsaldar').modal('hide')
+                  location.reload()
+                } else {
+                  swal.fire({
+                    title: 'Error al Guardar el Registro',
+                    icon: 'error',
+                    focusConfirm: true,
+                    confirmButtonText: 'Aceptar',
+                  })
+                }
+              },
+            })
+          }
+        })
+      }
+    })
+
 })
 
 function filterFloat(evt, input) {

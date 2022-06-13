@@ -669,13 +669,11 @@ function calculoantes()
 
 
       $.ajax({
-        url: 'bd/buscarfacturacxp.php',
+        url: 'bd/buscaruuid.php',
         type: 'POST',
         dataType: 'json',
         async: false,
         data: {
-          factura: factura,
-          id_prov: id_prov,
           uuid: uuid
         },
         success: function (data) {

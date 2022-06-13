@@ -1730,12 +1730,15 @@ console.log(total)
     importe = $('#importe').val().replace(/,/g, '')
     descuento = $('#descuento').val().replace(/,/g, '')
     devolucion = $('#devolucion').val().replace(/,/g, '')
+    uuid= $('#uuid').val()
 
     if (
       fechareq.length == 0 ||
       clavereq.length == 0 ||
       descripcionreq.length == 0 ||
-      montoreq.length == 0
+      montoreq.length == 0 ||
+      uuid.length == 0 ||
+      uuid.length != 36
     ) {
       Swal.fire({
         title: 'Datos Faltantes',
@@ -1745,13 +1748,12 @@ console.log(total)
       return false
     } else {
       $.ajax({
-        url: 'bd/buscarfacturacxp.php',
+        url: 'bd/buscaruuid.php',
         type: 'POST',
         dataType: 'json',
         async: false,
         data: {
-          factura: factura,
-          id_prov: id_prov,
+          uuid: uuid,
         },
         success: function (data) {
           if (data == 0) {
@@ -1778,6 +1780,7 @@ console.log(total)
                 devolucion: devolucion,
                 descuento: descuento,
                 montob: montob,
+                uuid: uuid
               },
               success: function (data) {
                 if (data == 1) {

@@ -10,14 +10,14 @@ $(document).ready(function () {
   var textcolumnas2 = permisos2()
 
   // SOLO NUMEROS NUEVOS CAMPOS
- /* document.getElementById('importe').onblur = function () {
+  /* document.getElementById('importe').onblur = function () {
     calculosubtotal(this.value.replace(/,/g, ''))
     this.value = parseFloat(this.value.replace(/,/g, ''))
       .toFixed(2)
       .toString()
       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   }*/
-/*
+  /*
   document.getElementById('descuento').onblur = function () {
     calculoantes()
     this.value = parseFloat(this.value.replace(/,/g, ''))
@@ -180,7 +180,7 @@ $(document).ready(function () {
 
     //descuento = $('#descuento').val().replace(/,/g, '')
     //devolucion = $('#devolucion').val().replace(/,/g, '')
-/*
+    /*
     if (descuento.length == 0) {
       descuento = 0
       $('#descuento').val('0.00')
@@ -190,8 +190,8 @@ $(document).ready(function () {
       devolucion = 0
       $('#devolucion').val('0.00')
     }*/
-    devolucion=0
-    descuento=0
+    devolucion = 0
+    descuento = 0
 
     //subtotal = (parseFloat(valor)+parseFloat(devolucion))-parseFloat(descuento)
     importe =
@@ -225,7 +225,6 @@ $(document).ready(function () {
   }
   //CALCULO SUBTOTAL REQ
   function calculosubtotalreq(valor) {
-
     /*
     descuento = $('#descuento').val().replace(/,/g, '')
     devolucion = $('#devolucion').val().replace(/,/g, '')
@@ -240,9 +239,9 @@ $(document).ready(function () {
       $('#devolucion').val('0.00')
     }
 */
-devolucion=0
-descuento=0
-total = valor
+    devolucion = 0
+    descuento = 0
+    total = valor
 
     subtotal = round(total / 1.16, 2)
     importe =
@@ -275,7 +274,7 @@ total = valor
     )
     //caluloconret()
   }
-/*
+  /*
   function caluloconret() {
     total = $('#montoreqa').val().replace(/,/g, '')
     ret1 = $('#ret1').val().replace(/,/g, '')
@@ -434,10 +433,8 @@ total = valor
     return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals)
   }
 
- 
-
-   // SOLO NUMEROS NUEVOS CAMPOS
-   document.getElementById('importe2').onblur = function () {
+  // SOLO NUMEROS NUEVOS CAMPOS
+  document.getElementById('importe2').onblur = function () {
     calculosubtotal2(this.value.replace(/,/g, ''))
     this.value = parseFloat(this.value.replace(/,/g, ''))
       .toFixed(2)
@@ -845,7 +842,7 @@ total = valor
       },
       { className: 'hide_column', targets: [3] },
       { className: 'hide_column', targets: [1] },
-     
+
       { width: '30%', targets: 6 },
       { width: '20%', targets: 2 },
       { width: '20%', targets: 4 },
@@ -1151,21 +1148,21 @@ total = valor
   })
 
   //BOTON GUARDAR FACTURA
-  $(document).on('click', '#btnGuardarreq', function () {
+  $(document).on('click', '#btnGuardarreq', function (e) {
+    
     folio = $('#folioreq').val()
     fecha = $('#fechareq').val()
-
+    uuid = $('#uuid').val()
     id_obra = $('#id_obra').val()
     id_prov = $('#id_prov').val()
     tipo = 'PROVISION'
     descripcion = $('#descripcionreq').val()
-    
+
     subtotal = $('#subtotalreq').val().replace(/,/g, '')
     iva = $('#ivareq').val().replace(/,/g, '')
     monto = $('#montoreqa').val().replace(/,/g, '')
 
-
-/*
+    /*
     montob = $('#montoreqa').val().replace(/,/g, '')
     ret1 = $('#ret1').val().replace(/,/g, '')
     ret2 = $('#ret2').val().replace(/,/g, '')
@@ -1181,7 +1178,9 @@ total = valor
       id_obra.length == 0 ||
       id_prov.length == 0 ||
       descripcion.length == 0 ||
-      monto.length == 0
+      monto.length == 0 ||
+      uuid.length == 0 ||
+      uuid.length != 36
     ) {
       Swal.fire({
         title: 'Datos Faltantes',
@@ -1190,36 +1189,59 @@ total = valor
       })
       return false
     } else {
-      opcion = 1
       $.ajax({
-        url: 'bd/crudprovision.php',
+        url: 'bd/buscaruuid.php',
         type: 'POST',
         dataType: 'json',
+        async: false,
         data: {
-          folio: folio,
-          fecha: fecha,
-          id_obra: id_obra,
-          id_prov: id_prov,
-          descripcion: descripcion,
-          tipo: tipo,
-          subtotal: subtotal,
-          iva: iva,
-          monto: monto,
-         /* ret1: ret1,
+          uuid: uuid,
+        },
+        success: function (data) {
+          console.log(data)
+          if (data == 0) {
+            opcion = 1
+            $.ajax({
+              url: 'bd/crudprovision.php',
+              type: 'POST',
+              dataType: 'json',
+              data: {
+                folio: folio,
+                fecha: fecha,
+                id_obra: id_obra,
+                id_prov: id_prov,
+                descripcion: descripcion,
+                tipo: tipo,
+                subtotal: subtotal,
+                iva: iva,
+                monto: monto,
+                /* ret1: ret1,
           ret2: ret2,
           ret3: ret3,
           importe: importe,
           devolucion: devolucion,
           descuento: descuento,
           montob: montob,*/
-          opcion: opcion,
-        },
-        success: function (data) {
-          if (data == 1) {
-            facturaexitosa()
-            window.location.href = 'cntaprovision.php'
-          } else {
-            facturaerror()
+                opcion: opcion,
+              },
+              success: function (data) {
+                if (data == 1) {
+                  facturaexitosa()
+                  window.location.reload()
+                } else {
+                  facturaerror()
+                }
+              },
+            })
+          }
+          else{
+            swal.fire({
+              title: 'FACTURA DUPLICADA',
+              text: 'El folio de la Factura ya se encuentra en los documentos registrados',
+              icon: 'warning',
+              focusConfirm: true,
+              confirmButtonText: 'Aceptar',
+            })
           }
         },
       })
@@ -1295,7 +1317,7 @@ total = valor
     proveedor = fila.find('td:eq(4)').text()
     concepto = fila.find('td:eq(6)').text()
     saldo = fila.find('td:eq(8)').text()
-   /*
+    /*
     total = fila.find('td:eq(7)').text()
 
     ret1 = fila.find('td:eq(9)').text()
@@ -1305,8 +1327,6 @@ total = valor
     descuento = fila.find('td:eq(13)').text()
     devolucion = fila.find('td:eq(14)').text()
     montob=fila.find('td:eq(15)').text()*/
-
-   
 
     $('formPago').trigger('reset')
 
@@ -1328,10 +1348,8 @@ total = valor
     $('#ret22').val(ret2)
     $('#ret32').val(ret3)
    */
-   
-    calculosubtotalreq2($('#montoreqa2').val().replace(/,/g, ''))
 
-    
+    calculosubtotalreq2($('#montoreqa2').val().replace(/,/g, ''))
 
     $('#modalPago').modal('show')
   })
@@ -1357,7 +1375,7 @@ total = valor
     importe = $('#importe2').val().replace(/,/g, '')
     descuento = $('#descuento2').val().replace(/,/g, '')
     devolucion = $('#devolucion2').val().replace(/,/g, '')
-
+    uuid = $('#uuid').val()
 
     if (
       fecha.length == 0 ||
@@ -1365,7 +1383,9 @@ total = valor
       id_obra.length == 0 ||
       id_prov.length == 0 ||
       descripcion.length == 0 ||
-      monto.length == 0
+      monto.length == 0 ||
+      uuid.length == 0 ||
+      uuid.length != 36
     ) {
       Swal.fire({
         title: 'Datos Faltantes',
@@ -1375,13 +1395,12 @@ total = valor
       return false
     } else {
       $.ajax({
-        url: 'bd/buscarfacturacxp.php',
+        url: 'bd/buscaruuid.php',
         type: 'POST',
         dataType: 'json',
         async: false,
         data: {
-          factura: factura,
-          id_prov: id_prov,
+          uuid: uuid,
         },
         success: function (data) {
           if (data == 0) {
@@ -1410,6 +1429,7 @@ total = valor
                 descuento: descuento,
                 montob: montob,
                 opcion: opcion,
+                uuid: uuid
               },
               success: function (data) {
                 if (data == 1) {
@@ -1604,7 +1624,7 @@ total = valor
                 data[i].razon_prov,
                 data[i].fecha_cxp,
                 data[i].desc_cxp,
-                
+
                 Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
                   parseFloat(data[i].monto_cxp).toFixed(2),
                 ),
@@ -1646,9 +1666,6 @@ total = valor
     return i
   }
 
-
-
-  
   $(document).on('click', '.btnSaldarprov', function () {
     fila = $(this).closest('tr')
     folio = parseInt(fila.find('td:eq(0)').text())
@@ -1660,65 +1677,63 @@ total = valor
     $('#saldopendiente').val(saldo)
   })
 
+  // GUARDAR MONTO COBRADO
+  $(document).on('click', '#btnGuadarsaldar', function () {
+    folioprov = $('#folioprovs').val()
 
-    // GUARDAR MONTO COBRADO
-    $(document).on('click', '#btnGuadarsaldar', function () {
-      folioprov = $('#folioprovs').val()
-  
-      saldopendiente = $('#saldopendiente').val().replace(/,/g, '')
-  
-      if (saldopendiente === '') {
-        swal.fire({
-          title: 'Datos Incompletos',
-          text: 'Verifique sus datos',
-          icon: 'warning',
-          focusConfirm: true,
-          confirmButtonText: 'Aceptar',
-        })
-      } else {
-        Swal.fire({
-          title: '¿Está seguro de Saldar el registro:?',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#0B9E09',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Aceptar',
-        }).then(function (isConfirm) {
-          if (isConfirm.value) {
-            $.ajax({
-              type: 'POST',
-              url: 'bd/saldarprov.php',
-              async: false,
-              dataType: 'json',
-              data: {
-                folioprov: folioprov,
-                saldopendiente: saldopendiente,
-              },
-              success: function (res) {
-                if (res == 1) {
-                  swal.fire({
-                    title: 'Registrado Guardado',
-                    icon: 'success',
-                    focusConfirm: true,
-                    confirmButtonText: 'Aceptar',
-                  })
-                  $('#modalsaldar').modal('hide')
-                  location.reload()
-                } else {
-                  swal.fire({
-                    title: 'Error al Guardar el Registro',
-                    icon: 'error',
-                    focusConfirm: true,
-                    confirmButtonText: 'Aceptar',
-                  })
-                }
-              },
-            })
-          }
-        })
-      }
-    })
+    saldopendiente = $('#saldopendiente').val().replace(/,/g, '')
 
+    if (saldopendiente === '') {
+      swal.fire({
+        title: 'Datos Incompletos',
+        text: 'Verifique sus datos',
+        icon: 'warning',
+        focusConfirm: true,
+        confirmButtonText: 'Aceptar',
+      })
+    } else {
+      Swal.fire({
+        title: '¿Está seguro de Saldar el registro:?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#0B9E09',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Aceptar',
+      }).then(function (isConfirm) {
+        if (isConfirm.value) {
+          $.ajax({
+            type: 'POST',
+            url: 'bd/saldarprov.php',
+            async: false,
+            dataType: 'json',
+            data: {
+              folioprov: folioprov,
+              saldopendiente: saldopendiente,
+            },
+            success: function (res) {
+              if (res == 1) {
+                swal.fire({
+                  title: 'Registrado Guardado',
+                  icon: 'success',
+                  focusConfirm: true,
+                  confirmButtonText: 'Aceptar',
+                })
+                $('#modalsaldar').modal('hide')
+                location.reload()
+              } else {
+                swal.fire({
+                  title: 'Error al Guardar el Registro',
+                  icon: 'error',
+                  focusConfirm: true,
+                  confirmButtonText: 'Aceptar',
+                })
+              }
+            },
+          })
+        }
+      })
+    }
+  })
 })
 
 function filterFloat(evt, input) {

@@ -26,17 +26,18 @@ $montob = (isset($_POST['montob'])) ? $_POST['montob'] : '';
 
 $folioprovi = (isset($_POST['folioprovi'])) ? $_POST['folioprovi'] : '';
 
-
+$forigen = (isset($_POST['forigen'])) ? $_POST['forigen'] : '';
 
 $opcion = (isset($_POST['opcion'])) ? $_POST['opcion'] : '';
+$uuid = (isset($_POST['uuid'])) ? $_POST['uuid'] : '';
 
 
 
 $data = 0;
 switch ($opcion) {
     case 1: //alta
-        $consulta = "INSERT INTO w_cxpgral (id_prov,fecha_cxp,factura_cxp,desc_cxp,monto_cxp,saldo_cxp,tipo_cxp,subtotal_cxp,iva_cxp,ret1,ret2,ret3,montob,importe,descuento,devolucion) 
-        VALUES('$id_prov','$fecha','$factura','$descripcion','$monto','$monto','$tipo','$subtotal','$iva','$ret1','$ret2','$ret3','$montob','$importe','$descuento','$devolucion') ";
+        $consulta = "INSERT INTO w_cxpgral (id_prov,fecha_cxp,factura_cxp,desc_cxp,monto_cxp,saldo_cxp,tipo_cxp,subtotal_cxp,iva_cxp,ret1,ret2,ret3,montob,importe,descuento,devolucion,uuid) 
+        VALUES('$id_prov','$fecha','$factura','$descripcion','$monto','$monto','$tipo','$subtotal','$iva','$ret1','$ret2','$ret3','$montob','$importe','$descuento','$devolucion','$uuid') ";
         $resultado = $conexion->prepare($consulta);
         if ($resultado->execute()) {
             $data = 1;
@@ -62,8 +63,8 @@ switch ($opcion) {
 
         break;
     case 4:
-        $consulta = "INSERT INTO w_cxpgral (id_prov,fecha_cxp,factura_cxp,desc_cxp,monto_cxp,saldo_cxp,tipo_cxp,subtotal_cxp,iva_cxp,folio_provi,ret1,ret2,ret3,montob,importe,descuento,devolucion)
-         VALUES('$id_prov','$fecha','$factura','$descripcion','$monto','$monto','$tipo','$subtotal','$iva','$folioprovi','$ret1','$ret2','$ret3','$montob','$importe','$descuento','$devolucion') ";
+        $consulta = "INSERT INTO w_cxpgral (id_prov,fecha_cxp,factura_cxp,desc_cxp,monto_cxp,saldo_cxp,tipo_cxp,subtotal_cxp,iva_cxp,folio_provi,ret1,ret2,ret3,montob,importe,descuento,devolucion,uuid)
+         VALUES('$id_prov','$fecha','$factura','$descripcion','$monto','$monto','$tipo','$subtotal','$iva','$folioprovi','$ret1','$ret2','$ret3','$montob','$importe','$descuento','$devolucion','$uuid') ";
         $resultado = $conexion->prepare($consulta);
         if ($resultado->execute()) {
             $abono= round($importe * 1.16, 0, PHP_ROUND_HALF_UP);
@@ -90,6 +91,104 @@ switch ($opcion) {
 
             $data = 1;
         }
+        break;
+    case 5:
+        $consulta = "INSERT INTO w_cxpgral (id_prov,fecha_cxp,factura_cxp,desc_cxp,monto_cxp,saldo_cxp,tipo_cxp,subtotal_cxp,iva_cxp,folio_provi,ret1,ret2,ret3,montob,importe,descuento,devolucion,uuid)
+        VALUES('$id_prov','$fecha','$factura','$descripcion','$monto','$monto','$tipo','$subtotal','$iva','$folioprovi','$ret1','$ret2','$ret3','$montob','$importe','$descuento','$devolucion','$uuid') ";
+       $resultado = $conexion->prepare($consulta);
+       if ($resultado->execute()) {
+
+
+           $consulta = "SELECT * from w_cxpgral ORDER BY folio_cxp DESC LIMIT 1 ";
+           $resultado = $conexion->prepare($consulta);
+           $resultado->execute();
+           $datos = $resultado->fetchAll(PDO::FETCH_ASSOC);
+           foreach($datos as $row){
+               $foliocxp=$row['folio_cxp'];
+             
+           }
+
+
+           $abono=round($importe * 1.16,0,PHP_ROUND_HALF_UP);
+           $consulta = "UPDATE w_provisiongral SET saldo_provi=saldo_provi-'$abono' WHERE folio_provi='$folioprovi'";
+           $resultado = $conexion->prepare($consulta);
+           $resultado->execute();
+
+           $consulta = "SELECT saldo_provi FROM w_provisiongral WHERE folio_provi='$folioprovi'";
+           $resultado = $conexion->prepare($consulta);
+           $resultado->execute();
+           $datos = $resultado->fetchAll(PDO::FETCH_ASSOC);
+           $saldoprov = 1;
+
+           foreach ($datos as $row) {
+               $saldoprov = $row['saldo_provi'];
+           }
+
+           if ($saldoprov == 0) {
+               $consulta = "UPDATE w_provisiongral SET estado=2 WHERE folio_provi='$folioprovi'";
+               $resultado = $conexion->prepare($consulta);
+               $resultado->execute();
+           }
+
+
+           
+           $fechavp = (isset($_POST['fechavp'])) ? $_POST['fechavp'] : '';
+           $observacionesvp = (isset($_POST['observacionesvp'])) ? $_POST['observacionesvp'] : '';
+           $referenciavp = (isset($_POST['referenciavp'])) ? $_POST['referenciavp'] : '';
+         
+           $montovp = (isset($_POST['montovp'])) ? $_POST['montovp'] : '';
+         
+           $metodovp = (isset($_POST['metodovp'])) ? $_POST['metodovp'] : '';
+           $usuario = (isset($_POST['usuario'])) ? $_POST['usuario'] : '';
+           $opcionpago = (isset($_POST['opcionpago'])) ? $_POST['opcionpago'] : '';
+
+
+           $consulta = "INSERT INTO w_pagocxpgral (folio_cxp,fecha_pagocxp,referencia_pagocxp,observaciones_pagocxp,metodo_pagocxp,monto_pagocxp,usuario) 
+           VALUES ('$foliocxp','$fechavp','$referenciavp','$observacionesvp','$metodovp','$montovp','$usuario')";
+           $resultado = $conexion->prepare($consulta);
+
+
+           if ($resultado->execute()) {
+
+               $consulta = "UPDATE w_cxpgral SET saldo_cxp=0 where folio_cxp='$foliocxp'";
+               $resultado = $conexion->prepare($consulta);
+               if ($resultado->execute()) {
+                   
+                  
+                   
+                   
+
+                       $consulta = "UPDATE semanal_detalle SET aplicado=1 where id_reg='$forigen'";
+                       $resultado = $conexion->prepare($consulta);
+                       $resultado->execute();
+
+                       $consulta = "SELECT folio_rpt from semanal_detalle WHERE id_reg='$forigen'";
+                       $resultado = $conexion->prepare($consulta);
+                       $resultado->execute();
+                       $reg = $resultado->fetchAll(PDO::FETCH_ASSOC);
+                       foreach($reg as $row){
+                        $folioreporte=$row['folio_rpt'];
+                       }
+
+
+                       $consulta = "SELECT * FROM semanal_detalle where folio_rpt='$folioreporte' and aplicado=0";
+                       $resultado = $conexion->prepare($consulta);
+                       $resultado->execute();
+                       if ($resultado->rowCount()==0){
+                        $consulta = "UPDATE semanal SET activo=3 where folio='$folioreporte'";
+                        $resultado = $conexion->prepare($consulta);
+                        $resultado->execute();
+                       }
+
+
+
+               } else {
+                   $res = 2;
+               }
+           }
+
+           $data = 1;
+       }
         break;
 }
 

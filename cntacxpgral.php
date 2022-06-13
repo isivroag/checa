@@ -333,6 +333,11 @@ $message = "";
                                     </div>
 
                                     <div class="col-sm-4">
+                                        <div class="form-group input-group-sm">
+                                            <label for="uuid" class="col-form-label">UUID FACTURA:</label>
+                                            <input type="text" class="form-control" name="uuid" id="uuid" placeholder="UUID FACTURA" minlength="36" maxlength="36">
+                                        </div>
+
                                     </div>
 
                                     <div class="col-sm-3 ">
