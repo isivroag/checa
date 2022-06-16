@@ -403,10 +403,10 @@
           </li>
 
           <?php if ($_SESSION['s_rol'] != '5') { ?>
-            <li class="nav-item has-treeview <?php echo ($pagina == 'rptobra') ? "menu-open" : ""; ?>">
+            <li class="nav-item has-treeview <?php echo ($pagina == 'rptobra' || $pagina == 'vrptpagos') ? "menu-open" : ""; ?>">
 
 
-              <a href="#" class="nav-link <?php echo ($pagina == 'rptobra') ? "active" : ""; ?>">
+              <a href="#" class="nav-link <?php echo ($pagina == 'rptobra' || $pagina == 'vrptpagos') ? "active" : ""; ?>">
 
                 <span class="fa-stack">
                   <i class="nav-icon fas fa-file-contract "></i>
@@ -426,7 +426,13 @@
                   </a>
                 </li>
 
+                <li class="nav-item">
+                  <a href="vrptpagos.php" class="nav-link <?php echo ($pagina == 'vrptpagos') ? "active seleccionado" : ""; ?>  ">
 
+                    <i class=" fa-solid fa-money-bill-transfer text-primary  nav-icon"></i>
+                    <p>Pagos</p>
+                  </a>
+                </li>
 
 
               </ul>
