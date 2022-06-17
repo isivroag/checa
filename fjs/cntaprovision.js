@@ -1178,9 +1178,8 @@ $(document).ready(function () {
       id_obra.length == 0 ||
       id_prov.length == 0 ||
       descripcion.length == 0 ||
-      monto.length == 0 ||
-      uuid.length == 0 ||
-      uuid.length != 36
+      monto.length == 0 
+    
     ) {
       Swal.fire({
         title: 'Datos Faltantes',
