@@ -3,10 +3,10 @@
         
         function connect(){
         
-            define('servidor','bosquedelasanimas.com.mx');
-            define('bd_nombre','bosquede_inba');
-            define('usuario','bosquede_sistema');
-            define('password','Gpoferche2022#');
+            define('servidor','tecniem.com');
+            define('bd_nombre','tecniemc_checatec');
+            define('usuario','tecniemc_ivan');
+            define('password','66obispo.colima');
 
             $opciones=array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
 
