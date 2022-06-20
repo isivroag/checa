@@ -1,4 +1,12 @@
 <?php
+
+
+$inicio=1;
+if ($inicio==0){
+  header("Location:mantenimiento.html");
+  exit();
+}
+
 include_once('bd/cookie.php');
 
 
