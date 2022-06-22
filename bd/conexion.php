@@ -4,7 +4,7 @@
         function connect(){
         
             define('servidor','tecniem.com');
-            define('bd_nombre','tecniemc_checatec');
+            define('bd_nombre','tecniemc_checa');
             define('usuario','tecniemc_ivan');
             define('password','66obispo.colima');
 
