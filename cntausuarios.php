@@ -12,7 +12,7 @@ include_once 'bd/conexion.php';
 $objeto = new conn();
 $conexion = $objeto->connect();
 
-$consulta = "SELECT * FROM w_usuario JOIN rol ON w_usuario.rol_usuario=rol.id WHERE w_usuario.id_usuario<>'".$_SESSION['s_id_usuario']."' ORDER BY w_usuario.id_usuario";
+$consulta = "SELECT * FROM w_usuario JOIN rol ON w_usuario.rol_usuario=rol.id WHERE w_usuario.edo_usuario=1 and w_usuario.id_usuario <> '". $_SESSION['s_id_usuario']."' ORDER BY w_usuario.id_usuario";
 $resultado = $conexion->prepare($consulta);
 $resultado->execute();
 $data = $resultado->fetchAll(PDO::FETCH_ASSOC);
