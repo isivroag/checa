@@ -3,59 +3,34 @@ $(document).ready(function() {
     var id, opcion;
     opcion = 4;
 
-    $('#tablaV thead tr').clone(true).appendTo( '#tablaV thead' );
-    $('#tablaV thead tr:eq(1) th').each( function (i) {
-
-      
-      
-        var title = $(this).text();
-        $(this).html( '<input class="form-control form-control-sm" type="text" placeholder="'+title+'" />' );
  
-        $( 'input', this ).on( 'keyup change', function () {
-          
-          if (i==4){
-
-           valbuscar=this.value;
-          }else{
-            valbuscar=this.value;
-
-          }
-          
-            if ( tablaVis.column(i).search() !== valbuscar ) {
-                tablaVis
-                    .column(i)
-                    .search( valbuscar,true,true )
-                    .draw();
-            }
-        } );
-
-
-    } );
      //FUNCION FORMATO MONEDA 
 
 
     tablaVis = $("#tablaV").DataTable({
-        dom: "<'row justify-content-center'<'col-sm-12 col-md-4 form-group'l><'col-sm-12 col-md-4 form-group'B><'col-sm-12 col-md-4 form-group'f>>" +
-            "<'row'<'col-sm-12'tr>>" +
-            "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+        dom: 
+        "<'row justify-content-center'<'col-sm-12 col-md-4 form-group'l><'col-sm-12 col-md-4 form-group'B><'col-sm-12 col-md-4 form-group'f>>" +
+        "<'row'<'col-sm-12'tr>>" +
+        "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
 
-        buttons: [{
-                extend: "excelHtml5",
-                text: "<i class='fas fa-file-excel'> Excel</i>",
-                titleAttr: "Exportar a Excel",
-                title: "Reporte de Cuentas x Pagar",
-                className: "btn bg-success ",
-                exportOptions: { columns: [0, 1, 4,6,7,8,9,10] },
-            },
-            {
-                extend: "pdfHtml5",
-                text: "<i class='far fa-file-pdf'> PDF</i>",
-                titleAttr: "Reporte de Cuentas x Pagar",
-                title: "Listado de Egresos",
-                className: "btn bg-danger",
-                exportOptions: { columns: [0, 1, 4, 6,7,8,9,10] },
-            },
-        ],
+            buttons: [
+                {
+                  extend: 'excelHtml5',
+                  text: "<i class='fas fa-file-excel'> Excel</i>",
+                  titleAttr: 'Exportar a Excel',
+                  title: 'Consulta de Egresos',
+                  className: 'btn bg-success ',
+                  exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8] },
+                },
+                {
+                  extend: 'pdfHtml5',
+                  text: "<i class='far fa-file-pdf'> PDF</i>",
+                  titleAttr: 'Exportar a PDF',
+                  title: 'Consulta de Egresos',
+                  className: 'btn bg-danger',
+                  exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8] },
+                },
+              ],
         stateSave: true,
 
         columnDefs: [
@@ -164,7 +139,34 @@ $(document).ready(function() {
 
  
 
+    $('#tablaV thead tr').clone(true).appendTo( '#tablaV thead' );
+    $('#tablaV thead tr:eq(1) th').each( function (i) {
 
+      
+      
+        var title = $(this).text();
+        $(this).html( '<input class="form-control form-control-sm" type="text" placeholder="'+title+'" />' );
+ 
+        $( 'input', this ).on( 'keyup change', function () {
+          
+          if (i==4){
+
+           valbuscar=this.value;
+          }else{
+            valbuscar=this.value;
+
+          }
+          
+            if ( tablaVis.column(i).search() !== valbuscar ) {
+                tablaVis
+                    .column(i)
+                    .search( valbuscar,true,true )
+                    .draw();
+            }
+        } );
+
+
+    } );
  
 
     function operacionexitosa() {
