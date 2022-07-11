@@ -2347,7 +2347,7 @@ console.log(total)
   $(document).on('click', '.btnSaldarprov', function () {
     fila = $(this).closest('tr')
     folio = parseInt(fila.find('td:eq(0)').text())
-    saldo = fila.find('td:eq(5)').text()
+    saldo = fila.find('td:eq(7)').text()
 
     $('#formsaldar').trigger('reset')
     $('#modalsaldar').modal('show')
