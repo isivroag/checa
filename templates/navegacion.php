@@ -102,8 +102,8 @@
         <!-- CIERRA MENU CATALOGOS -->
         <?php if ($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2' || $_SESSION['s_rol'] == '5') { ?>
 
-          <li class="nav-item  has-treeview <?php echo ($pagina == 'egresosgral' || $pagina == 'cxpgral' || $pagina === 'saldoseggral' || $pagina == "cntapagocxpgral" || $pagina == "reportepagos" ) ? "menu-open" : ""; ?>">
-            <a href="#" class="nav-link  <?php echo ($pagina == 'egresosgral' || $pagina == 'cxpgral' || $pagina === 'saldoseggral' || $pagina == "cntapagocxpgral" || $pagina == "reportepagos" ) ? "active" : ""; ?>">
+          <li class="nav-item  has-treeview <?php echo ($pagina == 'egresosgral' || $pagina == 'cxpgral' || $pagina === 'saldoseggral' || $pagina == "cntapagocxpgral" || $pagina == "reportepagos") ? "menu-open" : ""; ?>">
+            <a href="#" class="nav-link  <?php echo ($pagina == 'egresosgral' || $pagina == 'cxpgral' || $pagina === 'saldoseggral' || $pagina == "cntapagocxpgral" || $pagina == "reportepagos") ? "active" : ""; ?>">
               <i class="fa-solid fa-building  nav-icon"></i>
               <p>
                 Administración
@@ -124,7 +124,7 @@
               <li class="nav-item">
                 <a href="cntacxpgral.php" class="nav-link <?php echo ($pagina == 'cxpgral') ? "active seleccionado" : ""; ?>  ">
                   <i class="fa-solid fa-money-check-dollar nav-icon"></i>
-                  <p>CXP  Gral</p>
+                  <p>CXP Gral</p>
                 </a>
               </li>
 
@@ -272,24 +272,24 @@
                 </a>
               </li>
 
-              
 
-              <li class="nav-item">
-                <a href="cntasaldoseg.php" class="nav-link <?php echo ($pagina == 'saldoseg') ? "active seleccionado" : ""; ?>  ">
+              <?php if ($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2') { ?>
+                <li class="nav-item">
+                  <a href="cntasaldoseg.php" class="nav-link <?php echo ($pagina == 'saldoseg') ? "active seleccionado" : ""; ?>  ">
 
-                  <i class="fas text-purple fa-coins nav-icon"></i>
-                  <p>Saldos Pendientes </p>
-                </a>
-              </li>
+                    <i class="fas text-purple fa-coins nav-icon"></i>
+                    <p>Saldos Pendientes </p>
+                  </a>
+                </li>
 
-              <li class="nav-item">
-                <a href="prerptpagos.php" class="nav-link <?php echo ($pagina == 'rptpagoobra') ? "active seleccionado" : ""; ?>  ">
+                <li class="nav-item">
+                  <a href="prerptpagos.php" class="nav-link <?php echo ($pagina == 'rptpagoobra') ? "active seleccionado" : ""; ?>  ">
 
-                  <i class="fas text-purple fa-file-invoice-dollar nav-icon"></i>
-                  <p>Prereporte Pagos Obra </p>
-                </a>
-              </li>
-
+                    <i class="fas text-purple fa-file-invoice-dollar nav-icon"></i>
+                    <p>Prereporte Pagos Obra </p>
+                  </a>
+                </li>
+              <?php } ?>
 
             </ul>
           </li>
