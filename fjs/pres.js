@@ -87,16 +87,23 @@ $(document).ready(function () {
       if (data[8] == "A") {
         $('td', row).css('background-color', '#D1D1D1');
         $('td', row).css('font-weight', 'bold');
+        $($(row).find('td')).addClass('sinSel')  
         //$($(row).find('td')).addClass('bg-gradient-secondary')  
       }else if(data[8]=="B"){
           $('td', row).css('background-color', '#A4C9E7');
+          $($(row).find('td')).addClass('sinSel') 
       
       }else if (data[8]=="C"){
         $('td', row).css('background-color', '#EE936E');
+        $($(row).find('td')).addClass('sinSel') 
       }else if (data[8]=="CO"){
-        $('td', row).css('background-color', '#FEFEFE');
+       // $('td', row).css('background-color', '#FFFFFF');
+       $($(row).find('td')).addClass('conSel')  
       }
-      
+      else{
+        $('td', row).css('background-color', '#FAD505');
+        $($(row).find('td')).addClass('sinSel') 
+      }
 
       
 
@@ -227,7 +234,7 @@ function buscarpresupuesto(obra){
                           data[i].concepto_renglon,
                           data[i].unidad_renglon,
                           Intl.NumberFormat('es-MX',{ minimumFractionDigits: 2 }).format(parseFloat(data[i].cantidad_renglon).toFixed(2)),
-                          Intl.NumberFormat('es-MX',{ minimumFractionDigits: 2 }).format(parseFloat(data[i].precion_renglon).toFixed(2)),
+                          Intl.NumberFormat('es-MX',{ minimumFractionDigits: 2 }).format(parseFloat(data[i].precio_renglon).toFixed(2)),
                           Intl.NumberFormat('es-MX',{ minimumFractionDigits: 2 }).format(parseFloat(data[i].monto_renglon).toFixed(2)),
                           //new Intl.NumberFormat('es-MX').format(Math.round((data[i].monto_renglon) * 100,2) / 100) ,
                           data[i].tipo_renglon,

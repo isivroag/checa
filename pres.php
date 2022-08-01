@@ -87,6 +87,24 @@ if ($_SESSION['id_obra'] == null) {
 
 
     }
+
+
+
+    .conSel tbody tr:hover td {
+        background-color: #04146F !important;
+        color: #FFFFFF !important;
+
+    }
+    .sinSel tr:hover td {
+        
+        color: #000000 !important;
+
+    }
+    .sinSel tr td {
+        
+        color: #000000 !important;
+
+    }
 </style>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -183,28 +201,28 @@ if ($_SESSION['id_obra'] == null) {
                                         </div>
                                     </div>
                                     <div class="col-sm-10">
-                                            <div class="table-hover table-responsive w-auto" style="padding:15px">
-                                                <table name="tabla" id="tabla" class="table table-sm  table-striped table-bordered table-condensed" style="width:100%">
-                                                    <thead class="text-center bg-gradient-green">
-                                                        <tr>
-                                                            <th>ID</th>
-                                                            <th>INDICE</th>
-                                                            <th>CLAVE</th>
-                                                            <th>CONCEPTO</th>
-                                                            <th>UNIDAD</th>
-                                                            <th>CANTIDAD</th>
-                                                            <th>PRECIO</th>
-                                                            <th>MONTO</th>
-                                                            <th>TIPO</th>
-                                                            <th>PADRE</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
+                                        <div class="table-hover table-responsive w-auto" style="padding:15px">
+                                            <table name="tabla" id="tabla" class="table table-sm  table-striped table-bordered table-condensed" style="width:auto">
+                                                <thead class="text-center bg-gradient-green">
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>INDICE</th>
+                                                        <th>CLAVE</th>
+                                                        <th>CONCEPTO</th>
+                                                        <th>UNIDAD</th>
+                                                        <th>CANTIDAD</th>
+                                                        <th>PRECIO</th>
+                                                        <th>MONTO</th>
+                                                        <th>TIPO</th>
+                                                        <th>PADRE</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
 
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                                                </tbody>
+                                            </table>
                                         </div>
+                                    </div>
 
 
                                 </div>

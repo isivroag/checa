@@ -1,5 +1,10 @@
 <!-- CODIGO PHP-->
 <?php
+
+
+
+
+
 $pagina = "estimacion";
 
 include_once "templates/header.php";
@@ -14,6 +19,50 @@ $tokenid = md5($_SESSION['s_usuario']);
 $usuario = $_SESSION['s_nombre'];
 $idusuario = $_SESSION['s_id_usuario'];
 
+function buscarpadre($idpadre, $conn,$obra)
+{
+
+
+
+    $consultaf = "SELECT * FROM w_pres WHERE indice_renglon='$idpadre' and id_obra='$obra'";
+
+    $resultadof = $conn->prepare($consultaf);
+    $resultadof->execute();
+    $dataf = $resultadof->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($dataf as $rowf) {
+        $padre = $rowf['padre_renglon'];
+    }
+    if ($padre == 0) {
+        echo '<tr>
+        <td></td>
+        <td>' . $rowf['id_renglon'] . '</td>
+        <td>' . $rowf['clave_renglon'] . '</td>
+        <td>' . $rowf['concepto_renglon'] . '</td>
+        <td class="text-right"></td>
+        <td class="text-center"></td>
+        <td class="text-right"></td>
+        <td class="text-right"></td>
+        <td>'. $rowf['tipo_renglon'] .'</td>
+        <td>'. $rowf['padre_renglon'] .'</td>
+        <td></td>
+    </tr>';
+    } else {
+        buscarpadre($padre,$conn,$obra);
+        echo '<tr>
+        <td></td>
+        <td>' . $rowf['id_renglon'] . '</td>
+        <td>' . $rowf['clave_renglon'] . '</td>
+        <td>' . $rowf['concepto_renglon'] . '</td>
+        <td class="text-right"></td>
+        <td class="text-center"></td>
+        <td class="text-right"></td>
+        <td class="text-right"></td>
+        <td>'. $rowf['tipo_renglon'] .'</td>
+        <td>'. $rowf['padre_renglon'] .'</td>
+        <td></td>
+    </tr>';
+    }
+}
 
 
 if (isset($_GET['id_obra'])) {
@@ -104,11 +153,17 @@ $message = "";
 
 
 
-$consulta = "SELECT * FROM v_tmp_detalleest WHERE folio_tmp='$folio_tmp'";
+$consulta = "SELECT * FROM v_tmp_detalleest WHERE folio_tmp='$folio_tmp' order by id_renglon";
+//$consulta = "SELECT * FROM v_tmp_detalleest WHERE folio_tmp='$folio_tmp' ";
 $resultado = $conexion->prepare($consulta);
 $resultado->execute();
 $datadet = $resultado->fetchAll(PDO::FETCH_ASSOC);
 
+
+$consulta = "SELECT * FROM w_pres WHERE id_obra='$id_obra'";
+$resultado = $conexion->prepare($consulta);
+$resultado->execute();
+$dataPres = $resultado->fetchAll(PDO::FETCH_ASSOC);
 
 
 
@@ -160,19 +215,36 @@ $datadet = $resultado->fetchAll(PDO::FETCH_ASSOC);
         margin-top: 120px;
         margin-left: 20px;
 
+    }
+
+
+    .conSel tbody tr:hover td {
+        background-color: #04146F !important;
+        color: #FFFFFF !important;
+
+    }
+
+    .sinSel tr:hover td {
+
+        color: #000000 !important;
+
+    }
+
+    .sinSel tr td {
+
+        color: #000000 !important;
 
     }
 </style>
-<!-- Content Wrapper. Contains page content -->
+
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
 
 
-    <!-- Main content -->
+
     <section class="content">
 
 
-        <!-- Default box -->
+
         <div class="card">
 
 
@@ -193,16 +265,16 @@ $datadet = $resultado->fetchAll(PDO::FETCH_ASSOC);
                     <div class="col-lg-12">
 
 
-                        <!--<button id="btnNuevo" type="button" class="btn bg-gradient-green btn-ms" data-toggle="modal"><i class="fas fa-plus-square text-light"></i><span class="text-light"> Nuevo</span></button>-->
+
                         <button type="button" id="btnGuardar" name="btnGuardar" class="btn btn-success" value="btnGuardar"><i class="far fa-save"></i> Guardar</button>
-                        <!--<button id="btnNuevo" type="button" class="btn bg-gradient-primary btn-ms" data-toggle="modal"><i class="fas fa-envelope-square"></i> Enviar</button>-->
+
                     </div>
                 </div>
 
                 <br>
 
 
-                <!-- Formulario Datos de Cliente -->
+
                 <form id="formDatos" action="" method="POST">
 
 
@@ -235,16 +307,7 @@ $datadet = $resultado->fetchAll(PDO::FETCH_ASSOC);
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
-                                        <!--  <div class="form-group input-group-sm">
-                                            <label for="tipo" class="col-form-label">TIPO:</label>
-                                            <select class="form-control" name="tipo" id="tipo">
 
-                                                <option id="NORMAL" value="NORMAL">NORMAL</option>
-                                                <option id="ADICIONAL" value="ADICIONAL">ADICIONAL</option>
-                                                <option id="EXTRAORDINARIA" value="EXTRAORDINARIA">EXTRAORDINARIA</option>
-
-                                            </select>
-                                        </div> -->
                                     </div>
 
 
@@ -264,7 +327,7 @@ $datadet = $resultado->fetchAll(PDO::FETCH_ASSOC);
                                         <div class="input-group input-group-sm">
                                             <label for="obra" class="col-form-label">OBRA:</label>
                                             <div class="input-group input-group-sm">
-                                                <input type="hidden" class="form-control" name="id_obra" id="id_obra" value="<?php echo $id_obra; ?>">
+                                                <input type="text" style="max-width: 100px;" class="form-control" name="id_obra" id="id_obra" value="<?php echo $id_obra; ?>" disabled>
                                                 <input type="text" class="form-control" name="obra" id="obra" disabled placeholder="SELECCIONAR OBRA" value="<?php echo $obra; ?>">
                                                 <?php
                                                 if ($id_obra == null) {
@@ -288,45 +351,60 @@ $datadet = $resultado->fetchAll(PDO::FETCH_ASSOC);
 
 
                                 </div>
+
                                 <div class="row justify-content-sm-end ">
                                     <div class="col-sm-2 d-block">
                                         <button type="button" id="btnAgregar" name="btnAgregar" class="btn btn-primary btn-block" value="btnAgregar"><i class="fas fa-plus"></i> Agregar Concepto</button>
                                     </div>
 
                                 </div>
-                                
+
                                 <div class="row justify-content-sm-center" style="margin-bottom:10px">
                                     <div class="col-lg-12 mx-auto">
 
                                         <div class="table-responsive" style="padding:5px;">
 
-                                            <table name="tablaDet" id="tablaDet" class="table table-sm table-striped table-bordered table-condensed  mx-auto" style="width:100%;">
+                                            <table name="tablaDet" id="tablaDet" class="table table-sm table-striped table-bordered table-condensed  mx-auto" style="width:100%">
                                                 <thead class="text-center bg-gradient-green">
                                                     <tr>
                                                         <th>Id</th>
-                                                        <th>Concepto</th>
+                                                        <th>Id Renglon</th>
+                                                        <th>Clave</th>
+                                                        <th style="width:50%">Concepto</th>
                                                         <th>Cantidad</th>
                                                         <th>Unidad</th>
                                                         <th>P.U.</th>
                                                         <th>Importe</th>
+                                                        <th>TIPO</th>
+                                                        <th>PADRE</th>
                                                         <th>Acciones</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <?php
                                                     foreach ($datadet as $datdet) {
+
+                                                        //empezar la busqueda de los padres
+                                                        $idpadre = $datdet['padre_renglon'];
+                                                        if ($idpadre != 0) {
+                                                            buscarpadre($idpadre,$conexion,$id_obra);
+                                                        } 
                                                     ?>
-                                                        <tr>
-                                                            <td><?php echo $datdet['id_det'] ?></td>
-                                                            <td><?php echo $datdet['concepto_renglon'] ?></td>
-                                                            <td class="text-right"><?php echo number_format($datdet['cantidad'],2) ?></td>
-                                                            <td class="text-center"><?php echo $datdet['unidad_renglon'] ?></td>
-                                                            <td class="text-right"><?php echo number_format($datdet['precio'],2) ?></td>
-                                                            <td class="text-right"><?php echo number_format($datdet['importe'],2) ?></td>
-                                                            
-                                                            <td></td>
-                                                        </tr>
+                                                            <tr>
+                                                                <td><?php echo $datdet['id_det'] ?></td>
+                                                                <td><?php echo $datdet['id_renglon'] ?></td>
+                                                                <td><?php echo $datdet['clave_renglon'] ?></td>
+                                                                <td><?php echo $datdet['concepto_renglon'] ?></td>
+                                                                <td class="text-right"><?php echo number_format($datdet['cantidad'], 2) ?></td>
+                                                                <td class="text-center"><?php echo $datdet['unidad_renglon'] ?></td>
+                                                                <td class="text-right"><?php echo number_format($datdet['precio'], 2) ?></td>
+                                                                <td class="text-right"><?php echo number_format($datdet['importe'], 2) ?></td>
+                                                                <td><?php echo $datdet['tipo_renglon'] ?></td>
+                                                                <td><?php echo $datdet['padre_renglon'] ?></td>
+                                                                <td></td>
+                                                            </tr>
                                                     <?php
+                                                        
                                                     }
                                                     ?>
 
@@ -354,14 +432,12 @@ $datadet = $resultado->fetchAll(PDO::FETCH_ASSOC);
                                         </div>
                                     </div>
                                 </div>
-                                <!-- modificacion Agregar notas a presupuesto-->
 
 
                             </div>
-                            <!--fin modificacion agregar vendedor a presupuesto -->
 
                         </div>
-                        <!-- Formulario Agrear Item -->
+
 
 
                     </div>
@@ -370,9 +446,6 @@ $datadet = $resultado->fetchAll(PDO::FETCH_ASSOC);
                 </form>
 
 
-                <!-- /.card-body -->
-
-                <!-- /.card-footer-->
             </div>
         </div>
 
@@ -391,32 +464,46 @@ $datadet = $resultado->fetchAll(PDO::FETCH_ASSOC);
         <div class="container">
 
             <!-- Default box -->
-            <div class="modal fade" id="modalObra" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-md" role="document">
-                    <div class="modal-content w-auto">
+            <div class="modal fade" id="modalCon" tabindex="-1">
+                <div class="modal-dialog modal-lg ">
+                    <div class="modal-content ">
                         <div class="modal-header bg-gradient-green">
-                            <h5 class="modal-title" id="exampleModalLabel">BUSCAR OBRA</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">BUSCAR CONCEPTOS</h5>
 
                         </div>
                         <br>
-                        <div class="table-hover table-responsive w-auto" style="padding:15px">
-                            <table name="tablaObra" id="tablaObra" class="table table-sm text-nowrap table-striped table-bordered table-condensed" style="width:100%">
+                        <div class=" table-hover" style="padding:15px">
+                            <table name="tablaCon" id="tablaCon" class="table table-sm table-striped table-bordered  mx-auto " style="width:100%; font-size:15px">
                                 <thead class="text-center bg-gradient-green">
                                     <tr>
                                         <th>ID</th>
+                                        <th>INDICE</th>
                                         <th>CLAVE</th>
-                                        <th>NOMBRE CORTO</th>
+                                        <th>CONCEPTO</th>
+                                        <th>UNIDAD</th>
+                                        <th>CANTIDAD</th>
+                                        <th>PRECIO</th>
+                                        <th>MONTO</th>
+                                        <th>TIPO</th>
+                                        <th>PADRE</th>
                                         <th>ACCIONES</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                    foreach ($datacon as $datc) {
+                                    foreach ($dataPres as $datPres) {
                                     ?>
                                         <tr>
-                                            <td><?php echo $datc['id_obra'] ?></td>
-                                            <td><?php echo $datc['clave_obra'] ?></td>
-                                            <td><?php echo $datc['corto_obra'] ?></td>
+                                            <td><?php echo $datPres['id_renglon'] ?></td>
+                                            <td><?php echo $datPres['indice_renglon'] ?></td>
+                                            <td><?php echo $datPres['clave_renglon'] ?></td>
+                                            <td><?php echo $datPres['concepto_renglon'] ?></td>
+                                            <td><?php echo $datPres['unidad_renglon'] ?></td>
+                                            <td class="text-right"><?php echo number_format($datPres['cantidad_renglon'], 2) ?></td>
+                                            <td class="text-right"><?php echo number_format($datPres['precio_renglon'], 2) ?></td>
+                                            <td class="text-right"><?php echo number_format($datPres['monto_renglon'], 2) ?></td>
+                                            <td><?php echo $datPres['tipo_renglon'] ?></td>
+                                            <td><?php echo $datPres['padre_renglon'] ?></td>
                                             <td></td>
                                         </tr>
                                     <?php
@@ -435,32 +522,46 @@ $datadet = $resultado->fetchAll(PDO::FETCH_ASSOC);
         <div class="container">
 
             <!-- Default box -->
-            <div class="modal fade" id="modalProveedor" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-md" role="document">
-                    <div class="modal-content w-auto">
+            <div class="modal fade" id="modalCon2" tabindex="-1">
+                <div class="modal-dialog modal-xl ">
+                    <div class="modal-content ">
                         <div class="modal-header bg-gradient-green">
-                            <h5 class="modal-title" id="exampleModalLabel">BUSCAR OBRA</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">BUSCAR CONCEPTOS</h5>
 
                         </div>
                         <br>
-                        <div class="table-hover table-responsive w-auto" style="padding:15px">
-                            <table name="tablaProveedor" id="tablaProveedor" class="table table-sm text-nowrap table-striped table-bordered table-condensed" style="width:100%">
+                        <div class=" table-hover" style="padding:15px">
+                            <table name="tablaCon2" id="tablaCon2" class="table table-sm table-striped table-bordered  mx-auto " style="width:100%; font-size:15px">
                                 <thead class="text-center bg-gradient-green">
                                     <tr>
                                         <th>ID</th>
-                                        <th>RFC</th>
-                                        <th>RAZON SOCIAL</th>
+                                        <th>INDICE</th>
+                                        <th>CLAVE</th>
+                                        <th>CONCEPTO</th>
+                                        <th>UNIDAD</th>
+                                        <th>CANTIDAD</th>
+                                        <th>PRECIO</th>
+                                        <th>MONTO</th>
+                                        <th>TIPO</th>
+                                        <th>PADRE</th>
                                         <th>ACCIONES</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                    foreach ($dataprov as $datp) {
+                                    foreach ($dataPres as $datPres) {
                                     ?>
                                         <tr>
-                                            <td><?php echo $datp['id_prov'] ?></td>
-                                            <td><?php echo $datp['rfc_prov'] ?></td>
-                                            <td><?php echo $datp['razon_prov'] ?></td>
+                                            <td><?php echo $datPres['id_renglon'] ?></td>
+                                            <td><?php echo $datPres['indice_renglon'] ?></td>
+                                            <td><?php echo $datPres['clave_renglon'] ?></td>
+                                            <td><?php echo $datPres['concepto_renglon'] ?></td>
+                                            <td><?php echo $datPres['unidad_renglon'] ?></td>
+                                            <td class="text-right"><?php echo number_format($datPres['cantidad_renglon'], 2) ?></td>
+                                            <td class="text-right"><?php echo number_format($datPres['precio_renglon'], 2) ?></td>
+                                            <td class="text-right"><?php echo number_format($datPres['monto_renglon'], 2) ?></td>
+                                            <td><?php echo $datPres['tipo_renglon'] ?></td>
+                                            <td><?php echo $datPres['padre_renglon'] ?></td>
                                             <td></td>
                                         </tr>
                                     <?php
@@ -474,18 +575,9 @@ $datadet = $resultado->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </div>
     </section>
-
 </div>
 
-<script>
-    //window.addEventListener('beforeunload', function(event)  {
 
-    // event.preventDefault();
-
-
-    //event.returnValue ="";
-    //});
-</script>
 
 <?php include_once 'templates/footer.php'; ?>
 <script src="fjs/tmpestimacion.js?v=<?php echo (rand()); ?>"></script>

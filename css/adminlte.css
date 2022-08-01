@@ -6486,17 +6486,23 @@ a.disabled.mailbox-attachment-close {
 
 @media (min-width: 992px) {
     .modal-lg,
-    .modal-xl {
+    .modal-xl,
+    .modal-xxl {
         max-width: 800px;
     }
 }
 
 @media (min-width: 1200px) {
-    .modal-xl {
+    .modal-xl,
+    .modal-xxl {
         max-width: 1140px;
     }
 }
-
+@media (min-width: 1600px) {
+    .modal-xxl {
+        max-width: 1540px;
+    }
+}
 .tooltip {
     position: absolute;
     z-index: 1070;
