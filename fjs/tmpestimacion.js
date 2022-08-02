@@ -28,9 +28,9 @@ $(document).ready(function () {
       /*{ className: 'hide_column', targets: [0] },
         { className: 'hide_column', targets: [1] },
         { className: 'hide_column', targets: [2] },*/
-        { className: 'hide_column', targets: [8] },
         { className: 'hide_column', targets: [9] },
-      { width: '50%', targets: 3 },
+        { className: 'hide_column', targets: [10] },
+      { width: '50%', targets: 4 },
     ],
 
     language: {
@@ -51,18 +51,18 @@ $(document).ready(function () {
     },
 
     rowCallback: function (row, data) {
-      $($(row).find('td')[5]).addClass('text-right')
       $($(row).find('td')[6]).addClass('text-right')
       $($(row).find('td')[7]).addClass('text-right')
-      if (data[8] == 'A') {
+      $($(row).find('td')[8]).addClass('text-right')
+      if (data[9] == 'A') {
         $('td', row).css('background-color', '#D1D1D1')
         $('td', row).css('font-weight', 'bold')
         //$($(row).find('td')).addClass('bg-gradient-secondary')
-      } else if (data[8] == 'B') {
+      } else if (data[9] == 'B') {
         $('td', row).css('background-color', '#A4C9E7')
-      } else if (data[8] == 'C') {
+      } else if (data[9] == 'C') {
         $('td', row).css('background-color', '#EE936E')
-      } else if (data[8] == 'CO') {
+      } else if (data[9] == 'CO') {
         //$('td', row).css('background-color', '#FEFEFE');
         $($(row).find('td')).addClass('ConSel')
       }
@@ -134,6 +134,72 @@ $(document).ready(function () {
     },
   })
 
+  tablaCon = $('#tablaCon').DataTable({
+    fixedHeader: false,
+    paging: false,
+    ordening: false,
+    order: [[1, 'asc']],
+    columnDefs: [
+      { className: 'hide_column', targets: [0] },
+      { className: 'hide_column', targets: [8] },
+      { className: 'hide_column', targets: [9] },
+      { width: '50%', targets: 3 },
+      
+
+      {
+        targets: -1,
+        data: null,
+        render: function (data, type, row) {
+          'use strict'
+
+          if (row[8] == 'CO') {
+            return "<div class='text-center'><button class='btn btn-sm btn-success btnSel' data-toggle='tooltip' data-placement='top' title='Seleccionar'><i class='fa-solid fa-circle-check'></i></button>\
+                </div>"
+          } else {
+            return ''
+          }
+        },
+      },
+    ],
+
+    //Para cambiar el lenguaje a español
+    language: {
+      lengthMenu: 'Mostrar _MENU_ registros',
+      zeroRecords: 'No se encontraron resultados',
+      info:
+        'Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros',
+      infoEmpty: 'Mostrando registros del 0 al 0 de un total de 0 registros',
+      infoFiltered: '(filtrado de un total de _MAX_ registros)',
+      sSearch: 'Buscar:',
+      oPaginate: {
+        sFirst: 'Primero',
+        sLast: 'Último',
+        sNext: 'Siguiente',
+        sPrevious: 'Anterior',
+      },
+      sProcessing: 'Procesando...',
+    },
+
+    rowCallback: function (row, data) {
+      $($(row).find('td')[5]).addClass('text-right')
+      $($(row).find('td')[6]).addClass('text-right')
+      $($(row).find('td')[7]).addClass('text-right')
+      if (data[8] == 'A') {
+        $('td', row).css('background-color', '#D1D1D1')
+        $('td', row).css('font-weight', 'bold')
+        //$($(row).find('td')).addClass('bg-gradient-secondary')
+      } else if (data[8] == 'B') {
+        $('td', row).css('background-color', '#A4C9E7')
+      } else if (data[8] == 'C') {
+        $('td', row).css('background-color', '#EE936E')
+      } else if (data[8] == 'CO') {
+        //$('td', row).css('background-color', '#FEFEFE');
+        $($(row).find('td')).addClass('ConSel')
+      }
+    },
+  })
+
+
   function commaSeparateNumber(val) {
     while (/(\d+)(\d{3})/.test(val.toString())) {
       val = val.toString().replace(/(\d+)(\d{3})/, '$1' + ',' + '$2')
@@ -155,15 +221,17 @@ $(document).ready(function () {
     obra = $('#id_obra').val()
    
    
-    $('#modalCon2').modal('show')
+    $('#modalCon').modal('show')
     
 
 
-  $('#modalCon2').on('shown.bs.modal', function () {
-    
-    tablaCon2.columns.adjust().draw();
-  })
+
 });
+
+$('#modalCon').on('shown.bs.modal', function () {
+    
+  tablaCon.columns.adjust().draw();
+})
 
   function buscarpresupuesto(obra){
     tablaCon.clear();

@@ -36,6 +36,7 @@ function buscarpadre($idpadre, $conn,$obra)
         echo '<tr>
         <td></td>
         <td>' . $rowf['id_renglon'] . '</td>
+        <td>' . $rowf['indice_renglon'] . '</td>
         <td>' . $rowf['clave_renglon'] . '</td>
         <td>' . $rowf['concepto_renglon'] . '</td>
         <td class="text-right"></td>
@@ -51,6 +52,7 @@ function buscarpadre($idpadre, $conn,$obra)
         echo '<tr>
         <td></td>
         <td>' . $rowf['id_renglon'] . '</td>
+        <td>' . $rowf['indice_renglon'] . '</td>
         <td>' . $rowf['clave_renglon'] . '</td>
         <td>' . $rowf['concepto_renglon'] . '</td>
         <td class="text-right"></td>
@@ -369,6 +371,7 @@ $dataPres = $resultado->fetchAll(PDO::FETCH_ASSOC);
                                                     <tr>
                                                         <th>Id</th>
                                                         <th>Id Renglon</th>
+                                                        <th>Indice</th>
                                                         <th>Clave</th>
                                                         <th style="width:50%">Concepto</th>
                                                         <th>Cantidad</th>
@@ -393,6 +396,7 @@ $dataPres = $resultado->fetchAll(PDO::FETCH_ASSOC);
                                                             <tr>
                                                                 <td><?php echo $datdet['id_det'] ?></td>
                                                                 <td><?php echo $datdet['id_renglon'] ?></td>
+                                                                <td><?php echo $datdet['indice_renglon'] ?></td>
                                                                 <td><?php echo $datdet['clave_renglon'] ?></td>
                                                                 <td><?php echo $datdet['concepto_renglon'] ?></td>
                                                                 <td class="text-right"><?php echo number_format($datdet['cantidad'], 2) ?></td>
@@ -465,16 +469,16 @@ $dataPres = $resultado->fetchAll(PDO::FETCH_ASSOC);
 
             <!-- Default box -->
             <div class="modal fade" id="modalCon" tabindex="-1">
-                <div class="modal-dialog modal-lg ">
+                <div class="modal-dialog modal-xl ">
                     <div class="modal-content ">
-                        <div class="modal-header bg-gradient-green">
+                        <div class="modal-header bg-gradient-primary">
                             <h5 class="modal-title" id="exampleModalLabel">BUSCAR CONCEPTOS</h5>
 
                         </div>
                         <br>
                         <div class=" table-hover" style="padding:15px">
                             <table name="tablaCon" id="tablaCon" class="table table-sm table-striped table-bordered  mx-auto " style="width:100%; font-size:15px">
-                                <thead class="text-center bg-gradient-green">
+                                <thead class="text-center bg-gradient-primary">
                                     <tr>
                                         <th>ID</th>
                                         <th>INDICE</th>
@@ -490,25 +494,8 @@ $dataPres = $resultado->fetchAll(PDO::FETCH_ASSOC);
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php
-                                    foreach ($dataPres as $datPres) {
-                                    ?>
-                                        <tr>
-                                            <td><?php echo $datPres['id_renglon'] ?></td>
-                                            <td><?php echo $datPres['indice_renglon'] ?></td>
-                                            <td><?php echo $datPres['clave_renglon'] ?></td>
-                                            <td><?php echo $datPres['concepto_renglon'] ?></td>
-                                            <td><?php echo $datPres['unidad_renglon'] ?></td>
-                                            <td class="text-right"><?php echo number_format($datPres['cantidad_renglon'], 2) ?></td>
-                                            <td class="text-right"><?php echo number_format($datPres['precio_renglon'], 2) ?></td>
-                                            <td class="text-right"><?php echo number_format($datPres['monto_renglon'], 2) ?></td>
-                                            <td><?php echo $datPres['tipo_renglon'] ?></td>
-                                            <td><?php echo $datPres['padre_renglon'] ?></td>
-                                            <td></td>
-                                        </tr>
-                                    <?php
-                                    }
-                                    ?>
+                                   
+                                   
                                 </tbody>
                             </table>
                         </div>
