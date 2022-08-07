@@ -19,7 +19,7 @@ $tokenid = md5($_SESSION['s_usuario']);
 $usuario = $_SESSION['s_nombre'];
 $idusuario = $_SESSION['s_id_usuario'];
 
-function buscarpadre($idpadre, $conn,$obra)
+function buscarpadre($idpadre, $conn, $obra)
 {
 
 
@@ -43,12 +43,12 @@ function buscarpadre($idpadre, $conn,$obra)
         <td class="text-center"></td>
         <td class="text-right"></td>
         <td class="text-right"></td>
-        <td>'. $rowf['tipo_renglon'] .'</td>
-        <td>'. $rowf['padre_renglon'] .'</td>
+        <td>' . $rowf['tipo_renglon'] . '</td>
+        <td>' . $rowf['padre_renglon'] . '</td>
         <td></td>
     </tr>';
     } else {
-        buscarpadre($padre,$conn,$obra);
+        buscarpadre($padre, $conn, $obra);
         echo '<tr>
         <td></td>
         <td>' . $rowf['id_renglon'] . '</td>
@@ -59,8 +59,8 @@ function buscarpadre($idpadre, $conn,$obra)
         <td class="text-center"></td>
         <td class="text-right"></td>
         <td class="text-right"></td>
-        <td>'. $rowf['tipo_renglon'] .'</td>
-        <td>'. $rowf['padre_renglon'] .'</td>
+        <td>' . $rowf['tipo_renglon'] . '</td>
+        <td>' . $rowf['padre_renglon'] . '</td>
         <td></td>
     </tr>';
     }
@@ -250,12 +250,7 @@ $dataPres = $resultado->fetchAll(PDO::FETCH_ASSOC);
         <div class="card">
 
 
-            <div id="div_carga">
-
-                <img id="cargador" src="img/loader.gif" />
-                <span class=" " id="textoc"><strong>Cargando...</strong></span>
-
-            </div>
+           
 
             <div class="card-header bg-gradient-green text-light">
                 <h1 class="card-title mx-auto">REGISTRO DE ESTIMACIONES</h1>
@@ -390,25 +385,25 @@ $dataPres = $resultado->fetchAll(PDO::FETCH_ASSOC);
                                                         //empezar la busqueda de los padres
                                                         $idpadre = $datdet['padre_renglon'];
                                                         if ($idpadre != 0) {
-                                                            buscarpadre($idpadre,$conexion,$id_obra);
-                                                        } 
+                                                            buscarpadre($idpadre, $conexion, $id_obra);
+                                                        }
                                                     ?>
-                                                            <tr>
-                                                                <td><?php echo $datdet['id_det'] ?></td>
-                                                                <td><?php echo $datdet['id_renglon'] ?></td>
-                                                                <td><?php echo $datdet['indice_renglon'] ?></td>
-                                                                <td><?php echo $datdet['clave_renglon'] ?></td>
-                                                                <td><?php echo $datdet['concepto_renglon'] ?></td>
-                                                                <td class="text-right"><?php echo number_format($datdet['cantidad'], 2) ?></td>
-                                                                <td class="text-center"><?php echo $datdet['unidad_renglon'] ?></td>
-                                                                <td class="text-right"><?php echo number_format($datdet['precio'], 2) ?></td>
-                                                                <td class="text-right"><?php echo number_format($datdet['importe'], 2) ?></td>
-                                                                <td><?php echo $datdet['tipo_renglon'] ?></td>
-                                                                <td><?php echo $datdet['padre_renglon'] ?></td>
-                                                                <td></td>
-                                                            </tr>
+                                                        <tr>
+                                                            <td><?php echo $datdet['id_det'] ?></td>
+                                                            <td><?php echo $datdet['id_renglon'] ?></td>
+                                                            <td><?php echo $datdet['indice_renglon'] ?></td>
+                                                            <td><?php echo $datdet['clave_renglon'] ?></td>
+                                                            <td><?php echo $datdet['concepto_renglon'] ?></td>
+                                                            <td class="text-right"><?php echo number_format($datdet['cantidad'], 2) ?></td>
+                                                            <td class="text-center"><?php echo $datdet['unidad_renglon'] ?></td>
+                                                            <td class="text-right"><?php echo number_format($datdet['precio'], 2) ?></td>
+                                                            <td class="text-right"><?php echo number_format($datdet['importe'], 2) ?></td>
+                                                            <td><?php echo $datdet['tipo_renglon'] ?></td>
+                                                            <td><?php echo $datdet['padre_renglon'] ?></td>
+                                                            <td></td>
+                                                        </tr>
                                                     <?php
-                                                        
+
                                                     }
                                                     ?>
 
@@ -476,6 +471,27 @@ $dataPres = $resultado->fetchAll(PDO::FETCH_ASSOC);
 
                         </div>
                         <br>
+                        <div id="div_carga">
+
+                            <img id="cargador" src="img/loader.gif" />
+                            <span class=" " id="textoc"><strong>Cargando...</strong></span>
+
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-sm-6">
+                                <div class="form-group form-group-sm">
+                                    <label for="txtbuscar" class="col-form-label">Introduzca una palabra a buscar dentro de los conceptos del presupuesto:</label>
+
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" name="txtbuscar" id="txtbuscar" class="form-control">
+                                        <span class="input-group-append">
+                                            <button type="button" name="btnbuscar" id="btnbuscar" class="btn bg-gradient-green btn-flat">Buscar</button>
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
                         <div class=" table-hover" style="padding:15px">
                             <table name="tablaCon" id="tablaCon" class="table table-sm table-striped table-bordered  mx-auto " style="width:100%; font-size:15px">
                                 <thead class="text-center bg-gradient-primary">
@@ -494,8 +510,8 @@ $dataPres = $resultado->fetchAll(PDO::FETCH_ASSOC);
                                     </tr>
                                 </thead>
                                 <tbody>
-                                   
-                                   
+
+
                                 </tbody>
                             </table>
                         </div>

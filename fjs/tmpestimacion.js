@@ -3,6 +3,17 @@ $(document).ready(function () {
   opcion = 4
   var fila
 
+  jQuery.ajaxSetup({
+    beforeSend: function() {
+        $("#div_carga").show();
+    },
+    complete: function() {
+        $("#div_carga").hide();
+    },
+    success: function() {},
+});
+
+
   //TABLA DETALLE ESTIMACION
   tablaDet = $('#tablaDet').DataTable({
     fixedHeader: true,
@@ -18,16 +29,16 @@ $(document).ready(function () {
         render: function (data, type, row) {
           'use strict'
 
-          if (row[8] == 'CO') {
+          if (row[9] == 'CO') {
             return  "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-danger btnborrarProd'><i class='fas fa-trash'></i></button></div></div>"
           } else {
             return ''
           }
         },
       },
-      /*{ className: 'hide_column', targets: [0] },
+      { className: 'hide_column', targets: [0] },
         { className: 'hide_column', targets: [1] },
-        { className: 'hide_column', targets: [2] },*/
+        { className: 'hide_column', targets: [2] },
         { className: 'hide_column', targets: [9] },
         { className: 'hide_column', targets: [10] },
       { width: '50%', targets: 4 },
@@ -136,11 +147,12 @@ $(document).ready(function () {
 
   tablaCon = $('#tablaCon').DataTable({
     fixedHeader: false,
+    searching:false,
     paging: false,
     ordening: false,
     order: [[1, 'asc']],
     columnDefs: [
-      { className: 'hide_column', targets: [0] },
+     { className: 'hide_column', targets: [0] },
       { className: 'hide_column', targets: [8] },
       { className: 'hide_column', targets: [9] },
       { width: '50%', targets: 3 },
@@ -232,6 +244,59 @@ $('#modalCon').on('shown.bs.modal', function () {
     
   tablaCon.columns.adjust().draw();
 })
+
+
+$(document).on('click', '#btnbuscar', function () {
+  texto = $('#txtbuscar').val()
+  obra = $('#id_obra').val()
+
+
+
+  tablaCon.clear()
+  tablaCon.draw()
+
+if (texto.length>0){
+  $.ajax({
+    type: "POST",
+    url: "bd/buscarconceptopres2.php",
+    dataType: "json",
+    data: { obra: obra, texto: texto },
+    success: function(data) {
+
+        for (var i = 0; i < data.length; i++) {
+            tablaCon.row
+                .add([
+                    data[i].id_renglon,
+                    data[i].indice_renglon,
+                    data[i].clave_renglon,
+                    data[i].concepto_renglon,
+                    data[i].unidad_renglon,
+                    data[i].cantidad_renglon != '' ? Intl.NumberFormat('es-MX',{ minimumFractionDigits: 2 }).format(parseFloat(data[i].cantidad_renglon).toFixed(2)) : "",
+                    data[i].precio_renglon != '' ? Intl.NumberFormat('es-MX',{ minimumFractionDigits: 2 }).format(parseFloat(data[i].precio_renglon).toFixed(2)) : "",
+                    data[i].monto_renglon != '' ? Intl.NumberFormat('es-MX',{ minimumFractionDigits: 2 }).format(parseFloat(data[i].monto_renglon).toFixed(2)) : "",
+                    data[i].tipo_renglon,
+                    data[i].padre_renglon,
+                   
+
+                ])
+                .draw();
+
+            //tabla += '<tr><td>' + res[i].id_objetivo + '</td><td>' + res[i].desc_objetivo + '</td><td class="text-center">' + icono + '</td><td class="text-center"></td></tr>';
+        }
+    },
+    error: function(){
+      Swal.fire({
+        title: 'Error de funcion',
+              icon: 'error',
+      })
+    }
+});
+}
+
+  
+})
+
+
 
   function buscarpresupuesto(obra){
     tablaCon.clear();
