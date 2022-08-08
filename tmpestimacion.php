@@ -220,6 +220,38 @@ $dataPres = $resultado->fetchAll(PDO::FETCH_ASSOC);
     }
 
 
+    #div_carga2 {
+        position: absolute;
+        /*top: 50%;
+    left: 50%;
+    */
+
+        width: 100%;
+        height: 100%;
+        background-color: rgba(60, 60, 60, 0.5);
+        display: none;
+
+        justify-content: center;
+        align-items: center;
+        z-index: 3;
+    }
+
+    #cargador2 {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -25px;
+        margin-left: -25px;
+    }
+
+    #textoc2 {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: 120px;
+        margin-left: 20px;
+
+    }
     .conSel tbody tr:hover td {
         background-color: #04146F !important;
         color: #FFFFFF !important;
@@ -250,7 +282,7 @@ $dataPres = $resultado->fetchAll(PDO::FETCH_ASSOC);
         <div class="card">
 
 
-           
+
 
             <div class="card-header bg-gradient-green text-light">
                 <h1 class="card-title mx-auto">REGISTRO DE ESTIMACIONES</h1>
@@ -285,6 +317,13 @@ $dataPres = $resultado->fetchAll(PDO::FETCH_ASSOC);
                                 <h1 class="card-title "> DATOS DE ESTIMACION</h1>
                             </div>
 
+                            <div id="div_carga2">
+
+                                <img id="cargador2" src="img/loader.gif" />
+                                <span class=" " id="textoc2"><strong>Cargando...</strong></span>
+
+                            </div>
+
                             <div class="card-body" style="margin:0px;padding:1px;">
 
                                 <div class="row justify-content-sm-center">
@@ -294,7 +333,7 @@ $dataPres = $resultado->fetchAll(PDO::FETCH_ASSOC);
                                         <div class="form-group input-group-sm">
                                             <label for="idtmp" class="col-form-label">ID:</label>
 
-                                            <input type="text" class="form-control" name="idtmp" id="idtmp" value="<?php echo  $folio_tmp; ?> " disabled>
+                                            <input type="text" class="form-control" name="idtmp" id="idtmp" value="<?php echo  $folio_tmp; ?> " disabled onload="buscarpresupuesto()">
                                         </div>
                                     </div>
                                     <div class="col-lg-2">
@@ -379,10 +418,12 @@ $dataPres = $resultado->fetchAll(PDO::FETCH_ASSOC);
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    <!--
                                                     <?php
+                                                    /*
                                                     foreach ($datadet as $datdet) {
 
-                                                        //empezar la busqueda de los padres
+                                                     
                                                         $idpadre = $datdet['padre_renglon'];
                                                         if ($idpadre != 0) {
                                                             buscarpadre($idpadre, $conexion, $id_obra);
@@ -404,9 +445,9 @@ $dataPres = $resultado->fetchAll(PDO::FETCH_ASSOC);
                                                         </tr>
                                                     <?php
 
-                                                    }
+                                                    }*/
                                                     ?>
-
+-->
                                                 </tbody>
                                             </table>
 
@@ -578,6 +619,138 @@ $dataPres = $resultado->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </div>
     </section>
+
+
+
+    <section>
+        <div class="modal fade" id="modalAlta" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content w-auto">
+                    <div class="modal-header bg-gradient-green">
+                        <h5 class="modal-title" id="exampleModalLabel">AGREGAR CONCEPTO</h5>
+
+                    </div>
+                    <form id="formAlta" action="" method="POST" autocomplete="off">
+                        <div class="card card-widget" style="margin: 10px;">
+
+                            <div class="modal-body">
+                                <div class="row justify-content-sm-center">
+
+                                    <div class="col-sm-3">
+                                        <div class="form-group input-group-sm">
+                                            <label for="indice_renglon" class="col-form-label">INDICE:</label>
+                                            <input type="text" class="form-control" name="indice_renglon" id="indice_renglon" disabled>
+                                            <input type="text" class="form-control" name="id_renglon" id="id_renglon" disabled>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-3">
+                                        <div class="form-group input-group-sm">
+                                            <label for="clave_renglon" class="col-form-label">CLAVE:</label>
+                                            <input type="text" class="form-control" name="clave_renglon" id="clave_renglon" placeholder="CLAVE" disabled>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-3">
+                                        <div class="form-group input-group-sm">
+                                            <label for="cantidad_renglon" class="col-form-label">CANT PRES:</label>
+                                            <input type="text" class="form-control" name="cantidad_renglon" id="cantidad_renglon" placeholder="CANT PRES" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group input-group-sm">
+                                            <label for="cantidad_pend" class="col-form-label">CANT X EJEC:</label>
+                                            <input type="text" class="form-control" name="cantidad_pend" id="cantidad_pend" placeholder="CANT X EJEC" disabled>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+
+                                <div class=" row justify-content-sm-center">
+
+                                    <div class="col-sm-12">
+                                        <div class="form-group input-group-sm">
+                                            <label for="concepto_renglon" class="col-form-label">CONCEPTO:</label>
+                                            <textarea row="3" type="text" class="form-control" name="concepto_renglon" id="concepto_renglon" placeholder="CONCEPTO" style="height: 120px;"></textarea>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row justify-content-sm-center" style="margin-bottom: 10px;">
+
+                                    <div class="col-sm-3 ">
+                                        <label for="precio_renglon" class="col-form-label">PRECIO:</label>
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-dollar-sign"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control text-right" name="precio_renglon" id="precio_renglon" onkeypress="return filterFloat(event,this);" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3 ">
+
+                                        <div class="form-group input-group-sm">
+                                            <label for="cantidad" class="col-form-label">CANTIDAD:</label>
+                                            <input type="text" class="form-control text-right" name="cantidad" id="cantidad" onkeypress="return filterFloat(event,this);">
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="col-sm-3 ">
+
+                                        <div class="form-group input-group-sm">
+                                            <label for="unidad_renglon" class="col-form-label">UNIDAD:</label>
+                                            <input type="text" class="form-control text-right" name="unidad_renglon" id="unidad_renglon" onkeypress="return filterFloat(event,this);" disabled>
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="col-sm-3 ">
+                                        <label for="importe" class="col-form-label">IMPORTE:</label>
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-dollar-sign"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control text-right" name="importe" id="importe" onkeypress="return filterFloat(event,this);" disabled>
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+
+                                </div>
+
+
+
+
+                            </div>
+
+                            <div class=" modal-footer">
+                                <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fas fa-ban"></i> Cancelar</button>
+                                <button type="button" id="btnAgregarc" name="btnAgregarc" class="btn btn-success" value="btnGuardarreq"><i class="far fa-save"></i> Guardar</button>
+                            </div>
+
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
 </div>
 
 

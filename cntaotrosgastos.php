@@ -81,6 +81,11 @@ if ($_SESSION['id_obra'] == null) {
     $resultadoprov = $conexion->prepare($consultaprov);
     $resultadoprov->execute();
     $dataprov = $resultadoprov->fetchAll(PDO::FETCH_ASSOC);
+
+    $consultacaja="SELECT * from w_caja where id_obra='$id_obra' and estado_caja='1'";
+    $resultadocaja=$conexion->prepare($consultacaja);
+    $resultadocaja->execute();
+    $datacaj=$resultadocaja->fetchAll(PDO::FETCH_ASSOC);
 }
 
 

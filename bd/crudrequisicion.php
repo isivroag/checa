@@ -55,7 +55,7 @@ switch ($opcionreq) {
                 $consulta = "SELECT saldo_prov FROM w_provsub WHERE id_provs='$idprovision'";
                 $resultado = $conexion->prepare($consulta);
                 $resultado->execute();
-                $datos = $resultado->fetchAll(PDO::FETCH_ASSOC);;
+                $datos = $resultado->fetchAll(PDO::FETCH_ASSOC);
                 $saldoprov = 1;
 
                 foreach ($datos as $row) {

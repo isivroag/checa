@@ -14,6 +14,24 @@ $(document).ready(function () {
 });
 
 
+jQuery.ajaxSetup({
+  beforeSend: function() {
+      $("#div_carga2").show();
+  },
+  complete: function() {
+      $("#div_carga2").hide();
+  },
+  success: function() {},
+});
+document.getElementById('cantidad').onblur = function () {
+  calculosubtotalreq1(this.value.replace(/,/g, ''))
+  this.value = parseFloat(this.value.replace(/,/g, ''))
+    .toFixed(2)
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+}
+
+
   //TABLA DETALLE ESTIMACION
   tablaDet = $('#tablaDet').DataTable({
     fixedHeader: true,
@@ -30,7 +48,7 @@ $(document).ready(function () {
           'use strict'
 
           if (row[9] == 'CO') {
-            return  "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-danger btnborrarProd'><i class='fas fa-trash'></i></button></div></div>"
+            return  "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-danger btnborrarc'><i class='fas fa-trash'></i></button></div></div>"
           } else {
             return ''
           }
@@ -38,7 +56,7 @@ $(document).ready(function () {
       },
       { className: 'hide_column', targets: [0] },
         { className: 'hide_column', targets: [1] },
-        { className: 'hide_column', targets: [2] },
+       /* { className: 'hide_column', targets: [2] },*/
         { className: 'hide_column', targets: [9] },
         { className: 'hide_column', targets: [10] },
       { width: '50%', targets: 4 },
@@ -220,25 +238,131 @@ $(document).ready(function () {
     return val
   }
 
+  document.getElementById('cantidad').onblur = function () {
+    calcularimporte(this.value.replace(/,/g, ''))
+    this.value = parseFloat(this.value.replace(/,/g, ''))
+      .toFixed(2)
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  }
+
   //CALCULO IMPORTE
-  function calcularimporte(cant, pv) {
+  function calcularimporte(cant) {
     cantidad = cant
-    precio = pv
+    precio = $('#precio_renglon').val().replace(/,/g, '')
     importe = round(cantidad * precio, 2)
-    return importe
+    $('#importe').val(importe) 
   }
 
   //AGREGAR CONCEPTO
   $(document).on('click', '#btnAgregar', function () {
     obra = $('#id_obra').val()
-   
-   
     $('#modalCon').modal('show')
-    
-
-
-
 });
+
+
+$(document).on('click', '#btnAgregarc', function () {
+  obra = $('#id_obra').val()
+  estimacion=$('#idtmp').val()
+  id=$('#id_renglon').val()
+  precio=$('#precio_renglon').val().replace(/,/g, '')
+  cantidad=$('#cantidad').val().replace(/,/g, '')
+  importe=$('#importe').val().replace(/,/g, '')
+  opc=1
+
+  if (
+    obra.length == 0 ||
+    estimacion.length == 0 ||
+    indice.length == 0 ||
+    cantidad.length == 0
+   
+  ) {
+    Swal.fire({
+      title: 'Datos Faltantes',
+      text: 'Debe ingresar todos los datos Requeridos',
+      icon: 'warning',
+    })
+    return false
+  } else {
+    $.ajax({
+      url: 'bd/estimacionconcepto.php',
+      type: 'POST',
+      dataType: 'json',
+      data: {
+        obra: obra,
+        estimacion: estimacion,
+        id: id,
+        precio: precio,
+        cantidad: cantidad,
+        importe: importe,
+        opc: opc
+
+      },
+      success: function (data) {
+        if (data == 1) {
+          window.location.reload()
+        } else {
+          Swal.fire({
+            title: 'Error ',
+            text: 'No fue posible agregar el concepto',
+            icon: 'error',
+          })
+        }
+      },
+    })
+  }
+});
+
+
+
+$(document).on('click', '.btnborrarc', function (event) {
+  event.preventDefault()
+  obra = $('#id_obra').val()
+  estimacion=$('#idtmp').val()
+  fila = $(this)
+  id = parseInt($(this).closest('tr').find('td:eq(0)').text())
+  opc=2
+ 
+
+  if (
+    obra.length == 0 ||
+    estimacion.length == 0 ||
+    id.length == 0
+    
+   
+  ) {
+    Swal.fire({
+      title: 'Datos Faltantes',
+      text: 'Debe ingresar todos los datos Requeridos',
+      icon: 'warning',
+    })
+    return false
+  } else {
+    $.ajax({
+      url: 'bd/estimacionconcepto.php',
+      type: 'POST',
+      dataType: 'json',
+      data: {
+        obra: obra,
+        estimacion: estimacion,
+        id: id,
+        opc: opc
+
+      },
+      success: function (data) {
+        if (data == 1) {
+          window.location.reload()
+        } else {
+          Swal.fire({
+            title: 'Error ',
+            text: 'No fue posible agregar el concepto',
+            icon: 'error',
+          })
+        }
+      },
+    })
+  }
+})
 
 $('#modalCon').on('shown.bs.modal', function () {
     
@@ -297,33 +421,37 @@ if (texto.length>0){
 })
 
 
+buscarpresupuesto()
 
-  function buscarpresupuesto(obra){
-    tablaCon.clear();
-    tablaCon.draw();
+  function buscarpresupuesto(){
+    tablaDet.clear();
+    tablaDet.draw();
   
-  
-  
+    
+    obra = $('#id_obra').val()
+    estimacion=$('#idtmp').val()
+    console.log(obra)
+    console.log(estimacion)
   
         $.ajax({
             type: "POST",
-            url: "bd/buscarpres.php",
+            url: "bd/buscarconceptopres.php",
             dataType: "json",
-            data: { obra: obra },
+            data: { obra: obra, estimacion: estimacion },
             success: function(data) {
   
                 for (var i = 0; i < data.length; i++) {
-                    tablaCon.row
+                    tablaDet.row
                         .add([
+                            data[i].id_det,
                             data[i].id_renglon,
                             data[i].indice_renglon,
                             data[i].clave_renglon,
                             data[i].concepto_renglon,
+                            data[i].cantidad_renglon != '' ? Intl.NumberFormat('es-MX',{ minimumFractionDigits: 2 }).format(parseFloat(data[i].cantidad_renglon).toFixed(2)) : "",
                             data[i].unidad_renglon,
-                            Intl.NumberFormat('es-MX',{ minimumFractionDigits: 2 }).format(parseFloat(data[i].cantidad_renglon).toFixed(2)),
-                            Intl.NumberFormat('es-MX',{ minimumFractionDigits: 2 }).format(parseFloat(data[i].precio_renglon).toFixed(2)),
-                            Intl.NumberFormat('es-MX',{ minimumFractionDigits: 2 }).format(parseFloat(data[i].monto_renglon).toFixed(2)),
-                            //new Intl.NumberFormat('es-MX').format(Math.round((data[i].monto_renglon) * 100,2) / 100) ,
+                            data[i].precio_renglon != '' ? Intl.NumberFormat('es-MX',{ minimumFractionDigits: 2 }).format(parseFloat(data[i].precio_renglon).toFixed(2)) : "",
+                            data[i].monto_renglon != '' ? Intl.NumberFormat('es-MX',{ minimumFractionDigits: 2 }).format(parseFloat(data[i].monto_renglon).toFixed(2)) : "",
                             data[i].tipo_renglon,
                             data[i].padre_renglon,
                            
@@ -334,6 +462,14 @@ if (texto.length>0){
                     //tabla += '<tr><td>' + res[i].id_objetivo + '</td><td>' + res[i].desc_objetivo + '</td><td class="text-center">' + icono + '</td><td class="text-center"></td></tr>';
                 }
             },
+            error: function(){
+              swal.fire({
+                title: 'Error ',
+                icon: 'error',
+                focusConfirm: true,
+                confirmButtonText: 'Aceptar',
+              })
+            }
         });
   }
 
@@ -391,8 +527,29 @@ if (texto.length>0){
   //botón guardar
   $(document).on('click', '#btnGuardar', function () {})
 
-  // boton buscar concepto
-  $(document).on('click', '#bconcepto', function () {})
+ 
+  $(document).on('click', '.btnSel', function () {
+
+    fila = $(this).closest('tr')
+    id = fila.find('td:eq(0)').text()
+    indice = fila.find('td:eq(1)').text()
+    clave = fila.find('td:eq(2)').text()
+    concepto = fila.find('td:eq(3)').text()
+    unidad = fila.find('td:eq(4)').text()
+    cantidadpres = fila.find('td:eq(5)').text()
+    precio = fila.find('td:eq(6)').text()
+
+   
+    $('#id_renglon').val(id)
+    $('#indice_renglon').val(indice)
+    $('#clave_renglon').val(clave)
+    $('#cantidad_renglon').val(cantidadpres)
+    $('#concepto_renglon').val(concepto)
+    $('#unidad_renglon').val(unidad)
+    $('#precio_renglon').val(precio)
+   
+    $('#modalAlta').modal('show')
+  })
 
   function round(value, decimals) {
     return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals)
@@ -406,6 +563,8 @@ if (texto.length>0){
       confirmButtonText: 'Aceptar',
     })
   }
+
+
 })
 
 function filterFloat(evt, input) {
@@ -426,3 +585,22 @@ function filter(__val__) {
   return preg.te
   st(__val__) === true
 }
+
+
+$('.modal-header').on('mousedown', function (mousedownEvt) {
+  var $draggable = $(this)
+  var x = mousedownEvt.pageX - $draggable.offset().left,
+    y = mousedownEvt.pageY - $draggable.offset().top
+  $('body').on('mousemove.draggable', function (mousemoveEvt) {
+    $draggable.closest('.modal-dialog').offset({
+      left: mousemoveEvt.pageX - x,
+      top: mousemoveEvt.pageY - y,
+    })
+  })
+  $('body').one('mouseup', function () {
+    $('body').off('mousemove.draggable')
+  })
+  $draggable.closest('.modal').one('bs.modal.hide', function () {
+    $('body').off('mousemove.draggable')
+  })
+})
