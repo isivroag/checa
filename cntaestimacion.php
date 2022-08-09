@@ -41,7 +41,7 @@ if ($_SESSION['id_obra'] == null) {
         }
 
         //BUSCAR NOMBRE DE OBRA
-        $consultanom = "SELECT * from w_estimacion where id_obra='$id_obra' AND estado_est=1 order by id_est";
+        $consultanom = "SELECT * from w_est where id_obra='$id_obra' AND estado_est=1 order by folio_est";
         $resultadonom = $conexion->prepare($consultanom);
         $resultadonom->execute();
         $datanom = $resultadonom->fetchAll(PDO::FETCH_ASSOC);
@@ -64,7 +64,7 @@ if ($_SESSION['id_obra'] == null) {
     }
 
     //BUSCAR NOMBRE DE OBRA
-    $consultanom = "SELECT * from w_estimacion where id_obra='$id_obra' AND estado_est=1 order by id_est";
+    $consultanom = "SELECT * from w_est where id_obra='$id_obra' AND estado_est=1 order by folio_est";
     $resultadonom = $conexion->prepare($consultanom);
     $resultadonom->execute();
     $datanom = $resultadonom->fetchAll(PDO::FETCH_ASSOC);
@@ -194,7 +194,6 @@ $message = "";
                                                                     <th>CLAVE</th>
                                                                     <th>DESCRIPCION</th>
                                                                     <th>IMPORTE</th>
-                                                                    
                                                                     <th>ACCIONES</th>
 
                                                                 </tr>
@@ -206,6 +205,7 @@ $message = "";
                                                                     <tr>
                                                                         <td><?php echo $dat['folio_est'] ?></td>
                                                                         <td><?php echo $dat['clave_est'] ?></td>
+                                                                        <td><?php echo $dat['descripcion_est'] ?></td>
                                                                         <td class="text-right"><?php echo number_format($dat['importe_est'], 2) ?></td>
                                                                         <td></td>
 

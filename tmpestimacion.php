@@ -18,6 +18,7 @@ $conexion = $objeto->connect();
 $tokenid = md5($_SESSION['s_usuario']);
 $usuario = $_SESSION['s_nombre'];
 $idusuario = $_SESSION['s_id_usuario'];
+$opcion="";
 
 function buscarpadre($idpadre, $conn, $obra)
 {
@@ -87,6 +88,8 @@ if (isset($_GET['id_obra'])) {
             $importe = $row['importe_est'];
             $folio_est = $row['folio_est'];
         }
+        //$folio_est = 0;
+        $opcion=0;
     } else {
         $fecha = date('Y-m-d');
         $consultacon = "INSERT INTO w_tmp_est(fecha_est,importe_est,id_obra,usuario_alt) values ('$fecha','0','$id_obra','$idusuario')";
@@ -110,6 +113,7 @@ if (isset($_GET['id_obra'])) {
         $desc = "";
         $importe = 0;
         $folio_est = 0;
+        $opcion=0;
     }
 } else {
 
@@ -118,6 +122,7 @@ if (isset($_GET['id_obra'])) {
         $consulta = "SELECT * FROM v_tmp_est WHERE folio_tmp='$folio_tmp'";
         $resultado = $conexion->prepare($consulta);
         $resultado->execute();
+        $opcion=1;
 
         if ($resultadocon->rowCount() > 0) {
             $data = $resultado->fetchAll(PDO::FETCH_ASSOC);
@@ -334,12 +339,15 @@ $dataPres = $resultado->fetchAll(PDO::FETCH_ASSOC);
                                             <label for="idtmp" class="col-form-label">ID:</label>
 
                                             <input type="text" class="form-control" name="idtmp" id="idtmp" value="<?php echo  $folio_tmp; ?> " disabled onload="buscarpresupuesto()">
+                                            <input type="hidden" class="form-control" name="folioest" id="folioest" value="<?php echo  $folio_est; ?>" >
+                                            <input type="hidden" class="form-control" name="opcion" id="opcion" value="<?php echo  $opcion; ?>" >
                                         </div>
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="form-group input-group-sm">
                                             <label for="folio" class="col-form-label">No. DE ESTIMACION:</label>
                                             <input type="text" class="form-control" name="folio" id="folio" value="<?php echo  $clave; ?>" placeholder="No. DE ESTIMACION">
+
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
@@ -381,7 +389,7 @@ $dataPres = $resultado->fetchAll(PDO::FETCH_ASSOC);
                                     <div class="col-lg-8">
                                         <div class="form-group input-group-sm">
                                             <label for="descripcion" class="col-form-label">DESCRIPCION:</label>
-                                            <textarea rows="3" class="form-control" name="descripcion" id="descripcion" value="<?php echo  $desc; ?>" placeholder="DESCRIPCION/CONCEPTO"></textarea>
+                                            <textarea rows="3" class="form-control" name="descripcion" id="descripcion" placeholder="DESCRIPCION/CONCEPTO"><?php echo  $desc; ?></textarea>
                                         </div>
                                     </div>
 

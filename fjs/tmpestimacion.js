@@ -525,7 +525,65 @@ buscarpresupuesto()
   })
 
   //botón guardar
-  $(document).on('click', '#btnGuardar', function () {})
+  $(document).on('click', '#btnGuardar', function () {
+    obra=$('#id_obra').val()
+    estimacion=$('#idtmp').val()
+    folio=$('#folio').val()
+    descripcion=$('#descripcion').val()
+    folioest=$('#folioest').val()
+    opcion=$('#opcion').val()
+    fecha=$('#fecha').val()
+    idusuario=$('#iduser').val()
+  
+    if (
+      estimacion.length == 0 ||
+      folio.length == 0 
+    
+     
+    ) {
+      Swal.fire({
+        title: 'Datos Faltantes',
+        text: 'Debe ingresar todos los datos Requeridos',
+        icon: 'warning',
+      })
+      return false
+    } else {
+      $.ajax({
+        url: 'bd/crudestimacion.php',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+          obra: obra,
+          estimacion: estimacion,
+          folio: folio,
+          descripcion: descripcion,
+          folioest: folioest,
+          fecha: fecha,
+          idusuario: idusuario,
+          opcion: opcion,
+  
+        },
+        success: function (data) {
+          if (data == 1) {
+            window.location.href='cntaestimacion.php?id_obra='+obra
+          } else {
+            Swal.fire({
+              title: 'Error ',
+              text: 'No fue posible agregar el concepto',
+              icon: 'error',
+            })
+          }
+        },
+        error: function(){
+          Swal.fire({
+            title: 'Error',
+            icon: 'error',
+          })
+        }
+      })
+    }
+
+  })
 
  
   $(document).on('click', '.btnSel', function () {
