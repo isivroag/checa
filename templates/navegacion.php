@@ -39,7 +39,7 @@
           </a>
         </li>
 
-
+        <?php if ($_SESSION['s_rol'] != '6'){?>
         <!-- ABRE MENU CATALOGOS -->
         <?php if ($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2' || $_SESSION['s_rol'] == '5') { ?>
 
@@ -372,6 +372,7 @@
           </li>
           <!-- CIERRA MENU OPERACIONES -->
         <?php } ?>
+
         <!-- ABRE MENU REPORTES -->
         <?php if ($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2' || $_SESSION['s_rol'] == '5') { ?>
           <li class="nav-item has-treeview <?php echo ($pagina == 'caja') ? "menu-open" : ""; ?>">
@@ -440,10 +441,47 @@
             </li>
           <?php } ?>
 
+
+
+
         <?php } ?>
         <!-- CIERRA MENU EGRESOS -->
+        <?php } ?>
+        <li class="nav-item has-treeview <?php echo ($pagina == 'saldosegop' || $pagina == 'verpagosop') ? "menu-open" : ""; ?>">
 
 
+          <a href="#" class="nav-link <?php echo ($pagina == 'saldosegop' || $pagina == 'verpagosop') ? "active" : ""; ?>">
+
+            <span class="fa-stack">
+              <i class="nav-icon fa-solid fa-file-circle-exclamation "></i>
+            </span>
+            <p>
+              Saldos de Obra
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+
+            <li class="nav-item">
+              <a href="cntasaldosegop.php" class="nav-link <?php echo ($pagina == 'saldosegop') ? "active seleccionado" : ""; ?>  ">
+
+                <i class="text-primary fa-solid fa-file-invoice-dollar nav-icon"></i>
+                <p>Saldos Pendientes</p>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a href="verpagos.php" class="nav-link <?php echo ($pagina == 'verpoagosop') ? "active seleccionado" : ""; ?>  ">
+
+                <i class="text-primary fa-solid fa-magnifying-glass-dollar  nav-icon"></i>
+                <p>Ver Pagos</p>
+              </a>
+            </li>
+
+
+
+          </ul>
+        </li>
 
         <?php if ($_SESSION['s_rol'] == '3') { ?>
           <hr class="sidebar-divider">

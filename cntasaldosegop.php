@@ -1,5 +1,5 @@
 <?php
-$pagina = "saldoseg";
+$pagina = "saldosegop";
 
 include_once "templates/header.php";
 include_once "templates/barra.php";
@@ -206,6 +206,7 @@ $message = "";
                         </div>
                     </div>
                 </div>
+                <!--
                 <div class="card card-widget">
                     <div class="card-header bg-gradient-green">
                         <h3 class="card-title">PROVISIONES </h3>
@@ -268,7 +269,7 @@ $message = "";
                         </div>
                     </div>
                 </div>
-
+                                            -->
                 <div class="card card-widget">
                     <div class="card-header bg-gradient-green">
                         <h3 class="card-title">CUENTAS POR PAGAR</h3>
@@ -396,6 +397,7 @@ $message = "";
 
         </div>
     </section>
+    <!-- TERMINA VER PAGOS-->
 
 
     <!-- /.content -->

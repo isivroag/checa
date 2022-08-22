@@ -36,24 +36,28 @@ $(document).ready(function () {
         targets: -1,
         data: null,
         defaultContent:
-          "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-success btnSelps' data-toggle='tooltip' data-placement='top' title='Seleccionar'><i class='fa-solid fa-check'></i></button></div></div>",
+          "<div class='text-center'><div class='btn-group'>\
+          <button class='btn btn-sm btn-primary btnverpagosprov' data-toggle='tooltip' data-placement='top' title='Ver Pagos' ><i class='fas fa-search-dollar'></i></button>\
+          <button class='btn btn-sm btn-success btnSelps' data-toggle='tooltip' data-placement='top' title='Seleccionar'><i class='fa-solid fa-check'></i></button></div></div>",
       },
 
-      { width: '8%', targets: 2 },
       { width: '10%', targets: 1 },
-      { width: '15%', targets: 3 },
-      { width: '20%', targets: 4 },
+      { width: '15%', targets: 2 },
+      { width: '8%', targets: 3 },
+
+      { width: '15%', targets: 4 },
       { width: '20%', targets: 5 },
-      { width: '10%', targets: 6 },
+      { width: '20%', targets: 6 },
       { width: '10%', targets: 7 },
+      { width: '10%', targets: 8 },
     ],
     rowCallback: function (row, data) {
-      $($(row).find('td')['6']).addClass('text-right')
-
-      $($(row).find('td')['6']).addClass('currency')
       $($(row).find('td')['7']).addClass('text-right')
 
       $($(row).find('td')['7']).addClass('currency')
+      $($(row).find('td')['8']).addClass('text-right')
+
+      $($(row).find('td')['8']).addClass('currency')
     },
     //Para cambiar el lenguaje a español
     language: {
@@ -85,28 +89,27 @@ $(document).ready(function () {
           : 0
       }
 
-      pagos = api
+      // Total over this page
+      montototal = api
         .column(7, { page: 'current' })
         .data()
         .reduce(function (a, b) {
           return intVal(a) + intVal(b)
         }, 0)
 
-      // Total over this page
-      montototal = api
-        .column(6, { page: 'current' })
+      pagos = api
+        .column(8, { page: 'current' })
         .data()
         .reduce(function (a, b) {
           return intVal(a) + intVal(b)
         }, 0)
-
       // Update footer
-      $(api.column(6).footer()).html(
+      $(api.column(7).footer()).html(
         Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
           parseFloat(montototal).toFixed(2),
         ),
       )
-      $(api.column(7).footer()).html(
+      $(api.column(8).footer()).html(
         Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
           parseFloat(pagos).toFixed(2),
         ),
@@ -168,25 +171,28 @@ $(document).ready(function () {
         targets: -1,
         data: null,
         defaultContent:
-          "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-success btnSelrq' data-toggle='tooltip' data-placement='top' title='Seleccionar'><i class='fa-solid fa-check'></i></button></div></div>",
+          "<div class='text-center'><div class='btn-group'>\
+          <button class='btn btn-sm btn-primary btnverpagosreq' data-toggle='tooltip' data-placement='top' title='Ver Pagos' ><i class='fas fa-search-dollar'></i></button>\
+          <button class='btn btn-sm btn-success btnSelrq' data-toggle='tooltip' data-placement='top' title='Seleccionar'><i class='fa-solid fa-check'></i></button></div></div>",
       },
 
-      { width: '10%', targets: 1 },
-      { width: '8%', targets: 2 },
+      { width: '12%', targets: 1 },
+      { width: '15%', targets: 2 },
       { width: '8%', targets: 3 },
-      { width: '15%', targets: 4 },
-      { width: '20%', targets: 5 },
+      { width: '8%', targets: 4 },
+      { width: '15%', targets: 5 },
       { width: '20%', targets: 6 },
-      { width: '10%', targets: 7 },
+      { width: '20%', targets: 7 },
       { width: '10%', targets: 8 },
+      { width: '10%', targets: 9 },
     ],
     rowCallback: function (row, data) {
-      $($(row).find('td')['7']).addClass('text-right')
-
-      $($(row).find('td')['7']).addClass('currency')
       $($(row).find('td')['8']).addClass('text-right')
 
       $($(row).find('td')['8']).addClass('currency')
+      $($(row).find('td')['9']).addClass('text-right')
+
+      $($(row).find('td')['9']).addClass('currency')
     },
     //Para cambiar el lenguaje a español
     language: {
@@ -218,28 +224,26 @@ $(document).ready(function () {
           : 0
       }
 
-      pagos = api
+      // Total over this page
+      montototal = api
         .column(8, { page: 'current' })
         .data()
         .reduce(function (a, b) {
           return intVal(a) + intVal(b)
         }, 0)
-
-      // Total over this page
-      montototal = api
-        .column(7, { page: 'current' })
+      pagos = api
+        .column(9, { page: 'current' })
         .data()
         .reduce(function (a, b) {
           return intVal(a) + intVal(b)
         }, 0)
-
       // Update footer
-      $(api.column(7).footer()).html(
+      $(api.column(8).footer()).html(
         Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
           parseFloat(montototal).toFixed(2),
         ),
       )
-      $(api.column(8).footer()).html(
+      $(api.column(9).footer()).html(
         Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
           parseFloat(pagos).toFixed(2),
         ),
@@ -301,7 +305,9 @@ $(document).ready(function () {
         targets: -1,
         data: null,
         defaultContent:
-          "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-success btnSelcxp' data-toggle='tooltip' data-placement='top' title='Seleccionar'><i class='fa-solid fa-check'></i></button></div></div>",
+          "<div class='text-center'><div class='btn-group'>\
+          <button class='btn btn-sm btn-primary btnverpagoscxp' data-toggle='tooltip' data-placement='top' title='Ver Pagos' ><i class='fas fa-search-dollar'></i></button>\
+          <button class='btn btn-sm btn-success btnSelcxp' data-toggle='tooltip' data-placement='top' title='Seleccionar'><i class='fa-solid fa-check'></i></button></div></div>",
       },
 
       { width: '8%', targets: 2 },
@@ -433,7 +439,9 @@ $(document).ready(function () {
         targets: -1,
         data: null,
         defaultContent:
-          "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-success btnSelprovi' data-toggle='tooltip' data-placement='top' title='Seleccionar'><i class='fa-solid fa-check'></i></button></div></div>",
+          "<div class='text-center'><div class='btn-group'>\
+          <button class='btn btn-sm btn-primary btnverpagosprovi' data-toggle='tooltip' data-placement='top' title='Ver Pagos' ><i class='fas fa-search-dollar'></i></button>\
+          <button class='btn btn-sm btn-success btnSelprovi' data-toggle='tooltip' data-placement='top' title='Seleccionar'><i class='fa-solid fa-check'></i></button></div></div>",
       },
 
       { width: '10%', targets: 0 },
@@ -683,6 +691,163 @@ $(document).ready(function () {
       })
   })
 
+
+    //TABLA RESUMEN DE RESUMEN PAGOS
+    tablaResumenp = $('#tablaResumenp').DataTable({
+      rowCallback: function (row, data) {
+        $($(row).find('td')['3']).addClass('text-right')
+        $($(row).find('td')['3']).addClass('currency')
+      },
+      columnDefs: [
+   
+        {
+          targets: 3,
+          render: function (data, type, full, meta) {
+            return new Intl.NumberFormat('es-MX', {
+              minimumFractionDigits: 2,
+            }).format(parseFloat(data).toFixed(2))
+          },
+        },
+      ],
+  
+      language: {
+        lengthMenu: 'Mostrar _MENU_ registros',
+        zeroRecords: 'No se encontraron resultados',
+        info:
+          'Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros',
+        infoEmpty: 'Mostrando registros del 0 al 0 de un total de 0 registros',
+        infoFiltered: '(filtrado de un total de _MAX_ registros)',
+        sSearch: 'Buscar:',
+        oPaginate: {
+          sFirst: 'Primero',
+          sLast: 'Último',
+          sNext: 'Siguiente',
+          sPrevious: 'Anterior',
+        },
+        sProcessing: 'Procesando...',
+      },
+      footerCallback: function (row, data, start, end, display) {
+        var api = this.api(),
+          data
+  
+        var intVal = function (i) {
+          return typeof i === 'string'
+            ? i.replace(/[\$,]/g, '') * 1
+            : typeof i === 'number'
+            ? i
+            : 0
+        }
+  
+        totalr = api
+          .column(3)
+          .data()
+          .reduce(function (a, b) {
+            return intVal(a) + intVal(b)
+          }, 0)
+  
+        $(api.column(3).footer()).html(
+          Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+            parseFloat(totalr).toFixed(2),
+          ),
+        )
+      },
+    })
+
+  $(document).on('click', '.btnverpagosprov', function () {
+    fila = $(this).closest('tr')
+    id = parseInt(fila.find('td:eq(0)').text())
+    opc=1
+    buscarpagos(id,opc)
+
+    $('#modalresumenp').modal('show')
+  })
+
+
+  $(document).on('click', '.btnverpagosreq', function () {
+    fila = $(this).closest('tr')
+    id = parseInt(fila.find('td:eq(0)').text())
+    opc=2
+    buscarpagos(id,opc)
+
+    $('#modalresumenp').modal('show')
+  })
+
+
+  $(document).on('click', '.btnverpagoscxp', function () {
+    fila = $(this).closest('tr')
+    id = parseInt(fila.find('td:eq(0)').text())
+    opc=3
+    buscarpagos2(id,opc)
+
+    $('#modalresumenp').modal('show')
+  })
+
+
+  $(document).on('click', '.btnverpagosprovi', function () {
+    fila = $(this).closest('tr')
+    id = parseInt(fila.find('td:eq(0)').text())
+    opc=4
+    buscarpagos2(id,opc)
+
+    $('#modalresumenp').modal('show')
+  })
+
+
+    // FUNCION BUSCAR PAGOS
+    function buscarpagos(folio,opcion) {
+      tablaResumenp.clear()
+      tablaResumenp.draw()
+    
+      $.ajax({
+        type: 'POST',
+        url: 'bd/buscarpagosop.php',
+        dataType: 'json',
+  
+        data: { folio: folio, opcion: opcion },
+  
+        success: function (res) {
+          for (var i = 0; i < res.length; i++) {
+            tablaResumenp.row
+              .add([
+                res[i].folio_pagors,
+                res[i].fecha_pagors,
+                res[i].referencia_pagors,
+                res[i].monto_pagors,
+                res[i].metodo_pagors
+              ])
+              .draw()
+          }
+        },
+      })
+    }
+
+
+    function buscarpagos2(folio,opcion) {
+      tablaResumenp.clear()
+      tablaResumenp.draw()
+    
+      $.ajax({
+        type: 'POST',
+        url: 'bd/buscarpagosop.php',
+        dataType: 'json',
+  
+        data: { folio: folio, opcion: opcion },
+  
+        success: function (res) {
+          for (var i = 0; i < res.length; i++) {
+            tablaResumenp.row
+              .add([
+                res[i].folio_pagocxp,
+                res[i].fecha_pagocxp,
+                res[i].referencia_pagocxp,
+                res[i].monto_pagocxp,
+                res[i].metodo_pagocxp
+              ])
+              .draw()
+          }
+        },
+      })
+    }
   function startTime() {
     var today = new Date()
     var hr = today.getHours()
