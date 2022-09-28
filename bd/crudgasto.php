@@ -23,7 +23,7 @@ $opcion = (isset($_POST['opcion'])) ? $_POST['opcion'] : '';
 $data=0;
 switch($opcion){
     case 1: //alta
-        $consulta = "INSERT INTO w_gasto (id_obra,id_prov,fecha_gto,concepto_gto,monto_gto,saldo_gto,tipo_gto,usuarioalt) VALUES('$id_obra','$id_prov','$fecha','$descripcion','$monto','$monto',,'$tipo','$usuario') ";
+        $consulta = "INSERT INTO w_gasto (id_obra,id_prov,fecha_gto,concepto_gto,monto_gto,saldo_gto,tipo_gto,usuarioalt) VALUES('$id_obra','$id_prov','$fecha','$descripcion','$monto','$monto','$tipo','$usuario') ";
         $resultado = $conexion->prepare($consulta);
         if($resultado->execute()){
             $data=1;

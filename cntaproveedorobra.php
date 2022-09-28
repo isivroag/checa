@@ -67,7 +67,7 @@ if ($_SESSION['id_obra'] == null) {
 
 
 
-$consultaesp = "SELECT * FROM especialidad WHERE estado_especialidad=1 ORDER BY id_especialidad";
+$consultaesp = "SELECT * FROM especialidad WHERE estado_especialidad=1 ORDER BY nom_especialidad";
 $resultadoesp = $conexion->prepare($consultaesp);
 $resultadoesp->execute();
 $dataesp = $resultadoesp->fetchAll(PDO::FETCH_ASSOC);
@@ -291,7 +291,7 @@ $message = "";
                 <div class="col-sm-4">
                   <div class="form-group input-group-sm">
                     <label for="tel_contacto" class="col-form-label">TELEFONO DE CONTACTO:</label>
-                    <input type="text" class="form-control" name="tel_contacto" id="tel_contacto" autocomplete="off" placeholder="Teléfono deContacto">
+                    <input type="text" class="form-control" name="tel_contacto" id="tel_contacto" autocomplete="off" placeholder="Teléfono de Contacto">
                   </div>
                 </div>
 

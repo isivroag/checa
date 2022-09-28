@@ -220,6 +220,13 @@ $(document).ready(function () {
         parseFloat(total).toFixed(2),
       ),
     )
+    $('#montopagovp').val(
+      Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+        parseFloat(total).toFixed(2),
+      ),
+    )
+
+    
 
     //caluloconret()
   }
@@ -320,6 +327,15 @@ $(document).ready(function () {
   }
 */
   // SOLO NUMEROS SUBTOTAL FACTURA
+
+
+  document.getElementById('montopagovp').onblur = function () {
+    
+    this.value = parseFloat(this.value.replace(/,/g, ''))
+      .toFixed(2)
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  }
   document.getElementById('subtotalreq').onblur = function () {
     calculototalreq(this.value.replace(/,/g, ''))
     this.value = parseFloat(this.value.replace(/,/g, ''))
@@ -402,6 +418,7 @@ $(document).ready(function () {
       columnas =
         "<div class='text-center'><div class='btn-group'>\
         <button class='btn btn-sm bg-success btntrasladar'><i class='fas fa-share'  data-toggle='tooltip' data-placement='top' title='Trasladar a Cxp'></i></button>\
+        <button class='btn btn-sm bg-primary btnPagar'><i class='fas fa-dollar-sign'  data-toggle='tooltip' data-placement='top' title='Pagar Cotización'></i></button>\
         <button class='btn btn-sm bg-info btnResumen'><i class='fas fa-bars'  data-toggle='tooltip' data-placement='top' title='Ver Cxp relacionadas'></i></button>\
         <button class='btn btn-sm bg-warning btnSaldarprov' data-toggle='tooltip' data-placement='top' title='Saldar'><i class=' text-white fa-solid fa-circle-dollar-to-slot'></i></button>\
         <button class='btn btn-sm bg-danger btnCancelar'  data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
@@ -801,6 +818,128 @@ $(document).ready(function () {
   //TERMINA NUEVOS CALCULOS
   // TABLA PRINCIPAL
 
+
+    // BOTON PAGAR
+    $(document).on('click', '.btnPagar', function () {
+      fila = $(this).closest('tr')
+      folio_cxp = parseInt(fila.find('td:eq(0)').text())
+  
+      
+      id_obra = fila.find('td:eq(1)').text()
+      id_prov = fila.find('td:eq(3)').text()
+      saldo = fila.find('td:eq(8)').text()
+  
+      $('formPagar').trigger('reset')
+  
+      $('#foliovp').val(folio_cxp)
+      $('#conceptovp').val('')
+      $('#obsvp').val('')
+      $('#saldovp').val(saldo)
+      $('#montpagovp').val('')
+      $('#metodovp').val('')
+      $('#id_prov3').val(id_prov)
+  
+      $('.modal-header').css('background-color', '#007bff')
+      $('.modal-header').css('color', 'white')
+      $('#modalPagar').modal('show')
+    })
+  
+    //BOTON GUARDAR PAGO
+    $(document).on('click', '#btnGuardarpago', function () {
+      var foliocxp = $('#foliovp').val()
+      var fechavp = $('#fechavp').val()
+  
+      var id_prov = $('#id_prov3').val()
+      var referenciavp = $('#referenciavp').val()
+      var observacionesvp = $('#observacionesvp').val()
+      var saldovp = $('#saldovp').val()
+      saldovp = saldovp.replace(/,/g, '')
+      var montovp = $('#montopagovp').val()
+      montovp = montovp.replace(/,/g, '')
+      var metodovp = $('#metodovp').val()
+      var usuario = $('#nameuser').val()
+      var opcion = 6
+  
+      if (
+        foliocxp.length == 0 ||
+        fechavp.length == 0 ||
+        referenciavp.length == 0 ||
+        montovp.length == 0 ||
+        metodovp.length == 0 ||
+        usuario.length == 0
+      ) {
+        swal.fire({
+          title: 'Datos Incompletos',
+          text: 'Verifique sus datos',
+          icon: 'warning',
+          focusConfirm: true,
+          confirmButtonText: 'Aceptar',
+        })
+      } else {
+        $.ajax({
+          url: 'bd/buscarsaldo.php',
+          type: 'POST',
+          dataType: 'json',
+          async: false,
+          data: {
+            foliocxp: foliocxp,
+            opcion: opcion,
+          },
+          success: function (res) {
+            saldovp = res
+            console.log('saldo1 ' + saldovp)
+          },
+        })
+  
+        if (parseFloat(saldovp) < parseFloat(montovp)) {
+          swal.fire({
+            title: 'Pago Excede el Saldo',
+            text:
+              'El pago no puede exceder el sado de la cuenta, Verifique el monto del Pago',
+            icon: 'warning',
+            focusConfirm: true,
+            confirmButtonText: 'Aceptar',
+          })
+          $('#saldovp').val(saldovp)
+        } else {
+          saldofin = saldovp - montovp
+  
+          opcion = 1
+          $.ajax({
+            url: 'bd/pagoprovi.php',
+            type: 'POST',
+            dataType: 'json',
+            async: false,
+            data: {
+              foliocxp: foliocxp,
+              fechavp: fechavp,
+              observacionesvp: observacionesvp,
+              referenciavp: referenciavp,
+              saldovp: saldovp,
+              id_prov: id_prov,
+              montovp: montovp,
+              saldofin: saldofin,
+              metodovp: metodovp,
+              usuario: usuario,
+              opcion: opcion,
+            },
+            success: function (res) {
+              console.log(res)
+              if (res == 1) {
+                operacionexitosa()
+                $('#modalPago').modal('hide')
+                window.location.reload()
+              } else {
+                Swal.fire({
+                  title: 'La operación no pudo ser registrada',
+                  icon: 'error',
+                })
+              }
+            },
+          })
+        }
+      }
+    })
   tablaVis = $('#tablaV').DataTable({
     rowCallback: function (row, data) {
       $($(row).find('td')['7']).addClass('text-right')

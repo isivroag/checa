@@ -296,7 +296,7 @@ function calculoantes()
       <button class='btn btn-sm bg-info btnResumen'><i class='fas fa-bars'  data-toggle='tooltip' data-placement='top' title='Resumen de Pagos'></i></button>\
       </div></div>"
     }else{
-      columnas= "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-primary btnEditar'  data-toggle='tooltip' data-placement='top' title='Editar'><i class='fas fa-edit'></i></button>\
+      columnas= "<div class='text-center'><div class='btn-group'><button class='btn btn-sm btn-primary btnEditar'  data-toggle='tooltip' data-placement='top' title='Editar'><i class='fa-solid fa-magnifying-glass-dollar'></i></button>\
       <button class='btn btn-sm bg-success btnPagar'><i class='fas fa-dollar-sign'  data-toggle='tooltip' data-placement='top' title='Pagar'></i></button>\
       <button class='btn btn-sm bg-info btnResumen'><i class='fas fa-bars'  data-toggle='tooltip' data-placement='top' title='Resumen de Pagos'></i></button>\
       <button class='btn btn-sm bg-danger btnCancelar'  data-toggle='tooltip' data-placement='top' title='Cancelar'><i class='fas fa-ban'></i></button>\
@@ -730,22 +730,66 @@ function calculoantes()
   $(document).on('click', '.btnEditar', function () {
     fila = $(this).closest('tr')
     id = parseInt(fila.find('td:eq(0)').text())
+ 
+    $.ajax({
+      type: 'POST',
+      url: 'bd/vercxp.php',
+      dataType: 'json',
+      async:false,
+      data: { id: id },
 
-    saldo = fila.find('td:eq(9)').text().replace(/,/g, '')
-    monto = fila.find('td:eq(8)').text().replace(/,/g, '')
+      success: function (res) {
+       
+       
+        id_obra=res[0].id_obra
+        obra=res[0].corto_obra
+        id_prov=res[0].id_prov
+        proveedor=res[0].razon_prov
+        fecha=res[0].fecha_cxp
+        factura=res[0].factura_cxp
+        descripcion=res[0].desc_cxp
+        monto= Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(res[0].monto_cxp).toFixed(2))
+        subtotal=Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(res[0].subtotal_cxp).toFixed(2))
+        iva=Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(res[0].iva_cxp).toFixed(2))
+        ret1=Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(res[0].ret1).toFixed(2))
+        ret2=Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(res[0].ret2).toFixed(2))
+        ret3=Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(res[0].ret3).toFixed(2))
+        montob=Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(res[0].montob).toFixed(2))
+        importe=Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(res[0].importe).toFixed(2))
+        descuento=Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(res[0].descuento).toFixed(2))
+        devolucion=Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(res[0].devolucion).toFixed(2))
+        uuid=res[0].uuid
 
-    if (parseFloat(monto) == parseFloat(saldo)) {
-      opcion = 2
-      $('#modalReq').modal('show')
-    } else {
-      swal.fire({
-        title: 'No es posible editar la Factura',
-        text: 'El documento ya tiene operaciones posteriores',
-        icon: 'warning',
-        focusConfirm: true,
-        confirmButtonText: 'Aceptar',
-      })
-    }
+        $('#folioreq').val(id)
+        $('#facturareq').val(factura)
+        $('#folioreq').val(id)
+        $('#uuid').val(uuid)
+        $('#fechareq').val(fecha)
+
+        $('#id_obra').val(id_obra)
+        $('#obra').val(obra)
+        $('#id_prov').val(id_prov)
+        $('#proveedor').val(proveedor)
+
+        $('#descripcionreq').val(descripcion)
+        $('#importe').val(importe)
+        $('#descuento').val(descuento)
+        $('#devolucion').val(devolucion)
+        $('#subtotalreq').val(subtotal)
+        $('#ivareq').val(iva)
+        $('#montoreqa').val(montob)
+        $('#ret1').val(ret1)
+        $('#ret2').val(ret2)
+        $('#ret3').val(ret3)
+        $('#montoreq').val(monto)
+        
+        $('#modalReq').modal('show')
+      },
+    })
+        
+         
+  
+
   })
 
   //BOTON RESUMEN DE PAGOS

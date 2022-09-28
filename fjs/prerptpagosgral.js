@@ -29,13 +29,13 @@ $(document).ready(function () {
         exportOptions: { columns: [0, 1, 2, 3, 4, 6] },
       },
     ],
-
+//<button class='btn btn-sm btn-success btnAutorizar' data-toggle='tooltip' data-placement='top' title='Autorizar'><i class='fa-solid fa-dollar-sign'></i></button>
     columnDefs: [
       {
         targets: -1,
         data: null,
         defaultContent:
-          "<div class='text-center'><button class='btn btn-sm btn-success btnAutorizar' data-toggle='tooltip' data-placement='top' title='Autorizar'><i class='fa-solid fa-dollar-sign'></i></button>\
+          "<div class='text-center'>\
                 <button class='btn btn-sm btn-warning text-light btnCancelar'><i class='fa-solid fa-rectangle-xmark' data-toggle='tooltip' data-placement='top' title='Cancelar'></i></button>\
                 </div>",
       },

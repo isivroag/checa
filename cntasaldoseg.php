@@ -71,7 +71,7 @@ $message = "";
             </div>
 
             <div class="card-body">
-
+<!--
                 <div class="card card-widget">
                     <div class="card-header bg-gradient-green">
                         <h3 class="card-title">PROVISIONES DE SUBCONTRATO</h3>
@@ -137,7 +137,7 @@ $message = "";
                         </div>
                     </div>
                 </div>
-
+                                            -->
                 <div class="card card-widget">
                     <div class="card-header bg-gradient-green">
                         <h3 class="card-title">REQUISICIONES DE SUBCONTRATO</h3>
@@ -208,7 +208,7 @@ $message = "";
                 </div>
                 <div class="card card-widget">
                     <div class="card-header bg-gradient-green">
-                        <h3 class="card-title">PROVISIONES </h3>
+                        <h3 class="card-title">COTIZACIONES </h3>
                     </div>
                     <div class="card-body">
                         <div class="container-fluid">

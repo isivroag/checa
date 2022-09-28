@@ -118,14 +118,14 @@
               <li class="nav-item">
                 <a href="cntaprovisiongral.php" class="nav-link <?php echo ($pagina == 'egresosgral') ? "active seleccionado" : ""; ?>  ">
                   <i class="fa-solid fa-hand-holding-dollar nav-icon"></i>
-                  <p>Provisiones Generales</p>
+                  <p>Cotizaciones Adm</p>
                 </a>
               </li>
 
               <li class="nav-item">
                 <a href="cntacxpgral.php" class="nav-link <?php echo ($pagina == 'cxpgral') ? "active seleccionado" : ""; ?>  ">
                   <i class="fa-solid fa-money-check-dollar nav-icon"></i>
-                  <p>CXP Gral</p>
+                  <p>CXP Adm</p>
                 </a>
               </li>
 
@@ -253,7 +253,7 @@
                 <a href="cntaprovision.php" class="nav-link <?php echo ($pagina == 'provision') ? "active seleccionado" : ""; ?>  ">
 
                   <i class="fas text-purple fa-list nav-icon"></i>
-                  <p>Provisiones</p>
+                  <p>Cotizaciones</p>
                 </a>
               </li>
 

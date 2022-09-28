@@ -70,7 +70,7 @@ switch ($opcion) {
         if ($resultado->execute()) {
 
 
-            $abono=round($importe * 1.16,0,PHP_ROUND_HALF_UP);
+            $abono=round($importe * 1.16,2,PHP_ROUND_HALF_UP);
             $consulta = "UPDATE w_provision SET saldo_provi=saldo_provi-'$abono' WHERE folio_provi='$folioprovi'";
             $resultado = $conexion->prepare($consulta);
             $resultado->execute();

@@ -327,11 +327,11 @@ if (isset($_GET['id'])) {
                                             <input type="text" class="form-control text-right" name="importeobra" id="importeobra" value="<?php echo number_format($importe_obra,2)?>" onkeypress="return filterFloat(event,this);" disabled>
                                         </div>
                                     </div>
-                                    <div class=" col-sm-4 ">
+                                    <div class=" col-sm-3 ">
 
                                     </div>
-                                    <div class=" col-sm-4 ">
-                                        <label for=" importeadd" class="col-form-label">MONTO DE CAJA</label>
+                                    <div class=" col-sm-5 ">
+                                        <label for=" importeadd" class="col-form-label">MONTO DE ADENDA(IVA INCLUIDO)</label>
                                         <div class="input-group input-group-sm">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">

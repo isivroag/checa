@@ -71,7 +71,7 @@ $message = "";
         <!-- Default box -->
         <div class="card">
             <div class="card-header bg-gradient-green text-light">
-                <h1 class="card-title mx-auto">PROVISIONES</h1>
+                <h1 class="card-title mx-auto">COTIZACIONES</h1>
             </div>
 
             <div class="card-body">
@@ -197,7 +197,7 @@ $message = "";
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content w-auto">
                     <div class="modal-header bg-gradient-green">
-                        <h5 class="modal-title" id="exampleModalLabel">ALTA DE PROVISIONES</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">ALTA DE COTIZACIONES</h5>
 
                     </div>
                     <form id="formReq" action="" method="POST" autocomplete="off">
@@ -1018,7 +1018,7 @@ $message = "";
             <div class="modal-dialog " role="document">
                 <div class="modal-content">
                     <div class="modal-header bg-gradient-success">
-                        <h5 class="modal-title" id="exampleModalLabel">SALDAR PROVISION</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">SALDAR COTIZACION</h5>
                     </div>
                     <div class="card card-widget" style="margin: 10px;">
                         <form id="formsaldar" action="" method="POST">
@@ -1061,6 +1061,123 @@ $message = "";
     </section>
 
     <!-- TERMINA SALDAR PROV -->
+
+     <!-- INICIA PAGAR -->
+     <section>
+        <div class="modal fade" id="modalPagar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-gradient-green">
+                        <h5 class="modal-title" id="exampleModalLabel">REGISTRAR PAGO</h5>
+
+                    </div>
+                    <form id="formPagar" action="" method="POST">
+                        <div class="modal-body">
+                            <div class="row justify-content-sm-between my-auto">
+
+
+
+
+                                <div class="col-sm-3 my-auto">
+                                    <div class="form-group input-group-sm">
+                                        <label for="foliovp" class="col-form-label">Folio Cotizacion:</label>
+                                        <input type="text" class="form-control" name="foliovp" id="foliovp" disabled>
+                                        <input type="hidden" class="form-control" name="id_prov3" id="id_prov3" disabled>
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="col-sm-3 my-auto">
+                                    <div class="form-group input-group-sm">
+                                        <label for="fechavp" class="col-form-label ">Fecha de Pago:</label>
+                                        <input type="date" id="fechavp" name="fechavp" class="form-control text-right" autocomplete="off" value="<?php echo date("Y-m-d") ?>" placeholder="FECHA">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group input-group-sm">
+                                        <label for="referenciavp" class="col-form-label">REFERENCIA DE PAGO</label>
+                                        <input type="text" class="form-control" name="referenciavp" id="referenciavp" autocomplete="off" placeholder="REFERENCIA">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-sm-center">
+                                <div class="col-sm-12">
+                                    <div class="form-group input-group-sm">
+                                        <label for="observacionesvp" class="col-form-label">OBSERVACIONES:</label>
+                                        <textarea class="form-control" name="observacionesvp" id="observacionesvp" rows="3" autocomplete="off" placeholder="OBSERVACIONES"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-sm-center">
+
+                                <div class="col-lg-4 ">
+                                    <label for="saldovp" class="col-form-label ">SALDO ACTUAL:</label>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control text-right" name="saldovp" id="saldovp" disabled>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4">
+                                    <label for="montopagovp" class="col-form-label">MONTO DE PAGO:</label>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </span>
+
+                                        </div>
+                                        <input type="text" id="montopagovp" name="montopagovp" class="form-control text-right" autocomplete="off" placeholder="MONTO DEL PAGO" onkeypress="return filterFloat(event,this);">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4">
+                                    <div class="input-group-sm">
+                                        <label for="metodovp" class="col-form-label">METODO DE PAGO:</label>
+
+                                        <select class="form-control" name="metodovp" id="metodovp">
+                                            <option id="EFECTIVO" value="EFECTIVO">EFECTIVO</option>
+                                            <option id="TRANSFERENCIA" value="TRANSFERENCIA">TRANSFERENCIA</option>
+                                            <option id="DEPOSITO" value="DEPOSITO">DEPOSITO</option>
+                                            <option id="CHEQUE" value="CHEQUE">CHEQUE</option>
+                                            <option id="TARJETA DE CREDITO" value="TARJETA DE CREDITO">TARJETA DE CREDITO</option>
+                                            <option id="TARJETA DE DEBITO" value="TARJETA DE DEBITO">TARJETA DE DEBITO</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+
+
+
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fas fa-ban"></i> Cancelar</button>
+                            <button type="button" id="btnGuardarpago" name="btnGuardarpago" class="btn btn-success" value="btnGuardar"><i class="far fa-save"></i> Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- TERMINA PAGAR -->
     <!-- /.content -->
 </div>
 

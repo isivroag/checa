@@ -72,6 +72,17 @@ switch ($opcion) {
                     }
                 }
                 break;
+                case 6:
+                    $consulta = "SELECT saldo_provi FROM w_provision WHERE folio_provi ='$foliocxp' ORDER BY folio_provi";
+                    $resultado = $conexion->prepare($consulta);
+                    if ($resultado->execute()) {
+                        $data = $resultado->fetchAll(PDO::FETCH_ASSOC);
+            
+                        foreach ($data as $reg) {
+                            $saldo = $reg['saldo_provi'];
+                        }
+                    }
+                    break;
 }
 
 print json_encode($saldo, JSON_UNESCAPED_UNICODE);

@@ -396,8 +396,6 @@ $(document).ready(function () {
     id_prov = $('#id_prov').val()
     tipo = 'GASTO'
     descripcion = $('#descripcionreq').val()
-    //subtotal = $('#subtotalreq').val().replace(/,/g, '')
-    //iva = $('#ivareq').val().replace(/,/g, '')
     monto = $('#montoreq').val().replace(/,/g, '')
     usuario=$('#nameuser').val()
 
@@ -427,8 +425,6 @@ $(document).ready(function () {
           id_prov: id_prov,
           descripcion: descripcion,
           tipo: tipo,
-          //subtotal: subtotal,
-          //iva: iva,
           monto: monto,
           usuario: usuario,
           opcion: opcion,
