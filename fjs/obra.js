@@ -99,6 +99,7 @@ $(document).ready(function () {
         corto = $("#corto").val();
         largo = $("#largo").val();
         monto = $("#monto").val().replace(/,/g, "");
+        duracion =$("#duracion").val();
        
         
 
@@ -124,6 +125,7 @@ $(document).ready(function () {
               folio: folio, fecha: fecha,clave: clave,
               id_emp: id_emp, id_clie: id_clie,
               corto: corto, largo: largo, monto: monto,
+              duracion: duracion,
               opcion: opcion
             },
             success: function (data) {
@@ -150,6 +152,7 @@ $(document).ready(function () {
                 folio: folio, fecha: fecha,clave: clave,
                 id_emp: id_emp, id_clie: id_clie,
                 corto: corto, largo: largo, monto: monto,
+                duracion: duracion,
                 opcion: opcion
             },
             success: function (data) {

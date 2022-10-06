@@ -70,6 +70,7 @@ $message = "";
                       <th>INCREMENTOS</th>
                       <th>DECREMENTOS</th>
                       <th>IMPORTE</th>
+                      <th>DURACION</th>
                       <th>ACCIONES</th>
                     </tr>
                   </thead>
@@ -92,6 +93,7 @@ $message = "";
                         <td class="text-right"><?php echo number_format($dat['add_obra'] )?></td>
                         <td class="text-right"><?php echo number_format($dat['dec_obra'] )?></td>
                         <td class="text-right"><?php echo number_format($dat['monto_obra'] )?></td>
+                        <td><?php echo $dat['duracion'] ?></td>
                         <td></td>
                       </tr>
                     <?php

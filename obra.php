@@ -26,7 +26,7 @@ if (isset($_GET['id'])) {
         $cliente = $row['razon_clie'];
         $fecha =$row['inicio_obra'];
         $clave = $row['clave_obra'];
-        
+        $duracion= $row['duracion'];
         $corto = $row['corto_obra'];
         $largo = $row['largo_obra'];
         $monto = $row['monto_obra'];
@@ -42,6 +42,7 @@ if (isset($_GET['id'])) {
     $id_obra = 0;
     $corto = "";
     $largo = "";
+    $duracion=0;
     $monto = 0;
 }
 
@@ -173,7 +174,7 @@ $datadet = $resultadodet->fetchAll(PDO::FETCH_ASSOC);
                                 <div class="row justify-content-sm-center">
 
 
-                                    <div class="col-lg-1">
+                                    <div class="col-sm-1">
                                         <div class="form-group input-group-sm">
                                             <label for="folio" class="col-form-label">ID:</label>
 
@@ -181,14 +182,23 @@ $datadet = $resultadodet->fetchAll(PDO::FETCH_ASSOC);
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-2">
+                                    <div class="col-sm-2">
                                         <div class="form-group input-group-sm">
                                             <label for="clave" class="col-form-label">CLAVE:</label>
                                             <input type="text" class="form-control" name="clave" id="clave" value="<?php echo  $clave; ?>" placeholder="CLAVE/#CONTRATO">
                                         </div>
                                     </div>
+                                    <div class="col-sm-2 ">
+                                        <div class="form-group input-group-sm">
+                                            <label for="duracion" class="col-form-label">DURACION (SEM):</label>
+                                            <input type="text" class="form-control" name="duracion" id="duracion" value="<?php echo $duracion; ?>">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-1">
 
-                                    <div class="col-lg-2 offset-lg-3">
+                                    </div>
+
+                                    <div class="col-sm-2 ">
                                         <div class="form-group input-group-sm">
                                             <label for="fecha" class="col-form-label">FECHA INICIO:</label>
                                             <input type="date" class="form-control" name="fecha" id="fecha" value="<?php echo $fecha; ?>">
@@ -204,7 +214,7 @@ $datadet = $resultadodet->fetchAll(PDO::FETCH_ASSOC);
 
                                 <div class=" row justify-content-sm-center">
 
-                                    <div class="col-lg-4">
+                                    <div class="col-sm-4">
                                         <div class="input-group input-group-sm">
                                             <label for="empresa" class="col-form-label">EMPRESA:</label>
                                             <div class="input-group input-group-sm">
@@ -217,7 +227,7 @@ $datadet = $resultadodet->fetchAll(PDO::FETCH_ASSOC);
 
                                         </div>
                                     </div>
-                                    <div class="col-lg-4">
+                                    <div class="col-sm-4">
                                         <div class="input-group input-group-sm">
                                             <label for="cliente" class="col-form-label">CLIENTE:</label>
                                             <div class="input-group input-group-sm">
@@ -231,7 +241,7 @@ $datadet = $resultadodet->fetchAll(PDO::FETCH_ASSOC);
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-8">
+                                    <div class="col-sm-8">
                                         <div class="form-group input-group-sm">
                                             <label for="corto" class="col-form-label">NOMBRE CORTO:</label>
                                             <input type="text" class="form-control" name="corto" id="corto" value="<?php echo  $corto;?>"  placeholder="NOMBRE CORTO">
@@ -240,7 +250,7 @@ $datadet = $resultadodet->fetchAll(PDO::FETCH_ASSOC);
 
                                     
 
-                                    <div class="col-lg-8">
+                                    <div class="col-sm-8">
                                         <div class="form-group input-group-sm">
                                             <label for="largo" class="col-form-label">DESCRIPCION / NOMBRE LARGO:</label>
                                             <textarea rows="3" class="form-control" name="largo" id="largo" value="<?php echo $largo; ?>" placeholder="DESCRIPCION / NOMBRE LARGO"><?php echo $largo;?></textarea>
@@ -251,10 +261,10 @@ $datadet = $resultadodet->fetchAll(PDO::FETCH_ASSOC);
 
                                 </div>
                                 <div class="row justify-content-sm-center" style="margin-bottom: 10px;">
-                                    <div class="col-lg-3">
+                                    <div class="col-sm-3">
                                     
                                     </div>
-                                    <div class="col-lg-2 offset-lg-3">
+                                    <div class="col-sm-2 offset-sm-3">
                                         <label for="monto" class="col-form-label">MONTO TOTAL:</label>
                                         <div class="input-group input-group-sm">
                                             <div class="input-group-prepend">
