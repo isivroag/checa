@@ -29,20 +29,34 @@ if ($_SESSION['id_obra'] == null) {
         $id_obra = $_GET['id_obra'];
 
         //BUSCAR NOMBRE DE OBRA
-        $consultaobra = "SELECT corto_obra,monto_obra from w_obra where id_obra='$id_obra'";
+        $consultaobra = "SELECT corto_obra,monto_obra,duracion from w_obra where id_obra='$id_obra'";
         $resultadoobra = $conexion->prepare($consultaobra);
         $resultadoobra->execute();
         $dataobra = $resultadoobra->fetchAll(PDO::FETCH_ASSOC);
         foreach ($dataobra as $rowobra) {
             $obra = $rowobra['corto_obra'];
             $montoobra = $rowobra['monto_obra'];
+            $duracion = $rowobra['duracion'];
         }
 
         //BUSCAR NOMBRE DE OBRA
         $consultanom = "SELECT * from vnomina where id_obra='$id_obra' AND estado_nom=1 order by id_nom";
         $resultadonom = $conexion->prepare($consultanom);
         $resultadonom->execute();
-        $datanom = $resultadonom->fetchAll(PDO::FETCH_ASSOC);
+        if ($resultadonom->rowCount() > 0) {
+            $datanom = $resultadonom->fetchAll(PDO::FETCH_ASSOC);
+            $contador = 0;
+            $ejecutado = 0;
+            foreach ($datanom as $row) {
+                $ejecutado += $row['monto_nom'];
+                $contador++;
+            }
+            $promedionom = round($ejecutado / $contador, 2);
+            $presupuesto = $duracion * $promedionom;
+        } else {
+            $ejecutado = 0;
+            $presupuesto = 0;
+        }
     }
 } else {
 
@@ -118,7 +132,35 @@ $message = "";
                                     </div>
                                 </div>
 
+                                <?php if ($id_obra != null) { ?>
+                                    <div class="row justify-content-center mb-3 border-top">
+                                        <div class="col-sm-2">
+                                            <div class="form-group input-group-sm">
+                                                <label for="duracion" class="col-form-label">DURACION:</label>
+                                                <input type="text" class="form-control" name="duracion" id="duracion" value="<?php echo $duracion ?>" disabled>
 
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-sm-2 ">
+                                            <div class="form-group input-group-sm">
+                                                <label for="presupuesto" class="col-form-label">PRESUPUESTO:</label>
+                                                <input type="text" class="form-control text-right" name="presupuesto" id="presupuesto" value="<?php echo '$ '.number_format($presupuesto,2); ?>" disabled>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="col-sm-2 ">
+                                            <div class="form-group input-group-sm">
+                                                <label for="ejecutado" class="col-form-label">EJECUTADO:</label>
+                                                <input type="text" class="form-control text-right" name="ejecutado" id="ejecutado" value="<?php echo '$ '. number_format($ejecutado,2); ?>" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                <?php } ?>
                             </div>
                         </div>
 
@@ -425,7 +467,7 @@ $message = "";
     <!-- TERMINA ALTA NOMINA -->
 
 
-    
+
     <!-- INICIA CANCELAR -->
     <section>
         <div class="modal fade" id="modalcan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

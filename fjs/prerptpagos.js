@@ -135,7 +135,7 @@ $(document).ready(function () {
       case 'CXP':
         tipo = 10
         break
-      case 'PROVISION':
+      case 'COTIZACION':
         tipo = 11
         break
     }
