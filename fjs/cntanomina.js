@@ -282,8 +282,34 @@ $(document).ready(function () {
   })
 
   //BOTON EDITAR
-  $(document).on('click', '.btnEditar', function () {
-    
+  $(document).on('click', '#btnActualizar', function () {
+    obra=$('#id_obra').val();
+   
+    presupuestado = $('#presupuestoc').val().replace(/,/g, '')
+   
+    ejecutado = $('#ejecutadoc').val().replace(/,/g, '');
+
+    opcion=1
+    $.ajax({
+      url: 'bd/actualizadatos.php',
+      type: 'POST',
+      dataType: 'json',
+      data: {
+        obra: obra,
+        presupuestado: presupuestado,
+        ejecutado: ejecutado,
+        opcion: opcion
+       
+      },
+      success: function (data) {
+        if (data == 1) {
+         
+          window.location.reload()
+        } else {
+          facturaerror()
+        }
+      },
+    })
   })
 
   //BOTON BUSCAR OBRA

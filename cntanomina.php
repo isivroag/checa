@@ -57,6 +57,22 @@ if ($_SESSION['id_obra'] == null) {
             $ejecutado = 0;
             $presupuesto = 0;
         }
+
+        $consultanom = "SELECT * from w_datos where id_obra='$id_obra' ";
+        $resultadonom = $conexion->prepare($consultanom);
+        $resultadonom->execute();
+        if ($resultadonom->rowCount() > 0) {
+            $databd = $resultadonom->fetchAll(PDO::FETCH_ASSOC);
+
+            $ejecutadobd = 0;
+            foreach ($databd as $row) {
+                $ejecutadobd = $row['nomeje'];
+                $presupuestobd = $row['nompres'];
+            }
+        } else {
+            $ejecutadobd = 0;
+            $presupuestobd = 0;
+        }
     }
 } else {
 
@@ -88,6 +104,15 @@ $message = "";
 
 
 ?>
+
+<style>
+    .abs-center {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+    }
+</style>
 
 <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
@@ -132,8 +157,16 @@ $message = "";
                                     </div>
                                 </div>
 
-                                <?php if ($id_obra != null) { ?>
+                                <?php if ($id_obra != null && ($_SESSION['s_rol'] == 2 || $_SESSION['s_rol'] == 3)) { ?>
                                     <div class="row justify-content-center mb-3 border-top">
+                                        <div class="col-sm-3 text-center">
+                                            <span class="text-bold">DATOS REGISTRADOS ACTUALMENTE</span>
+                                        </div>
+                                    </div>
+                                    <div class="row justify-content-center ">
+
+
+
                                         <div class="col-sm-2">
                                             <div class="form-group input-group-sm">
                                                 <label for="duracion" class="col-form-label">DURACION:</label>
@@ -142,24 +175,75 @@ $message = "";
                                             </div>
                                         </div>
 
-
                                         <div class="col-sm-2 ">
-                                            <div class="form-group input-group-sm">
-                                                <label for="presupuesto" class="col-form-label">PRESUPUESTO:</label>
-                                                <input type="text" class="form-control text-right" name="presupuesto" id="presupuesto" value="<?php echo '$ '.number_format($presupuesto,2); ?>" disabled>
+                                            <label for=" presupuesto" class="col-form-label">PRESUPUESTO:</label>
+                                            <div class="input-group input-group-sm">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="fas fa-dollar-sign"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control text-right" name="presupuesto" id="presupuesto" value="<?php echo  number_format($presupuestobd, 2); ?>" disabled>
                                             </div>
                                         </div>
 
-
-
                                         <div class="col-sm-2 ">
-                                            <div class="form-group input-group-sm">
-                                                <label for="ejecutado" class="col-form-label">EJECUTADO:</label>
-                                                <input type="text" class="form-control text-right" name="ejecutado" id="ejecutado" value="<?php echo '$ '. number_format($ejecutado,2); ?>" disabled>
+                                            <label for="ejecutadoc" class="col-form-label">EJECUTADO:</label>
+                                            <div class="input-group input-group-sm">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="fas fa-dollar-sign"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control text-right" name="ejecutado" id="ejecutado" value="<?php echo  number_format($ejecutadobd, 2); ?>" disabled>
                                             </div>
+                                        </div>
+
+                                        <div class="col-sm-1 text-center abs-center">
+                                            <button id="btnActualizar" type="button" class="btn bg-gradient-primary btn-ms" data-toggle="modal"><i class="fa-solid fa-rotate text-light"></i><span class="text-light"> ACTUALIZAR</span></button>
                                         </div>
                                     </div>
 
+                                    <div class="row justify-content-center mb-3 border-top">
+                                        <div class="col-sm-3 text-center">
+                                            <span class="text-bold">DATOS CALCULADOS</span>
+                                        </div>
+                                    </div>
+                                    <div class="row justify-content-center">
+                                        <div class="col-sm-2">
+                                            <div class="form-group input-group-sm">
+                                                <label for="duracion" class="col-form-label">DURACION:</label>
+                                                <input type="text" class="form-control" name="duracionc" id="duracionc" value="<?php echo $duracion ?>" disabled>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-2 ">
+                                            <label for=" presupuestoc" class="col-form-label">PROYECCION:</label>
+                                            <div class="input-group input-group-sm">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="fas fa-dollar-sign"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control text-right" name="presupuestoc" id="presupuestoc" value="<?php echo  number_format($presupuesto, 2); ?>" disabled>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-2 ">
+                                            <label for="ejecutado" class="col-form-label">EJECUTADO:</label>
+                                            <div class="input-group input-group-sm">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="fas fa-dollar-sign"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control text-right" name="ejecutadoc" id="ejecutadoc" value="<?php echo  number_format($ejecutado, 2); ?>" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-1">
+
+                                        </div>
+                                    </div>
                                 <?php } ?>
                             </div>
                         </div>

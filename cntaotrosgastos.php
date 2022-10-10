@@ -31,30 +31,64 @@ if ($_SESSION['id_obra'] == null) {
         $id_obra = $_GET['id_obra'];
 
         //BUSCAR NOMBRE DE OBRA
-        $consultaobra = "SELECT corto_obra,monto_obra from w_obra where id_obra='$id_obra'";
+        $consultaobra = "SELECT corto_obra,monto_obra,duracion from w_obra where id_obra='$id_obra'";
         $resultadoobra = $conexion->prepare($consultaobra);
         $resultadoobra->execute();
         $dataobra = $resultadoobra->fetchAll(PDO::FETCH_ASSOC);
         foreach ($dataobra as $rowobra) {
             $obra = $rowobra['corto_obra'];
             $montoobra = $rowobra['monto_obra'];
+            $duracion = $rowobra['duracion'];
         }
 
         //BUSCAR NOMBRE DE OBRA
-        $consultanom = "SELECT * from votrosgastos where id_obra='$id_obra' AND estado_otro=1 order by id_otro";
-        $resultadonom = $conexion->prepare($consultanom);
-        $resultadonom->execute();
-        $datanom = $resultadonom->fetchAll(PDO::FETCH_ASSOC);
+
 
         $consultaprov = "SELECT * FROM o_proveedor WHERE estado_prov=1 and id_obra='$id_obra' ORDER BY id_prov";
         $resultadoprov = $conexion->prepare($consultaprov);
         $resultadoprov->execute();
         $dataprov = $resultadoprov->fetchAll(PDO::FETCH_ASSOC);
 
-        $consultacaja="SELECT * from w_caja where id_obra='$id_obra' and estado_caja='1'";
-        $resultadocaja=$conexion->prepare($consultacaja);
+        $consultacaja = "SELECT * from w_caja where id_obra='$id_obra' and estado_caja='1'";
+        $resultadocaja = $conexion->prepare($consultacaja);
         $resultadocaja->execute();
-        $datacaj=$resultadocaja->fetchAll(PDO::FETCH_ASSOC);
+        $datacaj = $resultadocaja->fetchAll(PDO::FETCH_ASSOC);
+
+
+        $consultanom = "SELECT * from votrosgastos where id_obra='$id_obra' AND estado_otro=1 order by id_otro";
+        $resultadonom = $conexion->prepare($consultanom);
+        $resultadonom->execute();
+        $datanom = $resultadonom->fetchAll(PDO::FETCH_ASSOC);
+        if ($resultadonom->rowCount() > 0) {
+
+            $contador = 0;
+            $ejecutado = 0;
+            foreach ($datanom as $row) {
+                $ejecutado += $row['monto_otro'];
+                $contador++;
+            }
+            $promedionom = round($ejecutado / $contador, 2);
+            $presupuesto = $duracion * $promedionom;
+        } else {
+            $ejecutado = 0;
+            $presupuesto = 0;
+        }
+
+        $consultanom = "SELECT * from w_datos where id_obra='$id_obra' ";
+        $resultadonom = $conexion->prepare($consultanom);
+        $resultadonom->execute();
+        if ($resultadonom->rowCount() > 0) {
+            $databd = $resultadonom->fetchAll(PDO::FETCH_ASSOC);
+
+            $ejecutadobd = 0;
+            foreach ($databd as $row) {
+                $ejecutadobd = $row['cajaeje'];
+                $presupuestobd = $row['cajapres'];
+            }
+        } else {
+            $ejecutadobd = 0;
+            $presupuestobd = 0;
+        }
     }
 } else {
 
@@ -82,10 +116,10 @@ if ($_SESSION['id_obra'] == null) {
     $resultadoprov->execute();
     $dataprov = $resultadoprov->fetchAll(PDO::FETCH_ASSOC);
 
-    $consultacaja="SELECT * from w_caja where id_obra='$id_obra' and estado_caja='1'";
-    $resultadocaja=$conexion->prepare($consultacaja);
+    $consultacaja = "SELECT * from w_caja where id_obra='$id_obra' and estado_caja='1'";
+    $resultadocaja = $conexion->prepare($consultacaja);
     $resultadocaja->execute();
-    $datacaj=$resultadocaja->fetchAll(PDO::FETCH_ASSOC);
+    $datacaj = $resultadocaja->fetchAll(PDO::FETCH_ASSOC);
 }
 
 
@@ -139,7 +173,94 @@ $message = "";
                                         </div>
                                     </div>
                                 </div>
+                                <?php if ($id_obra != null && ($_SESSION['s_rol'] == 2 || $_SESSION['s_rol'] == 3)) { ?>
+                                    <div class="row justify-content-center mb-3 border-top">
+                                        <div class="col-sm-3 text-center">
+                                            <span class="text-bold">DATOS REGISTRADOS ACTUALMENTE</span>
+                                        </div>
+                                    </div>
+                                    <div class="row justify-content-center ">
 
+
+
+                                        <div class="col-sm-2">
+                                            <div class="form-group input-group-sm">
+                                                <label for="duracion" class="col-form-label">DURACION:</label>
+                                                <input type="text" class="form-control" name="duracion" id="duracion" value="<?php echo $duracion ?>" disabled>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-2 ">
+                                            <label for=" presupuesto" class="col-form-label">PRESUPUESTO:</label>
+                                            <div class="input-group input-group-sm">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="fas fa-dollar-sign"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control text-right" name="presupuesto" id="presupuesto" value="<?php echo  number_format($presupuestobd, 2); ?>" disabled>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-2 ">
+                                            <label for="ejecutadoc" class="col-form-label">EJECUTADO:</label>
+                                            <div class="input-group input-group-sm">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="fas fa-dollar-sign"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control text-right" name="ejecutado" id="ejecutado" value="<?php echo  number_format($ejecutadobd, 2); ?>" disabled>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-1 text-center abs-center">
+                                            <button id="btnActualizar" type="button" class="btn bg-gradient-primary btn-ms" data-toggle="modal"><i class="fa-solid fa-rotate text-light"></i><span class="text-light"> ACTUALIZAR</span></button>
+                                        </div>
+                                    </div>
+
+                                    <div class="row justify-content-center mb-3 border-top">
+                                        <div class="col-sm-3 text-center">
+                                            <span class="text-bold">DATOS CALCULADOS</span>
+                                        </div>
+                                    </div>
+                                    <div class="row justify-content-center">
+                                        <div class="col-sm-2">
+                                            <div class="form-group input-group-sm">
+                                                <label for="duracion" class="col-form-label">DURACION:</label>
+                                                <input type="text" class="form-control" name="duracionc" id="duracionc" value="<?php echo $duracion ?>" disabled>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-2 ">
+                                            <label for=" presupuestoc" class="col-form-label">PROYECCION:</label>
+                                            <div class="input-group input-group-sm">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="fas fa-dollar-sign"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control text-right" name="presupuestoc" id="presupuestoc" value="<?php echo  number_format($presupuesto, 2); ?>" disabled>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-2 ">
+                                            <label for="ejecutado" class="col-form-label">EJECUTADO:</label>
+                                            <div class="input-group input-group-sm">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="fas fa-dollar-sign"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control text-right" name="ejecutadoc" id="ejecutadoc" value="<?php echo  number_format($ejecutado, 2); ?>" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-1">
+
+                                        </div>
+                                    </div>
+                                <?php } ?>
 
                             </div>
                         </div>
@@ -620,16 +741,16 @@ $message = "";
                                 </div>
 
                                 <div class="col-sm-3 my-auto">
-                                <div class="input-group-sm">
+                                    <div class="input-group-sm">
                                         <label for="caja" class="col-form-label">CAJA:</label>
 
                                         <select class="form-control" name="caja" id="caja">
-                                            <?php 
-                                            foreach($datacaj as $rowcaj){
+                                            <?php
+                                            foreach ($datacaj as $rowcaj) {
 
-                                            
+
                                             ?>
-                                            <option id="idcaja<?php echo $rowcaj['id_caja']?>" value="<?php  echo $rowcaj['id_caja']?>"><?php  echo $rowcaj['clave_caja']?></option>
+                                                <option id="idcaja<?php echo $rowcaj['id_caja'] ?>" value="<?php echo $rowcaj['id_caja'] ?>"><?php echo $rowcaj['clave_caja'] ?></option>
                                             <?php
                                             }
                                             ?>

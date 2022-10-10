@@ -61,7 +61,7 @@ $message = "";
                       <th>NOMBRE CORTO</th>
                       <th>NOMBRE LARGO</th>
                       <th>FECHA INICIO</th>
-                      
+
                       <th>ID EMP</th>
                       <th>EMPRESA RESPONSABLE</th>
                       <th>ID CLIE</th>
@@ -84,15 +84,15 @@ $message = "";
                         <td><?php echo $dat['corto_obra'] ?></td>
                         <td><?php echo $dat['largo_obra'] ?></td>
                         <td><?php echo $dat['inicio_obra'] ?></td>
-                      
+
                         <td><?php echo $dat['id_emp'] ?></td>
                         <td><?php echo $dat['razon_emp'] ?></td>
                         <td><?php echo $dat['id_clie'] ?></td>
                         <td><?php echo $dat['razon_clie'] ?></td>
-                        <td class="text-right"><?php echo number_format($dat['importe_origen'] )?></td>
-                        <td class="text-right"><?php echo number_format($dat['add_obra'] )?></td>
-                        <td class="text-right"><?php echo number_format($dat['dec_obra'] )?></td>
-                        <td class="text-right"><?php echo number_format($dat['monto_obra'] )?></td>
+                        <td class="text-right"><?php echo number_format($dat['importe_origen']) ?></td>
+                        <td class="text-right"><?php echo number_format($dat['add_obra']) ?></td>
+                        <td class="text-right"><?php echo number_format($dat['dec_obra']) ?></td>
+                        <td class="text-right"><?php echo number_format($dat['monto_obra']) ?></td>
                         <td><?php echo $dat['duracion'] ?></td>
                         <td></td>
                       </tr>
@@ -108,13 +108,77 @@ $message = "";
 
       </div>
       <!-- /.card-body -->
-     
+
       <!-- /.card-footer-->
     </div>
     <!-- /.card -->
 
   </section>
 
+  <section>
+    <div class="modal fade" id="modalInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content w-auto">
+          <div class="modal-header bg-gradient-secondary">
+            <h5 class="modal-title" id="exampleModalLabel">INFORMACION DE PRESUPUESTOS</h5>
+
+          </div>
+          <form id="formInfo" action="" method="POST" autocomplete="off">
+            <div class="card card-widget" style="margin: 10px;">
+
+              <div class="modal-body">
+
+
+                <div class="row justify-content-sm-center" style="margin-bottom: 10px;">
+
+                <input type="hidden" class="form-control text-right" name="id_obra" id="id_obra" >
+
+
+                  <div class=" col-sm-8 ">
+                    <label for=" presnom" class="col-form-label">PRESUPUESTO DE NOMINA:</label>
+                    <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          <i class="fas fa-dollar-sign"></i>
+                        </span>
+                      </div>
+                      <input type="text" class="form-control text-right" name="presnom" id="presnom" onkeypress="return filterFloat(event,this);">
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="row justify-content-sm-center" style="margin-bottom: 10px;">
+
+
+                  <div class=" col-sm-8 ">
+                    <label for=" prescaja" class="col-form-label">PRESUPUESTO DE GASTOS DE OBRA:</label>
+                    <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          <i class="fas fa-dollar-sign"></i>
+                        </span>
+                      </div>
+                      <input type="text" class="form-control text-right" name="prescaja" id="prescaja" onkeypress="return filterFloat(event,this);">
+                    </div>
+                  </div>
+
+                </div>
+
+
+              </div>
+
+              <div class=" modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fas fa-ban"></i> Cancelar</button>
+                <button type="button" id="btnGuardarpres" name="btnGuardarpres" class="btn btn-success" value="btnGuardarpres"><i class="far fa-save"></i> Guardar</button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
 
 
   <!-- /.content -->
@@ -122,7 +186,7 @@ $message = "";
 
 
 <?php include_once 'templates/footer.php'; ?>
-<script src="fjs/cntaobra.js?v=<?php echo(rand()); ?>"></script>
+<script src="fjs/cntaobra.js?v=<?php echo (rand()); ?>"></script>
 <script src="plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 <script src="plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>

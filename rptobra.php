@@ -25,6 +25,19 @@ if ($_SESSION['id_obra'] == null) {
     $resultadocon = $conexion->prepare($consultacon);
     $resultadocon->execute();
     $datacon = $resultadocon->fetchAll(PDO::FETCH_ASSOC);
+    $ingresos = 0;
+    $emitido = 0;
+    $saldoin = 0;
+    $pendiente = 0;
+    $montonom = 0;
+    $pagadootros = 0;
+    $montoobra = 0;
+    $montosub = 0;
+    $montocxp = 0;
+    $gastos = 0;
+    $otros = 0;
+
+
 
     if (isset($_GET['id_obra'])) {
         $id_obra = $_GET['id_obra'];
@@ -87,7 +100,7 @@ if ($_SESSION['id_obra'] == null) {
             $montocxp += $rowcxp['monto_cxp'];
         }
         $pagadocxp = $montocxp - $saldocxp;
-       
+
 
         $resultadopagado = 0;
         $resultadopagado = $ingresos - ($pagadosub + $pagadocxp);
@@ -106,6 +119,25 @@ if ($_SESSION['id_obra'] == null) {
         $montonom = 0;
         foreach ($datanom as $rownom) {
             $montonom += $rownom['nomina'];
+        }
+
+
+        $consultanom = "SELECT * from w_datos where id_obra='$id_obra' ";
+        $resultadonom = $conexion->prepare($consultanom);
+        $resultadonom->execute();
+        if ($resultadonom->rowCount() > 0) {
+            $databd = $resultadonom->fetchAll(PDO::FETCH_ASSOC);
+
+            $ejecutadobd = 0;
+            foreach ($databd as $row) {
+            
+                $presupuestadonom = $row['nompres'];
+                $presupuestadocaja = $row['cajapres'];
+            }
+        } else {
+          
+            $presupuestadonom = 0;
+            $presupuestadocaja = 0;
         }
 
         $cons = "SELECT monto_otro,saldo_otro, monto_otro-saldo_otro as pagado_otro from w_otro where id_obra='$id_obra' and estado_otro='1'";
@@ -149,7 +181,7 @@ if ($_SESSION['id_obra'] == null) {
         }
 
         $resultado = 0;
-        $resultado = $montoobra - ($montosub + $montocxp + $montonom + $otros + $gastos);
+        $resultado = $montoobra - ($montosub + $montocxp + $presupuestadonom + $gastos + $presupuestadocaja );
 
         $resultadopagado = 0;
         $resultadopagado = $ingresos - ($pagadosub + $pagadocxp + $pagadogastos + $pagadootros + $montonom);
@@ -313,7 +345,7 @@ $message = "";
 
                                                                 <div class="card">
                                                                     <div class="card-header bg-gradient-navy">
-                                                                        <h3 class="card-title">COMPARATIVO CONTRATOS VS SUBCONTRATOS+CXP+INDIRECTOS+OTROS GASTOS  </h3>
+                                                                        <h3 class="card-title">COMPARATIVO CONTRATOS VS SUBCONTRATOS+CXP+INDIRECTOS+OTROS GASTOS </h3>
                                                                     </div>
                                                                     <div class="card-body">
                                                                         <div class="row justify-content-center">
@@ -327,7 +359,7 @@ $message = "";
                                                                             <div class="row justify-content-center mt-4">
                                                                                 <div class="col-lg-12">
                                                                                     <div class="table-responsive">
-                                                                                        <table class="table table-responsive table-bordered table-hover table-sm"  style="font-size: 15px;">
+                                                                                        <table class="table table-responsive table-bordered table-hover table-sm" style="font-size: 15px;">
                                                                                             <thead class="text-center bg-gradient-primary">
                                                                                                 <tr>
                                                                                                     <th>CONCEPTO</th>
@@ -339,7 +371,7 @@ $message = "";
                                                                                             </thead>
                                                                                             <tbody>
                                                                                                 <tr>
-                                                                                                    <td>IMPORTE CONTRATADO</td>
+                                                                                                    <td>IMPORTE CONT/PRES</td>
                                                                                                     <td class="text-right"><?php echo number_format($montoobra, 2) ?></td>
                                                                                                     <td class="text-right"><?php echo number_format($ingresos, 2)   ?></td>
                                                                                                     <td class="text-right"><?php echo number_format(($ingresos / $montoobra) * 100, 2) . '%' ?></td>
@@ -356,30 +388,30 @@ $message = "";
                                                                                                     <td>TOTAL FACTURAS DE PROVEEDORES </td>
                                                                                                     <td class="text-right"><?php echo number_format($montocxp, 2) ?></td>
                                                                                                     <td class="text-right"><?php echo number_format($pagadocxp, 2)   ?></td>
-                                                                                                    <td class="text-right"><?php echo number_format(($pagadocxp / $montocxp) * 100, 2) ?></td>
+                                                                                                    <td class="text-right"><?php echo number_format(($pagadocxp / $montocxp) * 100, 2). '%' ?></td>
                                                                                                     <td class="text-right"><?php echo number_format(($montocxp / $montoobra) * 100, 3) . '%' ?></td>
                                                                                                 </tr>
                                                                                                 <tr>
                                                                                                     <td>OTROS GASTOS </td>
                                                                                                     <td class="text-right"><?php echo number_format($gastos, 2) ?></td>
                                                                                                     <td class="text-right"><?php echo number_format($pagadogastos, 2)   ?></td>
-                                                                                                    <td class="text-right"><?php echo number_format(($porcentajegastos) * 100, 2) ?></td>
+                                                                                                    <td class="text-right"><?php echo number_format(($porcentajegastos) * 100, 2). '%' ?></td>
                                                                                                     <td class="text-right"><?php echo number_format(($gastos / $montoobra) * 100, 3) . '%' ?></td>
                                                                                                 </tr>
                                                                                                 <tr>
                                                                                                     <td>NOMINAS </td>
-                                                                                                    <td class="text-right"><?php echo number_format($montonom, 2) ?></td>
+                                                                                                    <td class="text-right"><?php echo number_format($presupuestadonom, 2) ?></td>
                                                                                                     <td class="text-right"><?php echo number_format($montonom, 2)   ?></td>
-                                                                                                    <td class="text-right"><?php echo number_format(($montonom / $montonom) * 100, 2) ?></td>
-                                                                                                    <td class="text-right"><?php echo number_format(($montonom / $montoobra) * 100, 3) . '%' ?></td>
+                                                                                                    <td class="text-right"><?php echo number_format(( $montonom/$presupuestadonom) * 100, 2). '%' ?></td>
+                                                                                                    <td class="text-right"><?php echo number_format(($presupuestadonom / $montoobra) * 100, 3) . '%' ?></td>
                                                                                                 </tr>
 
                                                                                                 <tr>
                                                                                                     <td>GASTOS DE OBRA </td>
-                                                                                                    <td class="text-right"><?php echo number_format($otros, 2) ?></td>
+                                                                                                    <td class="text-right"><?php echo number_format($presupuestadocaja, 2) ?></td>
                                                                                                     <td class="text-right"><?php echo number_format($pagadootros, 2)   ?></td>
-                                                                                                    <td class="text-right"><?php echo number_format(($porcentajeotros) * 100, 2) ?></td>
-                                                                                                    <td class="text-right"><?php echo number_format(($otros / $montoobra) * 100, 3) . '%' ?></td>
+                                                                                                    <td class="text-right"><?php echo number_format(($pagadootros/$presupuestadocaja) * 100, 2). '%' ?></td>
+                                                                                                    <td class="text-right"><?php echo number_format(($presupuestadocaja / $montoobra) * 100, 3) . '%' ?></td>
 
                                                                                                 </tr>
                                                                                                 <tr>
@@ -436,8 +468,8 @@ $message = "";
                                                                                             </tr>
                                                                                             <tr>
                                                                                                 <td>EGRESOS</td>
-                                                                                                
-                                                                                                <td class="text-right"><?php echo number_format($montosub+$montocxp+$montonom+$otros+$gastos, 2)   ?></td>
+
+                                                                                                <td class="text-right"><?php echo number_format($montosub + $montocxp + $montonom + $otros + $gastos, 2)   ?></td>
                                                                                                 <td class="text-right"><?php echo number_format($pagadosub + $pagadocxp + $pagadogastos + $montonom + $pagadootros, 2) ?></td>
 
                                                                                             </tr>
@@ -446,7 +478,7 @@ $message = "";
                                                                                                 <td class="text-bold">RESULTADO </td>
                                                                                                 <td class="text-right text-bold"><?php echo number_format($resultado, 2) ?></td>
 
-                                                                                                <td class="text-right text-bold"><?php echo number_format(($ingresos - ($pagadosub + $pagadocxp + $pagadogastos + $montonom + $pagadootros) ), 3)  ?></td>
+                                                                                                <td class="text-right text-bold"><?php echo number_format(($ingresos - ($pagadosub + $pagadocxp + $pagadogastos + $montonom + $pagadootros)), 3)  ?></td>
                                                                                             </tr>
 
                                                                                         </tbody>
@@ -1165,7 +1197,7 @@ $message = "";
         var barresumen = $('#resumenobra').get(0).getContext('2d')
 
         var barmetrosdata = {
-            labels: ["CONTRATO", "SUBCONTRATOS", "FACTURAS", "OTROS GASTOS", "INDIRECTOS"],
+            labels: ["CONTRATO", "SUBCONTRATOS", "FACTURAS", "OTROS GASTOS", "NOMINA",'GASTOS OBRA'],
             datasets: [{
                     label: 'MONTO CONTRATADO',
                     fill: true,
@@ -1184,7 +1216,8 @@ $message = "";
                         <?php echo $montosub ?>,
                         <?php echo $montocxp ?>,
                         <?php echo $gastos ?>,
-                        <?php echo $otros + $montonom ?>
+                        <?php echo $presupuestadonom ?>,
+                        <?php echo $presupuestadocaja ?>
 
 
 
@@ -1196,7 +1229,8 @@ $message = "";
                         'rgb(7, 11, 159)',
                         'rgb(241, 134, 12)',
                         'rgb(241, 1, 12)',
-                        'rgb(24, 134, 12)'
+                        'rgb(24, 134, 12)',
+                        'rgb(120, 50, 12)'
 
 
                     ],
@@ -1227,7 +1261,8 @@ $message = "";
                         <?php echo $pagadosub ?>,
                         <?php echo $pagadocxp ?>,
                         <?php echo $pagadogastos ?>,
-                        <?php echo $montonom + $pagadootros ?>
+                        <?php echo $montonom  ?>,
+                        <?php echo  $pagadootros ?>
 
                     ],
                     backgroundColor: [
@@ -1324,8 +1359,8 @@ $message = "";
             datasets: [{
 
                     data: [
-                        <?php echo $montocxp + $montosub +$montonom + $otros+ $gastos ?>,
-                         <?php echo ($montoobra-($montocxp + $montosub +$montonom + $otros + $gastos) ) ?>
+                        <?php echo $montocxp + $montosub + $montonom + $otros + $gastos ?>,
+                        <?php echo ($montoobra - ($montocxp + $montosub + $montonom + $otros + $gastos)) ?>
                     ],
                     backgroundColor: [
 
@@ -1354,113 +1389,113 @@ $message = "";
         //GRAFICA DE LIQUIDO
         var barresumenl = $('#resumenliquido').get(0).getContext('2d')
 
-var barmetrosdatal = {
-    labels: ["INGRESOS COBRADOS", "EGRESOS PAGADOS"],
-    datasets: [{
-            label: 'INGRESO',
-            fill: true,
-            borderWidth: 1,
-            lineTension: 0,
-            spanGaps: true,
-            borderColor: '#000000',
-            pointRadius: 3,
-            pointHoverRadius: 7,
-            pointColor: '#A248FA',
-            pointBackgroundColor: '#A248FA',
+        var barmetrosdatal = {
+            labels: ["INGRESOS COBRADOS", "EGRESOS PAGADOS"],
+            datasets: [{
+                    label: 'INGRESO',
+                    fill: true,
+                    borderWidth: 1,
+                    lineTension: 0,
+                    spanGaps: true,
+                    borderColor: '#000000',
+                    pointRadius: 3,
+                    pointHoverRadius: 7,
+                    pointColor: '#A248FA',
+                    pointBackgroundColor: '#A248FA',
 
-            data: [
+                    data: [
 
-                <?php echo $ingresos ?>,
-                <?php echo $pagadosub + $pagadocxp + $pagadogastos + $montonom + $pagadootros ?>
+                        <?php echo $ingresos ?>,
+                        <?php echo $pagadosub + $pagadocxp + $pagadogastos + $montonom + $pagadootros ?>
 
-            ],
-            backgroundColor: [
+                    ],
+                    backgroundColor: [
 
-              
-              
+
+
                         'rgb(35, 148, 71)',
                         'rgb(235, 48, 71)'
 
 
 
-            ],
-            borderColor: [
+                    ],
+                    borderColor: [
 
-                   'rgb(35, 148, 71)',
-                'rgb(235, 48, 71)'
-                    
-
-
-            ],
-            borderWidth: 1
-        },
-     
-
-    ]
-}
+                        'rgb(35, 148, 71)',
+                        'rgb(235, 48, 71)'
 
 
 
-var metrosGraphChartOptionsl = {
-    animationEnabled: true,
-    maintainAspectRatio: false,
-    responsive: true,
-    legend: {
-        display: false,
-        position: 'bottom',
-        labels: {
-            fontColor: '#000000'
+                    ],
+                    borderWidth: 1
+                },
+
+
+            ]
         }
-    },
-    scales: {
-        x: {
-            min: 0,
-            display: true,
-            color: '#A248FA',
-            drawBorder: true,
-            zeroLineColor: '#A248FA'
-        },
-        y: {
-            min: 0,
-            max: <?php echo $montoobra ?>,
-            beginAtZero: true
-        },
-        xAxes: [{
-            ticks: {
-                fontColor: '#000000',
-            },
-            gridLines: {
+
+
+
+        var metrosGraphChartOptionsl = {
+            animationEnabled: true,
+            maintainAspectRatio: false,
+            responsive: true,
+            legend: {
                 display: false,
-                color: '#A248FA',
-                drawBorder: true,
-                zeroLineColor: '#A248FA'
-            }
-        }],
-
-        yAxes: [{
-
-            ticks: {
-
-                beginAtZero: true,
-                stepSize: 1000000
+                position: 'bottom',
+                labels: {
+                    fontColor: '#000000'
+                }
             },
-            gridLines: {
-                display: true,
-                color: '#A248FA',
-                drawBorder: true,
-                zeroLineColor: '#A248FA'
+            scales: {
+                x: {
+                    min: 0,
+                    display: true,
+                    color: '#A248FA',
+                    drawBorder: true,
+                    zeroLineColor: '#A248FA'
+                },
+                y: {
+                    min: 0,
+                    max: <?php echo $montoobra ?>,
+                    beginAtZero: true
+                },
+                xAxes: [{
+                    ticks: {
+                        fontColor: '#000000',
+                    },
+                    gridLines: {
+                        display: false,
+                        color: '#A248FA',
+                        drawBorder: true,
+                        zeroLineColor: '#A248FA'
+                    }
+                }],
+
+                yAxes: [{
+
+                    ticks: {
+
+                        beginAtZero: true,
+                        stepSize: 1000000
+                    },
+                    gridLines: {
+                        display: true,
+                        color: '#A248FA',
+                        drawBorder: true,
+                        zeroLineColor: '#A248FA'
+                    }
+                }]
             }
-        }]
-    }
-}
+        }
 
 
 
-var barresumenl = new Chart(barresumenl, {
-    type: 'bar',
-    data: barmetrosdatal,
-    options: metrosGraphChartOptionsl
-})
+        var barresumenl = new Chart(barresumenl, {
+            type: 'bar',
+            data: barmetrosdatal,
+            options: metrosGraphChartOptionsl
+        })
 
 
     }
