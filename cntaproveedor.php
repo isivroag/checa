@@ -30,6 +30,19 @@ $message = "";
 
 <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+
+<style>
+  .starchecked
+  { color:rgba( 255, 195, 0,100)}
+
+  .multi-line {
+  white-space: normal;
+  width: 250px;
+}
+
+  
+  </style>
 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -58,7 +71,7 @@ $message = "";
           <div class="row">
             <div class="col-lg-12">
               <div class="table-responsive">
-                <table name="tablaV" id="tablaV" class="table table-sm table-striped table-bordered table-condensed text-nowrap w-auto mx-auto" style="width:100%">
+                <table name="tablaV" id="tablaV" class="table table-sm table-striped table-bordered table-condensed text-nowrap w-auto mx-auto" style="width:100%; ">
                   <thead class="text-center bg-gradient-green">
                     <tr>
                       <th>ID</th>
@@ -69,6 +82,9 @@ $message = "";
                       <th>CONTACTO</th>
                       <th>TEL CONTACTO</th>
                       <th>ESPECIALIDAD</th>
+                      <th>CORREO</th>
+                      <th>C</th>
+                      <th>CALIFICACION</th>
                       <th>ACCIONES</th>
                     </tr>
                   </thead>
@@ -85,6 +101,9 @@ $message = "";
                         <td><?php echo $dat['contacto_prov'] ?></td>
                         <td><?php echo $dat['telcon_prov'] ?></td>
                         <td><?php echo $dat['especialidad'] ?></td>
+                        <td><?php echo $dat['correo_prov'] ?></td>
+                        <td><?php echo $dat['puntaje'] ?></td>
+                        <td></td>
 
                         <td></td>
                       </tr>
@@ -178,6 +197,69 @@ $message = "";
                   <div class="form-group input-group-sm">
                     <label for="tel_contacto" class="col-form-label">TELEFONO DE CONTACTO:</label>
                     <input type="text" class="form-control" name="tel_contacto" id="tel_contacto" autocomplete="off" placeholder="Teléfono deContacto">
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="form-group input-group-sm">
+                    <label for="correo" class="col-form-label">CORREO:</label>
+                    <input type="mail" class="form-control" name="correo" id="correo" autocomplete="off" placeholder="Correo">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group input-group-sm auto">
+                    <label for="puntaje" class="col-form-label">CALIFICACION:</label>
+                    <select class="form-control selectpicker bg-white" name="puntaje" id="puntaje">
+                    <option value='0' data-content="
+                        <i class='fa-regular fa-star'></i>
+                        <i class='fa-regular fa-star '></i>
+                        <i class='fa-regular fa-star '></i>
+                        <i class='fa-regular fa-star '></i>
+                        <i class='fa-regular fa-star '></i>
+                        ">
+                      </option>
+                      <option value='1' data-content="
+                        <i class='fa-solid fa-star starchecked'></i>
+                        <i class='fa-regular fa-star '></i>
+                        <i class='fa-regular fa-star '></i>
+                        <i class='fa-regular fa-star '></i>
+                        <i class='fa-regular fa-star '></i>
+                        ">
+                      </option>
+                      <option value='2' data-content="
+                        <i class='fa-solid fa-star starchecked'></i>
+                        <i class='fa-solid fa-star starchecked'></i>
+                        <i class='fa-regular fa-star '></i>
+                        <i class='fa-regular fa-star '></i>
+                        <i class='fa-regular fa-star '></i>
+                        ">
+                      </option>
+                      <option value='3' data-content="
+                        <i class='fa-solid fa-star starchecked'></i>
+                        <i class='fa-solid fa-star starchecked'></i>
+                        <i class='fa-solid fa-star starchecked'></i>
+                        <i class='fa-regular fa-star '></i>
+                        <i class='fa-regular fa-star '></i>
+                        ">
+                      </option>
+                      <option value='4' data-content="
+                        <i class='fa-solid fa-star starchecked'></i>
+                        <i class='fa-solid fa-star starchecked'></i>
+                        <i class='fa-solid fa-star starchecked'></i>
+                        <i class='fa-solid fa-star starchecked'></i>
+                        <i class='fa-regular fa-star '></i>
+                        ">
+                      </option>
+                      <option value='5' data-content="
+                        <i class='fa-solid fa-star starchecked'></i>
+                        <i class='fa-solid fa-star starchecked'></i>
+                        <i class='fa-solid fa-star starchecked'></i>
+                        <i class='fa-solid fa-star starchecked'></i>
+                        <i class='fa-solid fa-star starchecked'></i>
+                        ">
+                      </option>
+
+                    </select>
                   </div>
                 </div>
 
@@ -363,3 +445,4 @@ $message = "";
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
 <script src="http://cdn.datatables.net/plug-ins/1.10.21/sorting/formatted-numbers.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>

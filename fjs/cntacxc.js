@@ -341,7 +341,7 @@ function caluloconret(){
                 extend: "excelHtml5",
                 text: "<i class='fas fa-file-excel'> Excel</i>",
                 titleAttr: "Exportar a Excel",
-                title: "Reporte de Venta",
+                title: "Reporte de Cuentas por Cobrar",
                 className: "btn bg-success ",
                 exportOptions: { columns: [0, 1, 2, 3, 4, 5] },
             },
@@ -349,7 +349,7 @@ function caluloconret(){
                 extend: "pdfHtml5",
                 text: "<i class='far fa-file-pdf'> PDF</i>",
                 titleAttr: "Exportar a PDF",
-                title: "Reporte de Venta",
+                title: "Reporte de Cuentas por Cobrar",
                 className: "btn bg-danger",
                 exportOptions: { columns: [0, 1, 2, 3, 4, 5] },
             },
@@ -437,6 +437,27 @@ function caluloconret(){
 
             // TABLA RESUMEN DE PAGOS
     tablaResumen = $("#tablaResumen").DataTable({
+        dom: "<'row justify-content-center'<'col-sm-12 col-md-4 form-group'l><'col-sm-12 col-md-4 form-group'B><'col-sm-12 col-md-4 form-group'f>>" +
+        "<'row'<'col-sm-12'tr>>" +
+        "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+
+    buttons: [{
+            extend: "excelHtml5",
+            text: "<i class='fas fa-file-excel'> Excel</i>",
+            titleAttr: "Exportar a Excel",
+            title: "Reporte de Cobros",
+            className: "btn bg-success ",
+            exportOptions: { columns: [0, 1, 2, 3, 4, 5] },
+        },
+        {
+            extend: "pdfHtml5",
+            text: "<i class='far fa-file-pdf'> PDF</i>",
+            titleAttr: "Exportar a PDF",
+            title: "Reporte de Cobros",
+            className: "btn bg-danger",
+            exportOptions: { columns: [0, 1, 2, 3, 4, 5] },
+        },
+    ],
 
         rowCallback: function (row, data) {
 

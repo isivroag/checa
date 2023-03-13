@@ -6,30 +6,29 @@ $(document).ready(function () {
   $('[data-toggle="tooltip"]').tooltip()
 
   tablaVis = $('#tablaV').DataTable({
-
     dom:
-    "<'row justify-content-center'<'col-sm-12 col-md-4 form-group'l><'col-sm-12 col-md-4 form-group'B><'col-sm-12 col-md-4 form-group'f>>" +
-    "<'row'<'col-sm-12'tr>>" +
-    "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+      "<'row justify-content-center'<'col-sm-12 col-md-4 form-group'l><'col-sm-12 col-md-4 form-group'B><'col-sm-12 col-md-4 form-group'f>>" +
+      "<'row'<'col-sm-12'tr>>" +
+      "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
 
-  buttons: [
-    {
-      extend: 'excelHtml5',
-      text: "<i class='fas fa-file-excel'> Excel</i>",
-      titleAttr: 'Exportar a Excel',
-      title: 'Listado de Proveedores',
-      className: 'btn bg-success ',
-      exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7] },
-    },
-    {
-      extend: 'pdfHtml5',
-      text: "<i class='far fa-file-pdf'> PDF</i>",
-      titleAttr: 'Exportar a PDF',
-      title: 'Listado de Proveedores',
-      className: 'btn bg-danger',
-      exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7] },
-    },
-  ],
+    buttons: [
+      {
+        extend: 'excelHtml5',
+        text: "<i class='fas fa-file-excel'> Excel</i>",
+        titleAttr: 'Exportar a Excel',
+        title: 'Listado de Proveedores',
+        className: 'btn bg-success ',
+        exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7] },
+      },
+      {
+        extend: 'pdfHtml5',
+        text: "<i class='far fa-file-pdf'> PDF</i>",
+        titleAttr: 'Exportar a PDF',
+        title: 'Listado de Proveedores',
+        className: 'btn bg-danger',
+        exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7] },
+      },
+    ],
 
     columnDefs: [
       {
@@ -42,6 +41,15 @@ $(document).ready(function () {
                                 <button class='btn btn-sm btn-danger btnBorrar' data-toggle='tooltip' data-placement='top' title='Eliminar'><i class='fas fa-trash-alt'></i></button></div>",
       },
       { className: 'hide_column', targets: [3] },
+      { className: 'hide_column', targets: [9] },
+      {
+        targets: [2] ,
+       
+        render: function(data, type, row, meta) {
+          return '<div class="multi-line ">' + data + '</div>';
+        }
+      }
+      
     ],
 
     //Para cambiar el lenguaje a español
@@ -61,30 +69,99 @@ $(document).ready(function () {
       },
       sProcessing: 'Procesando...',
     },
+
+    rowCallback: function (row, data) {
+      valor=""
+     
+      switch (parseInt(data[9])) {
+        case 0:
+         valor=
+         "<div>\
+         <i class='fa-regular fa-star '></i>\
+         <i class='fa-regular fa-star '></i>\
+         <i class='fa-regular fa-star '></i>\
+         <i class='fa-regular fa-star '></i>\
+         <i class='fa-regular fa-star '></i>\
+         </div>"
+          break;
+        case 1:
+          valor=
+          "<div>\
+          <i class='fa-solid fa-star starchecked'></i>\
+          <i class='fa-regular fa-star '></i>\
+          <i class='fa-regular fa-star '></i>\
+          <i class='fa-regular fa-star '></i>\
+          <i class='fa-regular fa-star '></i>\
+          </div>"
+          break;
+        case 2:
+          valor=
+          "<div>\
+          <i class='fa-solid fa-star starchecked'></i>\
+          <i class='fa-solid fa-star starchecked'></i>\
+          <i class='fa-regular fa-star '></i>\
+          <i class='fa-regular fa-star '></i>\
+          <i class='fa-regular fa-star '></i>\
+          </div>"
+          break;
+        case 3:
+          valor=
+          "<div>\
+          <i class='fa-solid fa-star starchecked'></i>\
+          <i class='fa-solid fa-star starchecked'></i>\
+          <i class='fa-solid fa-star starchecked'></i>\
+          <i class='fa-regular fa-star '></i>\
+          <i class='fa-regular fa-star '></i>\
+          </div>"
+          break;
+        case 4:
+          valor=
+          "<div>\
+          <i class='fa-solid fa-star starchecked'></i>\
+          <i class='fa-solid fa-star starchecked'></i>\
+          <i class='fa-solid fa-star starchecked'></i>\
+          <i class='fa-solid fa-star starchecked'></i>\
+          <i class='fa-regular fa-star '></i>\
+          </div>"
+          break;
+        case 5:
+          valor=
+         "<div>\
+         <i class='fa-solid fa-star starchecked'></i>\
+         <i class='fa-solid fa-star starchecked'></i>\
+         <i class='fa-solid fa-star starchecked'></i>\
+         <i class='fa-solid fa-star starchecked'></i>\
+         <i class='fa-solid fa-star starchecked'></i>\
+         </div>"
+          break;
+      }
+     
+      $($(row).find('td')[10]).html(valor)
+    },
   })
 
-    //FILTROS
-    $('#tablaV thead tr').clone(true).appendTo('#tablaV thead')
-    $('#tablaV thead tr:eq(1) th').each(function (i) {
-      var title = $(this).text()
-      $(this).html(
-        '<input class="form-control form-control-sm" type="text" placeholder="' +
-          title +
-          '" />',
-      )
-  
-      $('input', this).on('keyup change', function () {
-        if (i == 4) {
-          valbuscar = this.value
-        } else {
-          valbuscar = this.value
-        }
-  
-        if (tablaVis.column(i).search() !== valbuscar) {
-          tablaVis.column(i).search(valbuscar, true, true).draw()
-        }
-      })
+  //FILTROS
+  $('#tablaV thead tr').clone(true).appendTo('#tablaV thead')
+  $('#tablaV thead tr:eq(1) th').each(function (i) {
+    var title = $(this).text()
+    $(this).html(
+      '<input class="form-control form-control-sm" type="text" placeholder="' +
+        title +
+        '" />',
+    )
+
+    $('input', this).on('keyup change', function () {
+      if (i == 4) {
+        valbuscar = this.value
+      } else {
+        valbuscar = this.value
+      }
+
+      if (tablaVis.column(i).search() !== valbuscar) {
+        tablaVis.column(i).search(valbuscar, true, true).draw()
+      }
     })
+  })
 
   //BONTON NUEVO
   $('#btnNuevo').click(function () {
@@ -112,6 +189,9 @@ $(document).ready(function () {
     contacto = fila.find('td:eq(5)').text()
     tel_contacto = fila.find('td:eq(6)').text()
     especialidad = fila.find('td:eq(7)').text()
+    correo = fila.find('td:eq(8)').text()
+    puntaje = parseInt(fila.find('td:eq(9)').text())
+    valor=fila.find('td:eq(10)').html()
 
     $('#rfc').val(rfc)
     $('#razon').val(razon)
@@ -120,6 +200,15 @@ $(document).ready(function () {
     $('#contacto').val(contacto)
     $('#tel_contacto').val(tel_contacto)
     $('#especialidad').val(especialidad)
+
+    $('#correo').val(correo)
+    console.log(valor)
+    
+    $('#puntaje').val(puntaje)
+    var select = $('#puntaje'); // elemento select en el HTML
+    select.selectpicker('val', puntaje);
+
+
     opcion = 2 //editar
 
     $('.modal-header').css('background-color', '#007bff')
@@ -174,7 +263,8 @@ $(document).ready(function () {
     var contacto = $('#contacto').val()
     var tel_contacto = $('#tel_contacto').val()
     var especialidad = $('#especialidad').val()
-  
+    var correo = $('#correo').val()
+    var puntaje = $('#puntaje').val()
 
     if (razon.length == 0 || rfc.length == 0) {
       Swal.fire({
@@ -191,10 +281,9 @@ $(document).ready(function () {
         async: false,
         data: {
           rfc: rfc,
-          opcion: opcion
+          opcion: opcion,
         },
         success: function (data) {
-            
           if (data == 0) {
             // funcion crud
             $.ajax({
@@ -210,6 +299,8 @@ $(document).ready(function () {
                 contacto: contacto,
                 especialidad: especialidad,
                 tel_contacto: tel_contacto,
+                correo: correo,
+                puntaje: puntaje,
                 opcion: opcion,
               },
               success: function (data) {
@@ -220,6 +311,8 @@ $(document).ready(function () {
                 dir = data[0].dir_prov
                 contacto = data[0].contacto_prov
                 tel_contacto = data[0].telcon_prov
+                correo = data[0].correo_prov
+                puntaje = data[0].puntaje
                 if (opcion == 1) {
                   tablaVis.row
                     .add([
@@ -231,6 +324,8 @@ $(document).ready(function () {
                       contacto,
                       tel_contacto,
                       especialidad,
+                      correo,
+                      puntaje,'',
                     ])
                     .draw()
                 } else {
@@ -245,6 +340,8 @@ $(document).ready(function () {
                       contacto,
                       tel_contacto,
                       especialidad,
+                      correo,
+                      puntaje,'',
                     ])
                     .draw()
                 }
@@ -265,11 +362,9 @@ $(document).ready(function () {
 
   //BOTON ALTA DE CUENTA
   $(document).on('click', '.btnCuenta', function () {
- 
     //window.location.href = "prospecto.php";
     $('#formcuentaprov').trigger('reset')
     fila = $(this)
-   
 
     idprovcuenta = parseInt($(this).closest('tr').find('td:eq(0)').text())
     $('#idprovcuenta').val(idprovcuenta)
@@ -290,11 +385,10 @@ $(document).ready(function () {
     var tarjeta = $('#tarjeta').val()
     var idprovcuenta = $('#idprovcuenta').val()
 
-    if ($('#cuentadefault').prop("checked")){
-      cuentadefault=1
-    }
-    else{
-      cuentadefault=0
+    if ($('#cuentadefault').prop('checked')) {
+      cuentadefault = 1
+    } else {
+      cuentadefault = 0
     }
 
     if (banco.length == 0 || cuenta.length == 0) {
@@ -359,18 +453,13 @@ $(document).ready(function () {
       sProcessing: 'Procesando...',
     },
     rowCallback: function (row, data) {
-  
-    
       if (data[6] == '1') {
         //$($(row).find("td")[6]).css("background-color", "warning");
         $($(row).find('td')).addClass('bg-gradient-info')
         //$($(row).find('td')[4]).css('background-color','#EEA447');
         //$($(row).find('td')['4']).text('PENDIENTE')
-      
       }
     },
-
-
   })
 
   //BOTON RESUMEN DE CUENTAS
@@ -429,8 +518,8 @@ $(document).ready(function () {
     $('#cuenta').val(cuenta)
     $('#clabe').val(clabe)
     $('#tarjeta').val(tarjeta)
-    if(cuentadefault==1){
-      $('#cuentadefault').prop('checked',true)
+    if (cuentadefault == 1) {
+      $('#cuentadefault').prop('checked', true)
     }
     $('#modalCuentas').modal('hide')
     $('#modalcuentaprov').modal('show')

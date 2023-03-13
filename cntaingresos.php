@@ -14,9 +14,9 @@ $conexion = $objeto->connect();
 $fecha=date('Y-m-d');
 if($_SESSION['id_obra'] != null){
     $id_obra=$_SESSION['id_obra'];
-    $consulta = "SELECT * FROM vcxc WHERE id_obra='$id_obra' and estado_cxc=1 ORDER BY id_obra,fecha_cxc,folio_cxc";
+    $consulta = "SELECT * FROM vpagocxc WHERE id_obra='$id_obra' and estado_cxc=1 and estado_pagocxc=1 ORDER BY id_obra,folio_cxc,fecha_pagocxc";
 }else{
-    $consulta = "SELECT * FROM vcxc WHERE estado_cxc=1 ORDER BY id_obra,fecha_cxc,folio_cxc";
+    $consulta = "SELECT * FROM vpagocxc WHERE estado_pagocxc=1 and estado_cxc=1 ORDER BY id_obra,folio_cxc,fecha_pagocxc";
 }
 
 $resultado = $conexion->prepare($consulta);
@@ -36,6 +36,18 @@ $message = "";
 <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
 
+
+<style>
+  .starchecked
+  { color:rgba( 255, 195, 0,100)}
+
+  .multi-line {
+  white-space: normal;
+  width: 250px;
+}
+
+  
+  </style>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -91,12 +103,15 @@ $message = "";
                                 <table name="tablaV" id="tablaV" class="table table-sm table-striped table-bordered table-condensed text-nowrap w-auto mx-auto" style="width:100%">
                                     <thead class="text-center bg-gradient-green">
                                         <tr>
-                                            <th>FOLIO</th>
+                                            <th>FOLIO CXC</th>
                                             <th>OBRA</th>
-                                            <th>FECHA</th>
-                                            <th>CONCEPTO</th>
-                                            <th>MONTO</th>
-                                            <th>SALDO</th>
+                                            <th>FECHA FACT</th>
+                                            <th>FACTURA</th>
+                                            <th>CONCEPTO FACTURA</th>
+                                            <th>MONTO FACTURA</th>
+                                            <th>FECHA PAGO</th>
+                                            <th>MONTO PAGO</th>
+                                            <th>SALDO FACTURA</th>
                                             
                                             
                                         </tr>
@@ -109,8 +124,11 @@ $message = "";
                                                 <td><?php echo $dat['folio_cxc'] ?></td>
                                                 <td><?php echo $dat['corto_obra'] ?></td>
                                                 <td class="text-center"><?php echo $dat['fecha_cxc'] ?></td>
+                                                <td><?php echo $dat['factura_cxc'] ?></td>
                                                 <td><?php echo $dat['desc_cxc'] ?></td>
                                                 <td class="text-right"><?php echo number_format($dat['monto_cxc'],2) ?></td>
+                                                <td class="text-center"><?php echo $dat['fecha_pagocxc'] ?></td>
+                                                <td class="text-right"><?php echo number_format($dat['monto_pagocxc'],2) ?></td>
                                                 <td class="text-right"><?php echo number_format($dat['saldo_cxc'],2) ?></td>
                                                 
              
@@ -125,7 +143,10 @@ $message = "";
                                     <th></th>
                                     <th></th>
                                     <th></th>
+                                    <th></th>
                                     <th class="text-right text-bold">TOTALES:</th>
+                                    <th></th>
+                                    <th ></th>
                                     <th class="text-right text-bold"></th>
                                     <th class="text-right text-bold"></th>
                                     </tfoot>

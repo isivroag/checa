@@ -87,12 +87,27 @@ if ($_SESSION['id_obra'] == null) {
         $pagadosub = $montosub - $saldosub;
 
 
-        // BUSCAR CXP
+        // BUSCAR CXP y PROVISION CXP
+
+//provisiones
+$saldoprovi = 0;
+
+        $consprov = "SELECT id_obra,SUM(saldo_provi) AS saldoprovi FROM w_provision WHERE estado_provi=1 and id_obra='$id_obra' GROUP BY id_obra";
+        $resprovi = $conexion->prepare($consprov);
+        $resprovi->execute();
+        $dataprovi = $resprovi->fetchAll(PDO::FETCH_ASSOC);
+        
+        foreach ($dataprovi as $rowp) {
+            $saldoprovi += $rowp['saldoprovi'];
+        }
+
+
         $consultacxp = "SELECT * FROM vcxp WHERE id_obra='$id_obra' and estado_cxp=1 ORDER BY folio_cxp";
         $resultadocxp = $conexion->prepare($consultacxp);
         $resultadocxp->execute();
         $datacxp = $resultadocxp->fetchAll(PDO::FETCH_ASSOC);
         $montocxp = 0;
+        //cambio tomando provisiones
         $saldocxp = 0;
         $pagadocxp = 0;
         foreach ($datacxp as $rowcxp) {
@@ -100,7 +115,7 @@ if ($_SESSION['id_obra'] == null) {
             $montocxp += $rowcxp['monto_cxp'];
         }
         $pagadocxp = $montocxp - $saldocxp;
-
+        $montocxp+=$saldoprovi;
 
         $resultadopagado = 0;
         $resultadopagado = $ingresos - ($pagadosub + $pagadocxp);

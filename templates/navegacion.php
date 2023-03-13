@@ -447,6 +447,36 @@
         <?php } ?>
         <!-- CIERRA MENU EGRESOS -->
         <?php } ?>
+        <li class="nav-item has-treeview <?php echo ($pagina == 'rptproveedores' ) ? "menu-open" : ""; ?>">
+
+
+          <a href="#" class="nav-link <?php echo ($pagina == 'rptproveedores' ) ? "active" : ""; ?>">
+
+            <span class="fa-stack">
+              <i class="nav-icon fa-solid fa-magnifying-glass"></i>
+            </span>
+            <p>
+              Consultas
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+
+            <li class="nav-item">
+              <a href="rptproveedores.php" class="nav-link <?php echo ($pagina == 'rptproveedores') ? "active seleccionado" : ""; ?>  ">
+              
+                <i class="fas fa-portrait nav-icon"></i>
+                <p>Proveedores</p>
+              </a>
+            </li>
+
+          
+
+
+
+          </ul>
+        </li>
+
         <li class="nav-item has-treeview <?php echo ($pagina == 'saldosegop' || $pagina == 'verpagosop') ? "menu-open" : ""; ?>">
 
 
