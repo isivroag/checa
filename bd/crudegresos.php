@@ -30,6 +30,7 @@ $folioprovi = (isset($_POST['folioprovi'])) ? $_POST['folioprovi'] : '';
 $forigen = (isset($_POST['forigen'])) ? $_POST['forigen'] : '';
 
 $opcion = (isset($_POST['opcion'])) ? $_POST['opcion'] : '';
+$id_partidacto = (isset($_POST['id_partidacto'])) ? $_POST['id_partidacto'] : '';
 
 
 
@@ -37,8 +38,10 @@ $opcion = (isset($_POST['opcion'])) ? $_POST['opcion'] : '';
 $data = 0;
 switch ($opcion) {
     case 1: //alta
-        $consulta = "INSERT INTO w_cxp (id_obra,id_prov,fecha_cxp,factura_cxp,desc_cxp,monto_cxp,saldo_cxp,tipo_cxp,subtotal_cxp,iva_cxp,ret1,ret2,ret3,montob,importe,descuento,devolucion,uuid) 
-        VALUES('$id_obra','$id_prov','$fecha','$factura','$descripcion','$monto','$monto','$tipo','$subtotal','$iva','$ret1','$ret2','$ret3','$montob','$importe','$descuento','$devolucion','$uuid') ";
+        $consulta = "INSERT INTO w_cxp (id_obra,id_prov,fecha_cxp,factura_cxp,desc_cxp,monto_cxp,saldo_cxp,tipo_cxp,subtotal_cxp,iva_cxp,ret1,ret2,ret3,
+        montob,importe,descuento,devolucion,uuid,id_partidacto) 
+        VALUES('$id_obra','$id_prov','$fecha','$factura','$descripcion','$monto','$monto','$tipo','$subtotal','$iva','$ret1','$ret2','$ret3',
+        '$montob','$importe','$descuento','$devolucion','$uuid','$id_partidacto') ";
         $resultado = $conexion->prepare($consulta);
         if ($resultado->execute()) {
             $data = 1;
@@ -47,7 +50,7 @@ switch ($opcion) {
 
         break;
     case 2: //modificación
-        $consulta = "UPDATE w_cxp SET  id_obra='$id_obra',id_prov='$id_prov',desc_cxp='$descripcion',clave_cxp='$clave',tipo_cxp='$tipo' WHERE folio_cxp='$folio' ";
+        $consulta = "UPDATE w_cxp SET  id_obra='$id_obra',id_prov='$id_prov',desc_cxp='$descripcion',clave_cxp='$clave',tipo_cxp='$tipo'.id_partidacto='$id_partidacto' WHERE folio_cxp='$folio' ";
         $resultado = $conexion->prepare($consulta);
         if ($resultado->execute()) {
             $data = 1;

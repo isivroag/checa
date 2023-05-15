@@ -43,8 +43,10 @@
         <!-- ABRE MENU CATALOGOS -->
         <?php if ($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2' || $_SESSION['s_rol'] == '5') { ?>
 
-          <li class="nav-item  has-treeview <?php echo ($pagina == 'empresa' ||  $pagina == 'cliente' ||  $pagina == 'obra'  ||  $pagina == 'especialidad' ||  $pagina == 'proveedor') ? "menu-open" : ""; ?>">
-            <a href="#" class="nav-link  <?php echo ($pagina == 'empresa' || $pagina == 'cliente' ||  $pagina == 'obra'  ||  $pagina == 'especialidad' ||  $pagina == 'proveedor') ? "active" : ""; ?>">
+          <li class="nav-item  has-treeview <?php echo ($pagina == 'empresa' ||  $pagina == 'cliente' ||  $pagina == 'obra'  || $pagina == 'partidacto'
+          ||  $pagina == 'especialidad' ||  $pagina == 'proveedor') ? "menu-open" : ""; ?>">
+            <a href="#" class="nav-link  <?php echo ($pagina == 'empresa' || $pagina == 'cliente' ||  $pagina == 'obra'  || $pagina == 'partidacto'
+            ||  $pagina == 'especialidad' ||  $pagina == 'proveedor') ? "active" : ""; ?>">
               <i class="nav-icon fas fa-bars "></i>
               <p>
                 Catalogos
@@ -93,7 +95,12 @@
                   <p>Especialidad</p>
                 </a>
               </li>
-
+              <li class="nav-item">
+                <a href="cntapartidacto.php" class="nav-link <?php echo ($pagina == 'partidacto') ? "active seleccionado" : ""; ?>  ">
+                  <i class="fa-solid fa-pen-ruler nav-icon"></i>
+                  <p>Partidas Costo</p>
+                </a>
+              </li>
 
 
             </ul>

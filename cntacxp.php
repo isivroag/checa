@@ -49,7 +49,10 @@ $resultadoprov = $conexion->prepare($consultaprov);
 $resultadoprov->execute();
 $dataprov = $resultadoprov->fetchAll(PDO::FETCH_ASSOC);
 
-
+$consultapartidacto = "SELECT * FROM partidacto WHERE estado_partidacto=1 ORDER BY id_partidacto";
+$resultadopartidacto = $conexion->prepare($consultapartidacto);
+$resultadopartidacto->execute();
+$datapartidacto = $resultadopartidacto->fetchAll(PDO::FETCH_ASSOC);
 
 $message = "";
 
@@ -374,7 +377,7 @@ $message = "";
 
                                 <div class=" row justify-content-sm-center">
 
-                                    <div class="col-sm-12">
+                                    <div class="col-sm-9">
                                         <div class="input-group input-group-sm">
                                             <label for="obra" class="col-form-label">OBRA:</label>
                                             <div class="input-group input-group-sm">
@@ -389,6 +392,21 @@ $message = "";
                                                 <?php } ?>
                                             </div>
 
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                    <div class="form-group input-group-sm auto">
+                                            <label for="partidacto" class="col-form-label">PARTIDA:</label>
+                                            <select class="form-control" name="partidacto" id="partidacto">
+                                                <?php
+                                                foreach ($datapartidacto as $dtt) {
+                                                ?>
+                                                    <option id="<?php echo $dtt['id_partidacto'] ?>" value="<?php echo $dtt['id_partidacto'] ?>"> <?php echo $dtt['nom_partidacto'] ?></option>
+
+                                                <?php
+                                                }
+                                                ?>
+                                            </select>
                                         </div>
                                     </div>
 

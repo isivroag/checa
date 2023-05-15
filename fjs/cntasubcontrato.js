@@ -76,7 +76,7 @@ $(document).ready(function () {
   function permisos4() {
     var tipousuario = $('#tipousuario').val()
     var columnas = ''
-    console.log(tipousuario)
+    
     if (tipousuario == 1) {
       columnas =
         "<div class='text-center'><div class='btn-group'><button class='btn btn-sm bg-success btntrasladarprov' data-toggle='tooltip' data-placement='top' title='Trasladar a Requisición'><i class='fas fa-share'></i></button>\
@@ -882,7 +882,7 @@ $(document).ready(function () {
   //CALCULO SUBTOTAL PROV
   function calculosubtotalprov(valor) {
     total = valor
-console.log(total)
+
     subtotal = round(total / 1.16, 2)
 
     iva = round(total - subtotal, 2)
@@ -1533,6 +1533,10 @@ console.log(total)
             id_prov = data[0].id_prov
             proveedor = data[0].razon_prov
             descripcion = data[0].desc_sub
+
+            id_partidacto=data[0].id_partidacto
+            nom_partidacto=data[0].nom_partidacto
+
             subtotal = Intl.NumberFormat('es-MX', {
               minimumFractionDigits: 2,
             }).format(parseFloat(data[0].subtotal_sub).toFixed(2))
@@ -1554,6 +1558,10 @@ console.log(total)
             $('#monto').val(monto)
             $('#iva').val(iva)
             $('#subtotal').val(subtotal)
+          
+            $('#partidacto').val(id_partidacto)
+            //$('#partidact').text(nom_partidacto)
+
           } else {
             Swal.fire({
               title: 'Subcontrato no encontrado',
@@ -1588,6 +1596,8 @@ console.log(total)
     monto = $('#monto').val().replace(/,/g, '')
     iva = $('#iva').val().replace(/,/g, '')
     subtotal = $('#subtotal').val().replace(/,/g, '')
+    id_partidacto=$('#partidacto').val()
+
 
     if (
       fecha.length == 0 ||
@@ -1595,7 +1605,8 @@ console.log(total)
       id_obra.length == 0 ||
       id_prov.length == 0 ||
       descripcion.length == 0 ||
-      monto.length == 0
+      monto.length == 0 ||
+      id_partidacto == 0
     ) {
       Swal.fire({
         title: 'Datos Faltantes',
@@ -1632,6 +1643,7 @@ console.log(total)
                 iva: iva,
                 opcion: opcion,
                 usuario: usuario,
+                id_partidacto: id_partidacto
               },
               success: function (data) {
                 if (data == 1) {

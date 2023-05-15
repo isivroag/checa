@@ -649,6 +649,8 @@ function calculoantes()
     descuento = $('#descuento').val().replace(/,/g, '')
     devolucion = $('#devolucion').val().replace(/,/g, '')
 
+    id_partidacto=$('#partidacto').val()
+
     if (
       fecha.length == 0 ||
       factura.length == 0 ||
@@ -657,7 +659,8 @@ function calculoantes()
       descripcion.length == 0 ||
       monto.length == 0 ||
       uuid.length == 0 ||
-      uuid.length != 36
+      uuid.length != 36 ||
+      id_partidacto == 0
     ) {
       Swal.fire({
         title: 'Datos Faltantes',
@@ -667,7 +670,7 @@ function calculoantes()
       return false
     } else {
 
-
+// agregar id de cxp para excluir de la busqueda en caso de modificacion
       $.ajax({
         url: 'bd/buscaruuid.php',
         type: 'POST',
@@ -704,11 +707,12 @@ function calculoantes()
                 descuento: descuento,
                 montob: montob,
                 opcion: opcion,
+                id_partidacto: id_partidacto
               },
               success: function (data) {
                 if (data == 1) {
                   facturaexitosa()
-                  //window.location.href = 'cntacxp.php'
+                  window.location.href = 'cntacxp.php'
                 } else {
                   facturaerror()
                 }
@@ -759,6 +763,7 @@ function calculoantes()
         descuento=Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(res[0].descuento).toFixed(2))
         devolucion=Intl.NumberFormat('es-MX',{minimumFractionDigits: 2,}).format(parseFloat(res[0].devolucion).toFixed(2))
         uuid=res[0].uuid
+        id_partidacto=res[0].id_partidacto
 
         $('#folioreq').val(id)
         $('#facturareq').val(factura)
@@ -782,7 +787,7 @@ function calculoantes()
         $('#ret2').val(ret2)
         $('#ret3').val(ret3)
         $('#montoreq').val(monto)
-        
+        $('#partidacto').val(id_partidacto)
         $('#modalReq').modal('show')
       },
     })
