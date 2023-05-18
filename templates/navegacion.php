@@ -165,10 +165,12 @@
 
         <!-- ABRE MENU INGRESOS -->
         <?php if ($_SESSION['s_rol'] != '4') { ?>
-          <li class="nav-item has-treeview <?php echo ($pagina == 'cntaingresos' || $pagina == 'ingresos' || $pagina == 'cntacxc' || $pagina == 'recepcion' || $pagina == 'ingresos' || $pagina == 'diario' || $pagina == 'confirmar') ? "menu-open" : ""; ?>">
+          <li class="nav-item has-treeview <?php echo ($pagina == 'cntaingresos' || $pagina == 'ingresos' || $pagina == 'cntacobros'
+          || $pagina == 'cntacxc' || $pagina == 'recepcion' || $pagina == 'ingresos' || $pagina == 'diario' || $pagina == 'confirmar') ? "menu-open" : ""; ?>">
 
 
-            <a href="#" class="nav-link <?php echo ($pagina == 'cntaingresos' || $pagina == 'ingresos' || $pagina == 'cntacxc' || $pagina == 'recepcion' || $pagina == 'ingresos' || $pagina == 'diario' || $pagina == 'confirmar') ? "active" : ""; ?>">
+            <a href="#" class="nav-link <?php echo ($pagina == 'cntaingresos' || $pagina == 'ingresos' || $pagina == 'cntacobros'
+            || $pagina == 'cntacxc' || $pagina == 'recepcion' || $pagina == 'ingresos' || $pagina == 'diario' || $pagina == 'confirmar') ? "active" : ""; ?>">
 
               <span class="fa-stack">
                 <i class=" fas fa-arrow-up "></i>
@@ -200,6 +202,13 @@
                 </a>
               </li>
               <li class="nav-item">
+                  <a href="cntacobros.php" class="nav-link <?php echo ($pagina == 'cntacobros') ? "active seleccionado" : ""; ?>  ">
+
+                    <i class="fas text-green fa-file-invoice-dollar nav-icon"></i>
+                    <p>Cobros </p>
+                  </a>
+                </li>
+              <li class="nav-item">
                 <a href="cntaingresos.php" class="nav-link <?php echo ($pagina == 'cntaingresos') ? "active seleccionado" : ""; ?>  ">
 
                   <i class="fas text-green fa-search-dollar nav-icon"></i>
@@ -214,10 +223,14 @@
           <!-- CIERRA MENU CATALOGOS -->
 
           <!-- ABRE MENU EGRESOS -->
-          <li class="nav-item has-treeview <?php echo ($pagina == 'subcontrato' || $pagina == 'cntaegresos' || $pagina == 'egresos' || $pagina == 'cntacxp' || $pagina == 'cntapagocxp' || $pagina == 'pagoscxp' || $pagina == 'provision'  || $pagina == 'saldoseg' || $pagina == 'gastos' || $pagina == 'extrasub' ||  $pagina == 'rptpagoobra') ? "menu-open" : ""; ?>">
+          <li class="nav-item has-treeview <?php echo ($pagina == 'subcontrato' || $pagina == 'cntaegresos' || $pagina == 'egresos' 
+          || $pagina == 'cntacxp' || $pagina == 'cntapagocxp' || $pagina == 'pagoscxp' || $pagina == 'provision'  || $pagina == 'saldoseg' 
+          || $pagina == 'gastos' || $pagina == 'extrasub' ||  $pagina == 'rptpagoobra' ||  $pagina == 'cntapagosub') ? "menu-open" : ""; ?>">
 
 
-            <a href="#" class="nav-link <?php echo ($pagina == 'subcontrato' || $pagina == 'cntaegresos' || $pagina == 'egresos' || $pagina == 'cntacxp' || $pagina == 'cntapagocxp' || $pagina == 'pagoscxp' || $pagina == 'provision'  || $pagina == 'saldoseg' || $pagina == 'gastos' || $pagina == 'extrasub' || $pagina == 'rptpagoobra') ? "active" : ""; ?>">
+            <a href="#" class="nav-link <?php echo ($pagina == 'subcontrato' || $pagina == 'cntaegresos' || $pagina == 'egresos' 
+            || $pagina == 'cntacxp' || $pagina == 'cntapagocxp' || $pagina == 'pagoscxp' || $pagina == 'provision'  || $pagina == 'saldoseg' 
+            || $pagina == 'gastos' || $pagina == 'extrasub' || $pagina == 'rptpagoobra' ||  $pagina == 'cntapagosub') ? "active" : ""; ?>">
 
               <span class="fa-stack">
                 <i class=" fas fa-arrow-down "></i>
@@ -239,6 +252,15 @@
                   <p>Subcontratos</p>
                 </a>
               </li>
+              <?php if($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2' || $_SESSION['s_rol'] == '5'){?>
+                <li class="nav-item">
+                  <a href="cntapagosub.php" class="nav-link <?php echo ($pagina == 'cntapagosub') ? "active seleccionado" : ""; ?>  ">
+
+                    <i class="fas text-purple fa-file-invoice-dollar nav-icon"></i>
+                    <p>Pagos de Subcontratos </p>
+                  </a>
+                </li>
+              <?php } ?>
 
               <li class="nav-item">
                 <a href="cntasubcontratosadd.php" class="nav-link <?php echo ($pagina == 'extrasub') ? "active seleccionado" : ""; ?>  ">
@@ -297,6 +319,8 @@
                     <p>Prereporte Pagos Obra </p>
                   </a>
                 </li>
+
+
               <?php } ?>
 
             </ul>
