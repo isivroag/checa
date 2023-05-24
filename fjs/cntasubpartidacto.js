@@ -12,7 +12,6 @@ $(document).ready(function () {
             "targets": -1,
             "data": null,
             "defaultContent": "<div class='text-center'><button class='btn btn-sm btn-primary  btnEditar'><i class='fas fa-edit'></i></button>\
-            <button class='btn btn-sm btn-success btnSubpartida'><i class='fas fa-file-invoice-dollar'></i></button>\
             <button class='btn btn-sm btn-danger btnBorrar'><i class='fas fa-trash-alt'></i></button></div>"
         },
        
@@ -77,13 +76,13 @@ $(document).ready(function () {
 
         //window.location.href = "actprospecto.php?id=" + id;
         partida = fila.find('td:eq(1)').text();
-       
+        id_sub = fila.find('td:eq(2)').text();
         
 
 
         $("#id").val(id);
         $("#nombre").val(partida);
-       
+        $("#partida").val(id_sub)
 
 
         opcion = 2; //editar
@@ -94,16 +93,7 @@ $(document).ready(function () {
 
     });
     //botón EDITAR    
-    $(document).on("click", ".btnSubpartida", function () {
-        fila = $(this).closest("tr");
-        id = parseInt(fila.find('td:eq(0)').text());
 
-       window.location.href = "cntasubpartidacto.php";
-        
-
-
-
-    });
 
     
 
@@ -157,16 +147,16 @@ $(document).ready(function () {
         e.preventDefault();
         var nombre = $.trim($("#nombre").val());
         var id = $.trim($("#id").val());
-       
+        var id_partidacto = $("#partida").val();
         
        
 
 
+        console.log(id_partidacto)
 
 
 
-
-        if (nombre.length == 0) {
+        if (nombre.length == 0 || id_partidacto==0) {
             Swal.fire({
                 title: 'Datos Faltantes',
                 text: "Debe ingresar todos los datos del Prospecto",
@@ -175,21 +165,22 @@ $(document).ready(function () {
             return false;
         } else {
             $.ajax({
-                url: "bd/crudpartidacto.php",
+                url: "bd/crudsubpartidacto.php",
                 type: "POST",
                 dataType: "json",
-                data: { nombre: nombre,  id: id, opcion: opcion },
+                data: { nombre: nombre,  id: id, opcion: opcion,id_partidacto: id_partidacto },
                 success: function (data) {
                     
-                    id = data[0].id_partidacto;
-                    partida = data[0].nom_partidacto;
-                   
+                    id = data[0].id_subpartidacto;
+                    subpartida = data[0].nom_subpartidacto;
+                    id_partida = data[0].id_partidacto;
+                    nom_partida = data[0].nom_partidacto;
                     
 
                     if (opcion == 1) {
-                        tablaVis.row.add([id,partida, ]).draw();
+                        tablaVis.row.add([id,subpartida,id_partida,nom_partida, ]).draw();
                     } else {
-                        tablaVis.row(fila).data([id, partida, ]).draw();
+                        tablaVis.row(fila).data([id, subpartida,id_partida,nom_partida, ]).draw();
                     }
                 }
             });
