@@ -110,8 +110,10 @@
         <!-- CIERRA MENU CATALOGOS -->
         <?php if ($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2' || $_SESSION['s_rol'] == '5') { ?>
 
-          <li class="nav-item  has-treeview <?php echo ($pagina == 'egresosgral' || $pagina == 'cxpgral' || $pagina === 'saldoseggral' || $pagina == "cntapagocxpgral" || $pagina == "reportepagos") ? "menu-open" : ""; ?>">
-            <a href="#" class="nav-link  <?php echo ($pagina == 'egresosgral' || $pagina == 'cxpgral' || $pagina === 'saldoseggral' || $pagina == "cntapagocxpgral" || $pagina == "reportepagos") ? "active" : ""; ?>">
+          <li class="nav-item  has-treeview <?php echo ($pagina == 'egresosgral' || $pagina == 'cxpgral' || $pagina == 'obracto' || $pagina == 'cntaobracto' ||
+          $pagina === 'saldoseggral' || $pagina == "cntapagocxpgral" || $pagina == "reportepagos") ? "menu-open" : ""; ?>">
+            <a href="#" class="nav-link  <?php echo ($pagina == 'egresosgral' || $pagina == 'cxpgral' || $pagina == 'obracto' || $pagina == 'cntaobracto' ||
+            $pagina === 'saldoseggral' || $pagina == "cntapagocxpgral" || $pagina == "reportepagos") ? "active" : ""; ?>">
               <i class="fa-solid fa-building  nav-icon"></i>
               <p>
                 Administración
@@ -121,6 +123,13 @@
 
 
             <ul class="nav nav-treeview">
+
+            <li class="nav-item">
+                <a href="cntaobracto.php" class="nav-link <?php echo ($pagina == 'cntaobracto') ? "active seleccionado" : ""; ?>  ">
+                <i class="fas fa-road nav-icon"></i>
+                  <p>Detalle de costo obra</p>
+                </a>
+              </li>
 
               <li class="nav-item">
                 <a href="cntaprovisiongral.php" class="nav-link <?php echo ($pagina == 'egresosgral') ? "active seleccionado" : ""; ?>  ">
