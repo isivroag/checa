@@ -33,7 +33,7 @@ if ($resultado->rowCount() >= 1) {
                 break;
             case 2:
                 $b = $row['importe'];
-                if($partida==1){
+                if($partida == 3){
                     $b=0;
                 }
                 
@@ -55,9 +55,9 @@ if ($resultado->rowCount() >= 1) {
         }
     }
     if ($opcion==1){
-        $importe=($a+$b+$c+$e)*($porcentaje/100);
+        $importe=($a+$b+$c+$d+$e)*($porcentaje/100);
     }else{
-        $importe=($monto/($a+$b+$c+$e))*100;
+        $importe=($monto/($a+$b+$c+$d+$e))*100;
     }
     
 } else {
