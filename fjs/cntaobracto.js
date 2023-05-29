@@ -1,101 +1,246 @@
-$(document).ready(function() {
+$(document).ready(function () {
   var id, opcion;
   opcion = 4;
 
   tablaVis = $("#tablaV").DataTable({
-
-
-
-      "columnDefs": [{
-          "targets": -1,
-          "data": null,
-          "defaultContent": "<div class='text-center'><div class='btn-group'>\
+    columnDefs: [
+      {
+        targets: -1,
+        data: null,
+        defaultContent:
+          "<div class='text-center'><div class='btn-group'>\
           <button class='btn btn-sm bg-info  btnInfo'><i class='fa-solid fa-circle-info'></i></button>\
-          </div></div>"
-      },{ className: "hide_column", targets: [3] },
+          </div></div>",
+      },
+      { className: "hide_column", targets: [3] },
       { className: "hide_column", targets: [5] },
-      { className: "hide_column", targets: [7] }
-  ],
+      { className: "hide_column", targets: [7] },
+      
+    ],
 
-      //Para cambiar el lenguaje a español
-      "language": {
-          "lengthMenu": "Mostrar _MENU_ registros",
-          "zeroRecords": "No se encontraron resultados",
-          "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-          "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-          "infoFiltered": "(filtrado de un total de _MAX_ registros)",
-          "sSearch": "Buscar:",
-          "oPaginate": {
-              "sFirst": "Primero",
-              "sLast": "Último",
-              "sNext": "Siguiente",
-              "sPrevious": "Anterior"
-          },
-          "sProcessing": "Procesando...",
-      }
+    //Para cambiar el lenguaje a español
+    language: {
+      lengthMenu: "Mostrar _MENU_ registros",
+      zeroRecords: "No se encontraron resultados",
+      info: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+      infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+      infoFiltered: "(filtrado de un total de _MAX_ registros)",
+      sSearch: "Buscar:",
+      oPaginate: {
+        sFirst: "Primero",
+        sLast: "Último",
+        sNext: "Siguiente",
+        sPrevious: "Anterior",
+      },
+      sProcessing: "Procesando...",
+    },
   });
 
   tablaInfo = $("#tablaInfo").DataTable({
-    paging:false,
-    seraching:false,
-    info:false,
-    order:false,
+    paging: false,
+    seraching: false,
+    info: false,
+    order: false,
 
-
-    "columnDefs": [{
-        "targets": -1,
-        "data": null,
-        "defaultContent": "<div class='text-center'><div class='btn-group'>\
-        <button class='btn btn-sm bg-info  btnInfo'><i class='fa-solid fa-circle-info'></i></button>\
-        </div></div>"
-    },
-],
+    columnDefs: [
+      {
+        targets: -1,
+        data: null,
+        defaultContent:
+          "<div class='text-center'><div class='btn-group'>\
+        <button class='btn btn-sm bg-success  btnImporte'><i class='fa-solid fa-dollar-sign'></i></button>\
+        </div></div>",
+      },
+      
+    
+    ],
 
     //Para cambiar el lenguaje a español
-    "language": {
-        "lengthMenu": "Mostrar _MENU_ registros",
-        "zeroRecords": "No se encontraron resultados",
-        "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-        "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-        "infoFiltered": "(filtrado de un total de _MAX_ registros)",
-        "sSearch": "Buscar:",
-        "oPaginate": {
-            "sFirst": "Primero",
-            "sLast": "Último",
-            "sNext": "Siguiente",
-            "sPrevious": "Anterior"
-        },
-        "sProcessing": "Procesando...",
-    }
-});
+    language: {
+      lengthMenu: "Mostrar _MENU_ registros",
+      zeroRecords: "No se encontraron resultados",
+      info: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+      infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+      infoFiltered: "(filtrado de un total de _MAX_ registros)",
+      sSearch: "Buscar:",
+      oPaginate: {
+        sFirst: "Primero",
+        sLast: "Último",
+        sNext: "Siguiente",
+        sPrevious: "Anterior",
+      },
+      sProcessing: "Procesando...",
+    },
+    rowCallback: function (row, data) {
+      // FORMATO DE CELDAS
+      $($(row).find('td')['4']).addClass('text-right')
+      
+      $($(row).find('td')['5']).addClass('text-right')
+      
 
+    },
+  });
 
-  $(document).on("click", ".btnInfo", function() {
+  $(document).on("click", ".btnImporte", function () {
     fila = $(this).closest("tr");
-    id = parseInt(fila.find('td:eq(0)').text());
-    $('#id_obra').val(id);
-    console.log(id)
-    buscarinfo(id)
 
-    $('#modalInfo').modal('show')
-   
+    registro = fila.find("td:eq(0)").text();
+    obra = fila.find("td:eq(1)").text();
+    partida = fila.find("td:eq(2)").text();
+    concepto = fila.find("td:eq(3)").text();
+    porcentaje = fila.find("td:eq(4)").text();
+    importe = fila.find("td:eq(5)").text();
+    $("#id_obra2").val(obra);
+    $("#id_partida").val(partida);
+    $("#id_reg").val(registro);
+    if (registro == 0) {
+      tipo = 0;
+    } else {
+      tipo = 1;
+    }
+    $("#tipo").val(tipo);
+    $("#concepto").val(concepto);
+    $("#porcentaje").val(porcentaje);
+    $("#importe").val(importe);
 
-});
-function buscarinfo(id){
-    obra=id
-    opcion = 1
+    $("#modalImporte").modal("show");
+  });
+
+  $(document).on("click", "#btncalcular", function (e) {
+    e.preventDefault();
+    obra = $("#id_obra2").val();
+    partida = $("#id_partida").val();
+    porcentaje = $("#porcentaje").val().replace(/,/g, '');
+    monto= $("#importe").val().replace(/,/g, '');
+    opcion=1;
+    calcularpor(obra,partida,porcentaje,monto,opcion)
+
+
+  });
+
+  $(document).on("click", "#btncalcular2", function (e) {
+    e.preventDefault();
+    obra = $("#id_obra2").val();
+    partida = $("#id_partida").val();
+    porcentaje = $("#porcentaje").val().replace(/,/g, '');
+    monto= $("#importe").val().replace(/,/g, '');
+    opcion=2;
+    calcularpor(obra,partida,porcentaje,monto,opcion)
+
+
+
+  });
+  function calcularpor(obra, partida,porcentaje,monto,opcion){
     
-    tablaInfo.clear()
-    tablaInfo.draw()
     $.ajax({
-      type: 'POST',
-      url: 'bd/buscactoobra.php',
-      dataType: 'json',
+      type: "POST",
+      url: "bd/calcularcosto.php",
+      dataType: "json",
+
+      data: { obra: obra, partida: partida, porcentaje: porcentaje, opcion: opcion,monto: monto },
+
+      success: function (data) {
+        console.log(data)
+        if (opcion==1){
+          $("#importe").val(data);
+        }else{
+          $("#porcentaje").val(data);
+        }
+
+        
+      },
+      error: function () {},
+    });
+  }
+
+  $(document).on("click", "#btnGuardarimporte", function (e) {
+    e.preventDefault();
+    obra = $("#id_obra2").val();
+    partida = $("#id_partida").val();
+    porcentaje = $("#porcentaje").val().replace(/,/g, '');
+    registro = $("#id_reg").val();
+    importe = $("#importe").val().replace(/,/g, '');
+    console.log(porcentaje)
+    console.log(importe)
+    tipo = $("#tipo").val();
+    $.ajax({
+      type: "POST",
+      url: "bd/guardarcosto.php",
+      dataType: "json",
+
+      data: { obra: obra, partida: partida, porcentaje: porcentaje, 
+        importe: importe, tipo: tipo, registro: registro },
+
+      success: function (data) {
+        if (data==1){
+          $("#modalImporte").modal("hide");
+          exito()
+        buscarinfo(obra)
+        }
+        else{
+          fracaso()
+        }
+        
+      },
+      error: function () {
+        error()
+      },
+    });
+  });
+
+
+  function exito() {
+    swal.fire({
+      title: 'Registro Guardado',
+      icon: 'success',
+      focusConfirm: true,
+      confirmButtonText: 'Aceptar',
+    })
+  }
+
+  function fracaso() {
+    swal.fire({
+      title: 'Registro NO Guardado',
+      icon: 'warning',
+      focusConfirm: true,
+      confirmButtonText: 'Aceptar',
+    })
+  }
+
+  function error() {
+    swal.fire({
+      title: 'Error en funcion',
+      icon: 'error',
+      focusConfirm: true,
+      confirmButtonText: 'Aceptar',
+    })
+  }
+
+  $(document).on("click", ".btnInfo", function () {
+    fila = $(this).closest("tr");
+    id = parseInt(fila.find("td:eq(0)").text());
+    $("#id_obra").val(id);
+    
+    buscarinfo(id);
+
+    $("#modalInfo").modal("show");
+  });
+
+  function buscarinfo(id) {
+    obra = id;
+    opcion = 1;
+
+    tablaInfo.clear();
+    tablaInfo.draw();
+    $.ajax({
+      type: "POST",
+      url: "bd/buscactoobra.php",
+      dataType: "json",
 
       data: { obra: obra, opcion: opcion },
 
       success: function (data) {
-       console.log(data)
+       
         for (var i = 0; i < data.length; i++) {
           tablaInfo.row
             .add([
@@ -104,107 +249,57 @@ function buscarinfo(id){
               data[i].id_partida,
               data[i].nom_partidacto,
               data[i].porcentaje,
-              new Intl.NumberFormat('es-MX').format(
-                Math.round(data[i].importe * 100, 2) / 100,
-              ),
-              data[i].estado_reg,
-              
+            
+                data[i].importe
+            
             ])
-            .draw()
+            .draw();
 
           //tabla += '<tr><td>' + res[i].id_objetivo + '</td><td>' + res[i].desc_objetivo + '</td><td class="text-center">' + icono + '</td><td class="text-center"></td></tr>';
         }
-              
-       
       },
-      error: function(){
-
-      }
-    })
-
-
-}
-
+      error: function () {},
+    });
+  }
 
   var fila; //capturar la fila para editar o borrar el registro
 
  
-  $(document).on("click", "#btnGuardarpres", function() {
-      obra=$('#id_obra').val();
- 
-      nompres = $('#presnom').val().replace(/,/g, '')
-      cajapres = $('#prescaja').val().replace(/,/g, '')
-     
-    
-      opcion=4;
-  
-      $.ajax({
-        url: 'bd/actualizadatos.php',
-        type: 'POST',
-        dataType: 'json',
-        data: {
-          obra: obra,
-          presupuestado: cajapres,
-          ejecutado: nompres,
-          opcion: opcion
-         
-        },
-        success: function (data) {
-          if (data == 1) {
-           
-            window.location.reload()
-          } else {
-            facturaerror()
-          }
-        },
-      })
-     
-
-  });
-
- 
-
-
-
-
-
- 
-
 });
 
 function filterFloat(evt, input) {
   // Backspace = 8, Enter = 13, ‘0′ = 48, ‘9′ = 57, ‘.’ = 46, ‘-’ = 43
-  var key = window.Event ? evt.which : evt.keyCode
-  var chark = String.fromCharCode(key)
-  var tempValue = input.value + chark
-  var isNumber = key >= 48 && key <= 57
-  var isSpecial = key == 8 || key == 13 || key == 0 || key == 46
+  var key = window.Event ? evt.which : evt.keyCode;
+  var chark = String.fromCharCode(key);
+  var tempValue = input.value + chark;
+  var isNumber = key >= 48 && key <= 57;
+  var isSpecial = key == 8 || key == 13 || key == 0 || key == 46;
   if (isNumber || isSpecial) {
-    return filter(tempValue)
+    return filter(tempValue);
   }
 
-  return false
+  return false;
 }
 function filter(__val__) {
-  var preg = /^([0-9]+\.?[0-9]{0,2})$/
-  return preg.te
-  st(__val__) === true
+  var preg = /^([0-9]+\.?[0-9]{0,2})$/;
+  return preg.te;
+  st(__val__) === true;
 }
 
-$('.modal-header').on('mousedown', function (mousedownEvt) {
-  var $draggable = $(this)
+$(".modal-header").on("mousedown", function (mousedownEvt) {
+  var $draggable = $(this);
   var x = mousedownEvt.pageX - $draggable.offset().left,
-    y = mousedownEvt.pageY - $draggable.offset().top
-  $('body').on('mousemove.draggable', function (mousemoveEvt) {
-    $draggable.closest('.modal-dialog').offset({
+    y = mousedownEvt.pageY - $draggable.offset().top;
+  $("body").on("mousemove.draggable", function (mousemoveEvt) {
+    $draggable.closest(".modal-dialog").offset({
       left: mousemoveEvt.pageX - x,
       top: mousemoveEvt.pageY - y,
-    })
-  })
-  $('body').one('mouseup', function () {
-    $('body').off('mousemove.draggable')
-  })
-  $draggable.closest('.modal').one('bs.modal.hide', function () {
-    $('body').off('mousemove.draggable')
-  })
-})
+    });
+  });
+  $("body").one("mouseup", function () {
+    $("body").off("mousemove.draggable");
+  });
+  $draggable.closest(".modal").one("bs.modal.hide", function () {
+    $("body").off("mousemove.draggable");
+  });
+});
