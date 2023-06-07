@@ -51,8 +51,17 @@ $(document).ready(function () {
         <button class='btn btn-sm bg-success  btnImporte'><i class='fa-solid fa-dollar-sign'></i></button>\
         </div></div>",
       },
+      { className: "hide_column", targets: [0] },
+      { className: "hide_column", targets: [1] },
       
-    
+      {
+        targets: 5,
+        render: function (data, type, full, meta) {
+          return new Intl.NumberFormat('es-MX', {
+            minimumFractionDigits: 2,
+          }).format(parseFloat(data).toFixed(2))
+        },
+      },
     ],
 
     //Para cambiar el lenguaje a español
@@ -74,10 +83,37 @@ $(document).ready(function () {
     rowCallback: function (row, data) {
       // FORMATO DE CELDAS
       $($(row).find('td')['4']).addClass('text-right')
-      
+      $($(row).find('td')['5']).addClass('currency')
       $($(row).find('td')['5']).addClass('text-right')
       
 
+    },
+    
+    footerCallback: function (row, data, start, end, display) {
+      var api = this.api(),
+        data
+
+      var intVal = function (i) {
+        return typeof i === 'string'
+          ? i.replace(/[\$,]/g, '') * 1
+          : typeof i === 'number'
+          ? i
+          : 0
+      }
+
+ 
+      importetabla = api
+        .column(5, { page: 'current' })
+        .data()
+        .reduce(function (a, b) {
+          return intVal(a) + intVal(b)
+        }, 0)
+
+      $(api.column(5).footer()).html(
+        Intl.NumberFormat('es-MX', { minimumFractionDigits: 2 }).format(
+          parseFloat(importetabla).toFixed(2),
+        ),
+      )
     },
   });
 

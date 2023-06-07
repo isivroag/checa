@@ -353,7 +353,7 @@ $message = "";
                                     </tr>
                                 </thead>
                                 <tbody>
-                                  
+
                                 </tbody>
                                 <tfoot>
                                     <td></td>
@@ -381,33 +381,33 @@ $message = "";
                     <div class="card card-widget" style="margin: 10px;">
                         <form id="formDetalle" action="" method="POST">
 
-                        <input type="hidden" id="cxc" name="cxc" class="form-control text-right" autocomplete="off" >
-                        <input type="hidden" id="pago" name="pago" class="form-control text-right" autocomplete="off" >
-                        
+                            <input type="hidden" id="cxc" name="cxc" class="form-control text-right" autocomplete="off">
+                            <input type="hidden" id="pago" name="pago" class="form-control text-right" autocomplete="off">
 
-                        <div class="table-hover table-responsive w-auto" style="padding:15px">
-                            <table name="tablaVer2" id="tablaVer2" class="table table-sm  table-striped table-bordered table-condensed" style="width:100%">
-                                <thead class="text-center bg-gradient-green">
-                                    <tr>
-                                        <th>ID REG</th>
-                                        <th>PARTIDA</th>
-                                        <th>SUBPARTIDA</th>
-                                        <th>MONTO</th>
-                                  
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                  
-                                </tbody>
-                                <tfoot>
-                                    <td></td>
-                                    <td></td>
-                                    <td class="text-bold">TOTAL</td>
-                                    <td class="text-bold text-right"></td>
-                                   
-                                </tfoot>
-                            </table>
-                        </div>
+
+                            <div class="table-hover table-responsive w-auto" style="padding:15px">
+                                <table name="tablaVer2" id="tablaVer2" class="table table-sm  table-striped table-bordered table-condensed" style="width:100%">
+                                    <thead class="text-center bg-gradient-green">
+                                        <tr>
+                                            <th>ID REG</th>
+                                            <th>PARTIDA</th>
+                                            <th>SUBPARTIDA</th>
+                                            <th>MONTO</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                    <tfoot>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="text-bold">TOTAL</td>
+                                        <td class="text-bold text-right"></td>
+
+                                    </tfoot>
+                                </table>
+                            </div>
                             <div class="modal-body row justify-content-center">
                                 <div class="col-sm-6">
                                     <div class="form-group input-group-sm auto">
@@ -429,7 +429,7 @@ $message = "";
                                     <div class="form-group input-group-sm auto">
                                         <label for="subpartidacto" class="col-form-label">SUBPARTIDA:</label>
                                         <select class="form-control" name="subpartidacto" id="subpartidacto">
-                                          
+
                                         </select>
                                     </div>
                                 </div>
@@ -446,7 +446,7 @@ $message = "";
                                             </span>
 
                                         </div>
-                                       
+
                                         <input type="text" id="montosubpartida" name="montosubpartida" class="form-control text-right" autocomplete="off" placeholder="IMPORTE" onkeypress="return filterFloat(event,this);">
                                     </div>
                                 </div>
@@ -473,6 +473,164 @@ $message = "";
         </div>
     </section>
 
+
+    <section>
+        <div class="modal fade" id="modalInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content w-auto">
+                    <div class="modal-header bg-gradient-green">
+                        <h5 class="modal-title" id="exampleModalLabel">DETALLE DEL COSTO DE OBRA</h5>
+
+                    </div>
+
+                    <div class="card card-widget" style="margin: 10px;">
+
+                        <div class="modal-body">
+
+
+                            <div class="row justify-content-sm-center" style="margin-bottom: 10px;">
+
+                                <input type="hidden" class="form-control text-right" name="id_obra" id="id_obra">
+
+
+
+
+                            </div>
+
+                            <div class="row justify-content-sm-center" style="margin-bottom: 10px;">
+
+
+                                <div class="table-responsive">
+                                    <table name="tablaInfo" id="tablaInfo" class="table table-sm table-striped table-bordered table-condensed w-auto mx-auto" style="width:100%">
+                                        <thead class="text-center bg-gradient-green">
+
+
+                                            <tr>
+                                                <th>REG</th>
+                                                <th>OBRA</th>
+                                                <th>CXC</th>
+                                                <th>PAGO</th>
+                                                <th>PARTIDA</th>
+                                                <th>CONCEPTO</th>
+                                                <th>PORCENTAJE</th>
+                                                <th>IMPORTE</th>
+                                                <th>ACCIONES</th>
+
+                                            </tr>
+
+                                        </thead>
+                                        <tbody>
+
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td class="text-bold">TOTAL</td>
+                                                <td class="text-bold text-right"></td>
+                                                <td></td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+                        <div class=" modal-footer">
+                            <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fas fa-ban"></i> Cancelar</button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section>
+        <div class="modal fade" id="modalImporte" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-md" role="document">
+                <div class="modal-content w-auto">
+                    <div class="modal-header bg-gradient-green">
+                        <h5 class="modal-title" id="exampleModalLabel">DETALLE DEL COSTO DE OBRA</h5>
+
+                    </div>
+                    <form id="formImporte" action="" method="POST" autocomplete="off">
+                        <div class="card card-widget" style="margin: 10px;">
+
+                            <div class="modal-body">
+
+
+                                <div class="row justify-content-sm-center" style="margin-bottom: 10px;">
+
+                                    <input type="hidden" class="form-control text-right" name="id_obra2" id="id_obra2">
+                                    <input type="hidden" class="form-control text-right" name="cxc2" id="cxc2">
+                                    <input type="hidden" class="form-control text-right" name="pago2" id="pago2">
+                                    <input type="hidden" class="form-control text-right" name="id_partida" id="id_partida">
+                                    <input type="hidden" class="form-control text-right" name="id_reg" id="id_reg">
+                                    <input type="hidden" class="form-control text-right" name="tipo" id="tipo">
+
+                                </div>
+
+                                <div class="row justify-content-sm-center" style="margin-bottom: 10px;">
+                                    <div class="col-sm-12">
+                                        <div class="form-group input-group-md">
+                                            <label for="concepto" class="col-form-label">ID:</label>
+                                            <input type="text" class="form-control" name="concepto" id="concepto" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group input-group-md">
+                                            <label for="porcentaje" class="col-form-label">PORCENTAJE:</label>
+                                            <div class="input-group">
+                                                <input type="text" id="porcentaje" class="form-control" placeholder="Ingrese un número">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-primary btn-sm" id="btncalcular"><i class="fa-solid fa-calculator"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group input-group-md">
+                                            <label for="importe" class="col-form-label">IMPORTE:</label>
+                                            <div class="input-group">
+                                                <input type="text" id="importe" class="form-control text-right" placeholder="Ingrese un número">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-primary btn-sm" id="btncalcular2"><i class="fa-solid fa-calculator"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+                                </div>
+
+
+                            </div>
+
+                            <div class=" modal-footer">
+                                <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fas fa-ban"></i> Cancelar</button>
+                                <button type="button" id="btnGuardarimporte" name="btnGuardarimporte" class="btn btn-success" value="btnGuardarimporte"><i class="far fa-save"></i> Guardar</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
 
 </div>
 

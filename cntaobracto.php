@@ -158,7 +158,7 @@ $message = "";
                         <th>PARTIDA</th>
                         <th>CONCEPTO</th>
                         <th>PORCENTAJE</th>
-                        <th>MONTO</th>
+                        <th>IMPORTE</th>
                         <th>ACCIONES</th>
 
                       </tr>
@@ -167,6 +167,17 @@ $message = "";
                     <tbody>
 
                     </tbody>
+                    <tfoot>
+                      <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="text-bold">TOTAL</td>
+                        <td class="text-right text-bold"></td>
+                        <td></td>
+                      </tr>
+                    </tfoot>
                   </table>
                 </div>
 
@@ -178,7 +189,7 @@ $message = "";
 
             <div class=" modal-footer">
               <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fas fa-ban"></i> Cancelar</button>
-              <button type="button" id="btnGuardarpres" name="btnGuardarpres" class="btn btn-success" value="btnGuardarpres"><i class="far fa-save"></i> Guardar</button>
+             
             </div>
 
           </div>
@@ -233,7 +244,7 @@ $message = "";
                   <div class="form-group input-group-md">
                       <label for="importe" class="col-form-label">IMPORTE:</label>
                       <div class="input-group">
-                        <input type="text" id="importe" class="form-control" placeholder="Ingrese un número">
+                        <input type="text" id="importe" class="form-control text-right" placeholder="Ingrese un número">
                         <div class="input-group-append">
                           <button class="btn btn-primary btn-sm" id="btncalcular2" ><i class="fa-solid fa-calculator"></i></button>
                         </div>
