@@ -79,7 +79,9 @@ $message = "";
 
                 <div class="row justify-content-between">
                     <div class="col-sm-3">
+                        <?php if($folio==0){?>
                         <button id="btnGuardar" type="button" class="btn bg-gradient-green btn-ms" data-toggle="modal"><i class="fa-solid fa-floppy-disk text-light"></i><span class="text-light"> Aplicar y Guardar Reporte</span></button>
+                        <?php }?>
                         <button id="btnImprimir" type="button" class="btn bg-gradient-danger btn-ms" style="display:none;" data-toggle="modal"><i class="fa-solid fa-file-pdf text-light"></i><span class="text-light"> Exportar Reporte</span></button>
                     </div>
 
@@ -491,4 +493,4 @@ $message = "";
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
-<script src="http://cdn.datatables.net/plug-ins/1.10.21/sorting/formatted-numbers.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.21/sorting/formatted-numbers.js"></script>

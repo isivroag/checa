@@ -23,7 +23,7 @@ switch($opcion){
         $resultado = $conexion->prepare($consulta);
         $resultado->execute(); 
 
-        $consulta = "SELECT id_per, nombre,tel FROM personal ORDER BY id_per DESC LIMIT 1";
+        $consulta = "SELECT * FROM personal ORDER BY id_per DESC LIMIT 1";
         $resultado = $conexion->prepare($consulta);
         $resultado->execute();
         $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
@@ -33,7 +33,7 @@ switch($opcion){
         $resultado = $conexion->prepare($consulta);
         $resultado->execute();        
         
-        $consulta = "SELECT id_per,nombre, tel, color FROM personal WHERE id_per='$id' ";       
+        $consulta = "SELECT * FROM personal WHERE id_per='$id' ";       
         $resultado = $conexion->prepare($consulta);
         $resultado->execute();
         $data=$resultado->fetchAll(PDO::FETCH_ASSOC);

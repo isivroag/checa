@@ -39,161 +39,176 @@
           </a>
         </li>
 
-        <?php if ($_SESSION['s_rol'] != '6'){?>
-        <!-- ABRE MENU CATALOGOS -->
-        <?php if ($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2' || $_SESSION['s_rol'] == '5') { ?>
+        <?php if ($_SESSION['s_rol'] != '6') { ?>
+          <!-- ABRE MENU CATALOGOS -->
+          <?php if ($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2' || $_SESSION['s_rol'] == '5') { ?>
 
-          <li class="nav-item  has-treeview <?php echo ($pagina == 'empresa' ||  $pagina == 'cliente' ||  $pagina == 'obra'  || $pagina == 'partidacto' || $pagina == 'cntaobracto'
-          ||  $pagina == 'especialidad' ||  $pagina == 'proveedor') ? "menu-open" : ""; ?>">
-            <a href="#" class="nav-link  <?php echo ($pagina == 'empresa' || $pagina == 'cliente' ||  $pagina == 'obra'  || $pagina == 'partidacto' || $pagina == 'cntaobracto'
-            ||  $pagina == 'especialidad' ||  $pagina == 'proveedor') ? "active" : ""; ?>">
-              <i class="nav-icon fas fa-bars "></i>
-              <p>
-                Catalogos
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-
-
-            <ul class="nav nav-treeview">
-
-              <li class="nav-item">
-                <a href="cntaempresa.php" class="nav-link <?php echo ($pagina == 'empresa') ? "active seleccionado" : ""; ?>  ">
-                  <i class="fas fa-city nav-icon"></i>
-                  <p>Empresa</p>
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a href="cntaobra.php" class="nav-link <?php echo ($pagina == 'obra') ? "active seleccionado" : ""; ?>  ">
-                  <i class="fas fa-road nav-icon"></i>
-                  <p>Obra</p>
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a href="cntaobracto.php" class="nav-link <?php echo ($pagina == 'cntaobracto') ? "active seleccionado" : ""; ?>  ">
-                <i class="fas fa-road nav-icon"></i>
-                  <p>Detalle de costo obra</p>
-                </a>
-              </li>
+            <li class="nav-item  has-treeview <?php echo ($pagina == 'empresa' ||  $pagina == 'cliente' ||  $pagina == 'obra'  || $pagina == 'partidacto' || $pagina == 'subpartidacto' || $pagina == 'cntaobracto'
+                                                ||  $pagina == 'especialidad' ||  $pagina == 'proveedor' ||  $pagina == 'personal') ? "menu-open" : ""; ?>">
+              <a href="#" class="nav-link  <?php echo ($pagina == 'empresa' || $pagina == 'cliente' ||  $pagina == 'obra'  || $pagina == 'partidacto' || $pagina == 'subpartidacto' || $pagina == 'cntaobracto'
+                                              ||  $pagina == 'especialidad' ||  $pagina == 'proveedor' ||  $pagina == 'personal') ? "active" : ""; ?>">
+                <i class="nav-icon fas fa-bars "></i>
+                <p>
+                  Catalogos
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
 
 
-              <li class="nav-item">
-                <a href="cntacliente.php" class="nav-link <?php echo ($pagina == 'cliente') ? "active seleccionado" : ""; ?>  ">
-                  <i class="fas fa-user-tie nav-icon"></i>
-                  <p>Cliente</p>
-                </a>
-              </li>
+              <ul class="nav nav-treeview">
+
+                <li class="nav-item">
+                  <a href="cntaempresa.php" class="nav-link <?php echo ($pagina == 'empresa') ? "active seleccionado" : ""; ?>  ">
+                    <i class="fas fa-city nav-icon"></i>
+                    <p>Empresa</p>
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <a href="cntacliente.php" class="nav-link <?php echo ($pagina == 'cliente') ? "active seleccionado" : ""; ?>  ">
+                    <i class="fas fa-user-tie nav-icon"></i>
+                    <p>Cliente</p>
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <a href="cntaobra.php" class="nav-link <?php echo ($pagina == 'obra') ? "active seleccionado" : ""; ?>  ">
+                    <i class="fas fa-road nav-icon"></i>
+                    <p>Obra</p>
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <a href="cntaobracto.php" class="nav-link <?php echo ($pagina == 'cntaobracto') ? "active seleccionado" : ""; ?>  ">
+                    <i class="fas fa-road nav-icon"></i>
+                    <p>Obra-Det Partidas</p>
+                  </a>
+                </li>
 
 
-              <li class="nav-item">
-                <a href="cntaproveedor.php" class="nav-link <?php echo ($pagina == 'proveedor') ? "active seleccionado" : ""; ?>  ">
-                  <i class="fas fa-portrait nav-icon"></i>
-                  <p>Proveedor</p>
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a href="cntaespecialidad.php" class="nav-link <?php echo ($pagina == 'especialidad') ? "active seleccionado" : ""; ?>  ">
-                  <i class="fas fa-screwdriver nav-icon"></i>
-                  <p>Especialidad</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="cntapartidacto.php" class="nav-link <?php echo ($pagina == 'partidacto') ? "active seleccionado" : ""; ?>  ">
-                  <i class="fa-solid fa-pen-ruler nav-icon"></i>
-                  <p>Partidas Costo</p>
-                </a>
-              </li>
 
 
-            </ul>
 
-          </li>
-        <?php } ?>
-        <!-- CIERRA MENU CATALOGOS -->
-        <?php if ($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2' || $_SESSION['s_rol'] == '5') { ?>
-
-          <li class="nav-item  has-treeview <?php echo ($pagina == 'egresosgral' || $pagina == 'cxpgral' || $pagina == 'obracto' ||
-          $pagina === 'saldoseggral' || $pagina == "cntapagocxpgral" || $pagina == "reportepagos") ? "menu-open" : ""; ?>">
-            <a href="#" class="nav-link  <?php echo ($pagina == 'egresosgral' || $pagina == 'cxpgral' || $pagina == 'obracto' ||
-            $pagina === 'saldoseggral' || $pagina == "cntapagocxpgral" || $pagina == "reportepagos") ? "active" : ""; ?>">
-              <i class="fa-solid fa-building  nav-icon"></i>
-              <p>
-                Administración
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
+                <li class="nav-item">
+                  <a href="cntaproveedor.php" class="nav-link <?php echo ($pagina == 'proveedor') ? "active seleccionado" : ""; ?>  ">
+                    <i class="fas fa-portrait nav-icon"></i>
+                    <p>Proveedor</p>
+                  </a>
+                </li>
 
 
-            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="cntapersonal.php" class="nav-link <?php echo ($pagina == 'personal') ? "active seleccionado" : ""; ?>  ">
+                    <i class="fas fa-user-tie nav-icon"></i>
+                    <p>Personal</p>
+                  </a>
+                </li>
 
-           
+                <li class="nav-item">
+                  <a href="cntaespecialidad.php" class="nav-link <?php echo ($pagina == 'especialidad') ? "active seleccionado" : ""; ?>  ">
+                    <i class="fas fa-screwdriver nav-icon"></i>
+                    <p>Especialidad</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="cntapartidacto.php" class="nav-link <?php echo ($pagina == 'partidacto') ? "active seleccionado" : ""; ?>  ">
+                    <i class="fa-solid fa-pen-ruler nav-icon"></i>
+                    <p>Partidas Costo</p>
+                  </a>
+                </li>
 
-              <li class="nav-item">
-                <a href="cntaprovisiongral.php" class="nav-link <?php echo ($pagina == 'egresosgral') ? "active seleccionado" : ""; ?>  ">
-                  <i class="fa-solid fa-hand-holding-dollar nav-icon"></i>
-                  <p>Cotizaciones Adm</p>
-                </a>
-              </li>
+                <li class="nav-item">
+                  <a href="cntasubpartidacto2.php" class="nav-link <?php echo ($pagina == 'subpartidacto') ? "active seleccionado" : ""; ?>  ">
+                    <i class="fa-solid fa-pen-ruler nav-icon"></i>
+                    <p>Subpartidas Costo Directo</p>
+                  </a>
+                </li>
+              </ul>
 
-              <li class="nav-item">
-                <a href="cntacxpgral.php" class="nav-link <?php echo ($pagina == 'cxpgral') ? "active seleccionado" : ""; ?>  ">
-                  <i class="fa-solid fa-money-check-dollar nav-icon"></i>
-                  <p>CXP Adm</p>
-                </a>
-              </li>
+            </li>
+          <?php } ?>
+          <!-- CIERRA MENU CATALOGOS -->
+          <?php if ($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2' || $_SESSION['s_rol'] == '5') { ?>
 
-              <li class="nav-item">
-                <a href="cntasaldoseggral.php" class="nav-link <?php echo ($pagina == 'saldoseggral') ? "active seleccionado" : ""; ?>  ">
-
-                  <i class="fas text-purple fa-coins nav-icon"></i>
-                  <p>Saldo Pendiente Cta Gral </p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="prerptpagosgral.php" class="nav-link <?php echo ($pagina == 'cntapagocxpgral') ? "active seleccionado" : ""; ?>  ">
-
-                  <i class="fas text-purple fa-file-invoice-dollar nav-icon"></i>
-                  <p>Prereporte Pagos Global</p>
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a href="cntarptpagos.php" class="nav-link <?php echo ($pagina == 'reportepagos') ? "active seleccionado" : ""; ?>  ">
-
-                  <i class="text-purple fa-solid fa-money-bill-transfer nav-icon"></i>
-                  <p>Reporte Pagos Semanal</p>
-                </a>
-              </li>
-            </ul>
-
-          </li>
-        <?php } ?>
-
-        <!-- ABRE MENU INGRESOS -->
-        <?php if ($_SESSION['s_rol'] != '4') { ?>
-          <li class="nav-item has-treeview <?php echo ($pagina == 'cntaingresos' || $pagina == 'ingresos' || $pagina == 'cntacobros'
-          || $pagina == 'cntacxc' || $pagina == 'recepcion' || $pagina == 'ingresos' || $pagina == 'diario' || $pagina == 'confirmar') ? "menu-open" : ""; ?>">
+            <li class="nav-item  has-treeview <?php echo ($pagina == 'egresosgral' || $pagina == 'cxpgral' || $pagina == 'obracto' ||
+                                                $pagina === 'saldoseggral' || $pagina == "cntapagocxpgral" || $pagina == "reportepagos") ? "menu-open" : ""; ?>">
+              <a href="#" class="nav-link  <?php echo ($pagina == 'egresosgral' || $pagina == 'cxpgral' || $pagina == 'obracto' ||
+                                              $pagina === 'saldoseggral' || $pagina == "cntapagocxpgral" || $pagina == "reportepagos") ? "active" : ""; ?>">
+                <i class="fa-solid fa-building  nav-icon"></i>
+                <p>
+                  Administración
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
 
 
-            <a href="#" class="nav-link <?php echo ($pagina == 'cntaingresos' || $pagina == 'ingresos' || $pagina == 'cntacobros'
-            || $pagina == 'cntacxc' || $pagina == 'recepcion' || $pagina == 'ingresos' || $pagina == 'diario' || $pagina == 'confirmar') ? "active" : ""; ?>">
+              <ul class="nav nav-treeview">
 
-              <span class="fa-stack">
-                <i class=" fas fa-arrow-up "></i>
-                <i class=" fas fa-dollar-sign "></i>
 
-              </span>
-              <p>
-                Ingresos
 
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <!--
+                <li class="nav-item">
+                  <a href="cntaprovisiongral.php" class="nav-link <?php echo ($pagina == 'egresosgral') ? "active seleccionado" : ""; ?>  ">
+                    <i class="fa-solid fa-hand-holding-dollar nav-icon"></i>
+                    <p>Cotizaciones Adm</p>
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <a href="cntacxpgral.php" class="nav-link <?php echo ($pagina == 'cxpgral') ? "active seleccionado" : ""; ?>  ">
+                    <i class="fa-solid fa-money-check-dollar nav-icon"></i>
+                    <p>CXP Adm</p>
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <a href="cntasaldoseggral.php" class="nav-link <?php echo ($pagina == 'saldoseggral') ? "active seleccionado" : ""; ?>  ">
+
+                    <i class="fas text-purple fa-coins nav-icon"></i>
+                    <p>Saldo Pendiente Cta Gral </p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="prerptpagosgral.php" class="nav-link <?php echo ($pagina == 'cntapagocxpgral') ? "active seleccionado" : ""; ?>  ">
+
+                    <i class="fas text-purple fa-file-invoice-dollar nav-icon"></i>
+                    <p>Prereporte Pagos Global</p>
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <a href="cntarptpagos.php" class="nav-link <?php echo ($pagina == 'reportepagos') ? "active seleccionado" : ""; ?>  ">
+
+                    <i class="text-purple fa-solid fa-money-bill-transfer nav-icon"></i>
+                    <p>Reporte Pagos Semanal</p>
+                  </a>
+                </li>
+              </ul>
+
+            </li>
+          <?php } ?>
+
+          <!-- ABRE MENU INGRESOS -->
+          <?php if ($_SESSION['s_rol'] != '4') { ?>
+            <li class="nav-item has-treeview <?php echo ($pagina == 'cntaingresos' || $pagina == 'ingresos' || $pagina == 'cntacobros'
+                                                || $pagina == 'cntacxc' || $pagina == 'recepcion' || $pagina == 'ingresos' || $pagina == 'diario' || $pagina == 'confirmar') ? "menu-open" : ""; ?>">
+
+
+              <a href="#" class="nav-link <?php echo ($pagina == 'cntaingresos' || $pagina == 'ingresos' || $pagina == 'cntacobros'
+                                            || $pagina == 'cntacxc' || $pagina == 'recepcion' || $pagina == 'ingresos' || $pagina == 'diario' || $pagina == 'confirmar') ? "active" : ""; ?>">
+
+                <span class="fa-stack">
+                  <i class=" fas fa-arrow-up "></i>
+                  <i class=" fas fa-dollar-sign "></i>
+
+                </span>
+                <p>
+                  Ingresos
+
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <!--
             <li class="nav-item">
               <a href="ingresos.php" class="nav-link <?php echo ($pagina == 'ingresos') ? "active seleccionado" : ""; ?>  ">
 
@@ -203,294 +218,365 @@
             </li>
           -->
 
-              <li class="nav-item">
-                <a href="cntacxc.php" class="nav-link <?php echo ($pagina == 'cntacxc') ? "active seleccionado" : ""; ?>  ">
+                <li class="nav-item">
+                  <a href="cntacxc.php" class="nav-link <?php echo ($pagina == 'cntacxc') ? "active seleccionado" : ""; ?>  ">
 
-                  <i class="fas text-green fa-list nav-icon"></i>
-                  <p>Cuentas x Cobrar</p>
-                </a>
-              </li>
-              <li class="nav-item">
+                    <i class="fas text-green fa-list nav-icon"></i>
+                    <p>Cuentas x Cobrar</p>
+                  </a>
+                </li>
+                <li class="nav-item">
                   <a href="cntacobros.php" class="nav-link <?php echo ($pagina == 'cntacobros') ? "active seleccionado" : ""; ?>  ">
 
                     <i class="fas text-green fa-file-invoice-dollar nav-icon"></i>
-                    <p>Cobros </p>
+                    <p>Cobros-Det Partidas </p>
                   </a>
                 </li>
-              <li class="nav-item">
-                <a href="cntaingresos.php" class="nav-link <?php echo ($pagina == 'cntaingresos') ? "active seleccionado" : ""; ?>  ">
-
-                  <i class="fas text-green fa-search-dollar nav-icon"></i>
-                  <p>Consulta Ingresos</p>
-                </a>
-              </li>
-
-
-            </ul>
-          </li>
-
-          <!-- CIERRA MENU CATALOGOS -->
-
-          <!-- ABRE MENU EGRESOS -->
-          <li class="nav-item has-treeview <?php echo ($pagina == 'subcontrato' || $pagina == 'cntaegresos' || $pagina == 'egresos' 
-          || $pagina == 'cntacxp' || $pagina == 'cntapagocxp' || $pagina == 'pagoscxp' || $pagina == 'provision'  || $pagina == 'saldoseg' 
-          || $pagina == 'gastos' || $pagina == 'extrasub' ||  $pagina == 'rptpagoobra' ||  $pagina == 'cntapagosub') ? "menu-open" : ""; ?>">
-
-
-            <a href="#" class="nav-link <?php echo ($pagina == 'subcontrato' || $pagina == 'cntaegresos' || $pagina == 'egresos' 
-            || $pagina == 'cntacxp' || $pagina == 'cntapagocxp' || $pagina == 'pagoscxp' || $pagina == 'provision'  || $pagina == 'saldoseg' 
-            || $pagina == 'gastos' || $pagina == 'extrasub' || $pagina == 'rptpagoobra' ||  $pagina == 'cntapagosub') ? "active" : ""; ?>">
-
-              <span class="fa-stack">
-                <i class=" fas fa-arrow-down "></i>
-                <i class=" fas fa-dollar-sign "></i>
-
-              </span>
-              <p>
-                Egresos
-
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-
-              <li class="nav-item">
-                <a href="cntasubcontrato.php" class="nav-link <?php echo ($pagina == 'subcontrato') ? "active seleccionado" : ""; ?>  ">
-
-                  <i class="fas text-purple fa-industry nav-icon"></i>
-                  <p>Subcontratos</p>
-                </a>
-              </li>
-              <?php if($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2' || $_SESSION['s_rol'] == '5'){?>
                 <li class="nav-item">
-                  <a href="cntapagosub.php" class="nav-link <?php echo ($pagina == 'cntapagosub') ? "active seleccionado" : ""; ?>  ">
+                  <a href="cntaingresos.php" class="nav-link <?php echo ($pagina == 'cntaingresos') ? "active seleccionado" : ""; ?>  ">
 
-                    <i class="fas text-purple fa-file-invoice-dollar nav-icon"></i>
-                    <p>Pagos de Subcontratos </p>
-                  </a>
-                </li>
-              <?php } ?>
-
-              <li class="nav-item">
-                <a href="cntasubcontratosadd.php" class="nav-link <?php echo ($pagina == 'extrasub') ? "active seleccionado" : ""; ?>  ">
-
-                  <i class="fas text-purple fa-folder-plus nav-icon"></i>
-                  <p>Adendas Subcontrato</p>
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a href="cntacxp.php" class="nav-link <?php echo ($pagina == 'cntacxp') ? "active seleccionado" : ""; ?>  ">
-
-                  <i class="fas text-purple fa-pen-square nav-icon"></i>
-                  <p>Cuentas x Pagar</p>
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a href="cntaprovision.php" class="nav-link <?php echo ($pagina == 'provision') ? "active seleccionado" : ""; ?>  ">
-
-                  <i class="fas text-purple fa-list nav-icon"></i>
-                  <p>Cotizaciones</p>
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a href="cntagastos.php" class="nav-link <?php echo ($pagina == 'gastos') ? "active seleccionado" : ""; ?>  ">
-
-                  <i class="fas text-purple fa-money-bill-wave nav-icon"></i>
-                  <p>Otros Gastos</p>
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a href="cntaegresos.php" class="nav-link <?php echo ($pagina == 'cntapagocxp') ? "active seleccionado" : ""; ?>  ">
-
-                  <i class="fas text-purple fa-search-dollar nav-icon"></i>
-                  <p>Consulta Egresos </p>
-                </a>
-              </li>
-
-
-              <?php if ($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2') { ?>
-                <li class="nav-item">
-                  <a href="cntasaldoseg.php" class="nav-link <?php echo ($pagina == 'saldoseg') ? "active seleccionado" : ""; ?>  ">
-
-                    <i class="fas text-purple fa-coins nav-icon"></i>
-                    <p>Saldos Pendientes </p>
-                  </a>
-                </li>
-
-                <li class="nav-item">
-                  <a href="prerptpagos.php" class="nav-link <?php echo ($pagina == 'rptpagoobra') ? "active seleccionado" : ""; ?>  ">
-
-                    <i class="fas text-purple fa-file-invoice-dollar nav-icon"></i>
-                    <p>Prereporte Pagos Obra </p>
-                  </a>
-                </li>
-
-
-              <?php } ?>
-
-            </ul>
-          </li>
-          <!-- CIERRA MENU EGRESOS -->
-        <?php } ?>
-
-
-        <?php if ($_SESSION['s_rol'] != '5') { ?>
-          <!-- ABRE MENU OPERACIONES -->
-          <li class="nav-item has-treeview <?php echo ($pagina == 'nomina' || $pagina == 'otro' || $pagina == 'proveedorobra' || $pagina == 'cajaobra') ? "menu-open" : ""; ?>">
-
-
-            <a href="#" class="nav-link <?php echo ($pagina == 'nomina' || $pagina == 'otro' || $pagina == 'proveedorobra' || $pagina == 'cajaobra') ? "active" : ""; ?>">
-
-              <span class="fa-stack">
-
-                <i class=" fas fa-briefcase nav-icon "></i>
-
-              </span>
-              <p>
-                Operaciones
-
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-
-              <li class="nav-item">
-                <a href="cntacajaobra.php" class="nav-link <?php echo ($pagina == 'cajaobra') ? "active seleccionado" : ""; ?>  ">
-
-                  <i class=" fas fa-briefcase nav-icon"></i>
-                  <p>Caja</p>
-                </a>
-              </li>
-
-
-
-            </ul>
-            <ul class="nav nav-treeview">
-
-              <li class="nav-item">
-                <a href="cntaproveedorobra.php" class="nav-link <?php echo ($pagina == 'proveedorobra') ? "active seleccionado" : ""; ?>  ">
-
-                  <i class=" fas fa-portrait nav-icon"></i>
-                  <p>Proveedores</p>
-                </a>
-              </li>
-
-
-
-            </ul>
-            <ul class="nav nav-treeview">
-
-              <li class="nav-item">
-                <a href="cntanomina.php" class="nav-link <?php echo ($pagina == 'nomina') ? "active seleccionado" : ""; ?>  ">
-
-                  <i class="fas  fa-people-arrows nav-icon"></i>
-                  <p>Nominas</p>
-                </a>
-              </li>
-
-
-
-            </ul>
-
-            <ul class="nav nav-treeview">
-
-              <li class="nav-item">
-                <a href="cntaotrosgastos.php" class="nav-link <?php echo ($pagina == 'otro') ? "active seleccionado" : ""; ?>  ">
-
-                  <i class="fas  fa-money-bill-wave nav-icon"></i>
-                  <p>Gastos Obra</p>
-                </a>
-              </li>
-
-
-
-            </ul>
-          </li>
-          <!-- CIERRA MENU OPERACIONES -->
-        <?php } ?>
-
-        <!-- ABRE MENU REPORTES -->
-        <?php if ($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2' || $_SESSION['s_rol'] == '5') { ?>
-          <li class="nav-item has-treeview <?php echo ($pagina == 'caja') ? "menu-open" : ""; ?>">
-
-
-            <a href="#" class="nav-link <?php echo ($pagina == 'caja') ? "active" : ""; ?>">
-
-              <span class="fa-stack">
-                <i class="nav-icon fas fa-shield-alt "></i>
-              </span>
-              <p>
-                Control
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-
-              <li class="nav-item">
-                <a href="cntacaja.php" class="nav-link <?php echo ($pagina == 'caja') ? "active seleccionado" : ""; ?>  ">
-
-                  <i class="fas fa-briefcase   nav-icon"></i>
-                  <p>Caja</p>
-                </a>
-              </li>
-
-
-
-
-            </ul>
-          </li>
-
-          <?php if ($_SESSION['s_rol'] != '5') { ?>
-            <li class="nav-item has-treeview <?php echo ($pagina == 'rptobra' || $pagina == 'vrptpagos') ? "menu-open" : ""; ?>">
-
-
-              <a href="#" class="nav-link <?php echo ($pagina == 'rptobra' || $pagina == 'vrptpagos') ? "active" : ""; ?>">
-
-                <span class="fa-stack">
-                  <i class="nav-icon fas fa-file-contract "></i>
-                </span>
-                <p>
-                  Reportes
-                  <i class="right fas fa-angle-left"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-
-                <li class="nav-item">
-                  <a href="rptobra.php" class="nav-link <?php echo ($pagina == 'rptobra') ? "active seleccionado" : ""; ?>  ">
-
-                    <i class="fas text-primary fa-building nav-icon"></i>
-                    <p>Obra</p>
-                  </a>
-                </li>
-
-                <li class="nav-item">
-                  <a href="vrptpagos.php" class="nav-link <?php echo ($pagina == 'vrptpagos') ? "active seleccionado" : ""; ?>  ">
-
-                    <i class=" fa-solid fa-money-bill-transfer text-primary  nav-icon"></i>
-                    <p>Pagos</p>
+                    <i class="fas text-green fa-search-dollar nav-icon"></i>
+                    <p>Consulta Ingresos</p>
                   </a>
                 </li>
 
 
               </ul>
             </li>
+
+            <!-- CIERRA MENU CATALOGOS -->
+            <!-- ABRE MENU REQUISICIONES -->
+            <li class="nav-item has-treeview <?php echo ($pagina == 'requisicion' || $pagina == 'reportes') ? "menu-open" : ""; ?>">
+
+
+              <a href="#" class="nav-link <?php echo ($pagina == 'requisicion' || $pagina == 'reportes') ? "active" : ""; ?>">
+
+                <span class="fa-stack">
+                  <i class="nav-icon fas fa-shield-alt "></i>
+                </span>
+                <p>
+                  Requisiciones
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+
+                <li class="nav-item">
+                  <a href="cntareq.php" class="nav-link <?php echo ($pagina == 'requisicion') ? "active seleccionado" : ""; ?>  ">
+
+                    <i class="fa-solid fa-hand-holding-dollar  nav-icon"></i>
+                    <p>Requisiciones</p>
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <a href="cntareportes.php" class="nav-link <?php echo ($pagina == 'reportes') ? "active seleccionado" : ""; ?>  ">
+
+                    <i class="fa-solid fa-file-invoice-dollar   nav-icon"></i>
+                    <p>Reportes de Pagos</p>
+                  </a>
+                </li>
+
+
+              </ul>
+            </li>
+            <!-- ABRE MENU REQUISICIONES -->
+
+            <!-- ABRE MENU EGRESOS -->
+            <li class="nav-item has-treeview <?php echo ($pagina == 'subcontrato' || $pagina == 'subcontratocto' || $pagina == 'cntaegresos' || $pagina == 'egresos' || $pagina == 'ioficina'
+                                                || $pagina == 'cntacxp' || $pagina == 'cntacxpcto' || $pagina == 'cntapagocxp' || $pagina == 'pagoscxp' || $pagina == 'provision' || $pagina == 'provisioncto'  || $pagina == 'saldoseg'
+                                                || $pagina == 'gastos' || $pagina == 'extrasub' ||  $pagina == 'rptpagoobra' ||  $pagina == 'cntapagosub') ? "menu-open" : ""; ?>">
+
+
+              <a href="#" class="nav-link <?php echo ($pagina == 'subcontrato' || $pagina == 'subcontratocto' || $pagina == 'cntaegresos' || $pagina == 'egresos' || $pagina == 'ioficina'
+                                            || $pagina == 'cntacxp' || $pagina == 'cntacxpcto' || $pagina == 'cntapagocxp' || $pagina == 'pagoscxp' || $pagina == 'provision' || $pagina == 'provisioncto'  || $pagina == 'saldoseg'
+                                            || $pagina == 'gastos' || $pagina == 'extrasub' || $pagina == 'rptpagoobra' ||  $pagina == 'cntapagosub') ? "active" : ""; ?>">
+
+                <span class="fa-stack">
+                  <i class=" fas fa-arrow-down "></i>
+                  <i class=" fas fa-dollar-sign "></i>
+
+                </span>
+                <p>
+                  Egresos
+
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+
+                <li class="nav-item">
+                  <a href="cntasubcontrato.php" class="nav-link <?php echo ($pagina == 'subcontrato') ? "active seleccionado" : ""; ?>  ">
+
+                    <i class="fas text-purple fa-industry nav-icon"></i>
+                    <p>Subcontratos</p>
+                  </a>
+                </li>
+                <?php if ($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2' || $_SESSION['s_rol'] == '5') { ?>
+                  <li class="nav-item">
+                    <a href="cntasubcontratocto.php" class="nav-link <?php echo ($pagina == 'subcontratocto') ? "active seleccionado" : ""; ?>  ">
+
+                      <i class="fas text-purple fa-industry nav-icon"></i>
+                      <p>Subcontratos-Det Partidas</p>
+                    </a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a href="cntapagosub.php" class="nav-link <?php echo ($pagina == 'cntapagosub') ? "active seleccionado" : ""; ?>  ">
+
+                      <i class="fas text-purple fa-file-invoice-dollar nav-icon"></i>
+                      <p>Pagos de Subcontratos </p>
+                    </a>
+                  </li>
+                <?php } ?>
+
+                <li class="nav-item">
+                  <a href="cntasubcontratosadd.php" class="nav-link <?php echo ($pagina == 'extrasub') ? "active seleccionado" : ""; ?>  ">
+
+                    <i class="fas text-purple fa-folder-plus nav-icon"></i>
+                    <p>Adendas Subcontrato</p>
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <a href="cntacxp.php" class="nav-link <?php echo ($pagina == 'cntacxp') ? "active seleccionado" : ""; ?>  ">
+
+                    <i class="fas text-purple fa-pen-square nav-icon"></i>
+                    <p>Cuentas x Pagar</p>
+                  </a>
+                </li>
+<!--
+                <li class="nav-item">
+                  <a href="cntacxpcto.php" class="nav-link <?php echo ($pagina == 'cntacxpcto') ? "active seleccionado" : ""; ?>  ">
+
+                    <i class="fas text-purple fa-pen-square nav-icon"></i>
+                    <p>CxP-Det Partidas</p>
+                  </a>
+                </li>
+                -->
+                
+                <li class="nav-item">
+                  <a href="cntaprovision.php" class="nav-link <?php echo ($pagina == 'provision') ? "active seleccionado" : ""; ?>  ">
+
+                    <i class="fas text-purple fa-list nav-icon"></i>
+                    <p>Cotizaciones</p>
+                  </a>
+                </li>
+<!--
+                <li class="nav-item">
+                  <a href="cntaprovisioncto.php" class="nav-link <?php echo ($pagina == 'provisioncto') ? "active seleccionado" : ""; ?>  ">
+
+                    <i class="fas text-purple fa-list nav-icon"></i>
+                    <p>Cotizaciones-Det Partidas</p>
+                  </a>
+                </li>
+                -->
+                <li class="nav-item">
+                  <a href="cntagastos.php" class="nav-link <?php echo ($pagina == 'gastos') ? "active seleccionado" : ""; ?>  ">
+
+                    <i class="fas text-purple fa-money-bill-wave nav-icon"></i>
+                    <p>Otros Gastos</p>
+                  </a>
+                </li>
+
+<!--
+                <li class="nav-item">
+                  <a href="cntaioficina.php" class="nav-link <?php echo ($pagina == 'ioficina') ? "active seleccionado" : ""; ?>  ">
+
+                    <i class=" text-purple fa-solid fa-city nav-icon"></i>
+                    <p>Indirectos de Oficina</p>
+                  </a>
+                </li>
+                -->
+
+                <li class="nav-item">
+                  <a href="cntaegresos.php" class="nav-link <?php echo ($pagina == 'cntapagocxp') ? "active seleccionado" : ""; ?>  ">
+
+                    <i class="fas text-purple fa-search-dollar nav-icon"></i>
+                    <p>Consulta Egresos </p>
+                  </a>
+                </li>
+
+
+                <?php if ($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2') { ?>
+                  <li class="nav-item">
+                    <a href="cntasaldoseg.php" class="nav-link <?php echo ($pagina == 'saldoseg') ? "active seleccionado" : ""; ?>  ">
+
+                      <i class="fas text-purple fa-coins nav-icon"></i>
+                      <p>Saldos Pendientes </p>
+                    </a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a href="prerptpagos.php" class="nav-link <?php echo ($pagina == 'rptpagoobra') ? "active seleccionado" : ""; ?>  ">
+
+                      <i class="fas text-purple fa-file-invoice-dollar nav-icon"></i>
+                      <p>Prereporte Pagos Obra </p>
+                    </a>
+                  </li>
+
+
+                <?php } ?>
+
+              </ul>
+            </li>
+            <!-- CIERRA MENU EGRESOS -->
           <?php } ?>
 
 
+          <?php if ($_SESSION['s_rol'] != '5') { ?>
+            <!-- ABRE MENU OPERACIONES -->
+            <li class="nav-item has-treeview <?php echo ($pagina == 'nomina' || $pagina == 'otro' || $pagina == 'proveedorobra' || $pagina == 'cajaobra') ? "menu-open" : ""; ?>">
 
 
+              <a href="#" class="nav-link <?php echo ($pagina == 'nomina' || $pagina == 'otro' || $pagina == 'proveedorobra' || $pagina == 'cajaobra') ? "active" : ""; ?>">
+
+                <span class="fa-stack">
+
+                  <i class=" fas fa-briefcase nav-icon "></i>
+
+                </span>
+                <p>
+                  Operaciones
+
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+
+                <li class="nav-item">
+                  <a href="cntacajaobra.php" class="nav-link <?php echo ($pagina == 'cajaobra') ? "active seleccionado" : ""; ?>  ">
+
+                    <i class=" fas fa-briefcase nav-icon"></i>
+                    <p>Caja</p>
+                  </a>
+                </li>
+
+
+
+              </ul>
+              <ul class="nav nav-treeview">
+
+                <li class="nav-item">
+                  <a href="cntaproveedorobra.php" class="nav-link <?php echo ($pagina == 'proveedorobra') ? "active seleccionado" : ""; ?>  ">
+
+                    <i class=" fas fa-portrait nav-icon"></i>
+                    <p>Proveedores</p>
+                  </a>
+                </li>
+
+
+
+              </ul>
+              <ul class="nav nav-treeview">
+
+                <li class="nav-item">
+                  <a href="cntanomina.php" class="nav-link <?php echo ($pagina == 'nomina') ? "active seleccionado" : ""; ?>  ">
+
+                    <i class="fas  fa-people-arrows nav-icon"></i>
+                    <p>Nominas</p>
+                  </a>
+                </li>
+
+
+
+              </ul>
+
+              <ul class="nav nav-treeview">
+
+                <li class="nav-item">
+                  <a href="cntaotrosgastos.php" class="nav-link <?php echo ($pagina == 'otro') ? "active seleccionado" : ""; ?>  ">
+
+                    <i class="fas  fa-money-bill-wave nav-icon"></i>
+                    <p>Gastos Obra</p>
+                  </a>
+                </li>
+
+
+
+              </ul>
+            </li>
+            <!-- CIERRA MENU OPERACIONES -->
+          <?php } ?>
+
+          <!-- ABRE MENU REPORTES -->
+          <?php if ($_SESSION['s_rol'] == '3' || $_SESSION['s_rol'] == '2' || $_SESSION['s_rol'] == '5') { ?>
+            <li class="nav-item has-treeview <?php echo ($pagina == 'caja') ? "menu-open" : ""; ?>">
+
+
+              <a href="#" class="nav-link <?php echo ($pagina == 'caja') ? "active" : ""; ?>">
+
+                <span class="fa-stack">
+                  <i class="nav-icon fas fa-shield-alt "></i>
+                </span>
+                <p>
+                  Control
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+
+                <li class="nav-item">
+                  <a href="cntacaja.php" class="nav-link <?php echo ($pagina == 'caja') ? "active seleccionado" : ""; ?>  ">
+
+                    <i class="fas fa-briefcase   nav-icon"></i>
+                    <p>Caja</p>
+                  </a>
+                </li>
+
+
+
+
+              </ul>
+            </li>
+
+            <?php if ($_SESSION['s_rol'] != '5') { ?>
+              <li class="nav-item has-treeview <?php echo ($pagina == 'rptobra' || $pagina == 'vrptpagos') ? "menu-open" : ""; ?>">
+
+
+                <a href="#" class="nav-link <?php echo ($pagina == 'rptobra' || $pagina == 'vrptpagos') ? "active" : ""; ?>">
+
+                  <span class="fa-stack">
+                    <i class="nav-icon fas fa-file-contract "></i>
+                  </span>
+                  <p>
+                    Reportes
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+
+                  <li class="nav-item">
+                    <a href="rptobra.php" class="nav-link <?php echo ($pagina == 'rptobra') ? "active seleccionado" : ""; ?>  ">
+
+                      <i class="fas text-primary fa-building nav-icon"></i>
+                      <p>Obra</p>
+                    </a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a href="vrptpagos.php" class="nav-link <?php echo ($pagina == 'vrptpagos') ? "active seleccionado" : ""; ?>  ">
+
+                      <i class=" fa-solid fa-money-bill-transfer text-primary  nav-icon"></i>
+                      <p>Pagos</p>
+                    </a>
+                  </li>
+
+
+                </ul>
+              </li>
+            <?php } ?>
+
+
+
+
+          <?php } ?>
+          <!-- CIERRA MENU EGRESOS -->
         <?php } ?>
-        <!-- CIERRA MENU EGRESOS -->
-        <?php } ?>
-        <li class="nav-item has-treeview <?php echo ($pagina == 'rptproveedores' ) ? "menu-open" : ""; ?>">
+        <li class="nav-item has-treeview <?php echo ($pagina == 'rptproveedores') ? "menu-open" : ""; ?>">
 
 
-          <a href="#" class="nav-link <?php echo ($pagina == 'rptproveedores' ) ? "active" : ""; ?>">
+          <a href="#" class="nav-link <?php echo ($pagina == 'rptproveedores') ? "active" : ""; ?>">
 
             <span class="fa-stack">
               <i class="nav-icon fa-solid fa-magnifying-glass"></i>
@@ -504,13 +590,13 @@
 
             <li class="nav-item">
               <a href="rptproveedores.php" class="nav-link <?php echo ($pagina == 'rptproveedores') ? "active seleccionado" : ""; ?>  ">
-              
+
                 <i class="fas fa-portrait nav-icon"></i>
                 <p>Proveedores</p>
               </a>
             </li>
 
-          
+
 
 
 
