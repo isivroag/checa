@@ -28,19 +28,7 @@ $(document).ready(function() {
             },
             "sProcessing": "Procesando...",
         },
-        rowCallback: function (row, data) {
-        
-   
-               
-               
-            $($(row).find('td')[3]).css('background-color',data[3]);
-                   
-                   //$($(row).find('td')[2]).addClass('bg-gradient-green')
-                 
-               
-   
-   
-           },
+      
     });
 
     $("#btnNuevo").click(function() {
@@ -49,7 +37,7 @@ $(document).ready(function() {
         $("#formDatos").trigger("reset");
         $(".modal-header").css("background-color", "#28a745");
         $(".modal-header").css("color", "white");
-        $(".modal-title").text("Nuevo Prospecto");
+        $(".modal-title").text("Nuevo Personal");
         $("#modalCRUD").modal("show");
         id = null;
         opcion = 1; //alta
@@ -72,8 +60,7 @@ $(document).ready(function() {
         $("#nombre").val(nombre);
        
         $("#tel").val(tel);
-        $("#color").val(color);
-        $('.my-colorpicker2 .fa-square').css('color', color);
+      
         opcion = 2; //editar
 
         $(".modal-header").css("background-color", "#007bff");
@@ -117,12 +104,12 @@ $(document).ready(function() {
     $("#formDatos").submit(function(e) {
         e.preventDefault();
         var nombre = $.trim($("#nombre").val());
-        var color = $.trim($("#color").val());
+       
         var tel = $.trim($("#tel").val());
   
      
 
-        if (nombre.length == 0  || tel.length == 0 || color.length == 0) {
+        if (nombre.length == 0  || tel.length == 0 ) {
             Swal.fire({
                 title: 'Datos Faltantes',
                 text: "Debe ingresar todos los datos del Prospecto",
@@ -134,18 +121,18 @@ $(document).ready(function() {
                 url: "bd/crudpersonal.php",
                 type: "POST",
                 dataType: "json",
-                data: { nombre: nombre,  tel: tel,  id: id, color: color, opcion: opcion },
+                data: { nombre: nombre,  tel: tel,  id: id,  opcion: opcion },
                 success: function(data) {
                 
                     id = data[0].id_per;
                     nombre = data[0].nombre;
                     tel = data[0].tel;
-                    color = data[0].color;
+                   
                   
                     if (opcion == 1) {
-                        tablaVis.row.add([id, nombre,  tel, color,]).draw();
+                        tablaVis.row.add([id, nombre,  tel,]).draw();
                     } else {
-                        tablaVis.row(fila).data([id, nombre,  tel, color,]).draw();
+                        tablaVis.row(fila).data([id, nombre,  tel,]).draw();
                     }
                 }
             });
