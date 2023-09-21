@@ -345,7 +345,7 @@
                     <p>Cuentas x Pagar</p>
                   </a>
                 </li>
-<!--
+
                 <li class="nav-item">
                   <a href="cntacxpcto.php" class="nav-link <?php echo ($pagina == 'cntacxpcto') ? "active seleccionado" : ""; ?>  ">
 
@@ -353,7 +353,7 @@
                     <p>CxP-Det Partidas</p>
                   </a>
                 </li>
-                -->
+
                 
                 <li class="nav-item">
                   <a href="cntaprovision.php" class="nav-link <?php echo ($pagina == 'provision') ? "active seleccionado" : ""; ?>  ">
